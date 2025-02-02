@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { MilkCard } from "@/components/MilkCard";
 import { AddMilkTest } from "@/components/AddMilkTest";
 import { StatsOverview } from "@/components/StatsOverview";
+import { MilkCharts } from "@/components/MilkCharts";
 
 // Sample initial data
 const initialResults = [
@@ -34,6 +35,7 @@ const Index = () => {
     <div className="min-h-screen bg-milk-100 py-8 px-4">
       <div className="container max-w-5xl mx-auto">
         <StatsOverview results={results} />
+        <MilkCharts results={results} />
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
           <div>
