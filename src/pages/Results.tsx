@@ -9,8 +9,45 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Star } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
 
-const Results = ({ results }: { results: any[] }) => {
+const Results = () => {
+  const { data: results = [], isLoading, error } = useQuery({
+    queryKey: ['milk-tests'],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('milk_tests')
+        .select('*')
+        .order('created_at', { ascending: false });
+      
+      if (error) throw error;
+      return data;
+    }
+  });
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-milk-100 py-8 px-4">
+        <div className="container max-w-5xl mx-auto">
+          <Navigation />
+          <div className="text-center mt-8">Loading...</div>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen bg-milk-100 py-8 px-4">
+        <div className="container max-w-5xl mx-auto">
+          <Navigation />
+          <div className="text-center mt-8 text-red-500">Error loading data</div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-milk-100 py-8 px-4">
       <div className="container max-w-5xl mx-auto">
@@ -31,7 +68,7 @@ const Results = ({ results }: { results: any[] }) => {
             <TableBody>
               {results.map((result) => (
                 <TableRow key={result.id}>
-                  <TableCell>{result.date}</TableCell>
+                  <TableCell>{new Date(result.created_at).toLocaleDateString()}</TableCell>
                   <TableCell className="font-medium">{result.brand}</TableCell>
                   <TableCell>{result.type}</TableCell>
                   <TableCell>

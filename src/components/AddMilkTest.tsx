@@ -4,15 +4,19 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/components/ui/use-toast";
 import { Star } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+import { useNavigate } from "react-router-dom";
 
-export const AddMilkTest = ({ onAdd }: { onAdd: (result: any) => void }) => {
+export const AddMilkTest = () => {
   const [rating, setRating] = useState(0);
   const [brand, setBrand] = useState("");
   const [type, setType] = useState("");
   const [notes, setNotes] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
+  const navigate = useNavigate();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     if (!brand || !type || !rating) {
@@ -24,25 +28,53 @@ export const AddMilkTest = ({ onAdd }: { onAdd: (result: any) => void }) => {
       return;
     }
 
-    const newResult = {
-      id: Date.now(),
-      brand,
-      type,
-      rating,
-      notes,
-      date: new Date().toLocaleDateString(),
-    };
+    setIsSubmitting(true);
 
-    onAdd(newResult);
-    toast({
-      title: "Test added!",
-      description: "Your milk taste test has been recorded.",
-    });
+    try {
+      const { data: userData, error: userError } = await supabase.auth.getUser();
+      
+      if (userError || !userData.user) {
+        toast({
+          title: "Authentication required",
+          description: "Please sign in to add milk tests",
+          variant: "destructive",
+        });
+        return;
+      }
 
-    setBrand("");
-    setType("");
-    setRating(0);
-    setNotes("");
+      const { error } = await supabase
+        .from('milk_tests')
+        .insert({
+          brand,
+          type,
+          rating,
+          notes,
+          user_id: userData.user.id
+        });
+
+      if (error) throw error;
+
+      toast({
+        title: "Test added!",
+        description: "Your milk taste test has been recorded.",
+      });
+
+      setBrand("");
+      setType("");
+      setRating(0);
+      setNotes("");
+      
+      navigate("/dashboard");
+    } catch (error) {
+      console.error('Error adding milk test:', error);
+      toast({
+        title: "Error",
+        description: "Failed to add milk test. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -88,8 +120,12 @@ export const AddMilkTest = ({ onAdd }: { onAdd: (result: any) => void }) => {
         />
       </div>
 
-      <Button type="submit" className="w-full bg-cream-300 hover:bg-cream-200 text-milk-500">
-        Add Result
+      <Button 
+        type="submit" 
+        className="w-full bg-cream-300 hover:bg-cream-200 text-milk-500"
+        disabled={isSubmitting}
+      >
+        {isSubmitting ? "Adding..." : "Add Result"}
       </Button>
     </form>
   );
