@@ -3,7 +3,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/components/ui/use-toast";
-import { Star } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useNavigate } from "react-router-dom";
 
@@ -99,15 +98,17 @@ export const AddMilkTest = () => {
         />
       </div>
 
-      <div className="flex items-center gap-2">
-        {[1, 2, 3, 4, 5].map((star) => (
-          <Star
-            key={star}
-            className={`w-6 h-6 cursor-pointer ${
-              star <= rating ? "text-yellow-400 fill-yellow-400" : "text-gray-300"
+      <div className="flex items-center gap-1">
+        {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((value) => (
+          <span
+            key={value}
+            className={`text-xl cursor-pointer ${
+              value <= rating ? "" : "opacity-20"
             }`}
-            onClick={() => setRating(star)}
-          />
+            onClick={() => setRating(value)}
+          >
+            🥛
+          </span>
         ))}
       </div>
 

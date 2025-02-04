@@ -1,5 +1,5 @@
 import React from "react";
-import { Star, Milk } from "lucide-react";
+import { Milk } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface MilkTestResult {
@@ -30,15 +30,17 @@ export const MilkCard = ({ result }: { result: MilkTestResult }) => {
         </span>
       </div>
 
-      <div className="flex items-center mb-3">
-        {[...Array(5)].map((_, i) => (
-          <Star
+      <div className="flex items-center mb-3 gap-1">
+        {[...Array(10)].map((_, i) => (
+          <span
             key={i}
             className={cn(
-              "w-5 h-5",
-              i < result.rating ? "text-yellow-400 fill-yellow-400" : "text-gray-300"
+              "text-xl",
+              i < result.rating ? "" : "opacity-20"
             )}
-          />
+          >
+            🥛
+          </span>
         ))}
       </div>
 
