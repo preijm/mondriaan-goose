@@ -28,11 +28,13 @@ export const AddMilkTest = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [open, setOpen] = useState(false);
   const [brands, setBrands] = useState<string[]>([]);
+  const [isLoadingBrands, setIsLoadingBrands] = useState(false);
   const { toast } = useToast();
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchBrands = async () => {
+      setIsLoadingBrands(true);
       try {
         console.log("Fetching unique brands...");
         const { data, error } = await supabase
@@ -42,17 +44,26 @@ export const AddMilkTest = () => {
 
         if (error) throw error;
 
-        // Get unique brands
-        const uniqueBrands = Array.from(new Set(data.map(item => item.brand)));
-        console.log("Fetched brands:", uniqueBrands);
-        setBrands(uniqueBrands);
+        if (data) {
+          // Get unique brands
+          const uniqueBrands = Array.from(new Set(data.map(item => item.brand)));
+          console.log("Fetched brands:", uniqueBrands);
+          setBrands(uniqueBrands);
+        }
       } catch (error) {
         console.error('Error fetching brands:', error);
+        toast({
+          title: "Error",
+          description: "Failed to load brands. Please try again.",
+          variant: "destructive",
+        });
+      } finally {
+        setIsLoadingBrands(false);
       }
     };
 
     fetchBrands();
-  }, []);
+  }, [toast]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -148,9 +159,10 @@ export const AddMilkTest = () => {
               />
               <CommandEmpty>No brand found. You can type a new one.</CommandEmpty>
               <CommandGroup>
-                {brands.map((existingBrand) => (
+                {!isLoadingBrands && brands.map((existingBrand) => (
                   <CommandItem
                     key={existingBrand}
+                    value={existingBrand}
                     onSelect={() => {
                       setBrand(existingBrand);
                       setOpen(false);
