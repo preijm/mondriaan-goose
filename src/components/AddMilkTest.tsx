@@ -46,7 +46,7 @@ export const AddMilkTest = () => {
 
         if (data) {
           // Get unique brands
-          const uniqueBrands = Array.from(new Set(data.map(item => item.brand)));
+          const uniqueBrands = Array.from(new Set(data.map(item => item.brand))).filter(Boolean);
           console.log("Fetched brands:", uniqueBrands);
           setBrands(uniqueBrands);
         }
@@ -153,8 +153,7 @@ export const AddMilkTest = () => {
           <PopoverContent className="w-full p-0">
             <Command>
               <CommandInput 
-                placeholder="Search brands..." 
-                value={brand}
+                placeholder="Search brands..."
                 onValueChange={setBrand}
               />
               <CommandEmpty>No brand found. You can type a new one.</CommandEmpty>
@@ -163,8 +162,8 @@ export const AddMilkTest = () => {
                   <CommandItem
                     key={existingBrand}
                     value={existingBrand}
-                    onSelect={() => {
-                      setBrand(existingBrand);
+                    onSelect={(currentValue) => {
+                      setBrand(currentValue);
                       setOpen(false);
                     }}
                   >
