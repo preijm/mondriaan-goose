@@ -1,10 +1,24 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/components/ui/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { useNavigate } from "react-router-dom";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+} from "@/components/ui/command";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { Check, ChevronsUpDown } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 export const AddMilkTest = () => {
   const [rating, setRating] = useState(0);
@@ -12,8 +26,33 @@ export const AddMilkTest = () => {
   const [type, setType] = useState("");
   const [notes, setNotes] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [brands, setBrands] = useState<string[]>([]);
   const { toast } = useToast();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchBrands = async () => {
+      try {
+        console.log("Fetching unique brands...");
+        const { data, error } = await supabase
+          .from('milk_tests')
+          .select('brand')
+          .order('brand');
+
+        if (error) throw error;
+
+        // Get unique brands
+        const uniqueBrands = Array.from(new Set(data.map(item => item.brand)));
+        console.log("Fetched brands:", uniqueBrands);
+        setBrands(uniqueBrands);
+      } catch (error) {
+        console.error('Error fetching brands:', error);
+      }
+    };
+
+    fetchBrands();
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -41,7 +80,6 @@ export const AddMilkTest = () => {
         return;
       }
 
-      // Get user's profile to get username
       const { data: profileData } = await supabase
         .from('profiles')
         .select('username')
@@ -88,13 +126,49 @@ export const AddMilkTest = () => {
     <form onSubmit={handleSubmit} className="space-y-4 bg-white rounded-lg shadow-md p-6">
       <h2 className="text-xl font-semibold text-gray-900 mb-4">Add New Taste Test</h2>
       
-      <div>
-        <Input
-          placeholder="Brand name"
-          value={brand}
-          onChange={(e) => setBrand(e.target.value)}
-          className="w-full"
-        />
+      <div className="flex flex-col space-y-2">
+        <Popover open={open} onOpenChange={setOpen}>
+          <PopoverTrigger asChild>
+            <Button
+              variant="outline"
+              role="combobox"
+              aria-expanded={open}
+              className="justify-between"
+            >
+              {brand || "Select brand..."}
+              <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent className="w-full p-0">
+            <Command>
+              <CommandInput 
+                placeholder="Search brands..." 
+                value={brand}
+                onValueChange={setBrand}
+              />
+              <CommandEmpty>No brand found. You can type a new one.</CommandEmpty>
+              <CommandGroup>
+                {brands.map((existingBrand) => (
+                  <CommandItem
+                    key={existingBrand}
+                    onSelect={() => {
+                      setBrand(existingBrand);
+                      setOpen(false);
+                    }}
+                  >
+                    <Check
+                      className={cn(
+                        "mr-2 h-4 w-4",
+                        brand === existingBrand ? "opacity-100" : "opacity-0"
+                      )}
+                    />
+                    {existingBrand}
+                  </CommandItem>
+                ))}
+              </CommandGroup>
+            </Command>
+          </PopoverContent>
+        </Popover>
       </div>
 
       <div>
