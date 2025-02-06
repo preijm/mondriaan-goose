@@ -6,22 +6,11 @@ import { useToast } from "@/components/ui/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { useNavigate } from "react-router-dom";
 import { Checkbox } from "@/components/ui/checkbox";
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-} from "@/components/ui/command";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { Check, ChevronsUpDown } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { BrandSelect } from "./milk-test/BrandSelect";
+import { CountrySelect } from "./milk-test/CountrySelect";
+import { IngredientsSelect } from "./milk-test/IngredientsSelect";
+import { RatingSelect } from "./milk-test/RatingSelect";
 
-// Country codes for flag emojis
 const countries = [
   { code: "US", name: "United States" },
   { code: "NL", name: "Netherlands" },
@@ -161,84 +150,18 @@ export const AddMilkTest = () => {
     }
   };
 
-  const handleAddIngredient = () => {
-    if (newIngredient && !allIngredients.includes(newIngredient)) {
-      setAllIngredients(prev => [...prev, newIngredient]);
-    }
-    if (newIngredient && !ingredients.includes(newIngredient)) {
-      setIngredients(prev => [...prev, newIngredient]);
-    }
-    setNewIngredient("");
-  };
-
-  const toggleIngredient = (ingredient: string) => {
-    setIngredients(prev =>
-      prev.includes(ingredient)
-        ? prev.filter(i => i !== ingredient)
-        : [...prev, ingredient]
-    );
-  };
-
-  const getCountryFlag = (code: string) => {
-    const codePoints = code
-      .toUpperCase()
-      .split('')
-      .map(char => 127397 + char.charCodeAt(0));
-    return String.fromCodePoint(...codePoints);
-  };
-
   return (
     <form onSubmit={handleSubmit} className="space-y-4 bg-white rounded-lg shadow-md p-6 animate-fade-up">
       <h2 className="text-xl font-semibold text-gray-900 mb-4">Add New Taste Test</h2>
       
-      <div className="flex flex-col space-y-2">
-        <Popover open={brandOpen} onOpenChange={setBrandOpen}>
-          <PopoverTrigger asChild>
-            <Button
-              variant="outline"
-              role="combobox"
-              aria-expanded={brandOpen}
-              className="justify-between"
-            >
-              {brand || "Select brand..."}
-              <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-            </Button>
-          </PopoverTrigger>
-          <PopoverContent className="w-full p-0">
-            <Command>
-              <CommandInput 
-                placeholder="Search brands..."
-                onValueChange={(value) => {
-                  if (value) {
-                    setBrand(value);
-                  }
-                }}
-              />
-              <CommandEmpty>No brand found. Type to add a new one.</CommandEmpty>
-              <CommandGroup>
-                {!isLoadingBrands && brands.map((existingBrand) => (
-                  <CommandItem
-                    key={existingBrand}
-                    value={existingBrand}
-                    onSelect={(currentValue) => {
-                      setBrand(currentValue);
-                      setBrandOpen(false);
-                    }}
-                  >
-                    <Check
-                      className={cn(
-                        "mr-2 h-4 w-4",
-                        brand === existingBrand ? "opacity-100" : "opacity-0"
-                      )}
-                    />
-                    {existingBrand}
-                  </CommandItem>
-                ))}
-              </CommandGroup>
-            </Command>
-          </PopoverContent>
-        </Popover>
-      </div>
+      <BrandSelect
+        brand={brand}
+        setBrand={setBrand}
+        brands={brands}
+        isLoadingBrands={isLoadingBrands}
+        brandOpen={brandOpen}
+        setBrandOpen={setBrandOpen}
+      />
 
       <div>
         <Input
@@ -249,83 +172,22 @@ export const AddMilkTest = () => {
         />
       </div>
 
-      <div className="space-y-2">
-        <label className="text-sm font-medium">Ingredients</label>
-        <div className="flex flex-wrap gap-2">
-          {allIngredients.map((ingredient) => (
-            <div
-              key={ingredient}
-              className={cn(
-                "px-3 py-1 rounded-full cursor-pointer text-sm transition-colors",
-                ingredients.includes(ingredient)
-                  ? "bg-cream-300 text-gray-800"
-                  : "bg-gray-100 text-gray-600 hover:bg-gray-200"
-              )}
-              onClick={() => toggleIngredient(ingredient)}
-            >
-              {ingredient}
-            </div>
-          ))}
-        </div>
-        <div className="flex gap-2">
-          <Input
-            placeholder="Add new ingredient"
-            value={newIngredient}
-            onChange={(e) => setNewIngredient(e.target.value)}
-            className="flex-1"
-          />
-          <Button
-            type="button"
-            variant="outline"
-            onClick={handleAddIngredient}
-            disabled={!newIngredient}
-          >
-            Add
-          </Button>
-        </div>
-      </div>
+      <IngredientsSelect
+        ingredients={ingredients}
+        setIngredients={setIngredients}
+        allIngredients={allIngredients}
+        setAllIngredients={setAllIngredients}
+        newIngredient={newIngredient}
+        setNewIngredient={setNewIngredient}
+      />
 
-      <div className="flex flex-col space-y-2">
-        <Popover open={countryOpen} onOpenChange={setCountryOpen}>
-          <PopoverTrigger asChild>
-            <Button
-              variant="outline"
-              role="combobox"
-              aria-expanded={countryOpen}
-              className="justify-between"
-            >
-              {country ? `${getCountryFlag(country)} ${countries.find(c => c.code === country)?.name}` : "Select country (optional)"}
-              <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-            </Button>
-          </PopoverTrigger>
-          <PopoverContent className="w-full p-0">
-            <Command>
-              <CommandInput placeholder="Search countries..." />
-              <CommandEmpty>No country found.</CommandEmpty>
-              <CommandGroup>
-                {countries.map((c) => (
-                  <CommandItem
-                    key={c.code}
-                    value={c.code}
-                    onSelect={() => {
-                      setCountry(c.code);
-                      setCountryOpen(false);
-                    }}
-                  >
-                    <Check
-                      className={cn(
-                        "mr-2 h-4 w-4",
-                        country === c.code ? "opacity-100" : "opacity-0"
-                      )}
-                    />
-                    {getCountryFlag(c.code)} {c.name}
-                  </CommandItem>
-                ))}
-              </CommandGroup>
-            </Command>
-          </PopoverContent>
-        </Popover>
-      </div>
+      <CountrySelect
+        country={country}
+        setCountry={setCountry}
+        countries={countries}
+        countryOpen={countryOpen}
+        setCountryOpen={setCountryOpen}
+      />
 
       <div className="flex items-center space-x-2">
         <Checkbox
@@ -341,19 +203,7 @@ export const AddMilkTest = () => {
         </label>
       </div>
 
-      <div className="flex items-center gap-1">
-        {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((value) => (
-          <span
-            key={value}
-            className={`text-xl cursor-pointer ${
-              value <= rating ? "" : "opacity-20"
-            }`}
-            onClick={() => setRating(value)}
-          >
-            🥛
-          </span>
-        ))}
-      </div>
+      <RatingSelect rating={rating} setRating={setRating} />
 
       <div>
         <Textarea
