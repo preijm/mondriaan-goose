@@ -14,16 +14,12 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
-
-interface Country {
-  code: string;
-  name: string;
-}
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
 
 interface CountrySelectProps {
   country: string | null;
   setCountry: (country: string) => void;
-  countries: Country[];
   countryOpen: boolean;
   setCountryOpen: (open: boolean) => void;
 }
@@ -31,10 +27,28 @@ interface CountrySelectProps {
 export const CountrySelect = ({
   country,
   setCountry,
-  countries,
   countryOpen,
   setCountryOpen,
 }: CountrySelectProps) => {
+  const { data: countries, isLoading } = useQuery({
+    queryKey: ['countries'],
+    queryFn: async () => {
+      console.log('Fetching countries from database...');
+      const { data, error } = await supabase
+        .from('countries')
+        .select('name, code')
+        .order('name');
+      
+      if (error) {
+        console.error('Error fetching countries:', error);
+        throw error;
+      }
+      
+      console.log('Fetched countries:', data);
+      return data;
+    },
+  });
+
   const getCountryFlag = (code: string) => {
     const codePoints = code
       .toUpperCase()
@@ -53,7 +67,9 @@ export const CountrySelect = ({
             aria-expanded={countryOpen}
             className="justify-between"
           >
-            {country ? `${getCountryFlag(country)} ${countries.find(c => c.code === country)?.name}` : "Select country (optional)"}
+            {country ? 
+              `${getCountryFlag(country)} ${countries?.find(c => c.code === country)?.name}` 
+              : "Select country (optional)"}
             <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
           </Button>
         </PopoverTrigger>
@@ -62,12 +78,12 @@ export const CountrySelect = ({
             <CommandInput placeholder="Search countries..." />
             <CommandEmpty>No country found.</CommandEmpty>
             <CommandGroup>
-              {countries.map((c) => (
+              {!isLoading && countries?.map((c) => (
                 <CommandItem
                   key={c.code}
                   value={c.code}
-                  onSelect={() => {
-                    setCountry(c.code);
+                  onSelect={(value) => {
+                    setCountry(value);
                     setCountryOpen(false);
                   }}
                 >

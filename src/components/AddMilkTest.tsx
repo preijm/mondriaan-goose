@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -10,19 +10,6 @@ import { BrandSelect } from "./milk-test/BrandSelect";
 import { CountrySelect } from "./milk-test/CountrySelect";
 import { IngredientsSelect } from "./milk-test/IngredientsSelect";
 import { RatingSelect } from "./milk-test/RatingSelect";
-
-const countries = [
-  { code: "US", name: "United States" },
-  { code: "NL", name: "Netherlands" },
-  { code: "GB", name: "United Kingdom" },
-  { code: "IT", name: "Italy" },
-  { code: "FR", name: "France" },
-  { code: "DE", name: "Germany" },
-  { code: "ES", name: "Spain" },
-  { code: "AU", name: "Australia" },
-  { code: "NZ", name: "New Zealand" },
-  { code: "CA", name: "Canada" },
-].sort((a, b) => a.name.localeCompare(b.name));
 
 export const AddMilkTest = () => {
   const [rating, setRating] = useState(0);
@@ -36,7 +23,6 @@ export const AddMilkTest = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [brandOpen, setBrandOpen] = useState(false);
   const [countryOpen, setCountryOpen] = useState(false);
-  const [brands, setBrands] = useState<string[]>([]);
   const [allIngredients, setAllIngredients] = useState<string[]>([
     "Milk",
     "Water",
@@ -48,41 +34,9 @@ export const AddMilkTest = () => {
     "Rice",
     "Pea Protein",
   ]);
-  const [isLoadingBrands, setIsLoadingBrands] = useState(false);
+
   const { toast } = useToast();
   const navigate = useNavigate();
-
-  useEffect(() => {
-    const fetchBrands = async () => {
-      setIsLoadingBrands(true);
-      try {
-        console.log("Fetching unique brands...");
-        const { data, error } = await supabase
-          .from('milk_tests')
-          .select('brand')
-          .order('brand');
-
-        if (error) throw error;
-
-        if (data) {
-          const uniqueBrands = Array.from(new Set(data.map(item => item.brand))).filter(Boolean);
-          console.log("Fetched brands:", uniqueBrands);
-          setBrands(uniqueBrands);
-        }
-      } catch (error) {
-        console.error('Error fetching brands:', error);
-        toast({
-          title: "Error",
-          description: "Failed to load brands. Please try again.",
-          variant: "destructive",
-        });
-      } finally {
-        setIsLoadingBrands(false);
-      }
-    };
-
-    fetchBrands();
-  }, [toast]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -157,8 +111,6 @@ export const AddMilkTest = () => {
       <BrandSelect
         brand={brand}
         setBrand={setBrand}
-        brands={brands}
-        isLoadingBrands={isLoadingBrands}
         brandOpen={brandOpen}
         setBrandOpen={setBrandOpen}
       />
@@ -184,7 +136,6 @@ export const AddMilkTest = () => {
       <CountrySelect
         country={country}
         setCountry={setCountry}
-        countries={countries}
         countryOpen={countryOpen}
         setCountryOpen={setCountryOpen}
       />

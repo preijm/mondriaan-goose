@@ -14,12 +14,12 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
 
 interface BrandSelectProps {
   brand: string;
   setBrand: (brand: string) => void;
-  brands: string[];
-  isLoadingBrands: boolean;
   brandOpen: boolean;
   setBrandOpen: (open: boolean) => void;
 }
@@ -27,11 +27,28 @@ interface BrandSelectProps {
 export const BrandSelect = ({
   brand,
   setBrand,
-  brands,
-  isLoadingBrands,
   brandOpen,
   setBrandOpen,
 }: BrandSelectProps) => {
+  const { data: brands, isLoading } = useQuery({
+    queryKey: ['brands'],
+    queryFn: async () => {
+      console.log('Fetching brands from database...');
+      const { data, error } = await supabase
+        .from('brands')
+        .select('name')
+        .order('name');
+      
+      if (error) {
+        console.error('Error fetching brands:', error);
+        throw error;
+      }
+      
+      console.log('Fetched brands:', data);
+      return data;
+    },
+  });
+
   return (
     <div className="flex flex-col space-y-2">
       <Popover open={brandOpen} onOpenChange={setBrandOpen}>
@@ -49,40 +66,24 @@ export const BrandSelect = ({
         <PopoverContent className="w-full p-0">
           <Command>
             <CommandInput placeholder="Search brands..." />
-            <CommandEmpty>
-              Type to add a new brand.
-              <Button
-                type="button"
-                variant="ghost"
-                className="mt-2 w-full"
-                onClick={() => {
-                  const input = document.querySelector('[cmdk-input]') as HTMLInputElement;
-                  if (input?.value) {
-                    setBrand(input.value);
-                    setBrandOpen(false);
-                  }
-                }}
-              >
-                Add new brand
-              </Button>
-            </CommandEmpty>
+            <CommandEmpty>No brand found.</CommandEmpty>
             <CommandGroup>
-              {!isLoadingBrands && brands.map((existingBrand) => (
+              {!isLoading && brands?.map((b) => (
                 <CommandItem
-                  key={existingBrand}
-                  value={existingBrand}
-                  onSelect={() => {
-                    setBrand(existingBrand);
+                  key={b.name}
+                  value={b.name}
+                  onSelect={(value) => {
+                    setBrand(value);
                     setBrandOpen(false);
                   }}
                 >
                   <Check
                     className={cn(
                       "mr-2 h-4 w-4",
-                      brand === existingBrand ? "opacity-100" : "opacity-0"
+                      brand === b.name ? "opacity-100" : "opacity-0"
                     )}
                   />
-                  {existingBrand}
+                  {b.name}
                 </CommandItem>
               ))}
             </CommandGroup>
