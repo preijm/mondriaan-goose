@@ -22,20 +22,21 @@ export const IngredientsSelect = ({
 }: IngredientsSelectProps) => {
   const handleAddIngredient = () => {
     if (newIngredient && !allIngredients.includes(newIngredient)) {
-      setAllIngredients(prev => [...prev, newIngredient]);
+      const updatedAllIngredients = [...allIngredients, newIngredient];
+      setAllIngredients(updatedAllIngredients);
     }
     if (newIngredient && !ingredients.includes(newIngredient)) {
-      setIngredients(prev => [...prev, newIngredient]);
+      const updatedIngredients = [...ingredients, newIngredient];
+      setIngredients(updatedIngredients);
     }
     setNewIngredient("");
   };
 
   const toggleIngredient = (ingredient: string) => {
-    setIngredients(prev =>
-      prev.includes(ingredient)
-        ? prev.filter(i => i !== ingredient)
-        : [...prev, ingredient]
-    );
+    const updatedIngredients = ingredients.includes(ingredient)
+      ? ingredients.filter(i => i !== ingredient)
+      : [...ingredients, ingredient];
+    setIngredients(updatedIngredients);
   };
 
   return (
