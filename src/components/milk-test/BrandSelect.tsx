@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { useQuery } from "@tanstack/react-query";
@@ -12,6 +13,7 @@ interface BrandSelectProps {
 export const BrandSelect = ({ brand, setBrand }: BrandSelectProps) => {
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [inputValue, setInputValue] = useState(brand);
+  const [isSelectingFromSuggestions, setIsSelectingFromSuggestions] = useState(false);
   const { toast } = useToast();
 
   const { data: brands = [] } = useQuery({
@@ -49,15 +51,23 @@ export const BrandSelect = ({ brand, setBrand }: BrandSelectProps) => {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
+    setIsSelectingFromSuggestions(false);
   };
 
   const handleSelectBrand = (selectedBrand: string) => {
+    setIsSelectingFromSuggestions(true);
     setInputValue(selectedBrand);
     setBrand(selectedBrand);
     setSuggestions([]);
   };
 
   const handleBlur = async () => {
+    // Don't process if we just selected from suggestions
+    if (isSelectingFromSuggestions) {
+      setIsSelectingFromSuggestions(false);
+      return;
+    }
+
     if (inputValue.trim() === '') return;
 
     // Check if the exact brand name exists (case insensitive)
