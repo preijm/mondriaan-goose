@@ -33,35 +33,51 @@ export const AddMilkTest = () => {
         />
       </div>
 
-      <ProductOptions
-        isBarista={formState.isBarista}
-        setIsBarista={formSetters.setIsBarista}
-        isUnsweetened={formState.isUnsweetened}
-        setIsUnsweetened={formSetters.setIsUnsweetened}
-        isSpecialEdition={formState.isSpecialEdition}
-        setIsSpecialEdition={formSetters.setIsSpecialEdition}
-      />
+      <div className="space-y-4">
+        <h2 className="text-xl font-semibold text-gray-900">Product Type</h2>
+        <ProductOptions
+          isBarista={formState.isBarista}
+          setIsBarista={formSetters.setIsBarista}
+          isUnsweetened={formState.isUnsweetened}
+          setIsUnsweetened={formSetters.setIsUnsweetened}
+          isSpecialEdition={formState.isSpecialEdition}
+          setIsSpecialEdition={formSetters.setIsSpecialEdition}
+        />
+      </div>
 
-      <IngredientsSelect
-        ingredients={formState.ingredients}
-        setIngredients={formSetters.setIngredients}
-        allIngredients={formState.allIngredients}
-        setAllIngredients={formSetters.setAllIngredients}
-        newIngredient={formState.newIngredient}
-        setNewIngredient={formSetters.setNewIngredient}
-      />
+      <div className="space-y-4">
+        <h2 className="text-xl font-semibold text-gray-900">Ingredients</h2>
+        <IngredientsSelect
+          ingredients={formState.ingredients}
+          setIngredients={formSetters.setIngredients}
+          allIngredients={formState.allIngredients}
+          setAllIngredients={formSetters.setAllIngredients}
+          newIngredient={formState.newIngredient}
+          setNewIngredient={formSetters.setNewIngredient}
+        />
+      </div>
 
-      <RatingSelect 
-        rating={formState.rating} 
-        setRating={formSetters.setRating} 
-      />
-      
-      <Textarea
-        placeholder="Tasting notes..."
-        value={formState.notes}
-        onChange={(e) => formSetters.setNotes(e.target.value)}
-        className="w-full"
-      />
+      <div className="space-y-4">
+        <h2 className="text-xl font-semibold text-gray-900">Judgment</h2>
+        <div className="space-y-4">
+          <div>
+            <label className="text-sm font-medium mb-2 block">Rating</label>
+            <RatingSelect 
+              rating={formState.rating} 
+              setRating={formSetters.setRating} 
+            />
+          </div>
+          <div>
+            <label className="text-sm font-medium mb-2 block">Notes</label>
+            <Textarea
+              placeholder="Tasting notes..."
+              value={formState.notes}
+              onChange={(e) => formSetters.setNotes(e.target.value)}
+              className="w-full"
+            />
+          </div>
+        </div>
+      </div>
 
       <Button 
         type="submit" 
