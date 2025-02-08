@@ -58,7 +58,7 @@ export const CountrySelect = ({
     return String.fromCodePoint(...codePoints);
   };
 
-  const selectedCountry = countries.find(c => c.code === country);
+  const selectedCountry = countries?.find(c => c.code === country);
 
   return (
     <div className="flex flex-col space-y-2">
@@ -83,7 +83,7 @@ export const CountrySelect = ({
             <CommandInput placeholder="Search countries..." />
             <CommandEmpty>No country found.</CommandEmpty>
             <CommandGroup>
-              {countries.map((c) => (
+              {(countries || []).map((c) => (
                 <CommandItem
                   key={c.code}
                   value={c.code}
