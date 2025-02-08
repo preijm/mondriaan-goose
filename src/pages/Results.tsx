@@ -21,7 +21,12 @@ const Results = () => {
     queryFn: async () => {
       const { data, error } = await supabase
         .from('milk_tests')
-        .select('*, profiles(username)')
+        .select(`
+          *,
+          profiles:user_id (
+            username
+          )
+        `)
         .order('created_at', { ascending: false });
       
       if (error) throw error;
@@ -94,7 +99,7 @@ const Results = () => {
                   <TableCell className="font-medium">{result.brand}</TableCell>
                   <TableCell>{result.type}</TableCell>
                   <TableCell>
-                    <div className="bg-cream-300 rounded-full h-8 w-8 flex items-center justify-center">
+                    <div className="rounded-full h-8 w-8 flex items-center justify-center bg-cream-300">
                       <span className="font-semibold text-milk-500">{result.rating.toFixed(1)}</span>
                     </div>
                   </TableCell>
