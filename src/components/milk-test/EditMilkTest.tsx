@@ -7,7 +7,6 @@ import { useToast } from "@/components/ui/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { Checkbox } from "@/components/ui/checkbox";
 import { BrandSelect } from "./BrandSelect";
-import { CountrySelect } from "./CountrySelect";
 import { ShopSelect } from "./ShopSelect";
 import { IngredientsSelect } from "./IngredientsSelect";
 import { RatingSelect } from "./RatingSelect";
@@ -48,7 +47,6 @@ export const EditMilkTest = ({ test, open, onOpenChange, onSuccess }: EditMilkTe
   const [isBarista, setIsBarista] = useState(test.is_barista || false);
   const [isUnsweetened, setIsUnsweetened] = useState(test.is_unsweetened || false);
   const [isSpecialEdition, setIsSpecialEdition] = useState(test.is_special_edition || false);
-  const [country, setCountry] = useState<string | null>(test.country || null);
   const [shop, setShop] = useState(test.shop || "");
   const [allIngredients, setAllIngredients] = useState<string[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -76,7 +74,6 @@ export const EditMilkTest = ({ test, open, onOpenChange, onSuccess }: EditMilkTe
           brand,
           product_name: productName,
           ingredients,
-          country,
           shop,
           is_barista: isBarista,
           is_unsweetened: isUnsweetened,
@@ -133,14 +130,9 @@ export const EditMilkTest = ({ test, open, onOpenChange, onSuccess }: EditMilkTe
 
           <div className="space-y-4">
             <h2 className="text-lg font-semibold text-gray-900">Buying Location</h2>
-            <CountrySelect
-              country={country}
-              setCountry={setCountry}
-            />
             <ShopSelect
               shop={shop}
               setShop={setShop}
-              country={country}
             />
           </div>
 
