@@ -25,7 +25,7 @@ const Results = () => {
   const [sortConfig, setSortConfig] = useState<SortConfig>({ column: 'created_at', direction: 'desc' });
 
   const { data: results = [], isLoading, error } = useQuery({
-    queryKey: ['milk-tests'],
+    queryKey: ['milk-tests', sortConfig], // Add sortConfig to queryKey to trigger refetch
     queryFn: async () => {
       const { data, error } = await supabase
         .from('milk_tests')
@@ -40,8 +40,6 @@ const Results = () => {
       if (error) throw error;
       return data;
     },
-    enabled: true,
-    refetchOnWindowFocus: false,
   });
 
   const handleSort = (column: string) => {
