@@ -21,14 +21,14 @@ export const RatingSelect = ({ rating, setRating }: RatingSelectProps) => {
           className="relative flex w-full touch-none select-none items-center"
         >
           <SliderPrimitive.Track className="relative h-1.5 w-full grow overflow-hidden rounded-full bg-secondary">
-            <SliderPrimitive.Range className="absolute h-full bg-primary" />
+            <SliderPrimitive.Range className="absolute h-full bg-cream-300" />
           </SliderPrimitive.Track>
           <SliderPrimitive.Thumb className="block cursor-pointer select-none touch-none">
             <span className="text-lg">🥛</span>
           </SliderPrimitive.Thumb>
         </SliderPrimitive.Root>
         <span className="min-w-[4ch] text-right flex items-center gap-1 text-sm">
-          {rating.toFixed(1)} 🥛
+          {rating.toFixed(1)}
         </span>
       </div>
       <div className="flex justify-between px-2 text-[10px]">
@@ -41,4 +41,3 @@ export const RatingSelect = ({ rating, setRating }: RatingSelectProps) => {
     </div>
   );
 };
-
