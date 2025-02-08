@@ -1,37 +1,19 @@
 
-import React from "react";
-import { Check, ChevronsUpDown } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-} from "@/components/ui/command";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { cn } from "@/lib/utils";
+import React, { useState, useEffect } from "react";
+import { Input } from "@/components/ui/input";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 
 interface CountrySelectProps {
   country: string | null;
   setCountry: (country: string) => void;
-  countryOpen: boolean;
-  setCountryOpen: (open: boolean) => void;
 }
 
-export const CountrySelect = ({
-  country,
-  setCountry,
-  countryOpen,
-  setCountryOpen,
-}: CountrySelectProps) => {
-  const { data: countries = [], isLoading } = useQuery({
+export const CountrySelect = ({ country, setCountry }: CountrySelectProps) => {
+  const [suggestions, setSuggestions] = useState<{ code: string; name: string }[]>([]);
+  const [inputValue, setInputValue] = useState("");
+
+  const { data: countries = [] } = useQuery({
     queryKey: ['countries'],
     queryFn: async () => {
       console.log('Fetching countries from database...');
@@ -50,6 +32,20 @@ export const CountrySelect = ({
     },
   });
 
+  useEffect(() => {
+    if (inputValue.trim() === '') {
+      setSuggestions([]);
+      return;
+    }
+
+    const filteredCountries = countries.filter(c => 
+      c.name.toLowerCase().includes(inputValue.toLowerCase()) ||
+      c.code.toLowerCase().includes(inputValue.toLowerCase())
+    );
+
+    setSuggestions(filteredCountries);
+  }, [inputValue, countries]);
+
   const getCountryFlag = (code: string) => {
     const codePoints = code
       .toUpperCase()
@@ -58,53 +54,49 @@ export const CountrySelect = ({
     return String.fromCodePoint(...codePoints);
   };
 
-  const selectedCountry = countries?.find(c => c.code === country);
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInputValue(e.target.value);
+  };
+
+  const handleSelectCountry = (selectedCountry: { code: string; name: string }) => {
+    setInputValue(selectedCountry.name);
+    setCountry(selectedCountry.code);
+    setSuggestions([]);
+  };
+
+  // Find the selected country to display its name in the input
+  useEffect(() => {
+    if (country) {
+      const selectedCountry = countries.find(c => c.code === country);
+      if (selectedCountry) {
+        setInputValue(selectedCountry.name);
+      }
+    }
+  }, [country, countries]);
 
   return (
-    <div className="flex flex-col space-y-2">
-      <Popover open={countryOpen} onOpenChange={setCountryOpen}>
-        <PopoverTrigger asChild>
-          <Button
-            variant="outline"
-            role="combobox"
-            aria-expanded={countryOpen}
-            className="justify-between"
-            disabled={isLoading}
-          >
-            {isLoading ? "Loading countries..." : 
-              selectedCountry ? 
-                `${getCountryFlag(selectedCountry.code)} ${selectedCountry.name}` 
-                : "Select country (optional)"}
-            <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-          </Button>
-        </PopoverTrigger>
-        <PopoverContent className="w-full p-0">
-          <Command>
-            <CommandInput placeholder="Search countries..." />
-            <CommandEmpty>No country found.</CommandEmpty>
-            <CommandGroup>
-              {(countries || []).map((c) => (
-                <CommandItem
-                  key={c.code}
-                  value={c.code}
-                  onSelect={(value) => {
-                    setCountry(value);
-                    setCountryOpen(false);
-                  }}
-                >
-                  <Check
-                    className={cn(
-                      "mr-2 h-4 w-4",
-                      country === c.code ? "opacity-100" : "opacity-0"
-                    )}
-                  />
-                  {getCountryFlag(c.code)} {c.name}
-                </CommandItem>
-              ))}
-            </CommandGroup>
-          </Command>
-        </PopoverContent>
-      </Popover>
+    <div className="relative">
+      <Input
+        placeholder="Enter country name..."
+        value={inputValue}
+        onChange={handleInputChange}
+        className="w-full"
+      />
+      {suggestions.length > 0 && (
+        <div className="absolute z-10 w-full mt-1 bg-white border rounded-md shadow-lg">
+          {suggestions.map((suggestion) => (
+            <div
+              key={suggestion.code}
+              className="px-4 py-2 cursor-pointer hover:bg-gray-100 flex items-center"
+              onClick={() => handleSelectCountry(suggestion)}
+              onMouseDown={(e) => e.preventDefault()}
+            >
+              <span className="mr-2">{getCountryFlag(suggestion.code)}</span>
+              {suggestion.name}
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 };

@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -22,7 +21,6 @@ export const AddMilkTest = () => {
   const [isBarista, setIsBarista] = useState(false);
   const [country, setCountry] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [countryOpen, setCountryOpen] = useState(false);
   const [allIngredients, setAllIngredients] = useState<string[]>([
     "Milk",
     "Water",
@@ -134,8 +132,6 @@ export const AddMilkTest = () => {
       <CountrySelect
         country={country}
         setCountry={setCountry}
-        countryOpen={countryOpen}
-        setCountryOpen={setCountryOpen}
       />
 
       <div className="flex items-center space-x-2">

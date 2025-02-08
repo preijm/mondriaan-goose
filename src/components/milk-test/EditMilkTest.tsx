@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -42,7 +41,6 @@ export const EditMilkTest = ({ test, open, onOpenChange, onSuccess }: EditMilkTe
   const [notes, setNotes] = useState(test.notes || "");
   const [isBarista, setIsBarista] = useState(test.is_barista || false);
   const [country, setCountry] = useState<string | null>(test.country || null);
-  const [countryOpen, setCountryOpen] = useState(false);
   const [allIngredients, setAllIngredients] = useState<string[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -131,8 +129,6 @@ export const EditMilkTest = ({ test, open, onOpenChange, onSuccess }: EditMilkTe
           <CountrySelect
             country={country}
             setCountry={setCountry}
-            countryOpen={countryOpen}
-            setCountryOpen={setCountryOpen}
           />
 
           <div className="flex items-center space-x-2">
