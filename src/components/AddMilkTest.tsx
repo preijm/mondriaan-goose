@@ -55,10 +55,10 @@ export const AddMilkTest = () => {
         return;
       }
 
-      // Get the country for the selected shop
+      // Get the country code for the selected shop
       const { data: shopData } = await supabase
         .from('shops')
-        .select('country')
+        .select('country_code')
         .eq('name', shop)
         .single();
 
@@ -74,7 +74,7 @@ export const AddMilkTest = () => {
           brand,
           product_name: productName,
           ingredients,
-          country: shopData?.country || null,
+          country: shopData?.country_code || null,
           shop,
           is_barista: isBarista,
           is_unsweetened: isUnsweetened,
