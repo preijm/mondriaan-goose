@@ -7,6 +7,7 @@ import { IngredientsSelect } from "./milk-test/IngredientsSelect";
 import { RatingSelect } from "./milk-test/RatingSelect";
 import { ProductInformation } from "./milk-test/ProductInformation";
 import { ProductOptions } from "./milk-test/ProductOptions";
+import { DrinkPreference } from "./milk-test/DrinkPreference";
 import { useMilkTestForm } from "@/hooks/useMilkTestForm";
 
 export const AddMilkTest = () => {
@@ -46,6 +47,14 @@ export const AddMilkTest = () => {
       </div>
 
       <div className="space-y-4">
+        <h2 className="text-xl font-semibold text-gray-900">How do you drink it?</h2>
+        <DrinkPreference
+          preference={formState.drinkPreference}
+          setPreference={formSetters.setDrinkPreference}
+        />
+      </div>
+
+      <div className="space-y-4">
         <h2 className="text-xl font-semibold text-gray-900">Ingredients</h2>
         <IngredientsSelect
           ingredients={formState.ingredients}
@@ -58,25 +67,16 @@ export const AddMilkTest = () => {
       </div>
 
       <div className="space-y-4">
-        <h2 className="text-xl font-semibold text-gray-900">Judgment</h2>
-        <div className="space-y-4">
-          <div>
-            <label className="text-sm font-medium mb-2 block">Rating</label>
-            <RatingSelect 
-              rating={formState.rating} 
-              setRating={formSetters.setRating} 
-            />
-          </div>
-          <div>
-            <label className="text-sm font-medium mb-2 block">Notes</label>
-            <Textarea
-              placeholder="Tasting notes..."
-              value={formState.notes}
-              onChange={(e) => formSetters.setNotes(e.target.value)}
-              className="w-full"
-            />
-          </div>
-        </div>
+        <RatingSelect 
+          rating={formState.rating} 
+          setRating={formSetters.setRating} 
+        />
+        <Textarea
+          placeholder="Tasting notes..."
+          value={formState.notes}
+          onChange={(e) => formSetters.setNotes(e.target.value)}
+          className="w-full"
+        />
       </div>
 
       <Button 

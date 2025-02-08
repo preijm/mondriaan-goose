@@ -17,6 +17,7 @@ export const useMilkTestForm = () => {
   const [shop, setShop] = useState<string>("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [allIngredients, setAllIngredients] = useState<string[]>([]);
+  const [drinkPreference, setDrinkPreference] = useState("cold");
 
   const { toast } = useToast();
   const navigate = useNavigate();
@@ -47,7 +48,6 @@ export const useMilkTestForm = () => {
         return;
       }
 
-      // Get the country code for the selected shop
       const { data: shopData } = await supabase
         .from('shops')
         .select('country_code')
@@ -73,6 +73,7 @@ export const useMilkTestForm = () => {
           is_special_edition: isSpecialEdition,
           rating,
           notes,
+          drink_preference: drinkPreference,
           user_id: userData.user.id,
           username: profileData?.username
         });
@@ -111,6 +112,7 @@ export const useMilkTestForm = () => {
       shop,
       isSubmitting,
       allIngredients,
+      drinkPreference,
     },
     formSetters: {
       setRating,
@@ -124,6 +126,7 @@ export const useMilkTestForm = () => {
       setIsSpecialEdition,
       setShop,
       setAllIngredients,
+      setDrinkPreference,
     },
     handleSubmit,
   };

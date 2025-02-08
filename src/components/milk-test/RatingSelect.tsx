@@ -1,4 +1,6 @@
+
 import React from "react";
+import { Slider } from "@/components/ui/slider";
 
 interface RatingSelectProps {
   rating: number;
@@ -7,18 +9,25 @@ interface RatingSelectProps {
 
 export const RatingSelect = ({ rating, setRating }: RatingSelectProps) => {
   return (
-    <div className="flex items-center gap-1">
-      {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((value) => (
-        <span
-          key={value}
-          className={`text-xl cursor-pointer ${
-            value <= rating ? "" : "opacity-20"
-          }`}
-          onClick={() => setRating(value)}
-        >
-          🥛
-        </span>
-      ))}
+    <div className="space-y-4">
+      <div className="flex items-center gap-2">
+        <Slider
+          value={[rating]}
+          onValueChange={(value) => setRating(value[0])}
+          min={0}
+          max={10}
+          step={0.1}
+          className="w-full"
+        />
+        <span className="min-w-[3ch] text-right">{rating.toFixed(1)}</span>
+      </div>
+      <div className="flex justify-between px-2">
+        {[0, 2, 4, 6, 8, 10].map((value) => (
+          <span key={value} className="text-sm text-gray-500">
+            {value}
+          </span>
+        ))}
+      </div>
     </div>
   );
 };
