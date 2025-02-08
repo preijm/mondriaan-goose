@@ -12,9 +12,17 @@ import {
 import { Input } from "@/components/ui/input";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { ArrowUpDown, ChevronDown, ChevronUp } from "lucide-react";
+import { Button } from "@/components/ui/button";
+
+type SortConfig = {
+  column: string;
+  direction: 'asc' | 'desc';
+};
 
 const Results = () => {
   const [searchTerm, setSearchTerm] = useState("");
+  const [sortConfig, setSortConfig] = useState<SortConfig>({ column: 'created_at', direction: 'desc' });
 
   const { data: results = [], isLoading, error } = useQuery({
     queryKey: ['milk-tests'],
@@ -27,12 +35,30 @@ const Results = () => {
             username
           )
         `)
-        .order('created_at', { ascending: false });
+        .order(sortConfig.column, { ascending: sortConfig.direction === 'asc' });
       
       if (error) throw error;
       return data;
-    }
+    },
+    enabled: true,
+    refetchOnWindowFocus: false,
   });
+
+  const handleSort = (column: string) => {
+    setSortConfig(current => ({
+      column,
+      direction: current.column === column && current.direction === 'asc' ? 'desc' : 'asc'
+    }));
+  };
+
+  const getSortIcon = (column: string) => {
+    if (sortConfig.column !== column) return <ArrowUpDown className="w-4 h-4" />;
+    return sortConfig.direction === 'asc' ? (
+      <ChevronUp className="w-4 h-4" />
+    ) : (
+      <ChevronDown className="w-4 h-4" />
+    );
+  };
 
   const filteredResults = results.filter((result) => {
     const searchString = searchTerm.toLowerCase();
@@ -84,10 +110,42 @@ const Results = () => {
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>Date</TableHead>
-                <TableHead>Brand</TableHead>
-                <TableHead>Type</TableHead>
-                <TableHead>Score</TableHead>
+                <TableHead>
+                  <Button
+                    variant="ghost"
+                    onClick={() => handleSort('created_at')}
+                    className="hover:bg-transparent"
+                  >
+                    Date {getSortIcon('created_at')}
+                  </Button>
+                </TableHead>
+                <TableHead>
+                  <Button
+                    variant="ghost"
+                    onClick={() => handleSort('brand')}
+                    className="hover:bg-transparent"
+                  >
+                    Brand {getSortIcon('brand')}
+                  </Button>
+                </TableHead>
+                <TableHead>
+                  <Button
+                    variant="ghost"
+                    onClick={() => handleSort('type')}
+                    className="hover:bg-transparent"
+                  >
+                    Type {getSortIcon('type')}
+                  </Button>
+                </TableHead>
+                <TableHead>
+                  <Button
+                    variant="ghost"
+                    onClick={() => handleSort('rating')}
+                    className="hover:bg-transparent"
+                  >
+                    Score {getSortIcon('rating')}
+                  </Button>
+                </TableHead>
                 <TableHead>Tester</TableHead>
                 <TableHead>Notes</TableHead>
               </TableRow>
