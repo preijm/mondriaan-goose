@@ -8,7 +8,6 @@ import { supabase } from "@/integrations/supabase/client";
 import { useNavigate } from "react-router-dom";
 import { Checkbox } from "@/components/ui/checkbox";
 import { BrandSelect } from "./milk-test/BrandSelect";
-import { CountrySelect } from "./milk-test/CountrySelect";
 import { ShopSelect } from "./milk-test/ShopSelect";
 import { IngredientsSelect } from "./milk-test/IngredientsSelect";
 import { RatingSelect } from "./milk-test/RatingSelect";
@@ -23,7 +22,7 @@ export const AddMilkTest = () => {
   const [isBarista, setIsBarista] = useState(false);
   const [isUnsweetened, setIsUnsweetened] = useState(false);
   const [isSpecialEdition, setIsSpecialEdition] = useState(false);
-  const [country, setCountry] = useState<string | null>(null);
+  const [country, setCountry] = useState<string>("");
   const [shop, setShop] = useState<string>("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [allIngredients, setAllIngredients] = useState<string[]>([]);
@@ -118,19 +117,14 @@ export const AddMilkTest = () => {
 
       <div className="space-y-4">
         <h2 className="text-xl font-semibold text-gray-900">Buying Location</h2>
-        <CountrySelect
-          country={country}
-          setCountry={setCountry}
-        />
         <ShopSelect
           shop={shop}
           setShop={setShop}
-          country={country}
+          setCountry={setCountry}
         />
       </div>
 
       <div className="space-y-4">
-        <h2 className="text-xl font-semibold text-gray-900">Product Type</h2>
         <div className="flex flex-wrap gap-6">
           <div className="flex items-center space-x-2">
             <Checkbox
@@ -140,7 +134,7 @@ export const AddMilkTest = () => {
             />
             <label
               htmlFor="barista"
-              className="text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              className="text-sm leading-none text-gray-600"
             >
               Barista Version
             </label>
@@ -153,7 +147,7 @@ export const AddMilkTest = () => {
             />
             <label
               htmlFor="unsweetened"
-              className="text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              className="text-sm leading-none text-gray-600"
             >
               Unsweetened
             </label>
@@ -166,7 +160,7 @@ export const AddMilkTest = () => {
             />
             <label
               htmlFor="special"
-              className="text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              className="text-sm leading-none text-gray-600"
             >
               Special Edition
             </label>
@@ -174,28 +168,23 @@ export const AddMilkTest = () => {
         </div>
       </div>
 
-      <div className="space-y-4">
-        <h2 className="text-xl font-semibold text-gray-900">Ingredients</h2>
-        <IngredientsSelect
-          ingredients={ingredients}
-          setIngredients={setIngredients}
-          allIngredients={allIngredients}
-          setAllIngredients={setAllIngredients}
-          newIngredient={newIngredient}
-          setNewIngredient={setNewIngredient}
-        />
-      </div>
+      <IngredientsSelect
+        ingredients={ingredients}
+        setIngredients={setIngredients}
+        allIngredients={allIngredients}
+        setAllIngredients={setAllIngredients}
+        newIngredient={newIngredient}
+        setNewIngredient={setNewIngredient}
+      />
 
-      <div className="space-y-4">
-        <h2 className="text-xl font-semibold text-gray-900">Judgment</h2>
-        <RatingSelect rating={rating} setRating={setRating} />
-        <Textarea
-          placeholder="Tasting notes..."
-          value={notes}
-          onChange={(e) => setNotes(e.target.value)}
-          className="w-full"
-        />
-      </div>
+      <RatingSelect rating={rating} setRating={setRating} />
+      
+      <Textarea
+        placeholder="Tasting notes..."
+        value={notes}
+        onChange={(e) => setNotes(e.target.value)}
+        className="w-full"
+      />
 
       <Button 
         type="submit" 

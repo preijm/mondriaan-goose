@@ -7,21 +7,20 @@ import { supabase } from "@/integrations/supabase/client";
 interface ShopSelectProps {
   shop: string | null;
   setShop: (shop: string) => void;
-  country: string | null;
+  setCountry: (country: string) => void;
 }
 
-export const ShopSelect = ({ shop, setShop, country }: ShopSelectProps) => {
-  const [suggestions, setSuggestions] = useState<{ name: string }[]>([]);
+export const ShopSelect = ({ shop, setShop, setCountry }: ShopSelectProps) => {
+  const [suggestions, setSuggestions] = useState<{ name: string; country: string }[]>([]);
   const [inputValue, setInputValue] = useState("");
 
   const { data: shops = [] } = useQuery({
-    queryKey: ['shops', country],
+    queryKey: ['shops'],
     queryFn: async () => {
-      console.log('Fetching shops for country:', country);
+      console.log('Fetching all shops');
       const { data, error } = await supabase
         .from('shops')
-        .select('name')
-        .eq('country', country || '')
+        .select('name, country')
         .order('name');
       
       if (error) {
@@ -32,7 +31,6 @@ export const ShopSelect = ({ shop, setShop, country }: ShopSelectProps) => {
       console.log('Fetched shops:', data);
       return data || [];
     },
-    enabled: !!country,
   });
 
   useEffect(() => {
@@ -52,9 +50,10 @@ export const ShopSelect = ({ shop, setShop, country }: ShopSelectProps) => {
     setInputValue(e.target.value);
   };
 
-  const handleSelectShop = (selectedShop: { name: string }) => {
+  const handleSelectShop = (selectedShop: { name: string; country: string }) => {
     setInputValue(selectedShop.name);
     setShop(selectedShop.name);
+    setCountry(selectedShop.country);
     setSuggestions([]);
   };
 
@@ -68,11 +67,10 @@ export const ShopSelect = ({ shop, setShop, country }: ShopSelectProps) => {
   return (
     <div className="relative">
       <Input
-        placeholder="Select shop..."
+        placeholder="Enter shop name..."
         value={inputValue}
         onChange={handleInputChange}
         className="w-full"
-        disabled={!country}
       />
       {suggestions.length > 0 && (
         <div className="absolute z-10 w-full mt-1 bg-white border rounded-md shadow-lg">
@@ -83,7 +81,7 @@ export const ShopSelect = ({ shop, setShop, country }: ShopSelectProps) => {
               onClick={() => handleSelectShop(suggestion)}
               onMouseDown={(e) => e.preventDefault()}
             >
-              {suggestion.name}
+              {suggestion.name} ({suggestion.country})
             </div>
           ))}
         </div>
