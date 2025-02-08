@@ -1,202 +1,74 @@
 
-import React, { useState } from "react";
+import React from "react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { useToast } from "@/components/ui/use-toast";
-import { supabase } from "@/integrations/supabase/client";
-import { useNavigate } from "react-router-dom";
-import { Checkbox } from "@/components/ui/checkbox";
-import { BrandSelect } from "./milk-test/BrandSelect";
 import { ShopSelect } from "./milk-test/ShopSelect";
 import { IngredientsSelect } from "./milk-test/IngredientsSelect";
 import { RatingSelect } from "./milk-test/RatingSelect";
+import { ProductInformation } from "./milk-test/ProductInformation";
+import { ProductOptions } from "./milk-test/ProductOptions";
+import { useMilkTestForm } from "@/hooks/useMilkTestForm";
 
 export const AddMilkTest = () => {
-  const [rating, setRating] = useState(0);
-  const [brand, setBrand] = useState("");
-  const [productName, setProductName] = useState("");
-  const [ingredients, setIngredients] = useState<string[]>([]);
-  const [newIngredient, setNewIngredient] = useState("");
-  const [notes, setNotes] = useState("");
-  const [isBarista, setIsBarista] = useState(false);
-  const [isUnsweetened, setIsUnsweetened] = useState(false);
-  const [isSpecialEdition, setIsSpecialEdition] = useState(false);
-  const [shop, setShop] = useState<string>("");
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [allIngredients, setAllIngredients] = useState<string[]>([]);
-
-  const { toast } = useToast();
-  const navigate = useNavigate();
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    if (!brand || !rating) {
-      toast({
-        title: "Missing fields",
-        description: "Please fill in all required fields",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    setIsSubmitting(true);
-
-    try {
-      const { data: userData, error: userError } = await supabase.auth.getUser();
-      
-      if (userError || !userData.user) {
-        toast({
-          title: "Authentication required",
-          description: "Please sign in to add milk tests",
-          variant: "destructive",
-        });
-        return;
-      }
-
-      // Get the country code for the selected shop
-      const { data: shopData } = await supabase
-        .from('shops')
-        .select('country_code')
-        .eq('name', shop)
-        .single();
-
-      const { data: profileData } = await supabase
-        .from('profiles')
-        .select('username')
-        .eq('id', userData.user.id)
-        .single();
-
-      const { error } = await supabase
-        .from('milk_tests')
-        .insert({
-          brand,
-          product_name: productName,
-          ingredients,
-          country: shopData?.country_code || null,
-          shop,
-          is_barista: isBarista,
-          is_unsweetened: isUnsweetened,
-          is_special_edition: isSpecialEdition,
-          rating,
-          notes,
-          user_id: userData.user.id,
-          username: profileData?.username
-        });
-
-      if (error) throw error;
-
-      toast({
-        title: "Test added!",
-        description: "Your milk taste test has been recorded.",
-      });
-
-      navigate("/dashboard");
-    } catch (error) {
-      console.error('Error adding milk test:', error);
-      toast({
-        title: "Error",
-        description: "Failed to add milk test. Please try again.",
-        variant: "destructive",
-      });
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
+  const {
+    formState,
+    formSetters,
+    handleSubmit,
+  } = useMilkTestForm();
 
   return (
     <form onSubmit={handleSubmit} className="space-y-8 bg-white rounded-lg shadow-md p-6 animate-fade-up">
-      <div className="space-y-4">
-        <h2 className="text-xl font-semibold text-gray-900">Product Information</h2>
-        <BrandSelect
-          brand={brand}
-          setBrand={setBrand}
-        />
-        <Input
-          placeholder="Product name"
-          value={productName}
-          onChange={(e) => setProductName(e.target.value)}
-          className="w-full"
-        />
-      </div>
+      <ProductInformation
+        brand={formState.brand}
+        setBrand={formSetters.setBrand}
+        productName={formState.productName}
+        setProductName={formSetters.setProductName}
+      />
 
       <div className="space-y-4">
         <h2 className="text-xl font-semibold text-gray-900">Buying Location</h2>
         <ShopSelect
-          shop={shop}
-          setShop={setShop}
+          shop={formState.shop}
+          setShop={formSetters.setShop}
         />
       </div>
 
-      <div className="space-y-4">
-        <div className="flex flex-wrap gap-6">
-          <div className="flex items-center space-x-2">
-            <Checkbox
-              id="barista"
-              checked={isBarista}
-              onCheckedChange={(checked) => setIsBarista(checked as boolean)}
-            />
-            <label
-              htmlFor="barista"
-              className="text-sm leading-none text-gray-600"
-            >
-              Barista Version
-            </label>
-          </div>
-          <div className="flex items-center space-x-2">
-            <Checkbox
-              id="unsweetened"
-              checked={isUnsweetened}
-              onCheckedChange={(checked) => setIsUnsweetened(checked as boolean)}
-            />
-            <label
-              htmlFor="unsweetened"
-              className="text-sm leading-none text-gray-600"
-            >
-              Unsweetened
-            </label>
-          </div>
-          <div className="flex items-center space-x-2">
-            <Checkbox
-              id="special"
-              checked={isSpecialEdition}
-              onCheckedChange={(checked) => setIsSpecialEdition(checked as boolean)}
-            />
-            <label
-              htmlFor="special"
-              className="text-sm leading-none text-gray-600"
-            >
-              Special Edition
-            </label>
-          </div>
-        </div>
-      </div>
-
-      <IngredientsSelect
-        ingredients={ingredients}
-        setIngredients={setIngredients}
-        allIngredients={allIngredients}
-        setAllIngredients={setAllIngredients}
-        newIngredient={newIngredient}
-        setNewIngredient={setNewIngredient}
+      <ProductOptions
+        isBarista={formState.isBarista}
+        setIsBarista={formSetters.setIsBarista}
+        isUnsweetened={formState.isUnsweetened}
+        setIsUnsweetened={formSetters.setIsUnsweetened}
+        isSpecialEdition={formState.isSpecialEdition}
+        setIsSpecialEdition={formSetters.setIsSpecialEdition}
       />
 
-      <RatingSelect rating={rating} setRating={setRating} />
+      <IngredientsSelect
+        ingredients={formState.ingredients}
+        setIngredients={formSetters.setIngredients}
+        allIngredients={formState.allIngredients}
+        setAllIngredients={formSetters.setAllIngredients}
+        newIngredient={formState.newIngredient}
+        setNewIngredient={formSetters.setNewIngredient}
+      />
+
+      <RatingSelect 
+        rating={formState.rating} 
+        setRating={formSetters.setRating} 
+      />
       
       <Textarea
         placeholder="Tasting notes..."
-        value={notes}
-        onChange={(e) => setNotes(e.target.value)}
+        value={formState.notes}
+        onChange={(e) => formSetters.setNotes(e.target.value)}
         className="w-full"
       />
 
       <Button 
         type="submit" 
         className="w-full bg-cream-300 hover:bg-cream-200 text-milk-500"
-        disabled={isSubmitting}
+        disabled={formState.isSubmitting}
       >
-        {isSubmitting ? "Adding..." : "Add Result"}
+        {formState.isSubmitting ? "Adding..." : "Add Result"}
       </Button>
     </form>
   );
