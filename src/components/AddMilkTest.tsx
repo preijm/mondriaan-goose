@@ -22,7 +22,6 @@ export const AddMilkTest = () => {
   const [isBarista, setIsBarista] = useState(false);
   const [isUnsweetened, setIsUnsweetened] = useState(false);
   const [isSpecialEdition, setIsSpecialEdition] = useState(false);
-  const [country, setCountry] = useState<string>("");
   const [shop, setShop] = useState<string>("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [allIngredients, setAllIngredients] = useState<string[]>([]);
@@ -56,6 +55,13 @@ export const AddMilkTest = () => {
         return;
       }
 
+      // Get the country for the selected shop
+      const { data: shopData } = await supabase
+        .from('shops')
+        .select('country')
+        .eq('name', shop)
+        .single();
+
       const { data: profileData } = await supabase
         .from('profiles')
         .select('username')
@@ -68,7 +74,7 @@ export const AddMilkTest = () => {
           brand,
           product_name: productName,
           ingredients,
-          country,
+          country: shopData?.country || null,
           shop,
           is_barista: isBarista,
           is_unsweetened: isUnsweetened,
@@ -120,7 +126,6 @@ export const AddMilkTest = () => {
         <ShopSelect
           shop={shop}
           setShop={setShop}
-          setCountry={setCountry}
         />
       </div>
 
