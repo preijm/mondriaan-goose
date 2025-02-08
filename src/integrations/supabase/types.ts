@@ -71,6 +71,7 @@ export type Database = {
           brand: string
           country: string | null
           created_at: string
+          drink_preference: string | null
           id: string
           ingredients: string[] | null
           is_barista: boolean | null
@@ -88,6 +89,7 @@ export type Database = {
           brand: string
           country?: string | null
           created_at?: string
+          drink_preference?: string | null
           id?: string
           ingredients?: string[] | null
           is_barista?: boolean | null
@@ -105,6 +107,7 @@ export type Database = {
           brand?: string
           country?: string | null
           created_at?: string
+          drink_preference?: string | null
           id?: string
           ingredients?: string[] | null
           is_barista?: boolean | null

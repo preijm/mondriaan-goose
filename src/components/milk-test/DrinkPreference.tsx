@@ -11,6 +11,7 @@ export const DrinkPreference = ({ preference, setPreference }: DrinkPreferencePr
   return (
     <div className="flex gap-4">
       <button
+        type="button"
         onClick={() => setPreference("cold")}
         className={`flex flex-col items-center p-3 rounded-lg transition-all ${
           preference === "cold"
@@ -22,6 +23,7 @@ export const DrinkPreference = ({ preference, setPreference }: DrinkPreferencePr
         <span className="text-sm">Cold</span>
       </button>
       <button
+        type="button"
         onClick={() => setPreference("hot")}
         className={`flex flex-col items-center p-3 rounded-lg transition-all ${
           preference === "hot"
@@ -33,6 +35,7 @@ export const DrinkPreference = ({ preference, setPreference }: DrinkPreferencePr
         <span className="text-sm">Hot</span>
       </button>
       <button
+        type="button"
         onClick={() => setPreference("coffee")}
         className={`flex flex-col items-center p-3 rounded-lg transition-all ${
           preference === "coffee"
@@ -46,3 +49,4 @@ export const DrinkPreference = ({ preference, setPreference }: DrinkPreferencePr
     </div>
   );
 };
+

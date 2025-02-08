@@ -31,3 +31,4 @@ export const RatingSelect = ({ rating, setRating }: RatingSelectProps) => {
     </div>
   );
 };
+
