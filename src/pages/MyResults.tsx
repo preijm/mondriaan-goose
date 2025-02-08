@@ -77,7 +77,7 @@ const MyResults = () => {
           {results.map((result) => (
             <div key={result.id} className="group relative">
               <MilkCard result={result} showUsername={true} />
-              <div className="absolute bottom-4 right-4 flex gap-2">
+              <div className="absolute bottom-4 right-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
                 <Button
                   variant="secondary"
                   size="icon"
