@@ -21,7 +21,12 @@ const Results = () => {
     queryFn: async () => {
       const { data, error } = await supabase
         .from('milk_tests')
-        .select('*, profiles(username)')
+        .select(`
+          *,
+          profiles:user_id (
+            username
+          )
+        `)
         .order('created_at', { ascending: false });
       
       if (error) throw error;
@@ -111,4 +116,3 @@ const Results = () => {
 };
 
 export default Results;
-

@@ -28,7 +28,7 @@ const Account = () => {
         .from('profiles')
         .select('username')
         .eq('id', user.id)
-        .single();
+        .maybeSingle();
 
       if (profile) {
         setUsername(profile.username);
@@ -50,7 +50,7 @@ const Account = () => {
         .select('id')
         .eq('username', username)
         .neq('id', userId)
-        .single();
+        .maybeSingle();
 
       if (existingUser) {
         toast({

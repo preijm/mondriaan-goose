@@ -42,7 +42,7 @@ const Auth = () => {
           .from('profiles')
           .select('username')
           .eq('username', username)
-          .single();
+          .maybeSingle();
 
         if (existingUser) {
           toast({
