@@ -28,7 +28,6 @@ export const ShopSelect = ({ shop, setShop }: ShopSelectProps) => {
   const [selectedCountryCode, setSelectedCountryCode] = useState("");
   const { toast } = useToast();
 
-  // Fetch all countries
   const { data: countries = [] } = useQuery({
     queryKey: ['countries'],
     queryFn: async () => {
@@ -42,7 +41,6 @@ export const ShopSelect = ({ shop, setShop }: ShopSelectProps) => {
     },
   });
 
-  // Fetch all shops with country codes
   const { data: shops = [], refetch: refetchShops } = useQuery({
     queryKey: ['shops'],
     queryFn: async () => {
@@ -82,7 +80,7 @@ export const ShopSelect = ({ shop, setShop }: ShopSelectProps) => {
   const handleSelectShop = (selectedShop: { name: string; country_code: string }) => {
     setInputValue(selectedShop.name);
     setShop(selectedShop.name);
-    setSuggestions([]);
+    setSuggestions([]); // Clear suggestions immediately after selection
   };
 
   const handleAddNewShop = async () => {
@@ -110,15 +108,14 @@ export const ShopSelect = ({ shop, setShop }: ShopSelectProps) => {
         description: "New shop has been added successfully",
       });
 
-      // Reset form and refresh shops list
       setNewShopName("");
       setSelectedCountryCode("");
       setIsAddingShop(false);
       refetchShops();
       
-      // Select the newly added shop
       setInputValue(newShopName.trim());
       setShop(newShopName.trim());
+      setSuggestions([]); // Clear suggestions after adding new shop
     } catch (error) {
       console.error('Error adding shop:', error);
       toast({
@@ -129,7 +126,6 @@ export const ShopSelect = ({ shop, setShop }: ShopSelectProps) => {
     }
   };
 
-  // Update input value when shop changes
   useEffect(() => {
     if (shop) {
       setInputValue(shop);
@@ -196,7 +192,7 @@ export const ShopSelect = ({ shop, setShop }: ShopSelectProps) => {
                   </SelectContent>
                 </Select>
               </div>
-              <Button onClick={handleAddNewShop} className="w-full">
+              <Button onClick={handleAddNewBrand} className="w-full">
                 Add Shop
               </Button>
             </div>
@@ -206,4 +202,3 @@ export const ShopSelect = ({ shop, setShop }: ShopSelectProps) => {
     </div>
   );
 };
-

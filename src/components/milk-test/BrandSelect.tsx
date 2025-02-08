@@ -65,7 +65,8 @@ export const BrandSelect = ({ brand, setBrand }: BrandSelectProps) => {
   const handleSelectBrand = (selectedBrand: string) => {
     setInputValue(selectedBrand);
     setBrand(selectedBrand);
-    setSuggestions([]);
+    setSuggestions([]); // Clear suggestions immediately after selection
+    setShowAddNew(false); // Hide the "Add new" option
   };
 
   const handleAddNewBrand = async () => {
@@ -110,7 +111,7 @@ export const BrandSelect = ({ brand, setBrand }: BrandSelectProps) => {
               key={suggestion}
               className="px-4 py-2 cursor-pointer hover:bg-gray-100"
               onClick={() => handleSelectBrand(suggestion)}
-              onMouseDown={(e) => e.preventDefault()} // Prevent input blur
+              onMouseDown={(e) => e.preventDefault()}
             >
               {suggestion}
             </div>
@@ -119,7 +120,7 @@ export const BrandSelect = ({ brand, setBrand }: BrandSelectProps) => {
             <div
               className="px-4 py-2 cursor-pointer hover:bg-gray-100 flex items-center text-blue-600"
               onClick={handleAddNewBrand}
-              onMouseDown={(e) => e.preventDefault()} // Prevent input blur
+              onMouseDown={(e) => e.preventDefault()}
             >
               <Plus className="w-4 h-4 mr-2" />
               Add "{inputValue.trim()}"
