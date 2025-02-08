@@ -97,7 +97,6 @@ export const IngredientsSelect = ({
 
   return (
     <div className="space-y-2">
-      <label className="text-sm font-medium">Ingredients</label>
       <div className="flex flex-wrap gap-2 items-center">
         {allIngredients.map((ingredient) => (
           <div
@@ -157,3 +156,4 @@ export const IngredientsSelect = ({
     </div>
   );
 };
+

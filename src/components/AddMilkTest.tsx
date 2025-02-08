@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -139,7 +140,7 @@ export const AddMilkTest = () => {
             />
             <label
               htmlFor="barista"
-              className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              className="text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
             >
               Barista Version
             </label>
@@ -152,7 +153,7 @@ export const AddMilkTest = () => {
             />
             <label
               htmlFor="unsweetened"
-              className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              className="text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
             >
               Unsweetened
             </label>
@@ -165,7 +166,7 @@ export const AddMilkTest = () => {
             />
             <label
               htmlFor="special"
-              className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              className="text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
             >
               Special Edition
             </label>
