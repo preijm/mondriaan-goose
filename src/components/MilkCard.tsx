@@ -20,7 +20,7 @@ interface MilkCardProps {
 
 export const MilkCard = ({ result, showUsername = false }: MilkCardProps) => {
   return (
-    <div className="bg-white rounded-lg shadow-md p-6 animate-fade-up hover:shadow-lg transition-shadow relative">
+    <div className="bg-white rounded-lg shadow-md p-6 animate-fade-up hover:shadow-lg transition-shadow relative min-h-[180px]">
       <div className="flex items-center justify-between mb-2">
         <div className="flex items-center gap-2">
           <Milk className="w-6 h-6 text-milk-400" />
@@ -39,6 +39,10 @@ export const MilkCard = ({ result, showUsername = false }: MilkCardProps) => {
           {result.username}
         </div>
       )}
+      
+      <div className="group-hover:opacity-100 opacity-0 transition-opacity absolute bottom-4 right-4 flex gap-2">
+        {/* The edit and delete buttons will be rendered here by the parent component */}
+      </div>
     </div>
   );
 };
