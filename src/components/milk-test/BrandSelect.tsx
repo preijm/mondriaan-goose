@@ -65,7 +65,7 @@ export const BrandSelect = ({ brand, setBrand }: BrandSelectProps) => {
   const handleSelectBrand = (selectedBrand: string) => {
     setInputValue(selectedBrand);
     setBrand(selectedBrand);
-    setSuggestions([]); // Clear suggestions immediately after selection
+    setSuggestions([]); // Hide dropdown by clearing suggestions
     setShowAddNew(false); // Hide the "Add new" option
   };
 
@@ -92,7 +92,7 @@ export const BrandSelect = ({ brand, setBrand }: BrandSelectProps) => {
     });
     
     setBrand(inputValue.trim());
-    setSuggestions([]);
+    setSuggestions([]); // Hide dropdown by clearing suggestions
     setShowAddNew(false);
   };
 

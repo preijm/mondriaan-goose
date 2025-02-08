@@ -80,7 +80,7 @@ export const ShopSelect = ({ shop, setShop }: ShopSelectProps) => {
   const handleSelectShop = (selectedShop: { name: string; country_code: string }) => {
     setInputValue(selectedShop.name);
     setShop(selectedShop.name);
-    setSuggestions([]); // Clear suggestions immediately after selection
+    setSuggestions([]); // Hide dropdown by clearing suggestions
   };
 
   const handleAddNewShop = async () => {
@@ -115,7 +115,7 @@ export const ShopSelect = ({ shop, setShop }: ShopSelectProps) => {
       
       setInputValue(newShopName.trim());
       setShop(newShopName.trim());
-      setSuggestions([]); // Clear suggestions after adding new shop
+      setSuggestions([]); // Hide dropdown by clearing suggestions
     } catch (error) {
       console.error('Error adding shop:', error);
       toast({
