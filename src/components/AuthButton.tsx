@@ -1,8 +1,9 @@
+
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
-import { LogIn, LogOut } from "lucide-react";
+import { LogIn, UserRound } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 
 export const AuthButton = () => {
@@ -29,13 +30,7 @@ export const AuthButton = () => {
 
   const handleAuth = () => {
     if (user) {
-      supabase.auth.signOut().then(() => {
-        toast({
-          title: "Signed out",
-          description: "You've been successfully logged out.",
-        });
-        navigate("/");
-      });
+      navigate('/account');
     } else {
       navigate("/auth");
     }
@@ -48,8 +43,8 @@ export const AuthButton = () => {
     >
       {user ? (
         <div className="flex items-center gap-2">
-          <LogOut className="w-4 h-4" />
-          <span>Sign Out</span>
+          <UserRound className="w-4 h-4" />
+          <span>Account</span>
         </div>
       ) : (
         <div className="flex items-center gap-2">
