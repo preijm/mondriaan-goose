@@ -78,7 +78,8 @@ export const ShopSelect = ({ shop, setShop }: ShopSelectProps) => {
   };
 
   const handleSelectShop = (selectedShop: { name: string; country_code: string }) => {
-    setInputValue(selectedShop.name);
+    const displayValue = `${selectedShop.name} (${selectedShop.country_code})`;
+    setInputValue(displayValue);
     setShop(selectedShop.name);
     setSuggestions([]);
   };
@@ -113,7 +114,8 @@ export const ShopSelect = ({ shop, setShop }: ShopSelectProps) => {
       setIsAddingShop(false);
       refetchShops();
       
-      setInputValue(newShopName.trim());
+      const displayValue = `${newShopName.trim()} (${selectedCountryCode})`;
+      setInputValue(displayValue);
       setShop(newShopName.trim());
       setSuggestions([]);
     } catch (error) {
@@ -128,9 +130,14 @@ export const ShopSelect = ({ shop, setShop }: ShopSelectProps) => {
 
   useEffect(() => {
     if (shop) {
-      setInputValue(shop);
+      const selectedShop = shops.find(s => s.name === shop);
+      if (selectedShop) {
+        setInputValue(`${selectedShop.name} (${selectedShop.country_code})`);
+      } else {
+        setInputValue(shop);
+      }
     }
-  }, [shop]);
+  }, [shop, shops]);
 
   return (
     <div className="space-y-4">
@@ -199,4 +206,3 @@ export const ShopSelect = ({ shop, setShop }: ShopSelectProps) => {
     </div>
   );
 };
-
