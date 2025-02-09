@@ -29,6 +29,7 @@ interface EditMilkTestProps {
     is_barista?: boolean;
     is_unsweetened?: boolean;
     is_special_edition?: boolean;
+    is_no_sugar?: boolean;
     rating: number;
     notes?: string;
   };
@@ -47,6 +48,7 @@ export const EditMilkTest = ({ test, open, onOpenChange, onSuccess }: EditMilkTe
   const [isBarista, setIsBarista] = useState(test.is_barista || false);
   const [isUnsweetened, setIsUnsweetened] = useState(test.is_unsweetened || false);
   const [isSpecialEdition, setIsSpecialEdition] = useState(test.is_special_edition || false);
+  const [isNoSugar, setIsNoSugar] = useState(test.is_no_sugar || false);
   const [shop, setShop] = useState(test.shop || "");
   const [allIngredients, setAllIngredients] = useState<string[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -78,6 +80,7 @@ export const EditMilkTest = ({ test, open, onOpenChange, onSuccess }: EditMilkTe
           is_barista: isBarista,
           is_unsweetened: isUnsweetened,
           is_special_edition: isSpecialEdition,
+          is_no_sugar: isNoSugar,
           rating,
           notes,
         })
@@ -178,6 +181,19 @@ export const EditMilkTest = ({ test, open, onOpenChange, onSuccess }: EditMilkTe
                   className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                 >
                   Special Edition
+                </label>
+              </div>
+              <div className="flex items-center space-x-2">
+                <Checkbox
+                  id="no-sugar-edit"
+                  checked={isNoSugar}
+                  onCheckedChange={(checked) => setIsNoSugar(checked as boolean)}
+                />
+                <label
+                  htmlFor="no-sugar-edit"
+                  className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                >
+                  No Sugar
                 </label>
               </div>
             </div>

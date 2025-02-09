@@ -57,11 +57,13 @@ export const AddMilkTest = () => {
           setIsUnsweetened={formSetters.setIsUnsweetened}
           isSpecialEdition={formState.isSpecialEdition}
           setIsSpecialEdition={formSetters.setIsSpecialEdition}
+          isNoSugar={formState.isNoSugar}
+          setIsNoSugar={formSetters.setIsNoSugar}
         />
       </div>
 
       <div className="space-y-4">
-        <h2 className="text-xl font-semibold text-gray-900">How do you drink it?</h2>
+        <h2 className="text-xl font-semibold text-gray-900">Drinking Style</h2>
         <DrinkPreference
           preference={formState.drinkPreference}
           setPreference={formSetters.setDrinkPreference}
@@ -90,4 +92,3 @@ export const AddMilkTest = () => {
     </form>
   );
 };
-

@@ -75,6 +75,7 @@ export type Database = {
           id: string
           ingredients: string[] | null
           is_barista: boolean | null
+          is_no_sugar: boolean | null
           is_special_edition: boolean | null
           is_unsweetened: boolean | null
           notes: string | null
@@ -93,6 +94,7 @@ export type Database = {
           id?: string
           ingredients?: string[] | null
           is_barista?: boolean | null
+          is_no_sugar?: boolean | null
           is_special_edition?: boolean | null
           is_unsweetened?: boolean | null
           notes?: string | null
@@ -111,6 +113,7 @@ export type Database = {
           id?: string
           ingredients?: string[] | null
           is_barista?: boolean | null
+          is_no_sugar?: boolean | null
           is_special_edition?: boolean | null
           is_unsweetened?: boolean | null
           notes?: string | null

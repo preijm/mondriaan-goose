@@ -8,6 +8,8 @@ interface ProductOptionsProps {
   setIsUnsweetened: (checked: boolean) => void;
   isSpecialEdition: boolean;
   setIsSpecialEdition: (checked: boolean) => void;
+  isNoSugar: boolean;
+  setIsNoSugar: (checked: boolean) => void;
 }
 
 export const ProductOptions = ({
@@ -17,6 +19,8 @@ export const ProductOptions = ({
   setIsUnsweetened,
   isSpecialEdition,
   setIsSpecialEdition,
+  isNoSugar,
+  setIsNoSugar,
 }: ProductOptionsProps) => {
   return (
     <div className="space-y-4">
@@ -58,6 +62,19 @@ export const ProductOptions = ({
             className="text-sm leading-none text-gray-600"
           >
             Special Edition
+          </label>
+        </div>
+        <div className="flex items-center space-x-2">
+          <Checkbox
+            id="no-sugar"
+            checked={isNoSugar}
+            onCheckedChange={(checked) => setIsNoSugar(checked as boolean)}
+          />
+          <label
+            htmlFor="no-sugar"
+            className="text-sm leading-none text-gray-600"
+          >
+            No Sugar
           </label>
         </div>
       </div>

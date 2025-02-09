@@ -14,6 +14,7 @@ export const useMilkTestForm = () => {
   const [isBarista, setIsBarista] = useState(false);
   const [isUnsweetened, setIsUnsweetened] = useState(false);
   const [isSpecialEdition, setIsSpecialEdition] = useState(false);
+  const [isNoSugar, setIsNoSugar] = useState(false);
   const [shop, setShop] = useState<string>("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [allIngredients, setAllIngredients] = useState<string[]>([]);
@@ -71,6 +72,7 @@ export const useMilkTestForm = () => {
           is_barista: isBarista,
           is_unsweetened: isUnsweetened,
           is_special_edition: isSpecialEdition,
+          is_no_sugar: isNoSugar,
           rating,
           notes,
           drink_preference: drinkPreference,
@@ -109,6 +111,7 @@ export const useMilkTestForm = () => {
       isBarista,
       isUnsweetened,
       isSpecialEdition,
+      isNoSugar,
       shop,
       isSubmitting,
       allIngredients,
@@ -124,6 +127,7 @@ export const useMilkTestForm = () => {
       setIsBarista,
       setIsUnsweetened,
       setIsSpecialEdition,
+      setIsNoSugar,
       setShop,
       setAllIngredients,
       setDrinkPreference,
