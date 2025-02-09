@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Navigation } from "@/components/Navigation";
 import { useQuery } from "@tanstack/react-query";
@@ -9,7 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Pencil, Trash2, ArrowUpDown, ChevronDown, ChevronUp } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 import { EditMilkTest } from "@/components/milk-test/EditMilkTest";
-import { StatsOverview } from "@/components/StatsOverview";
+import { UserStatsOverview } from "@/components/UserStatsOverview";
 import {
   Table,
   TableBody,
@@ -124,7 +123,7 @@ const MyResults = () => {
         <Navigation />
         <h1 className="text-3xl font-bold text-gray-900 mb-8">My Results</h1>
         
-        <StatsOverview results={results} />
+        <UserStatsOverview results={results} />
         
         <div className="bg-white rounded-lg shadow-md p-6">
           <div className="mb-4">
