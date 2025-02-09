@@ -13,7 +13,7 @@ export const DrinkPreference = ({ preference, setPreference }: DrinkPreferencePr
       <button
         type="button"
         onClick={() => setPreference("cold")}
-        className={`flex flex-col items-center p-3 rounded-lg transition-all ${
+        className={`flex flex-col items-center p-3 rounded-lg transition-all w-24 ${
           preference === "cold"
             ? "bg-soft-blue text-blue-600"
             : "bg-gray-100 text-gray-600 hover:bg-gray-200"
@@ -25,7 +25,7 @@ export const DrinkPreference = ({ preference, setPreference }: DrinkPreferencePr
       <button
         type="button"
         onClick={() => setPreference("hot")}
-        className={`flex flex-col items-center p-3 rounded-lg transition-all ${
+        className={`flex flex-col items-center p-3 rounded-lg transition-all w-24 ${
           preference === "hot"
             ? "bg-soft-peach text-orange-600"
             : "bg-gray-100 text-gray-600 hover:bg-gray-200"
@@ -37,7 +37,7 @@ export const DrinkPreference = ({ preference, setPreference }: DrinkPreferencePr
       <button
         type="button"
         onClick={() => setPreference("coffee")}
-        className={`flex flex-col items-center p-3 rounded-lg transition-all ${
+        className={`flex flex-col items-center p-3 rounded-lg transition-all w-24 ${
           preference === "coffee"
             ? "bg-soft-orange text-brown-600"
             : "bg-gray-100 text-gray-600 hover:bg-gray-200"
@@ -49,3 +49,4 @@ export const DrinkPreference = ({ preference, setPreference }: DrinkPreferencePr
     </div>
   );
 };
+

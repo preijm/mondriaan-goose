@@ -51,7 +51,6 @@ export const BrandSelect = ({ brand, setBrand }: BrandSelectProps) => {
 
     setSuggestions(filteredBrands);
     
-    // Show add new option only if there's no exact match
     const exactMatch = brands.some(
       b => b.name.toLowerCase() === inputValue.trim().toLowerCase()
     );
@@ -65,8 +64,8 @@ export const BrandSelect = ({ brand, setBrand }: BrandSelectProps) => {
   const handleSelectBrand = (selectedBrand: string) => {
     setInputValue(selectedBrand);
     setBrand(selectedBrand);
-    setSuggestions([]); // Hide dropdown by clearing suggestions
-    setShowAddNew(false); // Hide the "Add new" option
+    setSuggestions([]); 
+    setShowAddNew(false);
   };
 
   const handleAddNewBrand = async () => {
@@ -92,7 +91,7 @@ export const BrandSelect = ({ brand, setBrand }: BrandSelectProps) => {
     });
     
     setBrand(inputValue.trim());
-    setSuggestions([]); // Hide dropdown by clearing suggestions
+    setSuggestions([]);
     setShowAddNew(false);
   };
 
@@ -118,7 +117,7 @@ export const BrandSelect = ({ brand, setBrand }: BrandSelectProps) => {
           ))}
           {showAddNew && (
             <div
-              className="px-4 py-2 cursor-pointer hover:bg-gray-100 flex items-center text-blue-600"
+              className="px-4 py-2 cursor-pointer hover:bg-gray-100 flex items-center text-gray-700"
               onClick={handleAddNewBrand}
               onMouseDown={(e) => e.preventDefault()}
             >
@@ -131,3 +130,4 @@ export const BrandSelect = ({ brand, setBrand }: BrandSelectProps) => {
     </div>
   );
 };
+

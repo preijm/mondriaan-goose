@@ -27,6 +27,20 @@ export const AddMilkTest = () => {
       />
 
       <div className="space-y-4">
+        <h2 className="text-xl font-semibold text-gray-900">Judgement</h2>
+        <RatingSelect 
+          rating={formState.rating} 
+          setRating={formSetters.setRating} 
+        />
+        <Textarea
+          placeholder="Tasting notes..."
+          value={formState.notes}
+          onChange={(e) => formSetters.setNotes(e.target.value)}
+          className="w-full"
+        />
+      </div>
+
+      <div className="space-y-4">
         <h2 className="text-xl font-semibold text-gray-900">Buying Location</h2>
         <ShopSelect
           shop={formState.shop}
@@ -66,20 +80,6 @@ export const AddMilkTest = () => {
         />
       </div>
 
-      <div className="space-y-4">
-        <h2 className="text-xl font-semibold text-gray-900">Judgement</h2>
-        <RatingSelect 
-          rating={formState.rating} 
-          setRating={formSetters.setRating} 
-        />
-        <Textarea
-          placeholder="Tasting notes..."
-          value={formState.notes}
-          onChange={(e) => formSetters.setNotes(e.target.value)}
-          className="w-full"
-        />
-      </div>
-
       <Button 
         type="submit" 
         className="w-full bg-cream-300 hover:bg-cream-200 text-milk-500"
@@ -90,3 +90,4 @@ export const AddMilkTest = () => {
     </form>
   );
 };
+

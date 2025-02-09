@@ -3,10 +3,10 @@ import React, { useState, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
 import { Plus } from "lucide-react";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import {
   Select,
   SelectContent,
@@ -80,7 +80,7 @@ export const ShopSelect = ({ shop, setShop }: ShopSelectProps) => {
   const handleSelectShop = (selectedShop: { name: string; country_code: string }) => {
     setInputValue(selectedShop.name);
     setShop(selectedShop.name);
-    setSuggestions([]); // Hide dropdown by clearing suggestions
+    setSuggestions([]);
   };
 
   const handleAddNewShop = async () => {
@@ -115,7 +115,7 @@ export const ShopSelect = ({ shop, setShop }: ShopSelectProps) => {
       
       setInputValue(newShopName.trim());
       setShop(newShopName.trim());
-      setSuggestions([]); // Hide dropdown by clearing suggestions
+      setSuggestions([]);
     } catch (error) {
       console.error('Error adding shop:', error);
       toast({
@@ -157,48 +157,46 @@ export const ShopSelect = ({ shop, setShop }: ShopSelectProps) => {
             </div>
           )}
         </div>
-        <Dialog open={isAddingShop} onOpenChange={setIsAddingShop}>
-          <DialogTrigger asChild>
+        <Popover>
+          <PopoverTrigger asChild>
             <Button variant="outline" size="icon">
               <Plus className="h-4 w-4" />
             </Button>
-          </DialogTrigger>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>Add New Shop</DialogTitle>
-            </DialogHeader>
-            <div className="space-y-4 py-4">
-              <div className="space-y-2">
-                <Input
-                  placeholder="Shop name"
-                  value={newShopName}
-                  onChange={(e) => setNewShopName(e.target.value)}
-                />
-              </div>
-              <div className="space-y-2">
-                <Select
-                  value={selectedCountryCode}
-                  onValueChange={setSelectedCountryCode}
-                >
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select country" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {countries.map((country) => (
-                      <SelectItem key={country.code} value={country.code}>
-                        {country.name} ({country.code})
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-              <Button onClick={handleAddNewShop} className="w-full">
+          </PopoverTrigger>
+          <PopoverContent className="w-64 p-2">
+            <div className="space-y-4">
+              <Input
+                placeholder="Shop name"
+                value={newShopName}
+                onChange={(e) => setNewShopName(e.target.value)}
+                className="w-full"
+              />
+              <Select
+                value={selectedCountryCode}
+                onValueChange={setSelectedCountryCode}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Select country" />
+                </SelectTrigger>
+                <SelectContent>
+                  {countries.map((country) => (
+                    <SelectItem key={country.code} value={country.code}>
+                      {country.name} ({country.code})
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <Button
+                onClick={handleAddNewShop}
+                className="w-full bg-cream-300 hover:bg-cream-200 text-milk-500"
+              >
                 Add Shop
               </Button>
             </div>
-          </DialogContent>
-        </Dialog>
+          </PopoverContent>
+        </Popover>
       </div>
     </div>
   );
 };
+
