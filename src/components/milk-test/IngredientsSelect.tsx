@@ -123,7 +123,7 @@ export const IngredientsSelect = ({
               <Plus className="h-4 w-4 text-cream-700" />
             </Button>
           </PopoverTrigger>
-          <PopoverContent className="w-64 p-2">
+          <PopoverContent className="w-64 p-2" align="center">
             <div className="flex gap-2">
               <Input
                 placeholder="Add new ingredient"

@@ -134,6 +134,30 @@ export type Database = {
           },
         ]
       }
+      product_types: {
+        Row: {
+          created_at: string
+          id: string
+          key: string
+          name: string
+          ordering: number
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          key: string
+          name: string
+          ordering: number
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          key?: string
+          name?: string
+          ordering?: number
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           avatar_url: string | null
