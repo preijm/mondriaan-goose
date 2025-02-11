@@ -1,20 +1,15 @@
 
 import React, { useState, useEffect } from "react";
-import { Input } from "@/components/ui/input";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
 import { Plus } from "lucide-react";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { ShopSuggestions } from "./shop/ShopSuggestions";
+import { AddShopForm } from "./shop/AddShopForm";
+import { ShopSearchInput } from "./shop/ShopSearchInput";
 
 interface ShopSelectProps {
   shop: string | null;
@@ -24,7 +19,6 @@ interface ShopSelectProps {
 export const ShopSelect = ({ shop, setShop }: ShopSelectProps) => {
   const [suggestions, setSuggestions] = useState<{ name: string; country_code: string }[]>([]);
   const [inputValue, setInputValue] = useState("");
-  const [isAddingShop, setIsAddingShop] = useState(false);
   const [newShopName, setNewShopName] = useState("");
   const [selectedCountryCode, setSelectedCountryCode] = useState("");
   const { toast } = useToast();
@@ -75,10 +69,6 @@ export const ShopSelect = ({ shop, setShop }: ShopSelectProps) => {
     setSuggestions(filteredShops);
   }, [inputValue, shops]);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInputValue(e.target.value);
-  };
-
   const handleSelectShop = (selectedShop: { name: string; country_code: string }) => {
     const displayValue = `${selectedShop.name} (${selectedShop.country_code})`;
     setInputValue(displayValue);
@@ -113,13 +103,12 @@ export const ShopSelect = ({ shop, setShop }: ShopSelectProps) => {
 
       setNewShopName("");
       setSelectedCountryCode("");
-      setIsAddingShop(false);
-      refetchShops();
       
       const displayValue = `${newShopName.trim()} (${selectedCountryCode})`;
       setInputValue(displayValue);
       setShop(newShopName.trim());
       setSuggestions([]);
+      refetchShops();
     } catch (error) {
       console.error('Error adding shop:', error);
       toast({
@@ -145,26 +134,14 @@ export const ShopSelect = ({ shop, setShop }: ShopSelectProps) => {
     <div className="space-y-4">
       <div className="flex gap-2">
         <div className="relative flex-1">
-          <Input
-            placeholder="Enter shop name..."
+          <ShopSearchInput
             value={inputValue}
-            onChange={handleInputChange}
-            className="w-full"
+            onChange={(e) => setInputValue(e.target.value)}
           />
-          {suggestions.length > 0 && (
-            <div className="absolute z-10 w-full mt-1 bg-white border rounded-md shadow-lg">
-              {suggestions.map((suggestion) => (
-                <div
-                  key={suggestion.name}
-                  className="px-4 py-2 cursor-pointer hover:bg-gray-100"
-                  onClick={() => handleSelectShop(suggestion)}
-                  onMouseDown={(e) => e.preventDefault()}
-                >
-                  {suggestion.name} ({suggestion.country_code})
-                </div>
-              ))}
-            </div>
-          )}
+          <ShopSuggestions
+            suggestions={suggestions}
+            onSelect={handleSelectShop}
+          />
         </div>
         <Popover>
           <PopoverTrigger asChild>
@@ -183,35 +160,14 @@ export const ShopSelect = ({ shop, setShop }: ShopSelectProps) => {
               transform: 'translateX(-50%)',
             } : undefined}
           >
-            <div className="space-y-4">
-              <Input
-                placeholder="Shop name"
-                value={newShopName}
-                onChange={(e) => setNewShopName(e.target.value)}
-                className="w-full"
-              />
-              <Select
-                value={selectedCountryCode}
-                onValueChange={setSelectedCountryCode}
-              >
-                <SelectTrigger>
-                  <SelectValue placeholder="Select country" />
-                </SelectTrigger>
-                <SelectContent>
-                  {countries.map((country) => (
-                    <SelectItem key={country.code} value={country.code}>
-                      {country.name} ({country.code})
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-              <Button
-                onClick={handleAddNewShop}
-                className="w-full bg-cream-300 hover:bg-cream-200 text-milk-500"
-              >
-                Add Shop
-              </Button>
-            </div>
+            <AddShopForm
+              newShopName={newShopName}
+              setNewShopName={setNewShopName}
+              selectedCountryCode={selectedCountryCode}
+              setSelectedCountryCode={setSelectedCountryCode}
+              onAdd={handleAddNewShop}
+              countries={countries}
+            />
           </PopoverContent>
         </Popover>
       </div>
