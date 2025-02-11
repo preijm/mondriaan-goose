@@ -1,6 +1,6 @@
 
 import React from "react";
-import { IceCream, Flame, Coffee } from "lucide-react";
+import { IceCream, Flame, Coffee, CupSoda } from "lucide-react";
 
 interface DrinkPreferenceProps {
   preference: string;
@@ -39,14 +39,25 @@ export const DrinkPreference = ({ preference, setPreference }: DrinkPreferencePr
         onClick={() => setPreference("coffee")}
         className={`flex flex-col items-center p-3 rounded-lg transition-all w-24 ${
           preference === "coffee"
-            ? "bg-soft-orange text-brown-600"
+            ? "bg-amber-100 text-amber-800"
             : "bg-gray-100 text-gray-600 hover:bg-gray-200"
         }`}
       >
         <Coffee className="w-8 h-8 mb-1" />
         <span className="text-sm">Coffee</span>
       </button>
+      <button
+        type="button"
+        onClick={() => setPreference("tea")}
+        className={`flex flex-col items-center p-3 rounded-lg transition-all w-24 ${
+          preference === "tea"
+            ? "bg-gray-200 text-gray-900"
+            : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+        }`}
+      >
+        <CupSoda className="w-8 h-8 mb-1" />
+        <span className="text-sm">Tea</span>
+      </button>
     </div>
   );
 };
-
