@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -7,6 +6,7 @@ import { Plus } from "lucide-react";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/components/ui/use-toast";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface IngredientsSelectProps {
   ingredients: string[];
@@ -27,6 +27,7 @@ export const IngredientsSelect = ({
 }: IngredientsSelectProps) => {
   const [open, setOpen] = useState(false);
   const { toast } = useToast();
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     fetchIngredients();
@@ -144,7 +145,17 @@ export const IngredientsSelect = ({
               <Plus className="h-4 w-4 text-cream-700" />
             </Button>
           </PopoverTrigger>
-          <PopoverContent className="w-64 p-2" align="center">
+          <PopoverContent 
+            className="w-[90vw] sm:w-64 p-4" 
+            align="center"
+            side="bottom"
+            sideOffset={8}
+            style={isMobile ? {
+              position: 'fixed',
+              left: '50%',
+              transform: 'translateX(-50%)',
+            } : undefined}
+          >
             <div className="flex gap-2">
               <Input
                 placeholder="Add new ingredient"

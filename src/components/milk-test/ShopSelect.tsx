@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { useQuery } from "@tanstack/react-query";
@@ -176,11 +177,11 @@ export const ShopSelect = ({ shop, setShop }: ShopSelectProps) => {
             align="center"
             side="bottom"
             sideOffset={8}
-            style={{
+            style={isMobile ? {
               position: 'fixed',
               left: '50%',
               transform: 'translateX(-50%)',
-            }}
+            } : undefined}
           >
             <div className="space-y-4">
               <Input
