@@ -27,7 +27,7 @@ export const AddMilkTest = () => {
       />
 
       <div className="space-y-4">
-        <h2 className="text-xl font-semibold text-gray-900">Judgement</h2>
+        <h2 className="text-xl font-semibold text-gray-900">Rating</h2>
         <RatingSelect 
           rating={formState.rating} 
           setRating={formSetters.setRating} 

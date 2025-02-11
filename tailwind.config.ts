@@ -65,6 +65,10 @@ export default {
           200: "#fff3e0",
           300: "#ffe0b2",
         },
+        "soft-blue": "#D3E4FD",
+        "soft-peach": "#FDE1D3",
+        "soft-brown": "#F5E6D3",
+        "soft-gray": "#E5E7EB",
       },
       borderRadius: {
         lg: "var(--radius)",

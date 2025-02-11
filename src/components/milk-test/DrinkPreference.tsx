@@ -39,7 +39,7 @@ export const DrinkPreference = ({ preference, setPreference }: DrinkPreferencePr
         onClick={() => setPreference("coffee")}
         className={`flex flex-col items-center p-3 rounded-lg transition-all w-24 ${
           preference === "coffee"
-            ? "bg-amber-100 text-amber-800"
+            ? "bg-soft-brown text-amber-800"
             : "bg-gray-100 text-gray-600 hover:bg-gray-200"
         }`}
       >
@@ -51,7 +51,7 @@ export const DrinkPreference = ({ preference, setPreference }: DrinkPreferencePr
         onClick={() => setPreference("tea")}
         className={`flex flex-col items-center p-3 rounded-lg transition-all w-24 ${
           preference === "tea"
-            ? "bg-gray-200 text-gray-900"
+            ? "bg-soft-gray text-gray-900"
             : "bg-gray-100 text-gray-600 hover:bg-gray-200"
         }`}
       >
