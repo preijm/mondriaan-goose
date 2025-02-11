@@ -1,5 +1,7 @@
+
 import React from "react";
 import { IceCream, Flame, Coffee } from "lucide-react";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface DrinkPreferenceProps {
   preference: string;
@@ -7,56 +9,53 @@ interface DrinkPreferenceProps {
 }
 
 export const DrinkPreference = ({ preference, setPreference }: DrinkPreferenceProps) => {
+  const isMobile = useIsMobile();
+
+  const buttons = [
+    {
+      value: "cold",
+      icon: IceCream,
+      label: "Cold",
+      activeClass: "bg-soft-blue text-blue-600",
+    },
+    {
+      value: "hot",
+      icon: Flame,
+      label: "Hot",
+      activeClass: "bg-soft-peach text-orange-600",
+    },
+    {
+      value: "coffee",
+      icon: Coffee,
+      label: "Coffee",
+      activeClass: "bg-soft-brown text-amber-800",
+    },
+    {
+      value: "tea",
+      icon: Coffee,
+      label: "Tea",
+      activeClass: "bg-soft-gray text-gray-900",
+      iconClass: "rotate-[15deg]",
+    },
+  ];
+
   return (
-    <div className="flex gap-4">
-      <button
-        type="button"
-        onClick={() => setPreference("cold")}
-        className={`flex flex-col items-center p-3 rounded-lg transition-all w-24 ${
-          preference === "cold"
-            ? "bg-soft-blue text-blue-600"
-            : "bg-gray-100 text-gray-600 hover:bg-gray-200"
-        }`}
-      >
-        <IceCream className="w-8 h-8 mb-1" />
-        <span className="text-sm">Cold</span>
-      </button>
-      <button
-        type="button"
-        onClick={() => setPreference("hot")}
-        className={`flex flex-col items-center p-3 rounded-lg transition-all w-24 ${
-          preference === "hot"
-            ? "bg-soft-peach text-orange-600"
-            : "bg-gray-100 text-gray-600 hover:bg-gray-200"
-        }`}
-      >
-        <Flame className="w-8 h-8 mb-1" />
-        <span className="text-sm">Hot</span>
-      </button>
-      <button
-        type="button"
-        onClick={() => setPreference("coffee")}
-        className={`flex flex-col items-center p-3 rounded-lg transition-all w-24 ${
-          preference === "coffee"
-            ? "bg-soft-brown text-amber-800"
-            : "bg-gray-100 text-gray-600 hover:bg-gray-200"
-        }`}
-      >
-        <Coffee className="w-8 h-8 mb-1" />
-        <span className="text-sm">Coffee</span>
-      </button>
-      <button
-        type="button"
-        onClick={() => setPreference("tea")}
-        className={`flex flex-col items-center p-3 rounded-lg transition-all w-24 ${
-          preference === "tea"
-            ? "bg-soft-gray text-gray-900"
-            : "bg-gray-100 text-gray-600 hover:bg-gray-200"
-        }`}
-      >
-        <Coffee className="w-8 h-8 mb-1 rotate-[15deg]" />
-        <span className="text-sm">Tea</span>
-      </button>
+    <div className={`grid ${isMobile ? 'grid-cols-2' : 'grid-cols-4'} gap-4`}>
+      {buttons.map(({ value, icon: Icon, label, activeClass, iconClass }) => (
+        <button
+          key={value}
+          type="button"
+          onClick={() => setPreference(value)}
+          className={`flex flex-col items-center p-3 rounded-lg transition-all ${
+            preference === value
+              ? activeClass
+              : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+          }`}
+        >
+          <Icon className={`w-8 h-8 mb-1 ${iconClass || ''}`} />
+          <span className="text-sm">{label}</span>
+        </button>
+      ))}
     </div>
   );
 };
