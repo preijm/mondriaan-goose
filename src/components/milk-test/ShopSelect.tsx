@@ -173,15 +173,13 @@ export const ShopSelect = ({ shop, setShop }: ShopSelectProps) => {
           </PopoverTrigger>
           <PopoverContent 
             className="w-[90vw] sm:w-64 p-4" 
-            align={isMobile ? "center" : "start"}
+            align="center"
             side="bottom"
-            sideOffset={4}
-            avoidCollisions={false}
+            sideOffset={8}
             style={{
               position: 'fixed',
-              top: '50%',
               left: '50%',
-              transform: 'translate(-50%, -50%)',
+              transform: 'translateX(-50%)',
             }}
           >
             <div className="space-y-4">
