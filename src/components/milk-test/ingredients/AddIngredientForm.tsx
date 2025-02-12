@@ -17,7 +17,7 @@ export const AddIngredientForm = ({ value, onChange, onAdd, onClose }: AddIngred
         placeholder="Add new ingredient"
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className="flex-1"
+        className="w-3/4"
         autoFocus
         onKeyDown={(e) => {
           if (e.key === 'Enter') {
@@ -31,7 +31,7 @@ export const AddIngredientForm = ({ value, onChange, onAdd, onClose }: AddIngred
         type="button"
         onClick={onAdd}
         disabled={!value}
-        className="w-full bg-cream-300 hover:bg-cream-200 text-milk-500"
+        className="bg-cream-300 hover:bg-cream-200 text-milk-500"
       >
         Add
       </Button>
