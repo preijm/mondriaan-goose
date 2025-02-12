@@ -32,11 +32,11 @@ export const DrinkPreference = ({ preference, setPreference }: DrinkPreferencePr
     },
     {
       value: "tea",
-      CustomIcon: () => (
+      CustomIcon: ({ isSelected }: { isSelected: boolean }) => (
         <img 
           src="/lovable-uploads/824fc11f-251a-4894-8d8e-9dac45dc28ab.png" 
           alt="Tea" 
-          className="w-8 h-8"
+          className={`w-8 h-8 ${!isSelected ? "brightness-0 opacity-40" : ""}`}
         />
       ),
       label: "Tea",
@@ -57,7 +57,11 @@ export const DrinkPreference = ({ preference, setPreference }: DrinkPreferencePr
               : "bg-gray-100 text-gray-600 hover:bg-gray-200"
           }`}
         >
-          {CustomIcon ? <CustomIcon /> : <Icon className="w-8 h-8 mb-1" />}
+          {CustomIcon ? (
+            <CustomIcon isSelected={preference === value} />
+          ) : (
+            <Icon className="w-8 h-8 mb-1" />
+          )}
           <span className="text-sm">{label}</span>
         </button>
       ))}
