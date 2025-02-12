@@ -31,7 +31,7 @@ export const AddIngredientForm = ({ value, onChange, onAdd, onClose }: AddIngred
         type="button"
         onClick={onAdd}
         disabled={!value}
-        className="bg-cream-300 hover:bg-cream-200 text-milk-500"
+        className="bg-cream-300 text-milk-500 hover:bg-cream-200"
       >
         Add
       </Button>
