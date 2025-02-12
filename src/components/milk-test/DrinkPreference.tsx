@@ -32,16 +32,21 @@ export const DrinkPreference = ({ preference, setPreference }: DrinkPreferencePr
     },
     {
       value: "tea",
-      icon: Coffee,
+      CustomIcon: () => (
+        <img 
+          src="/lovable-uploads/824fc11f-251a-4894-8d8e-9dac45dc28ab.png" 
+          alt="Tea" 
+          className="w-8 h-8"
+        />
+      ),
       label: "Tea",
       activeClass: "bg-soft-gray text-gray-900",
-      iconClass: "rotate-[15deg]",
     },
   ];
 
   return (
     <div className={`grid ${isMobile ? 'grid-cols-2' : 'grid-cols-4'} gap-4`}>
-      {buttons.map(({ value, icon: Icon, label, activeClass, iconClass }) => (
+      {buttons.map(({ value, icon: Icon, CustomIcon, label, activeClass }) => (
         <button
           key={value}
           type="button"
@@ -52,7 +57,7 @@ export const DrinkPreference = ({ preference, setPreference }: DrinkPreferencePr
               : "bg-gray-100 text-gray-600 hover:bg-gray-200"
           }`}
         >
-          <Icon className={`w-8 h-8 mb-1 ${iconClass || ''}`} />
+          {CustomIcon ? <CustomIcon /> : <Icon className="w-8 h-8 mb-1" />}
           <span className="text-sm">{label}</span>
         </button>
       ))}
