@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
@@ -164,18 +165,20 @@ export const ShopSelect = ({ shop, setShop }: ShopSelectProps) => {
               overflowY: 'auto',
               backgroundColor: 'white',
               borderRadius: '0.5rem',
-              zIndex: 999,
-              boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)'
+              zIndex: 9999,
+              boxShadow: '0 25px 50px -12px rgb(0 0 0 / 0.25)'
             } : undefined}
           >
-            <AddShopForm
-              newShopName={newShopName}
-              setNewShopName={setNewShopName}
-              selectedCountryCode={selectedCountryCode}
-              setSelectedCountryCode={setSelectedCountryCode}
-              onAdd={handleAddNewShop}
-              countries={countries}
-            />
+            <div className="p-4">
+              <AddShopForm
+                newShopName={newShopName}
+                setNewShopName={setNewShopName}
+                selectedCountryCode={selectedCountryCode}
+                setSelectedCountryCode={setSelectedCountryCode}
+                onAdd={handleAddNewShop}
+                countries={countries}
+              />
+            </div>
           </PopoverContent>
         </Popover>
       </div>

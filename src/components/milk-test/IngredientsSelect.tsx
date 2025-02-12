@@ -152,8 +152,8 @@ export const IngredientsSelect = ({
               overflowY: 'auto',
               backgroundColor: 'white',
               borderRadius: '0.5rem',
-              zIndex: 999,
-              boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)'
+              zIndex: 9999,
+              boxShadow: '0 25px 50px -12px rgb(0 0 0 / 0.25)'
             } : undefined}
           >
             <div className="p-4">
