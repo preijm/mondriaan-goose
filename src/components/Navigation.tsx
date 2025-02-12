@@ -44,7 +44,7 @@ export const Navigation = () => {
       {isMobile ? (
         <Collapsible open={isOpen} onOpenChange={setIsOpen}>
           <div className="flex items-center justify-between mb-2">
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-1">
               <CollapsibleTrigger className="p-2">
                 {isOpen ? (
                   <X className="h-6 w-6 text-milk-500" />
