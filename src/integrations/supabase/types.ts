@@ -114,6 +114,7 @@ export type Database = {
           brand_id: string
           country: string | null
           created_at: string
+          display_name: string | null
           drink_preference: string | null
           id: string
           ingredients: string[] | null
@@ -123,12 +124,12 @@ export type Database = {
           shop_id: string | null
           type: string | null
           user_id: string | null
-          username: string | null
         }
         Insert: {
           brand_id: string
           country?: string | null
           created_at?: string
+          display_name?: string | null
           drink_preference?: string | null
           id?: string
           ingredients?: string[] | null
@@ -138,12 +139,12 @@ export type Database = {
           shop_id?: string | null
           type?: string | null
           user_id?: string | null
-          username?: string | null
         }
         Update: {
           brand_id?: string
           country?: string | null
           created_at?: string
+          display_name?: string | null
           drink_preference?: string | null
           id?: string
           ingredients?: string[] | null
@@ -153,7 +154,6 @@ export type Database = {
           shop_id?: string | null
           type?: string | null
           user_id?: string | null
-          username?: string | null
         }
         Relationships: [
           {
@@ -207,6 +207,7 @@ export type Database = {
         Row: {
           avatar_url: string | null
           created_at: string
+          display_name: string | null
           id: string
           updated_at: string
           username: string
@@ -214,6 +215,7 @@ export type Database = {
         Insert: {
           avatar_url?: string | null
           created_at?: string
+          display_name?: string | null
           id: string
           updated_at?: string
           username: string
@@ -221,6 +223,7 @@ export type Database = {
         Update: {
           avatar_url?: string | null
           created_at?: string
+          display_name?: string | null
           id?: string
           updated_at?: string
           username?: string
@@ -264,6 +267,7 @@ export type Database = {
           brand_id: string | null
           country: string | null
           created_at: string | null
+          display_name: string | null
           drink_preference: string | null
           id: string | null
           ingredients: string[] | null
@@ -277,7 +281,6 @@ export type Database = {
           shop_name: string | null
           type: string | null
           user_id: string | null
-          username: string | null
         }
         Relationships: [
           {

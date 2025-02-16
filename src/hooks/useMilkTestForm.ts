@@ -54,7 +54,7 @@ export const useMilkTestForm = () => {
 
       const { data: profileData } = await supabase
         .from('profiles')
-        .select('username')
+        .select('display_name')
         .eq('id', userData.user.id)
         .maybeSingle();
 
@@ -70,7 +70,7 @@ export const useMilkTestForm = () => {
           notes,
           drink_preference: drinkPreference,
           user_id: userData.user.id,
-          username: profileData?.username || null
+          display_name: profileData?.display_name || null
         })
         .select()
         .single();

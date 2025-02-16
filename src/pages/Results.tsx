@@ -29,12 +29,7 @@ const Results = () => {
     queryFn: async () => {
       const { data, error } = await supabase
         .from('milk_tests_with_brands')
-        .select(`
-          *,
-          profiles:user_id (
-            username
-          )
-        `)
+        .select('*')
         .order(sortConfig.column, { ascending: sortConfig.direction === 'asc' });
       
       if (error) throw error;
@@ -63,7 +58,7 @@ const Results = () => {
     return (
       result.brand.toLowerCase().includes(searchString) ||
       (result.type || "").toLowerCase().includes(searchString) ||
-      ((result.profiles?.username || "")).toLowerCase().includes(searchString)
+      (result.display_name || "").toLowerCase().includes(searchString)
     );
   });
 
@@ -159,7 +154,7 @@ const Results = () => {
                       <span className="font-semibold text-milk-500">{Number(result.rating).toFixed(1)}</span>
                     </div>
                   </TableCell>
-                  <TableCell>{result.profiles?.username || "Anonymous"}</TableCell>
+                  <TableCell>{result.display_name || "Anonymous"}</TableCell>
                   <TableCell className="max-w-xs truncate">{result.notes}</TableCell>
                 </TableRow>
               ))}

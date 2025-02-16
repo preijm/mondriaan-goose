@@ -10,7 +10,7 @@ interface MilkTestResult {
   rating: number;
   notes: string | null;
   created_at: string;
-  username?: string | null;
+  display_name?: string | null;
   product_name?: string;
 }
 
@@ -36,9 +36,9 @@ export const MilkCard = ({ result, showUsername = false }: MilkCardProps) => {
         <span className="inline-block text-milk-500 text-sm">
           {result.type}
         </span>
-        {showUsername && result.username && (
+        {showUsername && result.display_name && (
           <span className="inline-block bg-blue-100 text-blue-800 rounded-full px-3 py-1 text-sm ml-2">
-            {result.username}
+            {result.display_name}
           </span>
         )}
       </div>
