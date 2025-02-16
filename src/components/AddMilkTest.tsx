@@ -20,8 +20,8 @@ export const AddMilkTest = () => {
   return (
     <form onSubmit={handleSubmit} className="space-y-8 bg-white rounded-lg shadow-md p-6 animate-fade-up">
       <ProductInformation
-        brand={formState.brand}
-        setBrand={formSetters.setBrand}
+        brandId={formState.brandId}
+        setBrandId={formSetters.setBrandId}
         productName={formState.productName}
         setProductName={formSetters.setProductName}
       />

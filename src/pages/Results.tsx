@@ -25,10 +25,10 @@ const Results = () => {
   const [sortConfig, setSortConfig] = useState<SortConfig>({ column: 'created_at', direction: 'desc' });
 
   const { data: results = [], isLoading, error } = useQuery({
-    queryKey: ['milk-tests', sortConfig], // Add sortConfig to queryKey to trigger refetch
+    queryKey: ['milk-tests', sortConfig],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from('milk_tests')
+        .from('milk_tests_with_brands')
         .select(`
           *,
           profiles:user_id (

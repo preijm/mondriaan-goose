@@ -11,9 +11,8 @@ const Dashboard = () => {
     queryKey: ['milk-tests'],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from('milk_tests')
-        .select('*')
-        .order('created_at', { ascending: false });
+        .from('milk_tests_with_brands')
+        .select('*');
       
       if (error) throw error;
       return data;

@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { Navigation } from "@/components/Navigation";
 import { useQuery } from "@tanstack/react-query";
@@ -40,7 +41,7 @@ const MyResults = () => {
       }
       
       const { data, error } = await supabase
-        .from('milk_tests')
+        .from('milk_tests_with_brands')
         .select('*')
         .eq('user_id', user.id)
         .order(sortConfig.column, { ascending: sortConfig.direction === 'asc' });
