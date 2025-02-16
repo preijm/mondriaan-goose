@@ -22,6 +22,7 @@ interface EditMilkTestProps {
   test: {
     id: string;
     brand: string;
+    brand_id: string;
     product_name?: string;
     ingredients?: string[];
     country?: string;
@@ -40,7 +41,7 @@ interface EditMilkTestProps {
 
 export const EditMilkTest = ({ test, open, onOpenChange, onSuccess }: EditMilkTestProps) => {
   const [rating, setRating] = useState(test.rating);
-  const [brand, setBrand] = useState(test.brand);
+  const [brandId, setBrandId] = useState(test.brand_id);
   const [productName, setProductName] = useState(test.product_name || "");
   const [ingredients, setIngredients] = useState<string[]>(test.ingredients || []);
   const [newIngredient, setNewIngredient] = useState("");
@@ -58,7 +59,7 @@ export const EditMilkTest = ({ test, open, onOpenChange, onSuccess }: EditMilkTe
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!brand || !rating) {
+    if (!brandId || !rating) {
       toast({
         title: "Missing fields",
         description: "Please fill in all required fields",
@@ -73,7 +74,7 @@ export const EditMilkTest = ({ test, open, onOpenChange, onSuccess }: EditMilkTe
       const { error } = await supabase
         .from('milk_tests')
         .update({
-          brand,
+          brand_id: brandId,
           product_name: productName,
           ingredients,
           shop,
@@ -118,8 +119,9 @@ export const EditMilkTest = ({ test, open, onOpenChange, onSuccess }: EditMilkTe
           <div className="space-y-4">
             <h2 className="text-lg font-semibold text-gray-900">Product Information</h2>
             <BrandSelect
-              brand={brand}
-              setBrand={setBrand}
+              brandId={brandId}
+              setBrandId={setBrandId}
+              defaultBrand={test.brand}
             />
             <Input
               placeholder="Product name"

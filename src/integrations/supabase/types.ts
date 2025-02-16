@@ -71,7 +71,7 @@ export type Database = {
       }
       milk_tests: {
         Row: {
-          brand: string
+          brand_id: string
           country: string | null
           created_at: string
           drink_preference: string | null
@@ -90,7 +90,7 @@ export type Database = {
           username: string | null
         }
         Insert: {
-          brand: string
+          brand_id: string
           country?: string | null
           created_at?: string
           drink_preference?: string | null
@@ -109,7 +109,7 @@ export type Database = {
           username?: string | null
         }
         Update: {
-          brand?: string
+          brand_id?: string
           country?: string | null
           created_at?: string
           drink_preference?: string | null
@@ -133,6 +133,13 @@ export type Database = {
             columns: ["user_id"]
             isOneToOne: false
             referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "milk_tests_brand_id_fkey"
+            columns: ["brand_id"]
+            isOneToOne: false
+            referencedRelation: "brands"
             referencedColumns: ["id"]
           },
         ]
@@ -216,7 +223,44 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      milk_tests_with_brands: {
+        Row: {
+          brand: string | null
+          brand_id: string | null
+          country: string | null
+          created_at: string | null
+          drink_preference: string | null
+          id: string | null
+          ingredients: string[] | null
+          is_barista: boolean | null
+          is_no_sugar: boolean | null
+          is_special_edition: boolean | null
+          is_unsweetened: boolean | null
+          notes: string | null
+          product_name: string | null
+          rating: number | null
+          shop: string | null
+          type: string | null
+          user_id: string | null
+          username: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "fk_milk_tests_profiles"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "milk_tests_brand_id_fkey"
+            columns: ["brand_id"]
+            isOneToOne: false
+            referencedRelation: "brands"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Functions: {
       [_ in never]: never

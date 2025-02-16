@@ -7,13 +7,14 @@ import { useToast } from "@/components/ui/use-toast";
 import { Plus } from "lucide-react";
 
 interface BrandSelectProps {
-  brand: string;
-  setBrand: (brand: string) => void;
+  brandId: string;
+  setBrandId: (id: string) => void;
+  defaultBrand?: string;
 }
 
-export const BrandSelect = ({ brand, setBrand }: BrandSelectProps) => {
-  const [suggestions, setSuggestions] = useState<string[]>([]);
-  const [inputValue, setInputValue] = useState(brand);
+export const BrandSelect = ({ brandId, setBrandId, defaultBrand }: BrandSelectProps) => {
+  const [suggestions, setSuggestions] = useState<Array<{ id: string; name: string }>>([]);
+  const [inputValue, setInputValue] = useState(defaultBrand || "");
   const [showAddNew, setShowAddNew] = useState(false);
   const { toast } = useToast();
 
@@ -23,7 +24,7 @@ export const BrandSelect = ({ brand, setBrand }: BrandSelectProps) => {
       console.log('Fetching brands from database...');
       const { data, error } = await supabase
         .from('brands')
-        .select('name')
+        .select('id, name')
         .order('name');
       
       if (error) {
@@ -43,16 +44,14 @@ export const BrandSelect = ({ brand, setBrand }: BrandSelectProps) => {
       return;
     }
 
-    const filteredBrands = brands
-      .map(b => b.name)
-      .filter(name => 
-        name.toLowerCase().includes(inputValue.toLowerCase())
-      );
+    const filteredBrands = brands.filter(brand => 
+      brand.name.toLowerCase().includes(inputValue.toLowerCase())
+    );
 
     setSuggestions(filteredBrands);
     
     const exactMatch = brands.some(
-      b => b.name.toLowerCase() === inputValue.trim().toLowerCase()
+      brand => brand.name.toLowerCase() === inputValue.trim().toLowerCase()
     );
     setShowAddNew(!exactMatch && inputValue.trim() !== '');
   }, [inputValue, brands]);
@@ -61,9 +60,9 @@ export const BrandSelect = ({ brand, setBrand }: BrandSelectProps) => {
     setInputValue(e.target.value);
   };
 
-  const handleSelectBrand = (selectedBrand: string) => {
-    setInputValue(selectedBrand);
-    setBrand(selectedBrand);
+  const handleSelectBrand = (selectedBrand: { id: string; name: string }) => {
+    setInputValue(selectedBrand.name);
+    setBrandId(selectedBrand.id);
     setSuggestions([]); 
     setShowAddNew(false);
   };
@@ -71,9 +70,11 @@ export const BrandSelect = ({ brand, setBrand }: BrandSelectProps) => {
   const handleAddNewBrand = async () => {
     if (inputValue.trim() === '') return;
 
-    const { error } = await supabase
+    const { data, error } = await supabase
       .from('brands')
-      .insert({ name: inputValue.trim() });
+      .insert({ name: inputValue.trim() })
+      .select()
+      .single();
 
     if (error) {
       console.error('Error inserting new brand:', error);
@@ -90,7 +91,7 @@ export const BrandSelect = ({ brand, setBrand }: BrandSelectProps) => {
       description: "New brand added successfully!",
     });
     
-    setBrand(inputValue.trim());
+    setBrandId(data.id);
     setSuggestions([]);
     setShowAddNew(false);
   };
@@ -107,12 +108,12 @@ export const BrandSelect = ({ brand, setBrand }: BrandSelectProps) => {
         <div className="absolute z-10 w-full mt-1 bg-white border rounded-md shadow-lg">
           {suggestions.map((suggestion) => (
             <div
-              key={suggestion}
+              key={suggestion.id}
               className="px-4 py-2 cursor-pointer hover:bg-gray-100"
               onClick={() => handleSelectBrand(suggestion)}
               onMouseDown={(e) => e.preventDefault()}
             >
-              {suggestion}
+              {suggestion.name}
             </div>
           ))}
           {showAddNew && (
@@ -130,4 +131,3 @@ export const BrandSelect = ({ brand, setBrand }: BrandSelectProps) => {
     </div>
   );
 };
-
