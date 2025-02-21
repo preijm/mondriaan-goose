@@ -1,7 +1,14 @@
+
 import React from "react";
 import * as SliderPrimitive from "@radix-ui/react-slider";
 import { Input } from "@/components/ui/input";
-import { CircleDollarSign } from "lucide-react";
+import { 
+  CircleDollarSign, 
+  Euro,
+  PoundSterling,
+  JapaneseYen,
+  Currency
+} from "lucide-react";
 import {
   Select,
   SelectContent,
@@ -21,6 +28,7 @@ interface Currency {
   symbol: string;
   code: string;
   name: string;
+  ordering: number;
 }
 
 export const PriceInput = ({
@@ -37,7 +45,7 @@ export const PriceInput = ({
       const {
         data,
         error
-      } = await supabase.from('currencies').select('symbol, code, name').order('code');
+      } = await supabase.from('currencies').select('symbol, code, name, ordering').order('ordering');
       if (error) {
         console.error('Error fetching currencies:', error);
         throw error;
@@ -60,6 +68,19 @@ export const PriceInput = ({
     }
   };
 
+  const getCurrencyIcon = (symbol: string) => {
+    switch(symbol) {
+      case '€':
+        return <Euro className="h-5 w-5" />;
+      case '£':
+        return <PoundSterling className="h-5 w-5" />;
+      case '¥':
+        return <JapaneseYen className="h-5 w-5" />;
+      default:
+        return <CircleDollarSign className="h-5 w-5" />;
+    }
+  };
+
   const selectedCurrency = currencies.find(curr => curr.symbol === currency);
 
   return <div className="space-y-2 w-full">
@@ -69,7 +90,7 @@ export const PriceInput = ({
             <SliderPrimitive.Range className="absolute h-full bg-cream-300" />
           </SliderPrimitive.Track>
           <SliderPrimitive.Thumb className="block cursor-pointer select-none touch-none">
-            <CircleDollarSign className="h-5 w-5" />
+            {getCurrencyIcon(currency)}
           </SliderPrimitive.Thumb>
         </SliderPrimitive.Root>
         <div className="flex items-center gap-1 min-w-[140px]">
@@ -80,14 +101,16 @@ export const PriceInput = ({
               </SelectValue>
             </SelectTrigger>
             <SelectContent>
-              {currencies.map(curr => <SelectItem key={curr.code} value={curr.symbol}>
+              {currencies.map(curr => (
+                <SelectItem key={curr.code} value={curr.symbol}>
                   <span className="inline-flex items-center gap-2">
                     {curr.symbol}
                     <span className="text-muted-foreground text-sm">
                       {curr.code}
                     </span>
                   </span>
-                </SelectItem>)}
+                </SelectItem>
+              ))}
             </SelectContent>
           </Select>
           <Input 
