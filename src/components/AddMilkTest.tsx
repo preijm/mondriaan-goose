@@ -8,6 +8,7 @@ import { RatingSelect } from "./milk-test/RatingSelect";
 import { ProductInformation } from "./milk-test/ProductInformation";
 import { ProductOptions } from "./milk-test/ProductOptions";
 import { DrinkPreference } from "./milk-test/DrinkPreference";
+import { PriceInput } from "./milk-test/PriceInput";
 import { useMilkTestForm } from "@/hooks/useMilkTestForm";
 
 export const AddMilkTest = () => {
@@ -37,6 +38,14 @@ export const AddMilkTest = () => {
           value={formState.notes}
           onChange={(e) => formSetters.setNotes(e.target.value)}
           className="w-full"
+        />
+      </div>
+
+      <div className="space-y-4">
+        <h2 className="text-xl font-semibold text-gray-900">Price</h2>
+        <PriceInput
+          price={formState.price}
+          setPrice={formSetters.setPrice}
         />
       </div>
 

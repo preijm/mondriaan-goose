@@ -16,6 +16,7 @@ export const useMilkTestForm = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [allIngredients, setAllIngredients] = useState<string[]>([]);
   const [drinkPreference, setDrinkPreference] = useState("cold");
+  const [price, setPrice] = useState("");
 
   const { toast } = useToast();
   const navigate = useNavigate();
@@ -70,7 +71,8 @@ export const useMilkTestForm = () => {
           notes,
           drink_preference: drinkPreference,
           user_id: userData.user.id,
-          display_name: profileData?.display_name || null
+          display_name: profileData?.display_name || null,
+          price: price ? parseFloat(price) : null
         })
         .select()
         .single();
@@ -129,6 +131,7 @@ export const useMilkTestForm = () => {
       isSubmitting,
       allIngredients,
       drinkPreference,
+      price,
     },
     formSetters: {
       setRating,
@@ -141,6 +144,7 @@ export const useMilkTestForm = () => {
       setShop,
       setAllIngredients,
       setDrinkPreference,
+      setPrice,
     },
     handleSubmit,
   };
