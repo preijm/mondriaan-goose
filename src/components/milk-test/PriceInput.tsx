@@ -1,6 +1,7 @@
 
 import React from "react";
 import * as SliderPrimitive from "@radix-ui/react-slider";
+import { Input } from "@/components/ui/input";
 
 interface PriceInputProps {
   price: string;
@@ -10,6 +11,17 @@ interface PriceInputProps {
 export const PriceInput = ({ price, setPrice }: PriceInputProps) => {
   const handlePriceChange = (value: number[]) => {
     setPrice(value[0].toFixed(2));
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    // Only allow numbers and one decimal point with up to 2 decimal places
+    if (value === "" || /^\d*\.?\d{0,2}$/.test(value)) {
+      const numericValue = parseFloat(value);
+      if (isNaN(numericValue) || numericValue <= 5) {
+        setPrice(value);
+      }
+    }
   };
 
   return (
@@ -30,9 +42,15 @@ export const PriceInput = ({ price, setPrice }: PriceInputProps) => {
             <span className="text-lg">€</span>
           </SliderPrimitive.Thumb>
         </SliderPrimitive.Root>
-        <span className="text-right font-semibold">
-          €{parseFloat(price || "0").toFixed(2)}
-        </span>
+        <div className="flex items-center min-w-[80px]">
+          <span className="mr-1 font-semibold">€</span>
+          <Input
+            type="text"
+            value={price}
+            onChange={handleInputChange}
+            className="w-16 text-right"
+          />
+        </div>
       </div>
     </div>
   );
