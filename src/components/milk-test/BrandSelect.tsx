@@ -55,7 +55,6 @@ export const BrandSelect = ({ brandId, setBrandId, defaultBrand }: BrandSelectPr
       brand => brand.name.toLowerCase() === inputValue.trim().toLowerCase()
     );
     setShowAddNew(!exactMatch && inputValue.trim() !== '');
-    setIsDropdownVisible(true);
   }, [inputValue, brands]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -103,11 +102,6 @@ export const BrandSelect = ({ brandId, setBrandId, defaultBrand }: BrandSelectPr
         value={inputValue}
         onChange={handleInputChange}
         onFocus={() => setIsDropdownVisible(true)}
-        onBlur={() => {
-          setTimeout(() => {
-            setIsDropdownVisible(false);
-          }, 200);
-        }}
         className="w-full"
       />
       {isDropdownVisible && (suggestions.length > 0 || showAddNew) && (
@@ -116,7 +110,10 @@ export const BrandSelect = ({ brandId, setBrandId, defaultBrand }: BrandSelectPr
             <div
               key={suggestion.id}
               className="px-4 py-2 cursor-pointer hover:bg-gray-100"
-              onMouseDown={() => handleSelectBrand(suggestion)}
+              onMouseDown={(e) => {
+                e.preventDefault();
+                handleSelectBrand(suggestion);
+              }}
             >
               {suggestion.name}
             </div>
@@ -124,7 +121,10 @@ export const BrandSelect = ({ brandId, setBrandId, defaultBrand }: BrandSelectPr
           {showAddNew && (
             <div
               className="px-4 py-2 cursor-pointer hover:bg-gray-100 flex items-center text-gray-700"
-              onMouseDown={handleAddNewBrand}
+              onMouseDown={(e) => {
+                e.preventDefault();
+                handleAddNewBrand();
+              }}
             >
               <Plus className="w-4 h-4 mr-2" />
               Add "{inputValue.trim()}"
