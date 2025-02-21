@@ -96,21 +96,17 @@ export const BrandSelect = ({ brandId, setBrandId, defaultBrand }: BrandSelectPr
     setShowAddNew(false);
   };
 
-  const handleBlur = () => {
-    // Use setTimeout to allow click events to fire before closing the dropdown
-    setTimeout(() => {
-      setSuggestions([]);
-      setShowAddNew(false);
-    }, 200);
-  };
-
   return (
     <div className="relative">
       <Input
         placeholder="Enter brand name..."
         value={inputValue}
         onChange={handleInputChange}
-        onBlur={handleBlur}
+        onBlur={() => {
+          // Immediate close of suggestions
+          setSuggestions([]);
+          setShowAddNew(false);
+        }}
         className="w-full"
       />
       {(suggestions.length > 0 || showAddNew) && (

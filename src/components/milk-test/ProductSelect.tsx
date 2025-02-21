@@ -53,14 +53,8 @@ export const ProductSelect = ({ brandId, productId, setProductId }: ProductSelec
   }, [productId, products]);
 
   useEffect(() => {
-    if (!brandId) {
+    if (!brandId || inputValue.trim() === '') {
       setSuggestions([]);
-      setShowAddNew(false);
-      return;
-    }
-
-    if (inputValue.trim() === '') {
-      setSuggestions(products);
       setShowAddNew(false);
       return;
     }
@@ -129,6 +123,16 @@ export const ProductSelect = ({ brandId, productId, setProductId }: ProductSelec
         placeholder={brandId ? "Enter product name..." : "Select a brand first"}
         value={inputValue}
         onChange={handleInputChange}
+        onFocus={() => {
+          // Don't show suggestions on focus
+          setSuggestions([]);
+          setShowAddNew(false);
+        }}
+        onBlur={() => {
+          // Immediate close of suggestions
+          setSuggestions([]);
+          setShowAddNew(false);
+        }}
         className="w-full"
         disabled={!brandId}
       />
