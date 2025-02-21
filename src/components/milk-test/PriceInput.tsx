@@ -21,6 +21,7 @@ interface PriceInputProps {
 interface Currency {
   symbol: string;
   code: string;
+  name: string;
 }
 
 export const PriceInput = ({ price, setPrice }: PriceInputProps) => {
@@ -29,13 +30,17 @@ export const PriceInput = ({ price, setPrice }: PriceInputProps) => {
   const { data: currencies = [] } = useQuery({
     queryKey: ["currencies"],
     queryFn: async () => {
-      // Temporarily return static data until the currencies table is created
-      return [
-        { symbol: "€", code: "EUR" },
-        { symbol: "$", code: "USD" },
-        { symbol: "£", code: "GBP" },
-        { symbol: "¥", code: "JPY" },
-      ] as Currency[];
+      const { data, error } = await supabase
+        .from('currencies')
+        .select('symbol, code, name')
+        .order('code');
+      
+      if (error) {
+        console.error('Error fetching currencies:', error);
+        throw error;
+      }
+      
+      return data as Currency[];
     },
   });
 
@@ -77,7 +82,9 @@ export const PriceInput = ({ price, setPrice }: PriceInputProps) => {
         <div className="flex items-center gap-1 min-w-[140px]">
           <Select value={currency} onValueChange={setCurrency}>
             <SelectTrigger className="w-[80px]">
-              <SelectValue placeholder={currency} />
+              <SelectValue>
+                {currency}
+              </SelectValue>
             </SelectTrigger>
             <SelectContent>
               {currencies.map((curr) => (
