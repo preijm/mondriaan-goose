@@ -2,13 +2,30 @@
 import React from "react";
 import * as SliderPrimitive from "@radix-ui/react-slider";
 import { Input } from "@/components/ui/input";
+import { DollarSign } from "lucide-react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 interface PriceInputProps {
   price: string;
   setPrice: (price: string) => void;
 }
 
+const currencies = [
+  { symbol: "€", name: "EUR" },
+  { symbol: "$", name: "USD" },
+  { symbol: "£", name: "GBP" },
+  { symbol: "¥", name: "JPY" },
+];
+
 export const PriceInput = ({ price, setPrice }: PriceInputProps) => {
+  const [currency, setCurrency] = React.useState("€");
+
   const handlePriceChange = (value: number[]) => {
     setPrice(value[0].toFixed(2));
   };
@@ -39,11 +56,22 @@ export const PriceInput = ({ price, setPrice }: PriceInputProps) => {
             <SliderPrimitive.Range className="absolute h-full bg-cream-300" />
           </SliderPrimitive.Track>
           <SliderPrimitive.Thumb className="block cursor-pointer select-none touch-none">
-            <span className="text-lg">€</span>
+            <DollarSign className="h-5 w-5" />
           </SliderPrimitive.Thumb>
         </SliderPrimitive.Root>
-        <div className="flex items-center min-w-[80px]">
-          <span className="mr-1 font-semibold">€</span>
+        <div className="flex items-center gap-1 min-w-[120px]">
+          <Select value={currency} onValueChange={setCurrency}>
+            <SelectTrigger className="w-[60px]">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              {currencies.map((curr) => (
+                <SelectItem key={curr.name} value={curr.symbol}>
+                  {curr.symbol} {curr.name}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
           <Input
             type="text"
             value={price}
