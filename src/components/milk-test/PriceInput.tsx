@@ -2,7 +2,7 @@
 import React from "react";
 import * as SliderPrimitive from "@radix-ui/react-slider";
 import { Input } from "@/components/ui/input";
-import { Coins } from "lucide-react";
+import { CircleDollarSign } from "lucide-react";
 import {
   Select,
   SelectContent,
@@ -10,21 +10,34 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
 
 interface PriceInputProps {
   price: string;
   setPrice: (price: string) => void;
 }
 
-const currencies = [
-  { symbol: "€", name: "EUR" },
-  { symbol: "$", name: "USD" },
-  { symbol: "£", name: "GBP" },
-  { symbol: "¥", name: "JPY" },
-];
+interface Currency {
+  symbol: string;
+  code: string;
+}
 
 export const PriceInput = ({ price, setPrice }: PriceInputProps) => {
   const [currency, setCurrency] = React.useState("€");
+
+  const { data: currencies = [] } = useQuery({
+    queryKey: ["currencies"],
+    queryFn: async () => {
+      // Temporarily return static data until the currencies table is created
+      return [
+        { symbol: "€", code: "EUR" },
+        { symbol: "$", code: "USD" },
+        { symbol: "£", code: "GBP" },
+        { symbol: "¥", code: "JPY" },
+      ] as Currency[];
+    },
+  });
 
   const handlePriceChange = (value: number[]) => {
     setPrice(value[0].toFixed(2));
@@ -41,6 +54,8 @@ export const PriceInput = ({ price, setPrice }: PriceInputProps) => {
     }
   };
 
+  const selectedCurrency = currencies.find(curr => curr.symbol === currency);
+
   return (
     <div className="space-y-2 w-full">
       <div className="flex items-center gap-2">
@@ -56,18 +71,23 @@ export const PriceInput = ({ price, setPrice }: PriceInputProps) => {
             <SliderPrimitive.Range className="absolute h-full bg-cream-300" />
           </SliderPrimitive.Track>
           <SliderPrimitive.Thumb className="block cursor-pointer select-none touch-none">
-            <Coins className="h-5 w-5" />
+            <CircleDollarSign className="h-5 w-5" />
           </SliderPrimitive.Thumb>
         </SliderPrimitive.Root>
-        <div className="flex items-center gap-1 min-w-[120px]">
+        <div className="flex items-center gap-1 min-w-[140px]">
           <Select value={currency} onValueChange={setCurrency}>
-            <SelectTrigger className="w-[40px]">
-              <SelectValue />
+            <SelectTrigger className="w-[80px]">
+              <SelectValue placeholder={currency} />
             </SelectTrigger>
             <SelectContent>
               {currencies.map((curr) => (
-                <SelectItem key={curr.name} value={curr.symbol}>
-                  {curr.symbol}
+                <SelectItem key={curr.code} value={curr.symbol}>
+                  <span className="inline-flex items-center gap-2">
+                    {curr.symbol}
+                    <span className="text-muted-foreground text-sm">
+                      {curr.code}
+                    </span>
+                  </span>
                 </SelectItem>
               ))}
             </SelectContent>
@@ -76,7 +96,7 @@ export const PriceInput = ({ price, setPrice }: PriceInputProps) => {
             type="text"
             value={price}
             onChange={handleInputChange}
-            className="w-12 text-right"
+            className="w-20 text-right"
           />
         </div>
       </div>
