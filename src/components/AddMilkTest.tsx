@@ -22,8 +22,8 @@ export const AddMilkTest = () => {
       <ProductInformation
         brandId={formState.brandId}
         setBrandId={formSetters.setBrandId}
-        productName={formState.productName}
-        setProductName={formSetters.setProductName}
+        productId={formState.productId}
+        setProductId={formSetters.setProductId}
       />
 
       <div className="space-y-4">

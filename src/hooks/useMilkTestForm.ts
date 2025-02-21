@@ -7,7 +7,7 @@ import { supabase } from "@/integrations/supabase/client";
 export const useMilkTestForm = () => {
   const [rating, setRating] = useState(0);
   const [brandId, setBrandId] = useState("");
-  const [productName, setProductName] = useState("");
+  const [productId, setProductId] = useState("");
   const [ingredients, setIngredients] = useState<string[]>([]);
   const [newIngredient, setNewIngredient] = useState("");
   const [notes, setNotes] = useState("");
@@ -23,7 +23,7 @@ export const useMilkTestForm = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!brandId || !rating) {
+    if (!brandId || !rating || !productId) {
       toast({
         title: "Missing fields",
         description: "Please fill in all required fields",
@@ -63,7 +63,7 @@ export const useMilkTestForm = () => {
         .from('milk_tests')
         .insert({
           brand_id: brandId,
-          product_name: productName,
+          product_id: productId,
           ingredients,
           shop_id: shopData?.id || null,
           rating,
@@ -120,7 +120,7 @@ export const useMilkTestForm = () => {
     formState: {
       rating,
       brandId,
-      productName,
+      productId,
       ingredients,
       newIngredient,
       notes,
@@ -133,7 +133,7 @@ export const useMilkTestForm = () => {
     formSetters: {
       setRating,
       setBrandId,
-      setProductName,
+      setProductId,
       setIngredients,
       setNewIngredient,
       setNotes,

@@ -119,7 +119,7 @@ export type Database = {
           id: string
           ingredients: string[] | null
           notes: string | null
-          product_name: string | null
+          product_id: string | null
           rating: number
           shop_id: string | null
           type: string | null
@@ -134,7 +134,7 @@ export type Database = {
           id?: string
           ingredients?: string[] | null
           notes?: string | null
-          product_name?: string | null
+          product_id?: string | null
           rating: number
           shop_id?: string | null
           type?: string | null
@@ -149,7 +149,7 @@ export type Database = {
           id?: string
           ingredients?: string[] | null
           notes?: string | null
-          product_name?: string | null
+          product_id?: string | null
           rating?: number
           shop_id?: string | null
           type?: string | null
@@ -168,6 +168,13 @@ export type Database = {
             columns: ["brand_id"]
             isOneToOne: false
             referencedRelation: "brands"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "milk_tests_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
             referencedColumns: ["id"]
           },
           {
@@ -202,6 +209,35 @@ export type Database = {
           ordering?: number
         }
         Relationships: []
+      }
+      products: {
+        Row: {
+          brand_id: string
+          created_at: string
+          id: string
+          name: string
+        }
+        Insert: {
+          brand_id: string
+          created_at?: string
+          id?: string
+          name: string
+        }
+        Update: {
+          brand_id?: string
+          created_at?: string
+          id?: string
+          name?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "products_brand_id_fkey"
+            columns: ["brand_id"]
+            isOneToOne: false
+            referencedRelation: "brands"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       profiles: {
         Row: {
@@ -272,6 +308,7 @@ export type Database = {
           id: string | null
           ingredients: string[] | null
           notes: string | null
+          product_id: string | null
           product_name: string | null
           product_type_keys: string[] | null
           product_type_names: string[] | null
@@ -295,6 +332,13 @@ export type Database = {
             columns: ["brand_id"]
             isOneToOne: false
             referencedRelation: "brands"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "milk_tests_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
             referencedColumns: ["id"]
           },
           {

@@ -1,19 +1,19 @@
 
 import { BrandSelect } from "./BrandSelect";
-import { Input } from "@/components/ui/input";
+import { ProductSelect } from "./ProductSelect";
 
 interface ProductInformationProps {
   brandId: string;
   setBrandId: (id: string) => void;
-  productName: string;
-  setProductName: (name: string) => void;
+  productId: string;
+  setProductId: (id: string) => void;
 }
 
 export const ProductInformation = ({
   brandId,
   setBrandId,
-  productName,
-  setProductName,
+  productId,
+  setProductId,
 }: ProductInformationProps) => {
   return (
     <div className="space-y-4">
@@ -22,11 +22,10 @@ export const ProductInformation = ({
         brandId={brandId} 
         setBrandId={setBrandId} 
       />
-      <Input
-        placeholder="Product name"
-        value={productName}
-        onChange={(e) => setProductName(e.target.value)}
-        className="w-full"
+      <ProductSelect
+        brandId={brandId}
+        productId={productId}
+        setProductId={setProductId}
       />
     </div>
   );
