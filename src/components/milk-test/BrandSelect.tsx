@@ -103,11 +103,8 @@ export const BrandSelect = ({ brandId, setBrandId, defaultBrand }: BrandSelectPr
         value={inputValue}
         onChange={handleInputChange}
         onBlur={() => {
-          // Use setTimeout to allow click events to fire first
-          setTimeout(() => {
-            setSuggestions([]);
-            setShowAddNew(false);
-          }, 200);
+          setSuggestions([]);
+          setShowAddNew(false);
         }}
         className="w-full"
       />
@@ -117,7 +114,10 @@ export const BrandSelect = ({ brandId, setBrandId, defaultBrand }: BrandSelectPr
             <div
               key={suggestion.id}
               className="px-4 py-2 cursor-pointer hover:bg-gray-100"
-              onClick={() => handleSelectBrand(suggestion)}
+              onMouseDown={(e) => {
+                e.preventDefault();
+                handleSelectBrand(suggestion);
+              }}
             >
               {suggestion.name}
             </div>
@@ -125,7 +125,10 @@ export const BrandSelect = ({ brandId, setBrandId, defaultBrand }: BrandSelectPr
           {showAddNew && (
             <div
               className="px-4 py-2 cursor-pointer hover:bg-gray-100 flex items-center text-gray-700"
-              onClick={handleAddNewBrand}
+              onMouseDown={(e) => {
+                e.preventDefault();
+                handleAddNewBrand();
+              }}
             >
               <Plus className="w-4 h-4 mr-2" />
               Add "{inputValue.trim()}"
