@@ -19,8 +19,8 @@ export const PriceInput = ({ price, setPrice }: PriceInputProps) => {
           value={[parseFloat(price) || 0]}
           onValueChange={handlePriceChange}
           min={0}
-          max={10}
-          step={0.1}
+          max={5}
+          step={0.01}
           className="relative flex w-full touch-none select-none items-center"
         >
           <SliderPrimitive.Track className="relative h-1.5 w-full grow overflow-hidden rounded-full bg-secondary">
@@ -30,8 +30,8 @@ export const PriceInput = ({ price, setPrice }: PriceInputProps) => {
             <span className="text-lg">€</span>
           </SliderPrimitive.Thumb>
         </SliderPrimitive.Root>
-        <span className="min-w-[4ch] text-right flex items-center justify-center bg-cream-300 rounded-full h-8 w-8 font-semibold">
-          {parseFloat(price || "0").toFixed(2)}
+        <span className="text-right font-semibold">
+          €{parseFloat(price || "0").toFixed(2)}
         </span>
       </div>
     </div>
