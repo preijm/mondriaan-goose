@@ -4,7 +4,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
 import { Camera, X } from "lucide-react";
-import { BrowserMultiFormatReader, Result, BarcodeFormat } from '@zxing/library';
+import { BrowserMultiFormatReader, Result, BarcodeFormat, DecodeHintType } from '@zxing/library';
 
 interface BarcodeScannerProps {
   open: boolean;
@@ -24,7 +24,9 @@ export const BarcodeScanner = ({ open, onClose, onScan }: BarcodeScannerProps) =
     // Initialize the barcode reader with specific hints
     if (!readerRef.current) {
       const hints = new Map();
-      hints.set(2, true); // Try harder mode
+      // Try harder mode
+      hints.set(DecodeHintType.TRY_HARDER, true);
+      // Set formats we want to scan
       const formats = [
         BarcodeFormat.EAN_13,
         BarcodeFormat.EAN_8,
@@ -33,9 +35,10 @@ export const BarcodeScanner = ({ open, onClose, onScan }: BarcodeScannerProps) =
         BarcodeFormat.CODE_39,
         BarcodeFormat.CODE_128
       ];
+      hints.set(DecodeHintType.POSSIBLE_FORMATS, formats);
       
+      // Initialize with hints
       readerRef.current = new BrowserMultiFormatReader(hints);
-      readerRef.current.setFormats(formats);
     }
 
     let stream: MediaStream | null = null;
