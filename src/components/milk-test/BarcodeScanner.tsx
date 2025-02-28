@@ -159,7 +159,7 @@ export const BarcodeScanner = ({ open, onClose, onScan }: BarcodeScannerProps) =
 
   return (
     <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent className="sm:max-w-md" closeButton={false}>
         <DialogHeader>
           <DialogTitle>Scan Product Barcode</DialogTitle>
           <Button 
