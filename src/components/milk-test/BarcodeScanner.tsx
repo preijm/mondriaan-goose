@@ -24,8 +24,10 @@ export const BarcodeScanner = ({ open, onClose, onScan }: BarcodeScannerProps) =
     // Initialize the barcode reader with specific hints
     if (!readerRef.current) {
       const hints = new Map();
+      
       // Try harder mode
       hints.set(DecodeHintType.TRY_HARDER, true);
+      
       // Set formats we want to scan
       const formats = [
         BarcodeFormat.EAN_13,
@@ -41,53 +43,48 @@ export const BarcodeScanner = ({ open, onClose, onScan }: BarcodeScannerProps) =
       readerRef.current = new BrowserMultiFormatReader(hints);
     }
 
-    let stream: MediaStream | null = null;
-
     const startCamera = async () => {
       if (!open) return;
       
       try {
         setIsScanning(true);
         
-        if (readerRef.current) {
-          // Stop any previous scanning
+        if (readerRef.current && videoRef.current) {
+          // Reset previous scanning
           readerRef.current.reset();
           
-          // Get video element
-          if (videoRef.current) {
-            // Start continuous scanning
-            readerRef.current.decodeFromConstraints(
-              {
-                video: { 
-                  facingMode: "environment",
-                  width: { ideal: 1280 },
-                  height: { ideal: 720 }
-                }
-              },
-              videoRef.current,
-              (result: Result | null, error: Error | undefined) => {
-                if (result) {
-                  console.log("Barcode found:", result.getText());
-                  handleBarcodeResult(result.getText());
-                }
-                
-                if (error && !(error instanceof TypeError)) {
-                  // TypeError occurs between scans, so we ignore those
-                  console.log("Scan error:", error);
-                }
+          console.log("Starting camera scan...");
+          
+          // Start continuous scanning with constraints optimized for mobile
+          const constraints = {
+            video: { 
+              facingMode: "environment",
+              width: { ideal: 1280 },
+              height: { ideal: 720 }
+            }
+          };
+          
+          readerRef.current.decodeFromConstraints(
+            constraints,
+            videoRef.current,
+            (result: Result | null, error: Error | undefined) => {
+              if (result) {
+                console.log("Barcode found:", result.getText());
+                handleBarcodeResult(result.getText());
               }
-            ).then(() => {
-              setHasPermission(true);
               
-              // Get the stream to be able to close it later
-              if (videoRef.current && videoRef.current.srcObject instanceof MediaStream) {
-                stream = videoRef.current.srcObject;
+              if (error && !(error instanceof TypeError)) {
+                // TypeError occurs between scans, so we ignore those
+                console.log("Scan error:", error);
               }
-            }).catch((err) => {
-              console.error("Error starting scan:", err);
-              handleCameraError(err);
-            });
-          }
+            }
+          ).then(() => {
+            console.log("Camera started successfully");
+            setHasPermission(true);
+          }).catch((err) => {
+            console.error("Error starting camera:", err);
+            handleCameraError(err);
+          });
         }
       } catch (error) {
         console.error("Error accessing camera:", error);
@@ -96,6 +93,7 @@ export const BarcodeScanner = ({ open, onClose, onScan }: BarcodeScannerProps) =
     };
 
     const handleCameraError = (error: any) => {
+      console.error("Camera error details:", error);
       setHasPermission(false);
       setIsScanning(false);
       
@@ -149,11 +147,27 @@ export const BarcodeScanner = ({ open, onClose, onScan }: BarcodeScannerProps) =
         
         // Revert to normal after flash
         setTimeout(() => {
-          if (videoRef.current && canvasRef.current && flashContext) {
+          if (flashContext) {
             flashContext.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
           }
         }, 300);
       }
+    };
+
+    // Clean up function for streams
+    const cleanupStreams = () => {
+      // Stop all video streams
+      if (videoRef.current && videoRef.current.srcObject instanceof MediaStream) {
+        const stream = videoRef.current.srcObject;
+        stream.getTracks().forEach(track => track.stop());
+      }
+      
+      // Reset scanner
+      if (readerRef.current) {
+        readerRef.current.reset();
+      }
+      
+      setIsScanning(false);
     };
 
     if (open) {
@@ -162,36 +176,31 @@ export const BarcodeScanner = ({ open, onClose, onScan }: BarcodeScannerProps) =
       startCamera();
     } else {
       // Clean up when closing
-      setIsScanning(false);
-      if (readerRef.current) {
-        readerRef.current.reset();
-      }
-      if (stream) {
-        stream.getTracks().forEach(track => track.stop());
-      }
+      cleanupStreams();
     }
 
+    // Cleanup on unmount or when dependencies change
     return () => {
-      setIsScanning(false);
-      if (readerRef.current) {
-        readerRef.current.reset();
-      }
-      if (stream) {
-        stream.getTracks().forEach(track => track.stop());
-      }
+      cleanupStreams();
     };
   }, [open, onScan, toast]);
 
   // Function to manually retry camera access
   const retryAccess = () => {
+    console.log("Retrying camera access...");
     setHasPermission(null);
-    setIsScanning(true);
+    
+    // Ensure any existing streams are stopped
+    if (videoRef.current && videoRef.current.srcObject instanceof MediaStream) {
+      const stream = videoRef.current.srcObject;
+      stream.getTracks().forEach(track => track.stop());
+    }
     
     if (readerRef.current) {
       readerRef.current.reset();
     }
     
-    // The main useEffect will handle restarting the camera
+    // The useEffect will handle restarting the camera since we changed hasPermission
   };
 
   return (
