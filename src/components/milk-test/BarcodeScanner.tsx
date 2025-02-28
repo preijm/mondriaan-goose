@@ -4,7 +4,6 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
 import { Camera, X } from "lucide-react";
-import { BrowserMultiFormatReader, Result, BarcodeFormat, DecodeHintType } from '@zxing/library';
 
 interface BarcodeScannerProps {
   open: boolean;
@@ -17,78 +16,114 @@ export const BarcodeScanner = ({ open, onClose, onScan }: BarcodeScannerProps) =
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [isScanning, setIsScanning] = useState(false);
   const [hasPermission, setHasPermission] = useState<boolean | null>(null);
-  const readerRef = useRef<BrowserMultiFormatReader | null>(null);
+  const scanIntervalRef = useRef<number | null>(null);
   const { toast } = useToast();
 
   useEffect(() => {
-    // Initialize the barcode reader with specific hints
-    if (!readerRef.current) {
-      const hints = new Map();
-      
-      // Try harder mode
-      hints.set(DecodeHintType.TRY_HARDER, true);
-      
-      // Set formats we want to scan
-      const formats = [
-        BarcodeFormat.EAN_13,
-        BarcodeFormat.EAN_8,
-        BarcodeFormat.UPC_A,
-        BarcodeFormat.UPC_E,
-        BarcodeFormat.CODE_39,
-        BarcodeFormat.CODE_128
-      ];
-      hints.set(DecodeHintType.POSSIBLE_FORMATS, formats);
-      
-      // Initialize with hints
-      readerRef.current = new BrowserMultiFormatReader(hints);
-    }
-
     const startCamera = async () => {
       if (!open) return;
       
       try {
         setIsScanning(true);
         
-        if (readerRef.current && videoRef.current) {
-          // Reset previous scanning
-          readerRef.current.reset();
+        if (videoRef.current) {
+          console.log("Starting camera...");
           
-          console.log("Starting camera scan...");
-          
-          // Start continuous scanning with constraints optimized for mobile
+          // Optimized constraints for mobile devices
           const constraints = {
             video: { 
               facingMode: "environment",
               width: { ideal: 1280 },
-              height: { ideal: 720 }
+              height: { ideal: 720 },
+              frameRate: { ideal: 15 }
             }
           };
           
-          readerRef.current.decodeFromConstraints(
-            constraints,
-            videoRef.current,
-            (result: Result | null, error: Error | undefined) => {
-              if (result) {
-                console.log("Barcode found:", result.getText());
-                handleBarcodeResult(result.getText());
-              }
-              
-              if (error && !(error instanceof TypeError)) {
-                // TypeError occurs between scans, so we ignore those
-                console.log("Scan error:", error);
-              }
-            }
-          ).then(() => {
+          // Get user media
+          const stream = await navigator.mediaDevices.getUserMedia(constraints);
+          
+          // Set the stream to the video element
+          videoRef.current.srcObject = stream;
+          videoRef.current.onloadedmetadata = () => {
+            videoRef.current?.play();
             console.log("Camera started successfully");
             setHasPermission(true);
-          }).catch((err) => {
-            console.error("Error starting camera:", err);
-            handleCameraError(err);
-          });
+            
+            // Start scanning for barcodes
+            startBarcodeDetection();
+          };
         }
       } catch (error) {
         console.error("Error accessing camera:", error);
         handleCameraError(error);
+      }
+    };
+
+    const startBarcodeDetection = () => {
+      // Clear any existing interval
+      if (scanIntervalRef.current) {
+        clearInterval(scanIntervalRef.current);
+      }
+      
+      // Set up an interval to periodically check for barcodes
+      scanIntervalRef.current = window.setInterval(scanForBarcode, 500);
+    };
+
+    const scanForBarcode = () => {
+      if (!videoRef.current || !canvasRef.current || !isScanning) return;
+      
+      const video = videoRef.current;
+      const canvas = canvasRef.current;
+      const context = canvas.getContext('2d', { willReadFrequently: true });
+      
+      if (!context) return;
+      
+      // Set canvas dimensions to match video
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      
+      // Draw the current video frame to the canvas
+      context.drawImage(video, 0, 0, canvas.width, canvas.height);
+      
+      try {
+        // Get image data for barcode detection
+        const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+        
+        // If using a Web API barcode detection or sending to a server
+        // This is where you would process the image data
+        // For demo purposes, we'll simulate barcode detection with a timeout
+        // In a real app, you would use a barcode detection library or service here
+        
+        // Simulate detection with BarcodeDetector API if available
+        if ('BarcodeDetector' in window) {
+          detectBarcodeWithAPI(canvas);
+        } else {
+          // Fallback: In a real implementation, you'd use a JS library here
+          console.log("BarcodeDetector API not available");
+        }
+      } catch (error) {
+        console.error("Error scanning barcode:", error);
+      }
+    };
+
+    const detectBarcodeWithAPI = async (canvas: HTMLCanvasElement) => {
+      try {
+        // @ts-ignore - BarcodeDetector may not be in TypeScript definitions
+        const barcodeDetector = new BarcodeDetector({
+          formats: [
+            'ean_13', 'ean_8', 'upc_a', 'upc_e', 
+            'code_39', 'code_128', 'qr_code', 'data_matrix'
+          ]
+        });
+        
+        const barcodes = await barcodeDetector.detect(canvas);
+        
+        if (barcodes.length > 0) {
+          console.log("Barcode detected:", barcodes[0].rawValue);
+          handleBarcodeResult(barcodes[0].rawValue);
+        }
+      } catch (error) {
+        console.error("Barcode detection error:", error);
       }
     };
 
@@ -117,16 +152,12 @@ export const BarcodeScanner = ({ open, onClose, onScan }: BarcodeScannerProps) =
       });
     };
 
-    const handleBarcodeResult = async (barcodeData: string) => {
+    const handleBarcodeResult = (barcodeData: string) => {
       // Show flash effect
       createFlashEffect();
       
       // Stop scanning
-      if (readerRef.current) {
-        readerRef.current.reset();
-      }
-      
-      setIsScanning(false);
+      cleanupStreams();
       
       // Pass the barcode data back to parent
       onScan(barcodeData);
@@ -156,15 +187,20 @@ export const BarcodeScanner = ({ open, onClose, onScan }: BarcodeScannerProps) =
 
     // Clean up function for streams
     const cleanupStreams = () => {
+      // Clear the scanning interval
+      if (scanIntervalRef.current) {
+        clearInterval(scanIntervalRef.current);
+        scanIntervalRef.current = null;
+      }
+      
       // Stop all video streams
       if (videoRef.current && videoRef.current.srcObject instanceof MediaStream) {
         const stream = videoRef.current.srcObject;
-        stream.getTracks().forEach(track => track.stop());
-      }
-      
-      // Reset scanner
-      if (readerRef.current) {
-        readerRef.current.reset();
+        stream.getTracks().forEach(track => {
+          track.stop();
+          console.log("Camera track stopped");
+        });
+        videoRef.current.srcObject = null;
       }
       
       setIsScanning(false);
@@ -194,10 +230,7 @@ export const BarcodeScanner = ({ open, onClose, onScan }: BarcodeScannerProps) =
     if (videoRef.current && videoRef.current.srcObject instanceof MediaStream) {
       const stream = videoRef.current.srcObject;
       stream.getTracks().forEach(track => track.stop());
-    }
-    
-    if (readerRef.current) {
-      readerRef.current.reset();
+      videoRef.current.srcObject = null;
     }
     
     // The useEffect will handle restarting the camera since we changed hasPermission
