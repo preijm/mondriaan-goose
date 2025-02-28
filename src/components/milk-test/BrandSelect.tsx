@@ -4,15 +4,17 @@ import { Input } from "@/components/ui/input";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/components/ui/use-toast";
-import { Plus } from "lucide-react";
+import { Plus, Camera } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 interface BrandSelectProps {
   brandId: string;
   setBrandId: (id: string) => void;
   defaultBrand?: string;
+  onScanClick?: () => void;
 }
 
-export const BrandSelect = ({ brandId, setBrandId, defaultBrand }: BrandSelectProps) => {
+export const BrandSelect = ({ brandId, setBrandId, defaultBrand, onScanClick }: BrandSelectProps) => {
   const [suggestions, setSuggestions] = useState<Array<{ id: string; name: string }>>([]);
   const [inputValue, setInputValue] = useState(defaultBrand || "");
   const [showAddNew, setShowAddNew] = useState(false);
@@ -96,42 +98,53 @@ export const BrandSelect = ({ brandId, setBrandId, defaultBrand }: BrandSelectPr
   };
 
   return (
-    <div className="relative">
-      <Input
-        placeholder="Enter brand name..."
-        value={inputValue}
-        onChange={handleInputChange}
-        onFocus={() => setIsDropdownVisible(true)}
-        className="w-full"
-      />
-      {isDropdownVisible && (suggestions.length > 0 || showAddNew) && (
-        <div className="absolute z-10 w-full mt-1 bg-white border rounded-md shadow-lg">
-          {suggestions.map((suggestion) => (
-            <div
-              key={suggestion.id}
-              className="px-4 py-2 cursor-pointer hover:bg-gray-100"
-              onMouseDown={(e) => {
-                e.preventDefault();
-                handleSelectBrand(suggestion);
-              }}
-            >
-              {suggestion.name}
-            </div>
-          ))}
-          {showAddNew && (
-            <div
-              className="px-4 py-2 cursor-pointer hover:bg-gray-100 flex items-center text-gray-700"
-              onMouseDown={(e) => {
-                e.preventDefault();
-                handleAddNewBrand();
-              }}
-            >
-              <Plus className="w-4 h-4 mr-2" />
-              Add "{inputValue.trim()}"
-            </div>
-          )}
-        </div>
-      )}
+    <div className="relative flex items-center gap-2">
+      <div className="relative flex-1">
+        <Input
+          placeholder="Enter brand name..."
+          value={inputValue}
+          onChange={handleInputChange}
+          onFocus={() => setIsDropdownVisible(true)}
+          className="w-full pr-10"
+        />
+        {isDropdownVisible && (suggestions.length > 0 || showAddNew) && (
+          <div className="absolute z-10 w-full mt-1 bg-white border rounded-md shadow-lg">
+            {suggestions.map((suggestion) => (
+              <div
+                key={suggestion.id}
+                className="px-4 py-2 cursor-pointer hover:bg-gray-100"
+                onMouseDown={(e) => {
+                  e.preventDefault();
+                  handleSelectBrand(suggestion);
+                }}
+              >
+                {suggestion.name}
+              </div>
+            ))}
+            {showAddNew && (
+              <div
+                className="px-4 py-2 cursor-pointer hover:bg-gray-100 flex items-center text-gray-700"
+                onMouseDown={(e) => {
+                  e.preventDefault();
+                  handleAddNewBrand();
+                }}
+              >
+                <Plus className="w-4 h-4 mr-2" />
+                Add "{inputValue.trim()}"
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+      <Button 
+        variant="outline" 
+        size="icon" 
+        className="flex-shrink-0"
+        onClick={onScanClick}
+        type="button"
+      >
+        <Camera className="h-4 w-4" />
+      </Button>
     </div>
   );
 };

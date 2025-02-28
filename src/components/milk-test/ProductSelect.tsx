@@ -4,18 +4,21 @@ import { Input } from "@/components/ui/input";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/components/ui/use-toast";
-import { Plus } from "lucide-react";
+import { Plus, Camera } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 interface ProductSelectProps {
   brandId: string;
   productId: string;
   setProductId: (id: string) => void;
+  onScanClick?: () => void;
 }
 
-export const ProductSelect = ({ brandId, productId, setProductId }: ProductSelectProps) => {
+export const ProductSelect = ({ brandId, productId, setProductId, onScanClick }: ProductSelectProps) => {
   const [suggestions, setSuggestions] = useState<Array<{ id: string; name: string }>>([]);
   const [inputValue, setInputValue] = useState("");
   const [showAddNew, setShowAddNew] = useState(false);
+  const [isDropdownVisible, setIsDropdownVisible] = useState(false);
   const { toast } = useToast();
 
   const { data: products = [] } = useQuery({
@@ -81,8 +84,7 @@ export const ProductSelect = ({ brandId, productId, setProductId }: ProductSelec
   const handleSelectProduct = (selectedProduct: { id: string; name: string }) => {
     setInputValue(selectedProduct.name);
     setProductId(selectedProduct.id);
-    setSuggestions([]); 
-    setShowAddNew(false);
+    setIsDropdownVisible(false);
   };
 
   const handleAddNewProduct = async () => {
@@ -113,53 +115,60 @@ export const ProductSelect = ({ brandId, productId, setProductId }: ProductSelec
     });
     
     setProductId(data.id);
-    setSuggestions([]);
-    setShowAddNew(false);
+    setIsDropdownVisible(false);
   };
 
   return (
-    <div className="relative">
-      <Input
-        placeholder={brandId ? "Enter product name..." : "Select a brand first"}
-        value={inputValue}
-        onChange={handleInputChange}
-        onFocus={() => {
-          // Don't show suggestions on focus
-          setSuggestions([]);
-          setShowAddNew(false);
-        }}
-        onBlur={() => {
-          // Immediate close of suggestions
-          setSuggestions([]);
-          setShowAddNew(false);
-        }}
-        className="w-full"
+    <div className="relative flex items-center gap-2">
+      <div className="relative flex-1">
+        <Input
+          placeholder={brandId ? "Enter product name..." : "Select a brand first"}
+          value={inputValue}
+          onChange={handleInputChange}
+          onFocus={() => setIsDropdownVisible(true)}
+          onBlur={() => setIsDropdownVisible(false)}
+          className="w-full"
+          disabled={!brandId}
+        />
+        {isDropdownVisible && (suggestions.length > 0 || showAddNew) && (
+          <div className="absolute z-10 w-full mt-1 bg-white border rounded-md shadow-lg">
+            {suggestions.map((suggestion) => (
+              <div
+                key={suggestion.id}
+                className="px-4 py-2 cursor-pointer hover:bg-gray-100"
+                onMouseDown={(e) => {
+                  e.preventDefault();
+                  handleSelectProduct(suggestion);
+                }}
+              >
+                {suggestion.name}
+              </div>
+            ))}
+            {showAddNew && (
+              <div
+                className="px-4 py-2 cursor-pointer hover:bg-gray-100 flex items-center text-gray-700"
+                onMouseDown={(e) => {
+                  e.preventDefault();
+                  handleAddNewProduct();
+                }}
+              >
+                <Plus className="w-4 h-4 mr-2" />
+                Add "{inputValue.trim()}"
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+      <Button 
+        variant="outline" 
+        size="icon" 
+        className="flex-shrink-0"
+        onClick={onScanClick}
         disabled={!brandId}
-      />
-      {(suggestions.length > 0 || showAddNew) && (
-        <div className="absolute z-10 w-full mt-1 bg-white border rounded-md shadow-lg">
-          {suggestions.map((suggestion) => (
-            <div
-              key={suggestion.id}
-              className="px-4 py-2 cursor-pointer hover:bg-gray-100"
-              onClick={() => handleSelectProduct(suggestion)}
-              onMouseDown={(e) => e.preventDefault()}
-            >
-              {suggestion.name}
-            </div>
-          ))}
-          {showAddNew && (
-            <div
-              className="px-4 py-2 cursor-pointer hover:bg-gray-100 flex items-center text-gray-700"
-              onClick={handleAddNewProduct}
-              onMouseDown={(e) => e.preventDefault()}
-            >
-              <Plus className="w-4 h-4 mr-2" />
-              Add "{inputValue.trim()}"
-            </div>
-          )}
-        </div>
-      )}
+        type="button"
+      >
+        <Camera className="h-4 w-4" />
+      </Button>
     </div>
   );
 };
