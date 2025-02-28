@@ -35,6 +35,7 @@ export const ProductInformation = ({
   };
 
   const handleBarcodeScan = async (barcodeData: string) => {
+    console.log("Barcode scanned:", barcodeData);
     setIsScannerOpen(false);
     setIsLoading(true);
     setIsResultDialogOpen(true);
@@ -47,7 +48,8 @@ export const ProductInformation = ({
       console.log("Open Food Facts API response:", data);
       
       if (data.status === 1 && data.product) {
-        const brandName = data.product.brands || "Unknown brand";
+        // Clean brand name (remove commas and trim)
+        const brandName = data.product.brands?.split(',')[0]?.trim() || "Unknown brand";
         const productName = data.product.product_name || "Unknown product";
         const url = `https://world.openfoodfacts.org/product/${barcodeData}`;
         
@@ -172,7 +174,7 @@ export const ProductInformation = ({
         </div>
         <Button 
           variant="outline" 
-          className="flex-shrink-0 h-[100px] w-16" // Increased width from default
+          className="flex-shrink-0 h-[100px] w-20" // Increased width from 16 to 20
           onClick={handleScanBarcode}
           type="button"
         >
