@@ -172,7 +172,7 @@ export const ProductInformation = ({
         </div>
         <Button 
           variant="outline" 
-          className="flex-shrink-0 h-[100px]" // Match height to the two fields combined
+          className="flex-shrink-0 h-[100px] w-16" // Increased width from default
           onClick={handleScanBarcode}
           type="button"
         >

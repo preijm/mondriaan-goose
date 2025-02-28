@@ -76,20 +76,59 @@ export const BarcodeScanner = ({ open, onClose, onScan }: BarcodeScannerProps) =
     const scanBarcode = async () => {
       if (!isScanning || !videoRef.current || !canvasRef.current) return;
       
-      // In a real implementation, you would use a barcode scanning library like ZXing or Quagga
-      // For this example, we're simulating a successful scan
-      
-      // Wait a bit to simulate scanning
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      
-      // Simulate a barcode scan result
-      const mockBarcode = "3017620422003"; // Example barcode (Nutella)
-      
-      // Pass the barcode data back
-      onScan(mockBarcode);
-      
-      // Stop scanning after successful scan
-      setIsScanning(false);
+      try {
+        // In a real implementation, you would use a barcode scanning library like ZXing or Quagga
+        // For this example, we're still simulating but with faster feedback
+        
+        // Extract frame from video for analysis
+        const context = canvasRef.current.getContext('2d');
+        if (!context) return;
+        
+        // Set canvas dimensions to match video
+        if (videoRef.current.videoWidth && videoRef.current.videoHeight) {
+          canvasRef.current.width = videoRef.current.videoWidth;
+          canvasRef.current.height = videoRef.current.videoHeight;
+          
+          // Draw the current video frame to the canvas
+          context.drawImage(videoRef.current, 0, 0, canvasRef.current.width, canvasRef.current.height);
+        }
+        
+        // Simulate finding a barcode (in a real app, you'd analyze the canvas data here)
+        // Faster detection simulation
+        await new Promise(resolve => setTimeout(resolve, 1500));
+        
+        // Simulate a barcode scan result
+        const mockBarcode = "3017620422003"; // Example barcode (Nutella)
+        
+        // Flash effect to indicate scan
+        if (canvasRef.current) {
+          const flashContext = canvasRef.current.getContext('2d');
+          if (flashContext) {
+            // Create a flash effect
+            flashContext.fillStyle = "rgba(255, 255, 255, 0.5)";
+            flashContext.fillRect(0, 0, canvasRef.current.width, canvasRef.current.height);
+            
+            // Revert to normal after flash
+            setTimeout(() => {
+              if (videoRef.current && canvasRef.current && flashContext) {
+                flashContext.drawImage(videoRef.current, 0, 0, canvasRef.current.width, canvasRef.current.height);
+              }
+            }, 100);
+          }
+        }
+        
+        // Pass the barcode data back
+        onScan(mockBarcode);
+        
+        // Stop scanning after successful scan
+        setIsScanning(false);
+      } catch (error) {
+        console.error("Error scanning barcode:", error);
+        // Continue scanning by recursively calling after a delay
+        setTimeout(() => {
+          if (isScanning) scanBarcode();
+        }, 500);
+      }
     };
 
     if (open) {
