@@ -172,12 +172,11 @@ export const ProductInformation = ({
         </div>
         <Button 
           variant="outline" 
-          size="lg" 
-          className="flex-shrink-0 h-full min-h-20"
+          className="flex-shrink-0 h-[100px]" // Match height to the two fields combined
           onClick={handleScanBarcode}
           type="button"
         >
-          <Camera className="h-8 w-8" />
+          <Camera className="h-6 w-6" />
         </Button>
       </div>
       

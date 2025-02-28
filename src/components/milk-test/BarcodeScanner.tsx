@@ -15,6 +15,7 @@ export const BarcodeScanner = ({ open, onClose, onScan }: BarcodeScannerProps) =
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [isScanning, setIsScanning] = useState(false);
+  const [hasPermission, setHasPermission] = useState<boolean | null>(null);
   const { toast } = useToast();
 
   useEffect(() => {
@@ -25,9 +26,13 @@ export const BarcodeScanner = ({ open, onClose, onScan }: BarcodeScannerProps) =
       
       try {
         setIsScanning(true);
+        
+        // Request camera permission
         stream = await navigator.mediaDevices.getUserMedia({
           video: { facingMode: "environment" }
         });
+        
+        setHasPermission(true);
         
         if (videoRef.current) {
           videoRef.current.srcObject = stream;
@@ -37,12 +42,31 @@ export const BarcodeScanner = ({ open, onClose, onScan }: BarcodeScannerProps) =
         scanBarcode();
       } catch (error) {
         console.error("Error accessing camera:", error);
+        setHasPermission(false);
+        setIsScanning(false);
+        
+        // Determine the specific error
+        let errorMessage = "Failed to access the camera. Please check permissions.";
+        
+        // @ts-ignore
+        if (error.name === "NotAllowedError" || error.name === "PermissionDeniedError") {
+          errorMessage = "Camera access was denied. Please allow camera access in your browser settings.";
+        // @ts-ignore
+        } else if (error.name === "NotFoundError" || error.name === "DevicesNotFoundError") {
+          errorMessage = "No camera found. Please ensure your device has a camera.";
+        // @ts-ignore
+        } else if (error.name === "NotReadableError" || error.name === "TrackStartError") {
+          errorMessage = "Camera is already in use by another application.";
+        // @ts-ignore
+        } else if (error.name === "OverconstrainedError") {
+          errorMessage = "Camera constraints are not satisfied. Try a different camera.";
+        }
+        
         toast({
           title: "Camera Error",
-          description: "Failed to access the camera. Please check permissions.",
+          description: errorMessage,
           variant: "destructive",
         });
-        setIsScanning(false);
       }
     };
 
@@ -75,6 +99,12 @@ export const BarcodeScanner = ({ open, onClose, onScan }: BarcodeScannerProps) =
     };
   }, [open, onScan, toast, isScanning]);
 
+  // Function to manually retry camera access
+  const retryAccess = () => {
+    setHasPermission(null);
+    setIsScanning(true);
+  };
+
   return (
     <Dialog open={open} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-md">
@@ -91,24 +121,38 @@ export const BarcodeScanner = ({ open, onClose, onScan }: BarcodeScannerProps) =
         </DialogHeader>
         <div className="flex flex-col items-center space-y-4">
           <div className="relative w-full aspect-square bg-black rounded-md overflow-hidden">
-            <video 
-              ref={videoRef} 
-              className="absolute top-0 left-0 w-full h-full object-cover"
-              playsInline
-              muted
-            />
-            <canvas 
-              ref={canvasRef} 
-              className="absolute top-0 left-0 w-full h-full"
-            />
-            {isScanning && (
-              <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white">
-                <Camera className="h-8 w-8 animate-pulse" />
+            {hasPermission === false ? (
+              <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 p-4 text-white">
+                <p className="text-center">Camera access denied or unavailable</p>
+                <Button onClick={retryAccess} variant="secondary" size="sm">
+                  Retry
+                </Button>
               </div>
+            ) : (
+              <>
+                <video 
+                  ref={videoRef} 
+                  className="absolute top-0 left-0 w-full h-full object-cover"
+                  playsInline
+                  muted
+                  autoPlay
+                />
+                <canvas 
+                  ref={canvasRef} 
+                  className="absolute top-0 left-0 w-full h-full"
+                />
+                {isScanning && (
+                  <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white">
+                    <Camera className="h-8 w-8 animate-pulse" />
+                  </div>
+                )}
+              </>
             )}
           </div>
           <p className="text-sm text-center text-muted-foreground">
-            Position the barcode within the camera view to scan automatically
+            {hasPermission === false 
+              ? "Please allow camera access in your browser settings" 
+              : "Position the barcode within the camera view to scan automatically"}
           </p>
         </div>
       </DialogContent>
