@@ -1,6 +1,6 @@
 
 import { useState } from "react";
-import { useToast } from "@/components/ui/use-toast";
+import { useToast } from "@/hooks/use-toast";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -26,10 +26,41 @@ export const useMilkTestForm = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!brandId || !rating || !productId) {
+    // Debug logging to help identify issues
+    console.log("Form submission values:", {
+      brandId, 
+      productId, 
+      rating,
+      notes,
+      shop,
+      ingredients,
+      selectedProductTypes,
+      drinkPreference,
+      price
+    });
+    
+    if (!brandId) {
       toast({
         title: "Missing fields",
-        description: "Please fill in all required fields",
+        description: "Please select a brand",
+        variant: "destructive",
+      });
+      return;
+    }
+    
+    if (!productId) {
+      toast({
+        title: "Missing fields",
+        description: "Please select a product",
+        variant: "destructive",
+      });
+      return;
+    }
+    
+    if (rating === 0) {
+      toast({
+        title: "Missing fields",
+        description: "Please provide a rating",
         variant: "destructive",
       });
       return;
@@ -46,6 +77,7 @@ export const useMilkTestForm = () => {
           description: "Please sign in to add milk tests",
           variant: "destructive",
         });
+        setIsSubmitting(false);
         return;
       }
 
@@ -102,7 +134,10 @@ export const useMilkTestForm = () => {
         .select()
         .single();
 
-      if (milkTestError) throw milkTestError;
+      if (milkTestError) {
+        console.error('Milk test error:', milkTestError);
+        throw milkTestError;
+      }
 
       // Insert product type relationships
       if (selectedProductTypes.length > 0) {
