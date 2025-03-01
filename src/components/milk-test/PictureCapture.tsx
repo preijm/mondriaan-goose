@@ -90,7 +90,7 @@ export const PictureCapture: React.FC<PictureCaptureProps> = ({
           <img 
             src={picturePreview} 
             alt="Milk product" 
-            className="w-32 h-[80px] object-cover rounded-md" /* Matching min-h-[80px] from Textarea */
+            className="w-32 min-h-[80px] h-full object-cover rounded-md" 
           />
           <Button 
             variant="destructive" 
