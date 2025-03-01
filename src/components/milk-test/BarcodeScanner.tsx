@@ -1,6 +1,56 @@
+
 import React, { useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Camera, Upload, X } from "lucide-react";
+import {
+  Dialog,
+  DialogContent,
+  DialogClose,
+} from "@/components/ui/dialog";
+
+interface BarcodeScannerProps {
+  open: boolean;
+  onClose: () => void;
+  onScan: (barcodeData: string) => void;
+}
+
+export const BarcodeScanner: React.FC<BarcodeScannerProps> = ({ 
+  open, 
+  onClose, 
+  onScan 
+}) => {
+  // Implementation of BarcodeScanner component
+  // This would include barcode scanning functionality
+  // For now, we'll create a placeholder implementation
+  return (
+    <Dialog open={open} onOpenChange={onClose}>
+      <DialogContent className="sm:max-w-md">
+        <div className="text-center">
+          <h3 className="text-lg font-medium">Scan Barcode</h3>
+          <p className="text-sm text-gray-500">
+            Position the barcode within the scanner
+          </p>
+        </div>
+        
+        <div className="mt-4 flex flex-col items-center">
+          {/* Barcode scanning implementation would go here */}
+          <div className="border-2 border-dashed border-gray-300 rounded-md p-6 w-full h-48 flex items-center justify-center">
+            <p className="text-gray-500">Barcode scanner would appear here</p>
+          </div>
+          
+          <div className="mt-4 flex gap-2">
+            <Button onClick={() => onScan("4006298001234")} type="button">
+              Simulate Scan
+            </Button>
+            <Button onClick={onClose} variant="outline" type="button">
+              Cancel
+            </Button>
+          </div>
+        </div>
+      </DialogContent>
+    </Dialog>
+  );
+};
 
 interface PictureCaptureProps {
   picture: File | null;
@@ -19,6 +69,7 @@ export const PictureCapture: React.FC<PictureCaptureProps> = ({
   const [showCamera, setShowCamera] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
   const streamRef = useRef<MediaStream | null>(null);
+  const [isImageDialogOpen, setIsImageDialogOpen] = useState(false);
 
   const startCamera = async () => {
     try {
@@ -89,7 +140,8 @@ export const PictureCapture: React.FC<PictureCaptureProps> = ({
           <img 
             src={picturePreview} 
             alt="Milk product" 
-            className="w-32 h-[80px] object-cover rounded-md"
+            className="w-32 min-h-[80px] h-full object-cover rounded-md cursor-pointer"
+            onClick={() => setIsImageDialogOpen(true)}
           />
           <Button 
             variant="destructive" 
@@ -99,6 +151,19 @@ export const PictureCapture: React.FC<PictureCaptureProps> = ({
           >
             <X className="h-4 w-4" />
           </Button>
+          
+          <Dialog open={isImageDialogOpen} onOpenChange={setIsImageDialogOpen}>
+            <DialogContent className="max-w-3xl p-0 overflow-hidden bg-transparent border-none">
+              <DialogClose className="absolute right-4 top-4 rounded-sm bg-white/10 opacity-70 ring-offset-background z-10 hover:opacity-100" />
+              <div className="relative w-full">
+                <img 
+                  src={picturePreview} 
+                  alt="Milk product full view" 
+                  className="w-full h-full object-contain"
+                />
+              </div>
+            </DialogContent>
+          </Dialog>
         </div>
       ) : (
         <div className="flex flex-col gap-2 items-center">
