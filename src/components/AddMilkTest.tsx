@@ -39,7 +39,7 @@ export const AddMilkTest = () => {
             placeholder="Tasting notes..."
             value={formState.notes}
             onChange={(e) => formSetters.setNotes(e.target.value)}
-            className="flex-1"
+            className="flex-1 min-h-[120px]" // Increased minimum height
           />
           <PictureCapture
             picture={formState.picture}
