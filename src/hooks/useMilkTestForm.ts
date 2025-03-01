@@ -17,6 +17,8 @@ export const useMilkTestForm = () => {
   const [allIngredients, setAllIngredients] = useState<string[]>([]);
   const [drinkPreference, setDrinkPreference] = useState("cold");
   const [price, setPrice] = useState("");
+  const [picture, setPicture] = useState<File | null>(null);
+  const [picturePreview, setPicturePreview] = useState<string | null>(null);
 
   const { toast } = useToast();
   const navigate = useNavigate();
@@ -59,6 +61,28 @@ export const useMilkTestForm = () => {
         .eq('id', userData.user.id)
         .maybeSingle();
 
+      // Upload picture if available
+      let picturePath = null;
+      if (picture) {
+        const fileExt = picture.name.split('.').pop();
+        const filePath = `${userData.user.id}/${Date.now()}.${fileExt}`;
+        
+        const { error: uploadError } = await supabase.storage
+          .from('milk-pictures')
+          .upload(filePath, picture);
+          
+        if (uploadError) {
+          console.error('Error uploading picture:', uploadError);
+          toast({
+            title: "Upload Failed",
+            description: "Failed to upload the picture. Your test will be saved without the image.",
+            variant: "destructive",
+          });
+        } else {
+          picturePath = filePath;
+        }
+      }
+
       // Insert the milk test
       const { data: milkTest, error: milkTestError } = await supabase
         .from('milk_tests')
@@ -72,7 +96,8 @@ export const useMilkTestForm = () => {
           drink_preference: drinkPreference,
           user_id: userData.user.id,
           display_name: profileData?.display_name || null,
-          price: price ? parseFloat(price) : null
+          price: price ? parseFloat(price) : null,
+          picture_path: picturePath
         })
         .select()
         .single();
@@ -132,6 +157,8 @@ export const useMilkTestForm = () => {
       allIngredients,
       drinkPreference,
       price,
+      picture,
+      picturePreview,
     },
     formSetters: {
       setRating,
@@ -145,6 +172,8 @@ export const useMilkTestForm = () => {
       setAllIngredients,
       setDrinkPreference,
       setPrice,
+      setPicture,
+      setPicturePreview,
     },
     handleSubmit,
   };

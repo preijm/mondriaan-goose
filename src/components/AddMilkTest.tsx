@@ -9,6 +9,7 @@ import { ProductInformation } from "./milk-test/ProductInformation";
 import { ProductOptions } from "./milk-test/ProductOptions";
 import { DrinkPreference } from "./milk-test/DrinkPreference";
 import { PriceInput } from "./milk-test/PriceInput";
+import { PictureCapture } from "./milk-test/PictureCapture";
 import { useMilkTestForm } from "@/hooks/useMilkTestForm";
 
 export const AddMilkTest = () => {
@@ -33,12 +34,20 @@ export const AddMilkTest = () => {
           rating={formState.rating} 
           setRating={formSetters.setRating} 
         />
-        <Textarea
-          placeholder="Tasting notes..."
-          value={formState.notes}
-          onChange={(e) => formSetters.setNotes(e.target.value)}
-          className="w-full"
-        />
+        <div className="flex gap-4 items-start">
+          <Textarea
+            placeholder="Tasting notes..."
+            value={formState.notes}
+            onChange={(e) => formSetters.setNotes(e.target.value)}
+            className="flex-1"
+          />
+          <PictureCapture
+            picture={formState.picture}
+            picturePreview={formState.picturePreview}
+            setPicture={formSetters.setPicture}
+            setPicturePreview={formSetters.setPicturePreview}
+          />
+        </div>
       </div>
 
       <div className="space-y-4">

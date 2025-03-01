@@ -1,5 +1,5 @@
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -10,6 +10,7 @@ import { ShopSelect } from "./ShopSelect";
 import { IngredientsSelect } from "./IngredientsSelect";
 import { RatingSelect } from "./RatingSelect";
 import { ProductOptions } from "./ProductOptions";
+import { PictureCapture } from "./PictureCapture";
 import { Separator } from "@/components/ui/separator";
 import {
   Dialog,
@@ -35,6 +36,7 @@ interface EditMilkTestProps {
     notes?: string;
     product_type_keys?: string[];
     shop_name?: string;
+    picture_path?: string;
   };
   open: boolean;
   onOpenChange: (open: boolean) => void;
@@ -52,8 +54,31 @@ export const EditMilkTest = ({ test, open, onOpenChange, onSuccess }: EditMilkTe
   const [shop, setShop] = useState(test.shop_name || "");
   const [allIngredients, setAllIngredients] = useState<string[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [picture, setPicture] = useState<File | null>(null);
+  const [picturePreview, setPicturePreview] = useState<string | null>(null);
 
   const { toast } = useToast();
+
+  // Load existing picture if available
+  useEffect(() => {
+    const loadExistingPicture = async () => {
+      if (test.picture_path) {
+        try {
+          const { data } = await supabase.storage
+            .from('milk-pictures')
+            .getPublicUrl(test.picture_path);
+            
+          if (data) {
+            setPicturePreview(data.publicUrl);
+          }
+        } catch (error) {
+          console.error('Error loading picture:', error);
+        }
+      }
+    };
+    
+    loadExistingPicture();
+  }, [test.picture_path]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -70,11 +95,44 @@ export const EditMilkTest = ({ test, open, onOpenChange, onSuccess }: EditMilkTe
     setIsSubmitting(true);
 
     try {
+      const { data: userData, error: userError } = await supabase.auth.getUser();
+      
+      if (userError || !userData.user) {
+        toast({
+          title: "Authentication required",
+          description: "Please sign in to edit milk tests",
+          variant: "destructive",
+        });
+        return;
+      }
+      
       const { data: shopData } = await supabase
         .from('shops')
         .select('id')
         .eq('name', shop)
         .maybeSingle();
+
+      // Upload new picture if available
+      let picturePath = test.picture_path;
+      if (picture) {
+        const fileExt = picture.name.split('.').pop();
+        const filePath = `${userData.user.id}/${Date.now()}.${fileExt}`;
+        
+        const { error: uploadError } = await supabase.storage
+          .from('milk-pictures')
+          .upload(filePath, picture);
+          
+        if (uploadError) {
+          console.error('Error uploading picture:', uploadError);
+          toast({
+            title: "Upload Failed",
+            description: "Failed to upload the picture. Your test will be saved with the existing image.",
+            variant: "destructive",
+          });
+        } else {
+          picturePath = filePath;
+        }
+      }
 
       const { error: milkTestError } = await supabase
         .from('milk_tests')
@@ -85,6 +143,7 @@ export const EditMilkTest = ({ test, open, onOpenChange, onSuccess }: EditMilkTe
           shop_id: shopData?.id || null,
           rating,
           notes,
+          picture_path: picturePath
         })
         .eq('id', test.id);
 
@@ -201,14 +260,25 @@ export const EditMilkTest = ({ test, open, onOpenChange, onSuccess }: EditMilkTe
                 <label className="text-sm font-medium mb-2 block">Rating</label>
                 <RatingSelect rating={rating} setRating={setRating} />
               </div>
-              <div>
-                <label className="text-sm font-medium mb-2 block">Notes</label>
-                <Textarea
-                  placeholder="Tasting notes..."
-                  value={notes}
-                  onChange={(e) => setNotes(e.target.value)}
-                  className="w-full"
-                />
+              <div className="flex gap-4 items-start">
+                <div className="flex-1">
+                  <label className="text-sm font-medium mb-2 block">Notes</label>
+                  <Textarea
+                    placeholder="Tasting notes..."
+                    value={notes}
+                    onChange={(e) => setNotes(e.target.value)}
+                    className="w-full"
+                  />
+                </div>
+                <div>
+                  <label className="text-sm font-medium mb-2 block">Picture</label>
+                  <PictureCapture
+                    picture={picture}
+                    picturePreview={picturePreview}
+                    setPicture={setPicture}
+                    setPicturePreview={setPicturePreview}
+                  />
+                </div>
               </div>
             </div>
           </div>
