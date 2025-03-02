@@ -42,7 +42,7 @@ export const ProductSearch = ({ onSelectProduct, onAddNew }: ProductSearchProps)
             )
           )
         `)
-        .or(`name.ilike.%${searchTerm}%,brands.name.ilike.%${searchTerm}%`)
+        .or(`name.ilike."%" || ${searchTerm} || "%",brands.name.ilike."%" || ${searchTerm} || "%"`)
         .limit(10);
       
       if (error) {
