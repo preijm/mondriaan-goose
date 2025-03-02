@@ -58,20 +58,12 @@ export const ProductSearch = ({ onSelectProduct, onAddNew, selectedProductId }: 
       
       console.log('Searching for products:', searchTerm);
       
-      // Create a comprehensive search query
-      let query = supabase
+      // Fix: Use proper PostgREST filter syntax
+      const { data, error } = await supabase
         .from('product_search_view')
-        .select('*');
-      
-      // Build a comprehensive search condition
-      query = query.or(`
-        product_name.ilike.%${searchTerm}%,
-        brand_name.ilike.%${searchTerm}%,
-        flavor_names.cs.{${searchTerm}},
-        ingredients.cs.{%${searchTerm}%}
-      `);
-      
-      const { data, error } = await query.limit(10);
+        .select('*')
+        .or(`product_name.ilike.%${searchTerm}%,brand_name.ilike.%${searchTerm}%`)
+        .limit(10);
       
       if (error) {
         console.error('Error searching products:', error);

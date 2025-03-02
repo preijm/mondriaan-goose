@@ -47,12 +47,14 @@ export const ProductResultItem = ({ result, searchTerm, onSelect }: ProductResul
       onClick={onSelect}
     >
       <div className="font-medium">{result.brand_name} - {result.name}</div>
-      <div className="flex flex-wrap gap-1 mt-1">
-        {result.product_types && result.product_types.includes('barista') && (
-          <Badge variant="outline" className="bg-cream-100 text-xs">Barista</Badge>
-        )}
-        {result.product_types && 
-          result.product_types
+      
+      {/* Only render if product types exist */}
+      {result.product_types && result.product_types.length > 0 && (
+        <div className="flex flex-wrap gap-1 mt-1">
+          {result.product_types.includes('barista') && (
+            <Badge variant="outline" className="bg-cream-100 text-xs">Barista</Badge>
+          )}
+          {result.product_types
             .filter(type => type.toLowerCase() !== 'barista')
             .map(type => (
               <Badge key={type} variant="outline" className="bg-gray-100 text-xs">
@@ -61,15 +63,20 @@ export const ProductResultItem = ({ result, searchTerm, onSelect }: ProductResul
                   .join(' ')}
               </Badge>
             ))
-        }
-        {result.flavor_names && result.flavor_names.length > 0 && 
-          result.flavor_names.map(flavor => (
-            <Badge key={flavor} variant="outline" className="bg-milk-100 text-xs">
-              {flavor}
-            </Badge>
-          ))
-        }
-      </div>
+          }
+          
+          {/* Only render flavors if they exist */}
+          {result.flavor_names && result.flavor_names.length > 0 && 
+            result.flavor_names.map(flavor => (
+              <Badge key={flavor} variant="outline" className="bg-milk-100 text-xs">
+                {flavor}
+              </Badge>
+            ))
+          }
+        </div>
+      )}
+      
+      {/* Highlight matching ingredients */}
       {highlightIngredients()}
     </div>
   );

@@ -40,10 +40,10 @@ export const SelectedProduct = ({ product }: SelectedProductProps) => {
     <div className="mt-2 p-3 bg-gray-50 border rounded-md">
       <div className="font-medium">{product.brand_name} - {product.product_name}</div>
       <div className="flex flex-wrap gap-1 mt-1">
-        {/* Product types */}
-        {product.product_types && formatProductTypes(product.product_types)}
+        {/* Product types - only render if exists */}
+        {product.product_types && product.product_types.length > 0 && formatProductTypes(product.product_types)}
         
-        {/* Flavors */}
+        {/* Flavors - only render if exists */}
         {product.flavor_names && product.flavor_names.length > 0 && 
           product.flavor_names.map(flavor => (
             <Badge key={flavor} variant="outline" className="bg-milk-100">
@@ -52,7 +52,7 @@ export const SelectedProduct = ({ product }: SelectedProductProps) => {
           ))
         }
         
-        {/* Ingredients */}
+        {/* Ingredients - only render if exists */}
         {product.ingredients && product.ingredients.length > 0 && 
           product.ingredients.map(ingredient => (
             <Badge key={ingredient} variant="outline" className="bg-emerald-50">
