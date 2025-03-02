@@ -11,12 +11,42 @@ import { useIsMobile } from "@/hooks/use-mobile";
 interface ProductSearchProps {
   onSelectProduct: (productId: string, brandId: string) => void;
   onAddNew: () => void;
+  selectedProductId?: string;
 }
 
-export const ProductSearch = ({ onSelectProduct, onAddNew }: ProductSearchProps) => {
+export const ProductSearch = ({ onSelectProduct, onAddNew, selectedProductId }: ProductSearchProps) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
   const isMobile = useIsMobile();
+
+  // Fetch selected product details if available
+  const { data: selectedProduct } = useQuery({
+    queryKey: ['selected_product', selectedProductId],
+    queryFn: async () => {
+      if (!selectedProductId) return null;
+      
+      const { data, error } = await supabase
+        .from('product_search_view')
+        .select('*')
+        .eq('id', selectedProductId)
+        .single();
+      
+      if (error) {
+        console.error('Error fetching selected product:', error);
+        return null;
+      }
+      
+      return data;
+    },
+    enabled: !!selectedProductId,
+  });
+
+  // Update search term when selected product changes
+  useEffect(() => {
+    if (selectedProduct) {
+      setSearchTerm(`${selectedProduct.brand_name} - ${selectedProduct.product_name}`);
+    }
+  }, [selectedProduct]);
 
   const { data: searchResults = [], isLoading } = useQuery({
     queryKey: ['product_search', searchTerm],
@@ -25,7 +55,7 @@ export const ProductSearch = ({ onSelectProduct, onAddNew }: ProductSearchProps)
       
       console.log('Searching for products:', searchTerm);
       
-      // Use the new product_search_view for more comprehensive searching
+      // Use the product_search_view for more comprehensive searching
       const { data, error } = await supabase
         .from('product_search_view')
         .select('*')
@@ -52,7 +82,7 @@ export const ProductSearch = ({ onSelectProduct, onAddNew }: ProductSearchProps)
         })) || []
       })) || [];
     },
-    enabled: searchTerm.length >= 2,
+    enabled: searchTerm.length >= 2 && !selectedProductId,
   });
 
   useEffect(() => {
@@ -61,12 +91,20 @@ export const ProductSearch = ({ onSelectProduct, onAddNew }: ProductSearchProps)
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
+    // Clear selected product if user is typing new search
+    if (selectedProductId) {
+      onSelectProduct("", "");
+    }
   };
 
   const handleSelectProduct = (productId: string, brandId: string) => {
     onSelectProduct(productId, brandId);
-    setSearchTerm("");
     setIsDropdownVisible(false);
+  };
+
+  const handleClearSearch = () => {
+    setSearchTerm("");
+    onSelectProduct("", "");
   };
 
   // Function to format additional info like flavors or product types
@@ -100,9 +138,18 @@ export const ProductSearch = ({ onSelectProduct, onAddNew }: ProductSearchProps)
               placeholder="Search for a product, brand, or flavor..."
               value={searchTerm}
               onChange={handleInputChange}
-              onFocus={() => setIsDropdownVisible(searchResults.length > 0)}
+              onFocus={() => !selectedProductId && setIsDropdownVisible(searchResults.length > 0)}
               className="pl-9 w-full"
             />
+            {searchTerm && (
+              <button 
+                onClick={handleClearSearch}
+                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
+                aria-label="Clear search"
+              >
+                ×
+              </button>
+            )}
           </div>
           
           {!isMobile && (
@@ -139,7 +186,7 @@ export const ProductSearch = ({ onSelectProduct, onAddNew }: ProductSearchProps)
           </div>
         )}
         
-        {isDropdownVisible && (
+        {isDropdownVisible && !selectedProductId && (
           <div className="absolute z-10 w-full mt-1 bg-white border rounded-md shadow-lg max-h-60 overflow-y-auto">
             {isLoading ? (
               <div className="px-4 py-3 text-sm text-gray-500">Searching...</div>

@@ -23,10 +23,12 @@ export const ProductInformation = ({
   const handleSelectProduct = (productId: string, brandId: string) => {
     setProductId(productId);
     setBrandId(brandId);
-    toast({
-      title: "Product selected",
-      description: "You've selected an existing product",
-    });
+    if (productId) {
+      toast({
+        title: "Product selected",
+        description: "You've selected an existing product",
+      });
+    }
   };
 
   const handleAddNewProduct = () => {
@@ -49,6 +51,7 @@ export const ProductInformation = ({
       <ProductSearch 
         onSelectProduct={handleSelectProduct}
         onAddNew={handleAddNewProduct}
+        selectedProductId={productId}
       />
       
       <ProductRegistrationDialog 

@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
@@ -163,13 +162,41 @@ export const ProductRegistrationDialog = ({
         .maybeSingle();
       
       if (existingProduct) {
+        // If product exists, select it instead of showing an error
         toast({
           title: "Product exists",
-          description: "This product already exists in the database",
-          variant: "destructive",
+          description: "This product already exists and has been selected",
         });
+        onSuccess(existingProduct.id, brandId);
+        onOpenChange(false);
         setIsSubmitting(false);
         return;
+      }
+      
+      // First, add the product name to product_names table if it doesn't exist
+      let productNameId: string | undefined;
+      
+      const { data: existingProductName } = await supabase
+        .from('product_names')
+        .select('id')
+        .eq('name', productName.trim())
+        .maybeSingle();
+        
+      if (existingProductName) {
+        productNameId = existingProductName.id;
+      } else {
+        const { data: newProductName, error: productNameError } = await supabase
+          .from('product_names')
+          .insert({ name: productName.trim() })
+          .select()
+          .single();
+          
+        if (productNameError) {
+          console.error('Error adding product name:', productNameError);
+          // Continue even if product name addition fails
+        } else {
+          productNameId = newProductName.id;
+        }
       }
       
       // If barista is selected, add it to product types
@@ -184,7 +211,8 @@ export const ProductRegistrationDialog = ({
           name: productName.trim(),
           brand_id: brandId,
           ingredients: ingredients.length > 0 ? ingredients : null,
-          product_types: finalProductTypes.length > 0 ? finalProductTypes : null
+          product_types: finalProductTypes.length > 0 ? finalProductTypes : null,
+          product_name_id: productNameId
         })
         .select()
         .single();
