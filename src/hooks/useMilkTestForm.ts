@@ -8,13 +8,9 @@ export const useMilkTestForm = () => {
   const [rating, setRating] = useState(0);
   const [brandId, setBrandId] = useState("");
   const [productId, setProductId] = useState("");
-  const [ingredients, setIngredients] = useState<string[]>([]);
-  const [newIngredient, setNewIngredient] = useState("");
   const [notes, setNotes] = useState("");
-  const [selectedProductTypes, setSelectedProductTypes] = useState<string[]>([]);
   const [shop, setShop] = useState<string>("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [allIngredients, setAllIngredients] = useState<string[]>([]);
   const [drinkPreference, setDrinkPreference] = useState("cold");
   const [price, setPrice] = useState("");
   const [picture, setPicture] = useState<File | null>(null);
@@ -33,8 +29,6 @@ export const useMilkTestForm = () => {
       rating,
       notes,
       shop,
-      ingredients,
-      selectedProductTypes,
       drinkPreference,
       price
     });
@@ -128,7 +122,6 @@ export const useMilkTestForm = () => {
         .insert({
           brand_id: brandId,
           product_id: productId,
-          ingredients,
           shop_id: shopData?.id || null,
           rating,
           notes,
@@ -147,36 +140,6 @@ export const useMilkTestForm = () => {
       }
 
       console.log("Milk test inserted successfully:", milkTest);
-
-      // Insert product type relationships
-      if (selectedProductTypes.length > 0) {
-        console.log("Inserting product types:", selectedProductTypes);
-        
-        const { data: productTypes } = await supabase
-          .from('product_types')
-          .select('id, key')
-          .in('key', selectedProductTypes);
-
-        console.log("Retrieved product types:", productTypes);
-
-        if (productTypes && productTypes.length > 0) {
-          const productTypeLinks = productTypes.map(pt => ({
-            milk_test_id: milkTest.id,
-            product_type_id: pt.id
-          }));
-
-          console.log("Inserting product type links:", productTypeLinks);
-
-          const { error: linkError } = await supabase
-            .from('milk_test_product_types')
-            .insert(productTypeLinks);
-
-          if (linkError) {
-            console.error('Error inserting product type links:', linkError);
-            throw linkError;
-          }
-        }
-      }
 
       toast({
         title: "Test added!",
@@ -201,13 +164,9 @@ export const useMilkTestForm = () => {
       rating,
       brandId,
       productId,
-      ingredients,
-      newIngredient,
       notes,
-      selectedProductTypes,
       shop,
       isSubmitting,
-      allIngredients,
       drinkPreference,
       price,
       picture,
@@ -217,12 +176,8 @@ export const useMilkTestForm = () => {
       setRating,
       setBrandId,
       setProductId,
-      setIngredients,
-      setNewIngredient,
       setNotes,
-      setSelectedProductTypes,
       setShop,
-      setAllIngredients,
       setDrinkPreference,
       setPrice,
       setPicture,

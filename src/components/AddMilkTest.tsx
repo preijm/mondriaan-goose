@@ -3,10 +3,8 @@ import React from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { ShopSelect } from "./milk-test/ShopSelect";
-import { IngredientsSelect } from "./milk-test/IngredientsSelect";
 import { RatingSelect } from "./milk-test/RatingSelect";
 import { ProductInformation } from "./milk-test/ProductInformation";
-import { ProductOptions } from "./milk-test/ProductOptions";
 import { DrinkPreference } from "./milk-test/DrinkPreference";
 import { PriceInput } from "./milk-test/PriceInput";
 import { PictureCapture } from "./milk-test/PictureCapture";
@@ -39,7 +37,7 @@ export const AddMilkTest = () => {
             placeholder="Tasting notes..."
             value={formState.notes}
             onChange={(e) => formSetters.setNotes(e.target.value)}
-            className="flex-1 min-h-[120px]" // Increased minimum height
+            className="flex-1 min-h-[120px]"
           />
           <PictureCapture
             picture={formState.picture}
@@ -63,30 +61,10 @@ export const AddMilkTest = () => {
       </div>
 
       <div className="space-y-4">
-        <h2 className="text-xl font-semibold text-gray-900">Product Type</h2>
-        <ProductOptions
-          selectedTypes={formState.selectedProductTypes}
-          setSelectedTypes={formSetters.setSelectedProductTypes}
-        />
-      </div>
-
-      <div className="space-y-4">
         <h2 className="text-xl font-semibold text-gray-900">Drinking Style</h2>
         <DrinkPreference
           preference={formState.drinkPreference}
           setPreference={formSetters.setDrinkPreference}
-        />
-      </div>
-
-      <div className="space-y-4">
-        <h2 className="text-xl font-semibold text-gray-900">Ingredients</h2>
-        <IngredientsSelect
-          ingredients={formState.ingredients}
-          setIngredients={formSetters.setIngredients}
-          allIngredients={formState.allIngredients}
-          setAllIngredients={formSetters.setAllIngredients}
-          newIngredient={formState.newIngredient}
-          setNewIngredient={formSetters.setNewIngredient}
         />
       </div>
 

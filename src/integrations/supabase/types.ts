@@ -75,6 +75,27 @@ export type Database = {
         }
         Relationships: []
       }
+      flavors: {
+        Row: {
+          created_at: string
+          id: string
+          name: string
+          ordering: number
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          name: string
+          ordering?: number
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          name?: string
+          ordering?: number
+        }
+        Relationships: []
+      }
       ingredients: {
         Row: {
           created_at: string
@@ -219,6 +240,39 @@ export type Database = {
           },
         ]
       }
+      product_flavors: {
+        Row: {
+          created_at: string
+          flavor_id: string
+          product_id: string
+        }
+        Insert: {
+          created_at?: string
+          flavor_id: string
+          product_id: string
+        }
+        Update: {
+          created_at?: string
+          flavor_id?: string
+          product_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "product_flavors_flavor_id_fkey"
+            columns: ["flavor_id"]
+            isOneToOne: false
+            referencedRelation: "flavors"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "product_flavors_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       product_types: {
         Row: {
           created_at: string
@@ -248,19 +302,25 @@ export type Database = {
           brand_id: string
           created_at: string
           id: string
+          ingredients: string[] | null
           name: string
+          product_types: string[] | null
         }
         Insert: {
           brand_id: string
           created_at?: string
           id?: string
+          ingredients?: string[] | null
           name: string
+          product_types?: string[] | null
         }
         Update: {
           brand_id?: string
           created_at?: string
           id?: string
+          ingredients?: string[] | null
           name?: string
+          product_types?: string[] | null
         }
         Relationships: [
           {
