@@ -333,7 +333,7 @@ export const ProductRegistrationDialog = ({
                 <TooltipTrigger asChild>
                   <HelpCircle className="h-4 w-4 text-gray-400 cursor-help" />
                 </TooltipTrigger>
-                <TooltipContent side="right" className="max-w-xs">
+                <TooltipContent side="bottom" className="max-w-xs">
                   <p>Enter product details to add a new product to the database. Brand and product name are required. Product types, ingredients, and flavors are optional but helpful for filtering and searches.</p>
                 </TooltipContent>
               </Tooltip>
@@ -405,16 +405,13 @@ export const ProductRegistrationDialog = ({
           
           <Separator />
           
-          <div className="space-y-4">
-            <h3 className="text-sm font-medium">Barista Version</h3>
-            <div className="flex items-center space-x-2">
-              <Switch 
-                id="barista-version"
-                checked={isBarista}
-                onCheckedChange={setIsBarista}
-              />
-              <Label htmlFor="barista-version">This is a Barista product</Label>
-            </div>
+          <div className="flex items-center space-x-2">
+            <Switch 
+              id="barista-version"
+              checked={isBarista}
+              onCheckedChange={setIsBarista}
+            />
+            <Label htmlFor="barista-version">Barista Version</Label>
           </div>
           
           <div className="space-y-4">
@@ -451,7 +448,7 @@ export const ProductRegistrationDialog = ({
                     checked={selectedFlavors.includes(flavor.id)}
                     onCheckedChange={() => handleFlavorToggle(flavor.id)}
                   />
-                  <Label htmlFor={`flavor-${flavor.id}`}>{flavor.name}</Label>
+                  <Label htmlFor={`flavor-${flavor.id}`} className="font-normal">{flavor.name}</Label>
                 </div>
               ))}
             </div>
