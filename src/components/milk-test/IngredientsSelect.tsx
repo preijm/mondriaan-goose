@@ -16,6 +16,7 @@ interface IngredientsSelectProps {
   setAllIngredients: (ingredients: string[]) => void;
   newIngredient: string;
   setNewIngredient: (ingredient: string) => void;
+  hideAddButton?: boolean;
 }
 
 export const IngredientsSelect = ({
@@ -25,6 +26,7 @@ export const IngredientsSelect = ({
   setAllIngredients,
   newIngredient,
   setNewIngredient,
+  hideAddButton = false,
 }: IngredientsSelectProps) => {
   const [open, setOpen] = useState(false);
   const { toast } = useToast();
@@ -125,50 +127,52 @@ export const IngredientsSelect = ({
           allIngredients={allIngredients}
           onToggle={toggleIngredient}
         />
-        <Popover open={open} onOpenChange={setOpen}>
-          <PopoverTrigger asChild>
-            <Button
-              type="button"
-              variant="ghost"
-              size="sm"
-              className="p-1 h-auto rounded-full hover:bg-cream-200"
+        {!hideAddButton && (
+          <Popover open={open} onOpenChange={setOpen}>
+            <PopoverTrigger asChild>
+              <Button
+                type="button"
+                variant="ghost"
+                size="sm"
+                className="p-1 h-auto rounded-full hover:bg-cream-200"
+              >
+                <Plus className="h-4 w-4 text-cream-700" />
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent 
+              className="p-0 w-[90vw] sm:w-64" 
+              align="start"
+              side="bottom"
+              sideOffset={8}
+              style={isMobile ? {
+                position: 'fixed',
+                top: '50%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
+                maxWidth: '90vw',
+                width: '100%',
+                maxHeight: '80vh',
+                overflowY: 'auto',
+                backgroundColor: 'white',
+                borderRadius: '0.5rem',
+                zIndex: 9999,
+                boxShadow: '0 25px 50px -12px rgb(0 0 0 / 0.25)'
+              } : undefined}
             >
-              <Plus className="h-4 w-4 text-cream-700" />
-            </Button>
-          </PopoverTrigger>
-          <PopoverContent 
-            className="p-0 w-[90vw] sm:w-64" 
-            align="start"
-            side="bottom"
-            sideOffset={8}
-            style={isMobile ? {
-              position: 'fixed',
-              top: '50%',
-              left: '50%',
-              transform: 'translate(-50%, -50%)',
-              maxWidth: '90vw',
-              width: '100%',
-              maxHeight: '80vh',
-              overflowY: 'auto',
-              backgroundColor: 'white',
-              borderRadius: '0.5rem',
-              zIndex: 9999,
-              boxShadow: '0 25px 50px -12px rgb(0 0 0 / 0.25)'
-            } : undefined}
-          >
-            <div className="p-4">
-              <AddIngredientForm
-                value={newIngredient}
-                onChange={setNewIngredient}
-                onAdd={handleAddIngredient}
-                onClose={() => {
-                  setOpen(false);
-                  setNewIngredient("");
-                }}
-              />
-            </div>
-          </PopoverContent>
-        </Popover>
+              <div className="p-4">
+                <AddIngredientForm
+                  value={newIngredient}
+                  onChange={setNewIngredient}
+                  onAdd={handleAddIngredient}
+                  onClose={() => {
+                    setOpen(false);
+                    setNewIngredient("");
+                  }}
+                />
+              </div>
+            </PopoverContent>
+          </Popover>
+        )}
       </div>
     </div>
   );
