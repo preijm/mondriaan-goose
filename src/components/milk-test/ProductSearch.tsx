@@ -25,27 +25,11 @@ export const ProductSearch = ({ onSelectProduct, onAddNew }: ProductSearchProps)
       
       console.log('Searching for products:', searchTerm);
       
-      // Search products by name or brand name - using proper parameter binding
+      // Use the new product_search_view for more comprehensive searching
       const { data, error } = await supabase
-        .from('products')
-        .select(`
-          id, 
-          name,
-          brand_id,
-          product_types,
-          ingredients,
-          brands:brand_id (
-            id,
-            name
-          ),
-          product_flavors (
-            flavors:flavor_id (
-              id,
-              name
-            )
-          )
-        `)
-        .or(`name.ilike.%${searchTerm}%,brands.name.ilike.%${searchTerm}%`)
+        .from('product_search_view')
+        .select('*')
+        .or(`product_name.ilike.%${searchTerm}%,brand_name.ilike.%${searchTerm}%,flavor_names.cs.{${searchTerm}}`)
         .limit(10);
       
       if (error) {
@@ -54,7 +38,19 @@ export const ProductSearch = ({ onSelectProduct, onAddNew }: ProductSearchProps)
       }
       
       console.log('Search results:', data);
-      return data || [];
+
+      // Transform the results to match the format expected by the component
+      return data?.map(item => ({
+        id: item.id,
+        name: item.product_name,
+        brand_id: item.brand_id,
+        brands: { name: item.brand_name },
+        product_types: item.product_types,
+        ingredients: item.ingredients,
+        product_flavors: item.flavor_names?.map(name => ({ 
+          flavors: { name } 
+        })) || []
+      })) || [];
     },
     enabled: searchTerm.length >= 2,
   });
@@ -84,7 +80,7 @@ export const ProductSearch = ({ onSelectProduct, onAddNew }: ProductSearchProps)
     
     // Add flavors if available
     const flavors = product.product_flavors
-      ?.map((pf: any) => pf.flavors?.name)
+      ?.map((pf: any) => typeof pf === 'string' ? pf : pf.flavors?.name)
       .filter(Boolean);
       
     if (flavors && flavors.length > 0) {
@@ -101,31 +97,47 @@ export const ProductSearch = ({ onSelectProduct, onAddNew }: ProductSearchProps)
           <div className="relative flex-1">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-500" />
             <Input
-              placeholder="Search for a product or brand..."
+              placeholder="Search for a product, brand, or flavor..."
               value={searchTerm}
               onChange={handleInputChange}
               onFocus={() => setIsDropdownVisible(searchResults.length > 0)}
               className="pl-9 w-full"
             />
           </div>
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button 
-                  type="button" 
-                  onClick={onAddNew}
-                  className="whitespace-nowrap"
-                >
-                  <Plus className="h-4 w-4 mr-2" />
-                  New Product
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent className="max-w-xs">
-                <p>Register a new product when you can't find it in the search results. Make sure to select the correct brand first.</p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
+          
+          {!isMobile && (
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button 
+                    type="button" 
+                    onClick={onAddNew}
+                    className="whitespace-nowrap"
+                  >
+                    <Plus className="h-4 w-4 mr-2" />
+                    New Product
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent className="max-w-xs">
+                  <p>Register a new product when you can't find it in the search results. Make sure to select the correct brand first.</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          )}
         </div>
+        
+        {isMobile && (
+          <div className="mt-2">
+            <Button 
+              type="button" 
+              onClick={onAddNew}
+              className="w-full"
+            >
+              <Plus className="h-4 w-4 mr-2" />
+              New Product
+            </Button>
+          </div>
+        )}
         
         {isDropdownVisible && (
           <div className="absolute z-10 w-full mt-1 bg-white border rounded-md shadow-lg max-h-60 overflow-y-auto">
