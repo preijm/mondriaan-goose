@@ -29,9 +29,17 @@ export const ProductSearch = ({ onSelectProduct, onAddNew }: ProductSearchProps)
           id, 
           name,
           brand_id,
+          product_types,
+          ingredients,
           brands:brand_id (
             id,
             name
+          ),
+          product_flavors (
+            flavors:flavor_id (
+              id,
+              name
+            )
           )
         `)
         .or(`name.ilike.%${searchTerm}%,brands.name.ilike.%${searchTerm}%`)
@@ -60,6 +68,27 @@ export const ProductSearch = ({ onSelectProduct, onAddNew }: ProductSearchProps)
     onSelectProduct(productId, brandId);
     setSearchTerm("");
     setIsDropdownVisible(false);
+  };
+
+  // Function to format additional info like flavors or product types
+  const formatAdditionalInfo = (product: any) => {
+    const parts = [];
+    
+    // Add product types if available
+    if (product.product_types && product.product_types.length > 0) {
+      parts.push(product.product_types.join(', '));
+    }
+    
+    // Add flavors if available
+    const flavors = product.product_flavors
+      ?.map((pf: any) => pf.flavors?.name)
+      .filter(Boolean);
+      
+    if (flavors && flavors.length > 0) {
+      parts.push(flavors.join(', '));
+    }
+    
+    return parts.length > 0 ? `(${parts.join(' • ')})` : '';
   };
 
   return (
@@ -97,8 +126,10 @@ export const ProductSearch = ({ onSelectProduct, onAddNew }: ProductSearchProps)
                   className="px-4 py-2 cursor-pointer hover:bg-gray-100 border-b last:border-b-0"
                   onClick={() => handleSelectProduct(result.id, result.brand_id)}
                 >
-                  <div className="font-medium">{result.name}</div>
-                  <div className="text-xs text-gray-500">{result.brands.name}</div>
+                  <div className="font-medium">{result.brands.name} - {result.name}</div>
+                  <div className="text-xs text-gray-500">
+                    {formatAdditionalInfo(result)}
+                  </div>
                 </div>
               ))
             ) : searchTerm.length >= 2 ? (
