@@ -56,12 +56,33 @@ export const ProductSearch = ({ onSelectProduct, onAddNew, selectedProductId }: 
       
       console.log('Searching for products:', searchTerm);
       
-      // Use the product_search_view for more comprehensive searching
-      const { data, error } = await supabase
+      // Create a query to search in product name, brand name, flavor names and ingredients
+      let query = supabase
         .from('product_search_view')
-        .select('*')
-        .or(`product_name.ilike.%${searchTerm}%,brand_name.ilike.%${searchTerm}%,flavor_names.cs.{${searchTerm}}`)
-        .limit(10);
+        .select('*');
+      
+      // Handle ingredient search differently
+      if (searchTerm.toLowerCase().includes('no sugar') || 
+          searchTerm.toLowerCase().includes('sugar free') ||
+          searchTerm.toLowerCase().includes('unsweetened')) {
+        
+        // Search for products that mention these terms in ingredients
+        query = query.or(`
+          product_name.ilike.%${searchTerm}%,
+          brand_name.ilike.%${searchTerm}%,
+          flavor_names.cs.{${searchTerm}},
+          ingredients.cs.{%${searchTerm}%}
+        `);
+      } else {
+        // Regular search for product name, brand name, flavor names
+        query = query.or(`
+          product_name.ilike.%${searchTerm}%,
+          brand_name.ilike.%${searchTerm}%,
+          flavor_names.cs.{${searchTerm}}
+        `);
+      }
+      
+      const { data, error } = await query.limit(10);
       
       if (error) {
         console.error('Error searching products:', error);
@@ -126,6 +147,28 @@ export const ProductSearch = ({ onSelectProduct, onAddNew, selectedProductId }: 
     }).join(' • ');
   };
 
+  // Generate ingredient highlights for search results
+  const highlightIngredients = (ingredients: string[] | null, searchTerm: string) => {
+    if (!ingredients || ingredients.length === 0) return null;
+    
+    // Search for matching ingredients
+    const matchingIngredients = ingredients.filter(ingredient => 
+      ingredient.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    
+    if (matchingIngredients.length === 0) return null;
+    
+    return (
+      <div className="mt-1">
+        {matchingIngredients.map(ingredient => (
+          <Badge key={ingredient} variant="outline" className="bg-emerald-50 text-xs mr-1">
+            {ingredient}
+          </Badge>
+        ))}
+      </div>
+    );
+  };
+
   return (
     <div className="space-y-4">
       <div className="relative">
@@ -133,7 +176,7 @@ export const ProductSearch = ({ onSelectProduct, onAddNew, selectedProductId }: 
           <div className="relative flex-1">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-500" />
             <Input
-              placeholder="Search for a product, brand, or flavor..."
+              placeholder="Search for a product, brand, flavor, or ingredients like 'no sugar'..."
               value={searchTerm}
               onChange={handleInputChange}
               onFocus={() => !selectedProductId && setIsDropdownVisible(searchResults.length > 0)}
@@ -208,6 +251,11 @@ export const ProductSearch = ({ onSelectProduct, onAddNew, selectedProductId }: 
                   {flavor}
                 </Badge>
               ))}
+              {selectedProduct.ingredients && selectedProduct.ingredients.map(ingredient => (
+                <Badge key={ingredient} variant="outline" className="bg-emerald-50">
+                  {ingredient}
+                </Badge>
+              ))}
             </div>
           </div>
         )}
@@ -245,6 +293,7 @@ export const ProductSearch = ({ onSelectProduct, onAddNew, selectedProductId }: 
                       </Badge>
                     ))}
                   </div>
+                  {searchTerm.toLowerCase().includes('sugar') && highlightIngredients(result.ingredients, searchTerm)}
                 </div>
               ))
             ) : searchTerm.length >= 2 ? (
