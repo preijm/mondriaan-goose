@@ -12,6 +12,8 @@ import { Separator } from "@/components/ui/separator";
 import { useQuery } from "@tanstack/react-query";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
+import { HelpCircle } from "lucide-react";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 interface ProductRegistrationDialogProps {
   open: boolean;
@@ -27,6 +29,8 @@ export const ProductRegistrationDialog = ({
   // Form state
   const [brandId, setBrandId] = useState("");
   const [productName, setProductName] = useState("");
+  const [productNameSuggestions, setProductNameSuggestions] = useState<string[]>([]);
+  const [showProductNameDropdown, setShowProductNameDropdown] = useState(false);
   const [ingredients, setIngredients] = useState<string[]>([]);
   const [newIngredient, setNewIngredient] = useState("");
   const [allIngredients, setAllIngredients] = useState<string[]>([]);
@@ -47,6 +51,46 @@ export const ProductRegistrationDialog = ({
       setSelectedFlavors([]);
     }
   }, [open]);
+
+  // Fetch existing product names when brand changes
+  useEffect(() => {
+    const fetchProductNames = async () => {
+      if (!brandId) {
+        setProductNameSuggestions([]);
+        return;
+      }
+
+      const { data, error } = await supabase
+        .from('products')
+        .select('name')
+        .eq('brand_id', brandId)
+        .order('name');
+        
+      if (error) {
+        console.error('Error fetching product names:', error);
+        return;
+      }
+      
+      const names = data.map(p => p.name);
+      setProductNameSuggestions(names);
+    };
+    
+    fetchProductNames();
+  }, [brandId]);
+
+  // Filter product suggestions based on input
+  useEffect(() => {
+    if (productName.trim() === '') {
+      setShowProductNameDropdown(false);
+      return;
+    }
+    
+    const matchingNames = productNameSuggestions.filter(name => 
+      name.toLowerCase().includes(productName.toLowerCase())
+    );
+    
+    setShowProductNameDropdown(matchingNames.length > 0);
+  }, [productName, productNameSuggestions]);
 
   // Fetch flavors
   const { data: flavors = [] } = useQuery({
@@ -72,6 +116,15 @@ export const ProductRegistrationDialog = ({
         ? prev.filter(id => id !== flavorId)
         : [...prev, flavorId]
     );
+  };
+
+  const handleProductNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setProductName(e.target.value);
+  };
+
+  const handleSelectProductName = (name: string) => {
+    setProductName(name);
+    setShowProductNameDropdown(false);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -173,7 +226,19 @@ export const ProductRegistrationDialog = ({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-2xl max-h-[85vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle>Register New Product</DialogTitle>
+          <DialogTitle className="flex items-center gap-2">
+            Register New Product
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <HelpCircle className="h-4 w-4 text-gray-400 cursor-help" />
+                </TooltipTrigger>
+                <TooltipContent side="right" className="max-w-xs">
+                  <p>Enter product details to add a new product to the database. Brand and product name are required. Product types, ingredients, and flavors are optional but helpful for filtering and searches.</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          </DialogTitle>
         </DialogHeader>
         
         <form onSubmit={handleSubmit} className="space-y-6">
@@ -186,18 +251,64 @@ export const ProductRegistrationDialog = ({
           </div>
           
           <div className="space-y-4">
-            <h3 className="text-sm font-medium">Product Name *</h3>
-            <Input
-              placeholder="Enter product name"
-              value={productName}
-              onChange={(e) => setProductName(e.target.value)}
-            />
+            <h3 className="text-sm font-medium flex items-center gap-2">
+              Product Name *
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <HelpCircle className="h-4 w-4 text-gray-400 cursor-help" />
+                  </TooltipTrigger>
+                  <TooltipContent className="max-w-xs">
+                    <p>Enter the specific name of the product (e.g., "Oat Milk", "Almond Drink", "Soy Beverage"). Use flavors section below for variants like vanilla or chocolate.</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            </h3>
+            <div className="relative">
+              <Input
+                placeholder="Enter product name"
+                value={productName}
+                onChange={handleProductNameChange}
+                onFocus={() => productNameSuggestions.length > 0 && setShowProductNameDropdown(true)}
+              />
+              
+              {showProductNameDropdown && (
+                <div className="absolute z-10 w-full mt-1 bg-white border rounded-md shadow-lg max-h-40 overflow-y-auto">
+                  {productNameSuggestions
+                    .filter(name => name.toLowerCase().includes(productName.toLowerCase()))
+                    .map((name) => (
+                      <div
+                        key={name}
+                        className="px-4 py-2 cursor-pointer hover:bg-gray-100"
+                        onMouseDown={(e) => {
+                          e.preventDefault();
+                          handleSelectProductName(name);
+                        }}
+                      >
+                        {name}
+                      </div>
+                    ))}
+                </div>
+              )}
+            </div>
           </div>
           
           <Separator />
           
           <div className="space-y-4">
-            <h3 className="text-sm font-medium">Product Type</h3>
+            <h3 className="text-sm font-medium flex items-center gap-2">
+              Product Type
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <HelpCircle className="h-4 w-4 text-gray-400 cursor-help" />
+                  </TooltipTrigger>
+                  <TooltipContent className="max-w-xs">
+                    <p>Select the type of product (e.g., dairy-free, lactose-free, regular). You can select multiple types if applicable.</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            </h3>
             <ProductOptions
               selectedTypes={selectedProductTypes}
               setSelectedTypes={setSelectedProductTypes}
@@ -207,7 +318,19 @@ export const ProductRegistrationDialog = ({
           <Separator />
           
           <div className="space-y-4">
-            <h3 className="text-sm font-medium">Ingredients</h3>
+            <h3 className="text-sm font-medium flex items-center gap-2">
+              Ingredients
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <HelpCircle className="h-4 w-4 text-gray-400 cursor-help" />
+                  </TooltipTrigger>
+                  <TooltipContent className="max-w-xs">
+                    <p>Add main ingredients for this product. This helps users searching for specific ingredients like oat, almond, or coconut.</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            </h3>
             <IngredientsSelect
               ingredients={ingredients}
               setIngredients={setIngredients}
@@ -221,7 +344,19 @@ export const ProductRegistrationDialog = ({
           <Separator />
           
           <div className="space-y-4">
-            <h3 className="text-sm font-medium">Flavors</h3>
+            <h3 className="text-sm font-medium flex items-center gap-2">
+              Flavors
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <HelpCircle className="h-4 w-4 text-gray-400 cursor-help" />
+                  </TooltipTrigger>
+                  <TooltipContent className="max-w-xs">
+                    <p>Select any flavors this product has, such as vanilla, chocolate, or unsweetened. Leave empty if it's plain/original.</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            </h3>
             <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
               {flavors.map((flavor) => (
                 <div key={flavor.id} className="flex items-center space-x-2">

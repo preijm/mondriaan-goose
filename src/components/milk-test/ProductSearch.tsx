@@ -3,8 +3,9 @@ import React, { useState, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { Plus, Search } from "lucide-react";
+import { Plus, Search, HelpCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 interface ProductSearchProps {
   onSelectProduct: (productId: string, brandId: string) => void;
@@ -22,7 +23,7 @@ export const ProductSearch = ({ onSelectProduct, onAddNew }: ProductSearchProps)
       
       console.log('Searching for products:', searchTerm);
       
-      // Search products by name or brand name
+      // Search products by name or brand name - using proper parameter binding
       const { data, error } = await supabase
         .from('products')
         .select(`
@@ -42,7 +43,7 @@ export const ProductSearch = ({ onSelectProduct, onAddNew }: ProductSearchProps)
             )
           )
         `)
-        .or(`name.ilike."%" || ${searchTerm} || "%",brands.name.ilike."%" || ${searchTerm} || "%"`)
+        .or(`name.ilike.%${searchTerm}%,brands.name.ilike.%${searchTerm}%`)
         .limit(10);
       
       if (error) {
@@ -105,14 +106,23 @@ export const ProductSearch = ({ onSelectProduct, onAddNew }: ProductSearchProps)
               className="pl-9 w-full"
             />
           </div>
-          <Button 
-            type="button" 
-            onClick={onAddNew}
-            className="whitespace-nowrap"
-          >
-            <Plus className="h-4 w-4 mr-2" />
-            New Product
-          </Button>
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button 
+                  type="button" 
+                  onClick={onAddNew}
+                  className="whitespace-nowrap"
+                >
+                  <Plus className="h-4 w-4 mr-2" />
+                  New Product
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent className="max-w-xs">
+                <p>Register a new product when you can't find it in the search results. Make sure to select the correct brand first.</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
         </div>
         
         {isDropdownVisible && (
