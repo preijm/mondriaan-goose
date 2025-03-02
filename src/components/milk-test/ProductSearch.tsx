@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { useQuery } from "@tanstack/react-query";
@@ -58,8 +57,8 @@ export const ProductSearch = ({ onSelectProduct, onAddNew, selectedProductId }: 
       
       console.log('Searching for products:', searchTerm);
       
-      // Fix: Improve search to include flavors and ingredients
-      const { data, error } = await supabase
+      // First query - search for product name, brand name, and flavors
+      const { data: initialResults, error } = await supabase
         .from('product_search_view')
         .select('*')
         .or(`product_name.ilike.%${searchTerm}%,brand_name.ilike.%${searchTerm}%,flavor_names.cs.{"${searchTerm}"}`)
@@ -70,7 +69,7 @@ export const ProductSearch = ({ onSelectProduct, onAddNew, selectedProductId }: 
         throw error;
       }
       
-      // Also search ingredients
+      // Second query - search for ingredients
       const { data: ingredientResults, error: ingredientsError } = await supabase
         .from('product_search_view')
         .select('*')
@@ -79,23 +78,23 @@ export const ProductSearch = ({ onSelectProduct, onAddNew, selectedProductId }: 
         
       if (ingredientsError) {
         console.error('Error searching ingredients:', ingredientsError);
-      } else if (ingredientResults) {
-        // Combine results, removing duplicates by id
-        const combinedResults = [...data || []];
-        
+      }
+      
+      // Combine results, removing duplicates by id
+      let combinedResults = [...(initialResults || [])];
+      
+      if (ingredientResults) {
         ingredientResults.forEach(item => {
           if (!combinedResults.some(existing => existing.id === item.id)) {
             combinedResults.push(item);
           }
         });
-        
-        data = combinedResults;
       }
       
-      console.log('Search results:', data);
+      console.log('Search results:', combinedResults);
 
       // Transform the results to match the format expected by the component
-      return data?.map(item => ({
+      return combinedResults.map(item => ({
         id: item.id,
         name: item.product_name,
         brand_id: item.brand_id,
