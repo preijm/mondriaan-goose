@@ -14,6 +14,7 @@ export const ShopSearchInput = ({ value, onChange }: ShopSearchInputProps) => {
       value={value}
       onChange={onChange}
       className="w-full"
+      autoComplete="off"
     />
   );
 };
