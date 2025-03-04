@@ -1,0 +1,80 @@
+
+import React from "react";
+import { Input } from "@/components/ui/input";
+import { Search, Plus } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { useIsMobile } from "@/hooks/use-mobile";
+
+interface SearchBoxProps {
+  searchTerm: string;
+  onSearchChange: (value: string) => void;
+  onAddNew: () => void;
+  onClear: () => void;
+  hasSelectedProduct: boolean;
+}
+
+export const SearchBox = ({
+  searchTerm,
+  onSearchChange,
+  onAddNew,
+  onClear,
+  hasSelectedProduct
+}: SearchBoxProps) => {
+  const isMobile = useIsMobile();
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    onSearchChange(e.target.value);
+  };
+
+  return (
+    <>
+      <div className={`flex ${isMobile ? 'flex-col' : 'flex-row'} gap-2`}>
+        <div className="relative flex-1">
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-500" />
+          <Input 
+            placeholder="Search for product..." 
+            value={searchTerm} 
+            onChange={handleInputChange}
+            onFocus={() => !hasSelectedProduct} 
+            className="pl-9 w-full" 
+          />
+          {searchTerm && (
+            <button 
+              onClick={onClear} 
+              className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700" 
+              aria-label="Clear search"
+            >
+              ×
+            </button>
+          )}
+        </div>
+        
+        {!isMobile && (
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button type="button" onClick={onAddNew} className="whitespace-nowrap bg-black text-white">
+                  <Plus className="h-4 w-4 mr-2" />
+                  New Product
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent className="max-w-xs">
+                <p>Register a new product when you can't find it in the search results. Make sure to select the correct brand first.</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+        )}
+      </div>
+      
+      {isMobile && (
+        <div className="mt-2">
+          <Button type="button" onClick={onAddNew} className="w-full">
+            <Plus className="h-4 w-4 mr-2" />
+            New Product
+          </Button>
+        </div>
+      )}
+    </>
+  );
+};
