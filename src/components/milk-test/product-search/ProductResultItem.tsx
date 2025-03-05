@@ -46,46 +46,65 @@ export const ProductResultItem = ({ result, searchTerm, onSelect }: ProductResul
   
   // Generate ingredient highlights for search results
   const highlightIngredients = () => {
-    if (!result.ingredients || result.ingredients.length === 0 || !searchTerm) return null;
+    if (!result.ingredients || result.ingredients.length === 0 || !searchTerm) return [];
     
     // Search for matching ingredients (partial match)
-    const matchingIngredients = result.ingredients.filter(ingredient => 
+    return result.ingredients.filter(ingredient => 
       ingredient.toLowerCase().includes(lowercaseSearchTerm)
-    );
-    
-    if (matchingIngredients.length === 0) return null;
-    
-    return (
-      <div className="mt-1">
-        {matchingIngredients.map(ingredient => (
-          <Badge key={ingredient} variant="outline" className="bg-emerald-50 text-xs mr-1">
-            {ingredient}
-          </Badge>
-        ))}
-      </div>
     );
   };
 
-  // Generate flavor highlights for search results
-  const highlightFlavors = () => {
-    if (!result.flavor_names || result.flavor_names.length === 0) return null;
+  // Combine all badges into a single array for more compact display
+  const getAllBadges = () => {
+    const badges = [];
     
-    return (
-      <div className="flex flex-wrap gap-1 mt-1">
-        {result.flavor_names.map(flavor => {
-          const isMatching = isMatchingFlavor(flavor);
-          return (
-            <Badge 
-              key={flavor} 
-              variant="outline" 
-              className={`text-xs ${isMatching ? 'bg-yellow-100 font-medium' : 'bg-milk-100'}`}
-            >
-              {flavor}
-            </Badge>
-          );
-        })}
-      </div>
-    );
+    // Add product types badges (prioritize "barista")
+    if (result.product_types && result.product_types.length > 0) {
+      // Sort product types to prioritize "barista"
+      const sortedTypes = [...result.product_types].sort((a, b) => {
+        if (a.toLowerCase() === 'barista') return -1;
+        if (b.toLowerCase() === 'barista') return 1;
+        return 0;
+      });
+      
+      sortedTypes.forEach(type => {
+        const formattedType = type.replace(/_/g, ' ');
+        const isMatching = lowercaseSearchTerm && 
+          formattedType.toLowerCase().includes(lowercaseSearchTerm);
+          
+        badges.push({
+          key: `type-${type}`,
+          text: formatProductType(type),
+          className: `text-xs ${isMatching ? 'bg-cream-100 font-medium' : 
+            type.toLowerCase() === 'barista' ? 'bg-cream-100' : 'bg-gray-100'}`
+        });
+      });
+    }
+    
+    // Add flavor badges
+    if (result.flavor_names && result.flavor_names.length > 0) {
+      result.flavor_names
+        .filter(flavor => flavor !== null)
+        .forEach(flavor => {
+          badges.push({
+            key: `flavor-${flavor}`,
+            text: flavor,
+            className: `text-xs ${isMatchingFlavor(flavor) ? 'bg-yellow-100 font-medium' : 'bg-milk-100'}`
+          });
+        });
+    }
+    
+    // Add matching ingredient badges
+    const matchingIngredients = highlightIngredients();
+    matchingIngredients.forEach(ingredient => {
+      badges.push({
+        key: `ingredient-${ingredient}`,
+        text: ingredient,
+        className: "bg-emerald-50 text-xs"
+      });
+    });
+    
+    return badges;
   };
 
   return (
@@ -95,49 +114,18 @@ export const ProductResultItem = ({ result, searchTerm, onSelect }: ProductResul
     >
       <div className="font-medium">{result.brand_name} - {result.name}</div>
       
-      {/* Only render if product types exist */}
-      {result.product_types && result.product_types.length > 0 && (
-        <div className="flex flex-wrap gap-1 mt-1">
-          {result.product_types.map(type => {
-            // Highlight matching product types with a different background
-            const formattedType = type.replace(/_/g, ' ');
-            const isMatching = lowercaseSearchTerm && 
-              formattedType.toLowerCase().includes(lowercaseSearchTerm);
-               
-            return (
-              <Badge 
-                key={type} 
-                variant="outline" 
-                className={`text-xs ${isMatching ? 'bg-cream-100 font-medium' : 
-                  type.toLowerCase() === 'barista' ? 'bg-cream-100' : 'bg-gray-100'}`}
-              >
-                {formatProductType(type)}
-              </Badge>
-            );
-          })}
-        </div>
-      )}
-      
-      {/* Render flavors separately for better visibility */}
-      {result.flavor_names && result.flavor_names.length > 0 && (
-        <div className="flex flex-wrap gap-1 mt-1">
-          {result.flavor_names
-            .filter(flavor => flavor !== null)
-            .map(flavor => (
-              <Badge 
-                key={flavor} 
-                variant="outline" 
-                className={`text-xs ${isMatchingFlavor(flavor) ? 'bg-yellow-100 font-medium' : 'bg-milk-100'}`}
-              >
-                {flavor}
-              </Badge>
-            ))
-          }
-        </div>
-      )}
-      
-      {/* Highlight matching ingredients */}
-      {highlightIngredients()}
+      {/* Render all badges in a single, compact row */}
+      <div className="flex flex-wrap gap-1 mt-1">
+        {getAllBadges().map(badge => (
+          <Badge 
+            key={badge.key} 
+            variant="outline" 
+            className={badge.className}
+          >
+            {badge.text}
+          </Badge>
+        ))}
+      </div>
     </div>
   );
 };
