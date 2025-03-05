@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -59,7 +58,6 @@ export const EditMilkTest = ({ test, open, onOpenChange, onSuccess }: EditMilkTe
 
   const { toast } = useToast();
 
-  // Load existing picture if available
   useEffect(() => {
     const loadExistingPicture = async () => {
       if (test.picture_path) {
@@ -112,7 +110,6 @@ export const EditMilkTest = ({ test, open, onOpenChange, onSuccess }: EditMilkTe
         .eq('name', shop)
         .maybeSingle();
 
-      // Upload new picture if available
       let picturePath = test.picture_path;
       if (picture) {
         const fileExt = picture.name.split('.').pop();

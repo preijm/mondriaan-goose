@@ -14,11 +14,13 @@ import { Label } from "@/components/ui/label";
 import { HelpCircle, Plus } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { Switch } from "@/components/ui/switch";
+
 interface ProductRegistrationDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   onSuccess: (productId: string, brandId: string) => void;
 }
+
 export const ProductRegistrationDialog = ({
   open,
   onOpenChange,
@@ -324,9 +326,8 @@ export const ProductRegistrationDialog = ({
           
           <div className="space-y-2">
             <h3 className="text-sm font-medium">Barista Version</h3>
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center">
               <Switch id="barista-version" checked={isBarista} onCheckedChange={setIsBarista} />
-              <Label htmlFor="barista-version">Barista</Label>
             </div>
           </div>
           
