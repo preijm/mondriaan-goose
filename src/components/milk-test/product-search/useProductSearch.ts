@@ -72,16 +72,29 @@ export const useProductSearch = (selectedProductId?: string) => {
       }
 
       // Second query - improved flavor search with partial matching
+      // Using direct SQL filter for more reliable flavor search
       const {
         data: flavorResults,
         error: flavorError
-      } = await supabase.from('product_search_view')
+      } = await supabase
+        .from('product_search_view')
         .select('*')
-        .filter('flavor_names', 'cs', `{%${lowercaseSearchTerm}%}`)
+        .filter('flavor_names', 'cs', `{${lowercaseSearchTerm}}`)
         .limit(20);
       
       if (flavorError) {
         console.error('Error searching flavors:', flavorError);
+      }
+      
+      // Additional flavor query with contains approach for better partial matching
+      const {
+        data: additionalFlavorResults,
+        error: additionalFlavorError
+      } = await supabase.rpc('search_flavors', { search_term: lowercaseSearchTerm })
+        .limit(20);
+      
+      if (additionalFlavorError) {
+        console.error('Error with additional flavor search:', additionalFlavorError);
       }
 
       // Third query - improved product type search with partial matching
@@ -89,7 +102,9 @@ export const useProductSearch = (selectedProductId?: string) => {
       const {
         data: productTypeResults,
         error: productTypeError
-      } = await supabase.rpc('search_product_types', { search_term: lowercaseSearchTerm })
+      } = await supabase.from('product_search_view')
+        .select('*')
+        .filter('product_types', 'cs', `{%${lowercaseSearchTerm}%}`)
         .limit(20);
       
       if (productTypeError) {
@@ -113,7 +128,7 @@ export const useProductSearch = (selectedProductId?: string) => {
       let combinedResults = [...(initialResults || [])];
       
       // Add all additional results if they exist, avoiding duplicates
-      [flavorResults, productTypeResults, ingredientResults].forEach(resultSet => {
+      [flavorResults, additionalFlavorResults, productTypeResults, ingredientResults].forEach(resultSet => {
         if (resultSet) {
           resultSet.forEach(item => {
             if (!combinedResults.some(existing => existing.id === item.id)) {

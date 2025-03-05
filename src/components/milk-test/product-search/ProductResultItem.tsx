@@ -41,7 +41,9 @@ export const ProductResultItem = ({ result, searchTerm, onSelect }: ProductResul
   // Helper to check if a flavor matches the search term
   const isMatchingFlavor = (flavor: string) => {
     if (!flavor || !searchTerm) return false;
-    return flavor.toLowerCase().includes(lowercaseSearchTerm);
+    // More aggressive matching for flavors
+    return flavor.toLowerCase().includes(lowercaseSearchTerm) || 
+           lowercaseSearchTerm.includes(flavor.toLowerCase());
   };
   
   // Helper to check if an ingredient matches the search term
