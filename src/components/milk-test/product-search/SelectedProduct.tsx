@@ -5,7 +5,7 @@ import { Badge } from "@/components/ui/badge";
 interface ProductData {
   brand_name: string;
   product_name: string;
-  product_types: string[] | null;
+  product_properties: string[] | null;
   flavor_names: string[] | null;
   ingredients: string[] | null;
 }
@@ -19,10 +19,10 @@ export const SelectedProduct = ({ product }: SelectedProductProps) => {
   const getAllBadges = () => {
     const badges = [];
     
-    // Add product types badges (prioritize "barista")
-    if (product.product_types && product.product_types.length > 0) {
-      // Sort product types to prioritize "barista"
-      const sortedTypes = [...product.product_types].sort((a, b) => {
+    // Add product properties badges (prioritize "barista")
+    if (product.product_properties && product.product_properties.length > 0) {
+      // Sort product properties to prioritize "barista"
+      const sortedTypes = [...product.product_properties].sort((a, b) => {
         if (a.toLowerCase() === 'barista') return -1;
         if (b.toLowerCase() === 'barista') return 1;
         return 0;

@@ -12,11 +12,11 @@ export const ProductOptions = ({
   selectedTypes,
   setSelectedTypes,
 }: ProductOptionsProps) => {
-  const { data: productTypes = [] } = useQuery({
-    queryKey: ['product_types'],
+  const { data: productProperties = [] } = useQuery({
+    queryKey: ['product_properties'],
     queryFn: async () => {
       const { data } = await supabase
-        .from('product_types')
+        .from('product_properties')
         .select('*')
         .order('ordering', { ascending: true });
       
@@ -35,7 +35,7 @@ export const ProductOptions = ({
   return (
     <div className="space-y-4">
       <div className="flex flex-wrap gap-6">
-        {productTypes.map((type) => (
+        {productProperties.map((type) => (
           <div key={type.key} className="flex items-center space-x-2">
             <Checkbox
               id={type.key}

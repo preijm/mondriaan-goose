@@ -49,7 +49,7 @@ export const EditMilkTest = ({ test, open, onOpenChange, onSuccess }: EditMilkTe
   const [ingredients, setIngredients] = useState<string[]>(test.ingredients || []);
   const [newIngredient, setNewIngredient] = useState("");
   const [notes, setNotes] = useState(test.notes || "");
-  const [selectedProductTypes, setSelectedProductTypes] = useState<string[]>(test.product_type_keys || []);
+  const [selectedProductProperties, setSelectedProductProperties] = useState<string[]>(test.product_type_keys || []);
   const [shop, setShop] = useState(test.shop_name || "");
   const [allIngredients, setAllIngredients] = useState<string[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -153,21 +153,21 @@ export const EditMilkTest = ({ test, open, onOpenChange, onSuccess }: EditMilkTe
 
       if (deleteError) throw deleteError;
 
-      if (selectedProductTypes.length > 0) {
-        const { data: productTypes } = await supabase
-          .from('product_types')
+      if (selectedProductProperties.length > 0) {
+        const { data: productProperties } = await supabase
+          .from('product_properties')
           .select('id, key')
-          .in('key', selectedProductTypes);
+          .in('key', selectedProductProperties);
 
-        if (productTypes) {
-          const productTypeLinks = productTypes.map(pt => ({
+        if (productProperties) {
+          const productPropertyLinks = productProperties.map(pp => ({
             milk_test_id: test.id,
-            product_type_id: pt.id
+            product_type_id: pp.id
           }));
 
           const { error: linkError } = await supabase
             .from('milk_test_product_types')
-            .insert(productTypeLinks);
+            .insert(productPropertyLinks);
 
           if (linkError) throw linkError;
         }
@@ -227,10 +227,10 @@ export const EditMilkTest = ({ test, open, onOpenChange, onSuccess }: EditMilkTe
           <Separator />
 
           <div className="space-y-4">
-            <h2 className="text-lg font-semibold text-gray-900">Product Type</h2>
+            <h2 className="text-lg font-semibold text-gray-900">Product Properties</h2>
             <ProductOptions
-              selectedTypes={selectedProductTypes}
-              setSelectedTypes={setSelectedProductTypes}
+              selectedTypes={selectedProductProperties}
+              setSelectedTypes={setSelectedProductProperties}
             />
           </div>
 

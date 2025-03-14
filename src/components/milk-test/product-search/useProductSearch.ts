@@ -8,7 +8,7 @@ interface ProductSearchResult {
   name: string;
   brand_id: string;
   brand_name: string;
-  product_types: string[] | null;
+  product_properties: string[] | null;
   ingredients: string[] | null;
   flavor_names: string[] | null;
 }
@@ -54,7 +54,7 @@ export const useProductSearch = (selectedProductId?: string) => {
       console.log('Searching for products:', searchTerm);
 
       const lowercaseSearchTerm = searchTerm.toLowerCase();
-      // Format search term for product type search
+      // Format search term for product property search
       const formattedSearchTerm = lowercaseSearchTerm.replace(/\s+/g, '_');
 
       // First query - search for partial matches in product name, brand name
@@ -100,18 +100,18 @@ export const useProductSearch = (selectedProductId?: string) => {
         console.error('Error with additional flavor search:', additionalFlavorError);
       }
 
-      // Third query - improved product type search with partial matching
-      // Using the RPC function for product types search
+      // Third query - improved product property search with partial matching
+      // Using the RPC function for product properties search
       const {
-        data: productTypeResults,
-        error: productTypeError
+        data: productPropertyResults,
+        error: productPropertyError
       } = await supabase.from('product_search_view')
         .select('*')
-        .filter('product_types', 'cs', `{%${lowercaseSearchTerm}%}`)
+        .filter('product_properties', 'cs', `{%${lowercaseSearchTerm}%}`)
         .limit(20);
       
-      if (productTypeError) {
-        console.error('Error searching product types:', productTypeError);
+      if (productPropertyError) {
+        console.error('Error searching product properties:', productPropertyError);
       }
 
       // Fourth query - improved ingredients search with partial matching
@@ -131,7 +131,7 @@ export const useProductSearch = (selectedProductId?: string) => {
       let combinedResults = [...(initialResults || [])];
       
       // Add all additional results if they exist, avoiding duplicates
-      [flavorResults, additionalFlavorResults, productTypeResults, ingredientResults].forEach(resultSet => {
+      [flavorResults, additionalFlavorResults, productPropertyResults, ingredientResults].forEach(resultSet => {
         if (resultSet) {
           resultSet.forEach(item => {
             if (!combinedResults.some(existing => existing.id === item.id)) {
@@ -149,7 +149,7 @@ export const useProductSearch = (selectedProductId?: string) => {
         name: item.product_name,
         brand_id: item.brand_id,
         brand_name: item.brand_name,
-        product_types: item.product_types,
+        product_properties: item.product_properties,
         ingredients: item.ingredients,
         flavor_names: item.flavor_names || []
       })) || [];

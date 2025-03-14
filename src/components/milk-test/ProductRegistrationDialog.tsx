@@ -113,11 +113,11 @@ export const ProductRegistrationDialog = ({
     setShowProductNameDropdown(combinedSuggestions.length > 0 || showAddNewProductName);
   }, [productName, productNameSuggestions, allProductNames]);
 
-  // Fetch flavors
+  // Fetch product_flavors
   const {
     data: flavors = []
   } = useQuery({
-    queryKey: ['flavors'],
+    queryKey: ['product_flavors'],
     queryFn: async () => {
       const {
         data,
@@ -126,12 +126,13 @@ export const ProductRegistrationDialog = ({
         ascending: true
       });
       if (error) {
-        console.error('Error fetching flavors:', error);
+        console.error('Error fetching product flavors:', error);
         throw error;
       }
       return data || [];
     }
   });
+
   const handleFlavorToggle = (flavorId: string) => {
     setSelectedFlavors(prev => prev.includes(flavorId) ? prev.filter(id => id !== flavorId) : [...prev, flavorId]);
   };
@@ -225,8 +226,8 @@ export const ProductRegistrationDialog = ({
         }
       }
 
-      // If barista is selected, add it to product types
-      const finalProductTypes = isBarista ? [...selectedProductTypes, "barista"] : selectedProductTypes;
+      // If barista is selected, add it to product properties
+      const finalProductProperties = isBarista ? [...selectedProductTypes, "barista"] : selectedProductTypes;
 
       // Create the new product
       const {
@@ -236,7 +237,7 @@ export const ProductRegistrationDialog = ({
         name: productName.trim(),
         brand_id: brandId,
         ingredients: ingredients.length > 0 ? ingredients : null,
-        product_types: finalProductTypes.length > 0 ? finalProductTypes : null,
+        product_types: finalProductProperties.length > 0 ? finalProductProperties : null,
         product_name_id: productNameId
       }).select().single();
       if (productError) {

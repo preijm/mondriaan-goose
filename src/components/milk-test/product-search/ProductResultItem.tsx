@@ -7,7 +7,7 @@ interface ProductResult {
   brand_id: string;
   brand_name: string;
   name: string;
-  product_types: string[] | null;
+  product_properties: string[] | null;
   ingredients: string[] | null;
   flavor_names: string[] | null;
 }
@@ -21,18 +21,18 @@ interface ProductResultItemProps {
 export const ProductResultItem = ({ result, searchTerm, onSelect }: ProductResultItemProps) => {
   const lowercaseSearchTerm = searchTerm.toLowerCase();
   
-  // Helper function to check if the search term is a partial match in the product types
-  const hasMatchingProductType = () => {
-    if (!result.product_types || result.product_types.length === 0 || !searchTerm) return false;
+  // Helper function to check if the search term is a partial match in the product properties
+  const hasMatchingProductProperty = () => {
+    if (!result.product_properties || result.product_properties.length === 0 || !searchTerm) return false;
     
-    return result.product_types.some(type => {
+    return result.product_properties.some(type => {
       const formattedType = type.replace(/_/g, ' ');
       return formattedType.toLowerCase().includes(lowercaseSearchTerm);
     });
   };
   
-  // Format product type for display
-  const formatProductType = (type: string) => {
+  // Format product property for display
+  const formatProductProperty = (type: string) => {
     return type.split('_')
       .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
       .join(' ');
@@ -56,10 +56,10 @@ export const ProductResultItem = ({ result, searchTerm, onSelect }: ProductResul
   const getAllBadges = () => {
     const badges = [];
     
-    // Add product types badges (prioritize "barista")
-    if (result.product_types && result.product_types.length > 0) {
-      // Sort product types to prioritize "barista"
-      const sortedTypes = [...result.product_types].sort((a, b) => {
+    // Add product properties badges (prioritize "barista")
+    if (result.product_properties && result.product_properties.length > 0) {
+      // Sort product properties to prioritize "barista"
+      const sortedTypes = [...result.product_properties].sort((a, b) => {
         if (a.toLowerCase() === 'barista') return -1;
         if (b.toLowerCase() === 'barista') return 1;
         return 0;
@@ -72,7 +72,7 @@ export const ProductResultItem = ({ result, searchTerm, onSelect }: ProductResul
           
         badges.push({
           key: `type-${type}`,
-          text: formatProductType(type),
+          text: formatProductProperty(type),
           className: `text-xs ${isMatching ? 'bg-cream-100 font-semibold' : 
             type.toLowerCase() === 'barista' ? 'bg-cream-100' : 'bg-gray-100'}`
         });
