@@ -65,11 +65,9 @@ export const ProductRegistrationDialog = ({
       return data || [];
     }
   });
-
   const handleFlavorToggle = (flavorKey: string) => {
     setSelectedFlavors(prev => prev.includes(flavorKey) ? prev.filter(key => key !== flavorKey) : [...prev, flavorKey]);
   };
-  
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!brandId) {
@@ -202,7 +200,6 @@ export const ProductRegistrationDialog = ({
       setIsSubmitting(false);
     }
   };
-  
   return <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-2xl max-h-[85vh] overflow-y-auto">
         <DialogHeader>
@@ -228,7 +225,7 @@ export const ProductRegistrationDialog = ({
           </div>
           
           <div className="space-y-4">
-            <h3 className="text-sm font-medium">Product Name *</h3>
+            <h3 className="text-sm font-medium">Product *</h3>
             <NameSelect productName={productName} setProductName={setProductName} onNameIdChange={setNameId} />
           </div>
           
@@ -253,9 +250,7 @@ export const ProductRegistrationDialog = ({
             <div className="flex flex-wrap gap-2">
               {flavors.map(flavor => <Badge key={flavor.id} variant="outline" className={`
                     rounded-full px-4 py-1 cursor-pointer transition-all 
-                    ${selectedFlavors.includes(flavor.key) 
-                      ? 'bg-blue-500 text-white border-blue-600 font-medium shadow-sm hover:bg-blue-600' 
-                      : 'bg-gray-100 hover:bg-gray-200 border-gray-200 text-gray-700'}
+                    ${selectedFlavors.includes(flavor.key) ? 'bg-blue-500 text-white border-blue-600 font-medium shadow-sm hover:bg-blue-600' : 'bg-gray-100 hover:bg-gray-200 border-gray-200 text-gray-700'}
                   `} onClick={() => handleFlavorToggle(flavor.key)}>
                   {flavor.name}
                 </Badge>)}
