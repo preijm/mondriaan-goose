@@ -96,27 +96,6 @@ export type Database = {
         }
         Relationships: []
       }
-      ingredients: {
-        Row: {
-          created_at: string
-          id: string
-          name: string
-          ordering: number
-        }
-        Insert: {
-          created_at?: string
-          id?: string
-          name: string
-          ordering?: number
-        }
-        Update: {
-          created_at?: string
-          id?: string
-          name?: string
-          ordering?: number
-        }
-        Relationships: []
-      }
       milk_test_product_types: {
         Row: {
           created_at: string
@@ -165,7 +144,6 @@ export type Database = {
           display_name: string | null
           drink_preference: string | null
           id: string
-          ingredients: string[] | null
           notes: string | null
           picture_path: string | null
           price: number | null
@@ -182,7 +160,6 @@ export type Database = {
           display_name?: string | null
           drink_preference?: string | null
           id?: string
-          ingredients?: string[] | null
           notes?: string | null
           picture_path?: string | null
           price?: number | null
@@ -199,7 +176,6 @@ export type Database = {
           display_name?: string | null
           drink_preference?: string | null
           id?: string
-          ingredients?: string[] | null
           notes?: string | null
           picture_path?: string | null
           price?: number | null
@@ -334,7 +310,6 @@ export type Database = {
           brand_id: string
           created_at: string
           id: string
-          ingredients: string[] | null
           name: string
           product_name_id: string | null
           product_types: string[] | null
@@ -343,7 +318,6 @@ export type Database = {
           brand_id: string
           created_at?: string
           id?: string
-          ingredients?: string[] | null
           name: string
           product_name_id?: string | null
           product_types?: string[] | null
@@ -352,7 +326,6 @@ export type Database = {
           brand_id?: string
           created_at?: string
           id?: string
-          ingredients?: string[] | null
           name?: string
           product_name_id?: string | null
           product_types?: string[] | null
@@ -441,7 +414,6 @@ export type Database = {
           display_name: string | null
           drink_preference: string | null
           id: string | null
-          ingredients: string[] | null
           notes: string | null
           price: number | null
           product_id: string | null
@@ -506,7 +478,6 @@ export type Database = {
           brand_name: string | null
           flavor_names: string[] | null
           id: string | null
-          ingredients: string[] | null
           product_name: string | null
           product_name_id: string | null
           product_types: string[] | null

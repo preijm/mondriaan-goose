@@ -8,7 +8,6 @@ interface ProductData {
   product_types?: string[] | null;
   product_properties?: string[] | null;
   flavor_names: string[] | null;
-  ingredients: string[] | null;
 }
 
 interface SelectedProductProps {

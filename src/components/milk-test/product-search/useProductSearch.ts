@@ -10,7 +10,6 @@ interface ProductSearchResult {
   brand_name: string;
   product_types?: string[] | null;
   product_properties?: string[] | null;
-  ingredients: string[] | null;
   flavor_names: string[] | null;
 }
 
@@ -116,24 +115,11 @@ export const useProductSearch = (selectedProductId?: string) => {
         console.error('Error searching product properties:', productPropertyError);
       }
 
-      // Fourth query - improved ingredients search with partial matching
-      const {
-        data: ingredientResults,
-        error: ingredientsError
-      } = await supabase.from('product_search_view')
-        .select('*')
-        .filter('ingredients', 'cs', `{%${lowercaseSearchTerm}%}`)
-        .limit(20);
-      
-      if (ingredientsError) {
-        console.error('Error searching ingredients:', ingredientsError);
-      }
-
       // Combine results, removing duplicates by id
       let combinedResults = [...(initialResults || [])];
       
       // Add all additional results if they exist, avoiding duplicates
-      [flavorResults, additionalFlavorResults, productPropertyResults, ingredientResults].forEach(resultSet => {
+      [flavorResults, additionalFlavorResults, productPropertyResults].forEach(resultSet => {
         if (resultSet) {
           resultSet.forEach(item => {
             if (!combinedResults.some(existing => existing.id === item.id)) {
@@ -153,7 +139,6 @@ export const useProductSearch = (selectedProductId?: string) => {
         brand_name: item.brand_name,
         product_types: item.product_types,
         product_properties: item.product_types, // For backward compatibility
-        ingredients: item.ingredients,
         flavor_names: item.flavor_names || []
       })) || [];
     },

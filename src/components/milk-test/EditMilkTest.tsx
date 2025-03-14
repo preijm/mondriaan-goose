@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -6,7 +7,6 @@ import { useToast } from "@/components/ui/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { BrandSelect } from "./BrandSelect";
 import { ShopSelect } from "./ShopSelect";
-import { IngredientsSelect } from "./IngredientsSelect";
 import { RatingSelect } from "./RatingSelect";
 import { ProductOptions } from "./ProductOptions";
 import { PictureCapture } from "./PictureCapture";
@@ -24,7 +24,6 @@ interface EditMilkTestProps {
     brand: string;
     brand_id: string;
     product_name?: string;
-    ingredients?: string[];
     country?: string;
     shop?: string;
     is_barista?: boolean;
@@ -46,12 +45,9 @@ export const EditMilkTest = ({ test, open, onOpenChange, onSuccess }: EditMilkTe
   const [rating, setRating] = useState(test.rating);
   const [brandId, setBrandId] = useState(test.brand_id);
   const [productName, setProductName] = useState(test.product_name || "");
-  const [ingredients, setIngredients] = useState<string[]>(test.ingredients || []);
-  const [newIngredient, setNewIngredient] = useState("");
   const [notes, setNotes] = useState(test.notes || "");
   const [selectedProductProperties, setSelectedProductProperties] = useState<string[]>(test.product_type_keys || []);
   const [shop, setShop] = useState(test.shop_name || "");
-  const [allIngredients, setAllIngredients] = useState<string[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [picture, setPicture] = useState<File | null>(null);
   const [picturePreview, setPicturePreview] = useState<string | null>(null);
@@ -136,7 +132,6 @@ export const EditMilkTest = ({ test, open, onOpenChange, onSuccess }: EditMilkTe
         .update({
           brand_id: brandId,
           product_name: productName,
-          ingredients,
           shop_id: shopData?.id || null,
           rating,
           notes,
@@ -231,20 +226,6 @@ export const EditMilkTest = ({ test, open, onOpenChange, onSuccess }: EditMilkTe
             <ProductOptions
               selectedTypes={selectedProductProperties}
               setSelectedTypes={setSelectedProductProperties}
-            />
-          </div>
-
-          <Separator />
-
-          <div className="space-y-4">
-            <h2 className="text-lg font-semibold text-gray-900">Ingredients</h2>
-            <IngredientsSelect
-              ingredients={ingredients}
-              setIngredients={setIngredients}
-              allIngredients={allIngredients}
-              setAllIngredients={setAllIngredients}
-              newIngredient={newIngredient}
-              setNewIngredient={setNewIngredient}
             />
           </div>
 

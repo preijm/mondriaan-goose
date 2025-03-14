@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { BrandSelect } from "./BrandSelect";
 import { ProductOptions } from "./ProductOptions";
-import { IngredientsSelect } from "./IngredientsSelect";
 import { useToast } from "@/components/ui/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { Separator } from "@/components/ui/separator";
@@ -31,9 +30,6 @@ export const ProductRegistrationDialog = ({
   const [productName, setProductName] = useState("");
   const [productNameSuggestions, setProductNameSuggestions] = useState<string[]>([]);
   const [showProductNameDropdown, setShowProductNameDropdown] = useState(false);
-  const [ingredients, setIngredients] = useState<string[]>([]);
-  const [newIngredient, setNewIngredient] = useState("");
-  const [allIngredients, setAllIngredients] = useState<string[]>([]);
   const [selectedProductTypes, setSelectedProductTypes] = useState<string[]>([]);
   const [isBarista, setIsBarista] = useState(false);
   const [selectedFlavors, setSelectedFlavors] = useState<string[]>([]);
@@ -48,8 +44,6 @@ export const ProductRegistrationDialog = ({
     if (open) {
       setBrandId("");
       setProductName("");
-      setIngredients([]);
-      setNewIngredient("");
       setSelectedProductTypes([]);
       setIsBarista(false);
       setSelectedFlavors([]);
@@ -240,7 +234,6 @@ export const ProductRegistrationDialog = ({
       } = await supabase.from('products').insert({
         name: productName.trim(),
         brand_id: brandId,
-        ingredients: ingredients.length > 0 ? ingredients : null,
         product_types: finalProductProperties.length > 0 ? finalProductProperties : null,
         product_name_id: productNameId
       }).select().single();
@@ -291,7 +284,7 @@ export const ProductRegistrationDialog = ({
                   <HelpCircle className="h-4 w-4 text-gray-400 cursor-help" />
                 </TooltipTrigger>
                 <TooltipContent side="bottom" align="center" className="max-w-xs">
-                  <p className="font-normal">Enter product details to add a new product to the database. Brand and product name are required. Product types, ingredients, and flavors are optional but helpful for filtering and searches.</p>
+                  <p className="font-normal">Enter product details to add a new product to the database. Brand and product name are required. Product types and flavors are optional but helpful for filtering and searches.</p>
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>
@@ -340,13 +333,6 @@ export const ProductRegistrationDialog = ({
           <div className="space-y-4">
             <h3 className="text-sm font-medium">Product Type</h3>
             <ProductOptions selectedTypes={selectedProductTypes} setSelectedTypes={setSelectedProductTypes} />
-          </div>
-          
-          <Separator />
-          
-          <div className="space-y-4">
-            <h3 className="text-sm font-medium">Ingredients</h3>
-            <IngredientsSelect ingredients={ingredients} setIngredients={setIngredients} allIngredients={allIngredients} setAllIngredients={setAllIngredients} newIngredient={newIngredient} setNewIngredient={setNewIngredient} hideAddButton={true} />
           </div>
           
           <Separator />
