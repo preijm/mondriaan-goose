@@ -41,24 +41,13 @@ export const SelectedProduct = ({ product }: SelectedProductProps) => {
       });
     }
     
-    // Add flavor badges
+    // Add flavor badges with the new styling
     if (product.flavor_names && product.flavor_names.length > 0) {
       product.flavor_names.forEach(flavor => {
         badges.push({
           key: `flavor-${flavor}`,
           text: flavor,
-          className: "bg-milk-100"
-        });
-      });
-    }
-    
-    // Add ingredient badges
-    if (product.ingredients && product.ingredients.length > 0) {
-      product.ingredients.forEach(ingredient => {
-        badges.push({
-          key: `ingredient-${ingredient}`,
-          text: ingredient,
-          className: "bg-emerald-50"
+          className: "bg-gray-100 text-gray-700"
         });
       });
     }

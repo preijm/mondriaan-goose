@@ -48,13 +48,7 @@ export const ProductResultItem = ({ result, searchTerm, onSelect }: ProductResul
            lowercaseSearchTerm.includes(flavor.toLowerCase());
   };
   
-  // Helper to check if an ingredient matches the search term
-  const isMatchingIngredient = (ingredient: string) => {
-    if (!ingredient || !searchTerm) return false;
-    return ingredient.toLowerCase().includes(lowercaseSearchTerm);
-  };
-  
-  // Combine all badges into a single array for more compact display
+  // Combine product properties and flavors into a single array for more compact display
   const getAllBadges = () => {
     const badges = [];
     
@@ -82,7 +76,7 @@ export const ProductResultItem = ({ result, searchTerm, onSelect }: ProductResul
       });
     }
     
-    // Add flavor badges
+    // Add flavor badges with the new styling
     if (result.flavor_names && result.flavor_names.length > 0) {
       result.flavor_names
         .filter(flavor => flavor !== null)
@@ -91,21 +85,9 @@ export const ProductResultItem = ({ result, searchTerm, onSelect }: ProductResul
           badges.push({
             key: `flavor-${flavor}`,
             text: flavor,
-            className: `text-xs ${isMatching ? 'bg-yellow-100 font-semibold' : 'bg-milk-100'}`
+            className: `text-xs ${isMatching ? 'font-semibold' : ''} bg-gray-100 text-gray-700`
           });
         });
-    }
-    
-    // Add ingredient badges
-    if (result.ingredients && result.ingredients.length > 0) {
-      result.ingredients.forEach(ingredient => {
-        const isMatching = isMatchingIngredient(ingredient);
-        badges.push({
-          key: `ingredient-${ingredient}`,
-          text: ingredient,
-          className: `text-xs ${isMatching ? 'bg-emerald-100 font-semibold' : 'bg-emerald-50'}`
-        });
-      });
     }
     
     return badges;
@@ -118,7 +100,7 @@ export const ProductResultItem = ({ result, searchTerm, onSelect }: ProductResul
     >
       <div className="font-medium">{result.brand_name} - {result.name}</div>
       
-      {/* Render all badges in a single, compact row */}
+      {/* Render badges in a single, compact row */}
       <div className="flex flex-wrap gap-1 mt-1">
         {getAllBadges().map(badge => (
           <Badge 
