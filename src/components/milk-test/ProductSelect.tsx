@@ -12,8 +12,13 @@ interface ProductSelectProps {
   setProductId: (id: string) => void;
 }
 
+interface ProductWithName {
+  id: string;
+  name: string;
+}
+
 export const ProductSelect = ({ brandId, productId, setProductId }: ProductSelectProps) => {
-  const [suggestions, setSuggestions] = useState<Array<{ id: string; name: string }>>([]);
+  const [suggestions, setSuggestions] = useState<ProductWithName[]>([]);
   const [inputValue, setInputValue] = useState("");
   const [showAddNew, setShowAddNew] = useState(false);
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
@@ -24,19 +29,30 @@ export const ProductSelect = ({ brandId, productId, setProductId }: ProductSelec
     queryFn: async () => {
       if (!brandId) return [];
       console.log('Fetching products for brand:', brandId);
+      
+      // Join products with names to get the product name
       const { data, error } = await supabase
         .from('products')
-        .select('id, name')
+        .select(`
+          id, 
+          names!inner(name)
+        `)
         .eq('brand_id', brandId)
-        .order('name');
+        .order('created_at');
       
       if (error) {
         console.error('Error fetching products:', error);
         throw error;
       }
       
-      console.log('Fetched products:', data);
-      return data || [];
+      // Transform the data to the expected format
+      const productsWithNames: ProductWithName[] = data.map(product => ({
+        id: product.id,
+        name: product.names.name
+      }));
+      
+      console.log('Fetched products:', productsWithNames);
+      return productsWithNames;
     },
     enabled: !!brandId,
   });
@@ -79,7 +95,7 @@ export const ProductSelect = ({ brandId, productId, setProductId }: ProductSelec
     }
   };
 
-  const handleSelectProduct = (selectedProduct: { id: string; name: string }) => {
+  const handleSelectProduct = (selectedProduct: ProductWithName) => {
     setInputValue(selectedProduct.name);
     setProductId(selectedProduct.id);
     setIsDropdownVisible(false);
@@ -88,32 +104,57 @@ export const ProductSelect = ({ brandId, productId, setProductId }: ProductSelec
   const handleAddNewProduct = async () => {
     if (!brandId || inputValue.trim() === '') return;
 
-    const { data, error } = await supabase
-      .from('products')
-      .insert({ 
-        name: inputValue.trim(),
-        brand_id: brandId
-      })
-      .select()
-      .single();
+    try {
+      // 1. First create a name entry
+      const { data: nameData, error: nameError } = await supabase
+        .from('names')
+        .insert({ name: inputValue.trim() })
+        .select()
+        .single();
 
-    if (error) {
-      console.error('Error inserting new product:', error);
+      if (nameError) {
+        console.error('Error creating name:', nameError);
+        throw nameError;
+      }
+
+      // 2. Then create the product with the name_id
+      const { data, error } = await supabase
+        .from('products')
+        .insert({ 
+          brand_id: brandId,
+          name_id: nameData.id
+        })
+        .select(`
+          id, 
+          names!inner(name)
+        `)
+        .single();
+
+      if (error) {
+        console.error('Error inserting new product:', error);
+        toast({
+          title: "Error",
+          description: "Failed to add new product. Please try again.",
+          variant: "destructive",
+        });
+        return;
+      }
+
+      toast({
+        title: "Success",
+        description: "New product added successfully!",
+      });
+      
+      setProductId(data.id);
+      setIsDropdownVisible(false);
+    } catch (error) {
+      console.error('Error in product creation:', error);
       toast({
         title: "Error",
         description: "Failed to add new product. Please try again.",
         variant: "destructive",
       });
-      return;
     }
-
-    toast({
-      title: "Success",
-      description: "New product added successfully!",
-    });
-    
-    setProductId(data.id);
-    setIsDropdownVisible(false);
   };
 
   return (
@@ -123,7 +164,7 @@ export const ProductSelect = ({ brandId, productId, setProductId }: ProductSelec
         value={inputValue}
         onChange={handleInputChange}
         onFocus={() => setIsDropdownVisible(true)}
-        onBlur={() => setIsDropdownVisible(false)}
+        onBlur={() => setTimeout(() => setIsDropdownVisible(false), 200)}
         className="w-full"
         disabled={!brandId}
       />
