@@ -17,7 +17,16 @@ interface ProductResultItemProps {
 
 export const ProductResultItem = ({ product, onSelect }: ProductResultItemProps) => {
   const productTypes = product.product_types || [];
+  const flavorNames = product.flavor_names || [];
   const isBarista = productTypes.some(prop => prop.toLowerCase() === 'barista');
+  
+  // Debug logging
+  console.log("Rendering ProductResultItem:", {
+    id: product.id,
+    name: product.product_name,
+    flavors: flavorNames,
+    types: productTypes
+  });
   
   return (
     <div 
@@ -45,7 +54,7 @@ export const ProductResultItem = ({ product, onSelect }: ProductResultItemProps)
         ))}
         
         {/* Display flavor badges with consistent styling */}
-        {product.flavor_names && product.flavor_names.length > 0 && product.flavor_names.map(flavor => (
+        {flavorNames.length > 0 && flavorNames.map(flavor => (
           <Badge 
             key={`flavor-${flavor}`} 
             variant="outline" 

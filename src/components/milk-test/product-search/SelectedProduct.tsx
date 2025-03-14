@@ -52,7 +52,14 @@ export const SelectedProduct = ({ product }: SelectedProductProps) => {
     return badges;
   };
 
-  console.log("SelectedProduct data:", product);
+  // Enhanced logging for debugging
+  console.log("SelectedProduct data:", {
+    product,
+    brandName: product.brand_name,
+    productName: product.product_name,
+    productTypes: product.product_types,
+    flavorNames: product.flavor_names
+  });
 
   return (
     <div className="mt-2 p-3 bg-gray-50 border rounded-md">

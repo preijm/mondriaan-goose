@@ -25,12 +25,13 @@ export const SearchResults = ({
   onSelectProduct,
   isVisible
 }: SearchResultsProps) => {
-  // For debugging
+  // Enhanced debugging to check flavor data
   console.log("SearchResults component:", { 
     isVisible, 
     resultsLength: results.length, 
     searchTerm, 
-    sampleResult: results[0] 
+    sampleResult: results.length > 0 ? results[0] : null,
+    allResults: results
   });
   
   if (!isVisible) return null;

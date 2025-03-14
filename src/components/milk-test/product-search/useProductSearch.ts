@@ -23,10 +23,13 @@ export const useProductSearch = (selectedProductId?: string) => {
     queryKey: ['selected_product', selectedProductId],
     queryFn: async () => {
       if (!selectedProductId) return null;
+      
+      // Use maybeSingle instead of single for RLS compatibility
       const {
         data,
         error
-      } = await supabase.from('product_search_view').select('*').eq('id', selectedProductId).single();
+      } = await supabase.from('product_search_view').select('*').eq('id', selectedProductId).maybeSingle();
+      
       if (error) {
         console.error('Error fetching selected product:', error);
         return null;
@@ -127,16 +130,31 @@ export const useProductSearch = (selectedProductId?: string) => {
         }
       });
 
-      // Log results for debugging
+      // Enhanced logging for debugging RLS issues
       console.log('Combined search results:', combinedResults);
+      console.log('Sample product with flavor data:', combinedResults[0]);
+      
+      if (combinedResults.length > 0) {
+        combinedResults.forEach((result, index) => {
+          if (index < 3) { // Log first 3 results for debugging
+            console.log(`Result ${index + 1}:`, {
+              id: result.id,
+              productName: result.product_name,
+              flavorNames: result.flavor_names,
+              productTypes: result.product_types
+            });
+          }
+        });
+      }
 
       // Transform the results to match the format expected by the component
+      // Ensure flavor_names is always an array even if null
       return combinedResults.map(item => ({
         id: item.id,
         name: item.product_name,
         brand_id: item.brand_id,
         brand_name: item.brand_name,
-        product_types: item.product_types,
+        product_types: item.product_types || [],
         flavor_names: item.flavor_names || []
       })) || [];
     },
