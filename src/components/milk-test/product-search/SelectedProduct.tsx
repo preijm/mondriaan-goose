@@ -6,7 +6,6 @@ interface ProductData {
   brand_name: string;
   product_name: string;
   product_types?: string[] | null;
-  product_properties?: string[] | null;
   flavor_names: string[] | null;
 }
 
@@ -20,10 +19,9 @@ export const SelectedProduct = ({ product }: SelectedProductProps) => {
     const badges = [];
     
     // Add product properties badges (prioritize "barista")
-    const productProperties = product.product_properties || product.product_types;
-    if (productProperties && productProperties.length > 0) {
+    if (product.product_types && product.product_types.length > 0) {
       // Sort product properties to prioritize "barista"
-      const sortedTypes = [...productProperties].sort((a, b) => {
+      const sortedTypes = [...product.product_types].sort((a, b) => {
         if (a.toLowerCase() === 'barista') return -1;
         if (b.toLowerCase() === 'barista') return 1;
         return 0;

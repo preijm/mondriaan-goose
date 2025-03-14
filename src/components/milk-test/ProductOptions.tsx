@@ -13,10 +13,10 @@ export const ProductOptions = ({
   setSelectedTypes,
 }: ProductOptionsProps) => {
   const { data: productProperties = [] } = useQuery({
-    queryKey: ['product_types'],
+    queryKey: ['properties'],
     queryFn: async () => {
       const { data } = await supabase
-        .from('product_types')
+        .from('properties')
         .select('*')
         .order('ordering', { ascending: true });
       
@@ -35,18 +35,18 @@ export const ProductOptions = ({
   return (
     <div className="space-y-4">
       <div className="flex flex-wrap gap-6">
-        {productProperties.map((type) => (
-          <div key={type.key} className="flex items-center space-x-2">
+        {productProperties.map((property) => (
+          <div key={property.key} className="flex items-center space-x-2">
             <Checkbox
-              id={type.key}
-              checked={selectedTypes.includes(type.key)}
-              onCheckedChange={(checked) => handleTypeChange(type.key, checked as boolean)}
+              id={property.key}
+              checked={selectedTypes.includes(property.key)}
+              onCheckedChange={(checked) => handleTypeChange(property.key, checked as boolean)}
             />
             <label
-              htmlFor={type.key}
+              htmlFor={property.key}
               className="text-sm leading-none text-gray-600"
             >
-              {type.name}
+              {property.name}
             </label>
           </div>
         ))}

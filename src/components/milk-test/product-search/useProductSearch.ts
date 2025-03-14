@@ -9,7 +9,6 @@ interface ProductSearchResult {
   brand_id: string;
   brand_name: string;
   product_types?: string[] | null;
-  product_properties?: string[] | null;
   flavor_names: string[] | null;
 }
 
@@ -73,7 +72,6 @@ export const useProductSearch = (selectedProductId?: string) => {
       }
 
       // Second query - improved flavor search with partial matching
-      // Using direct SQL filter for more reliable flavor search
       const {
         data: flavorResults,
         error: flavorError
@@ -87,7 +85,7 @@ export const useProductSearch = (selectedProductId?: string) => {
         console.error('Error searching flavors:', flavorError);
       }
       
-      // Additional flavor query with contains approach for better partial matching
+      // Additional flavor query for better partial matching
       const {
         data: additionalFlavorResults,
         error: additionalFlavorError
@@ -101,8 +99,7 @@ export const useProductSearch = (selectedProductId?: string) => {
         console.error('Error with additional flavor search:', additionalFlavorError);
       }
 
-      // Third query - improved product property search with partial matching
-      // Using the RPC function for product properties search
+      // Third query - product property search with partial matching
       const {
         data: productPropertyResults,
         error: productPropertyError
@@ -128,8 +125,6 @@ export const useProductSearch = (selectedProductId?: string) => {
           });
         }
       });
-      
-      console.log('Search results count:', combinedResults.length);
 
       // Transform the results to match the format expected by the component
       return combinedResults.map(item => ({
@@ -138,28 +133,19 @@ export const useProductSearch = (selectedProductId?: string) => {
         brand_id: item.brand_id,
         brand_name: item.brand_name,
         product_types: item.product_types,
-        product_properties: item.product_types, // For backward compatibility
         flavor_names: item.flavor_names || []
       })) || [];
     },
     enabled: searchTerm.length >= 2 && !selectedProductId
   });
 
-  // We'll update the dropdown visibility state directly based on search results
+  // We'll update the dropdown visibility state based on search results
   useEffect(() => {
     if (searchTerm.length >= 2 && !selectedProductId) {
       setIsDropdownVisible(true);
     } else {
       setIsDropdownVisible(false);
     }
-    
-    // Log for debugging
-    console.log("Dropdown visibility state updated:", { 
-      isDropdownVisible, 
-      searchTermLength: searchTerm.length, 
-      hasResults: searchResults.length > 0,
-      isLoading
-    });
   }, [searchTerm, searchResults, selectedProductId, isLoading]);
 
   return {

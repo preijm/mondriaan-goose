@@ -7,7 +7,6 @@ interface ProductResult {
   brand_name: string;
   product_name: string;
   product_types?: string[] | null;
-  product_properties?: string[] | null;
   flavor_names: string[] | null;
 }
 
@@ -17,8 +16,8 @@ interface ProductResultItemProps {
 }
 
 export const ProductResultItem = ({ product, onSelect }: ProductResultItemProps) => {
-  const productProperties = product.product_properties || product.product_types || [];
-  const isBarista = productProperties.some(prop => prop.toLowerCase() === 'barista');
+  const productTypes = product.product_types || [];
+  const isBarista = productTypes.some(prop => prop.toLowerCase() === 'barista');
   
   return (
     <div 
@@ -29,7 +28,7 @@ export const ProductResultItem = ({ product, onSelect }: ProductResultItemProps)
       
       <div className="flex flex-wrap gap-2 mt-1">
         {/* Display product properties badges */}
-        {productProperties.map(prop => (
+        {productTypes.map(prop => (
           <Badge 
             key={`prop-${prop}`} 
             variant="outline" 
