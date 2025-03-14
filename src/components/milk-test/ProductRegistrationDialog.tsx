@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
@@ -219,8 +218,8 @@ export const ProductRegistrationDialog = ({
                 </TooltipTrigger>
                 <TooltipContent side="bottom" align="center" className="max-w-xs">
                   <p className="font-normal">Enter product details to add a new product to the database. Brand and product name are required, with the product name based on its main ingredients.
-
-If a product package includes flavor, barista type, or specific properties, be sure to add them! This helps make each product unique and easier to find. 😊</p>
+                  <br /><br />
+                  If a product package includes flavor, barista type, or specific properties, be sure to add them! This helps make each product unique and easier to find. 😊</p>
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>
