@@ -6,7 +6,7 @@ interface ProductResult {
   id: string;
   brand_name: string;
   product_name: string;
-  product_types?: string[] | null;
+  property_names?: string[] | null;
   flavor_names: string[] | null;
   is_barista?: boolean;
 }

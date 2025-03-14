@@ -6,7 +6,7 @@ interface ProductResult {
   id: string;
   brand_name: string;
   product_name: string;
-  product_types?: string[] | null;
+  property_names?: string[] | null;
   flavor_names: string[] | null;
   is_barista?: boolean;
 }
@@ -17,7 +17,7 @@ interface ProductResultItemProps {
 }
 
 export const ProductResultItem = ({ product, onSelect }: ProductResultItemProps) => {
-  const productTypes = product.product_types || [];
+  const propertyNames = product.property_names || [];
   const flavorNames = product.flavor_names || [];
   
   // Use the is_barista flag directly instead of checking the array
@@ -28,7 +28,7 @@ export const ProductResultItem = ({ product, onSelect }: ProductResultItemProps)
     id: product.id,
     name: product.product_name,
     flavors: flavorNames,
-    types: productTypes,
+    properties: propertyNames,
     isBarista
   });
   
@@ -41,7 +41,7 @@ export const ProductResultItem = ({ product, onSelect }: ProductResultItemProps)
       
       <div className="flex flex-wrap gap-2 mt-1">
         {/* Display product properties badges */}
-        {productTypes.map(prop => (
+        {propertyNames.map(prop => (
           <Badge 
             key={`prop-${prop}`} 
             variant="outline" 

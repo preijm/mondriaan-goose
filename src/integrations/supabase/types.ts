@@ -518,7 +518,7 @@ export type Database = {
           is_barista: boolean | null
           product_name: string | null
           product_name_id: string | null
-          product_types: string[] | null
+          property_names: string[] | null
         }
         Relationships: [
           {
