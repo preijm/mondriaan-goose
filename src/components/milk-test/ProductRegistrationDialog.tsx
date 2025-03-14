@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
@@ -9,11 +10,10 @@ import { useToast } from "@/components/ui/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { Separator } from "@/components/ui/separator";
 import { useQuery } from "@tanstack/react-query";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Label } from "@/components/ui/label";
 import { HelpCircle, Plus } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { Switch } from "@/components/ui/switch";
+import { Badge } from "@/components/ui/badge";
 
 interface ProductRegistrationDialogProps {
   open: boolean;
@@ -136,13 +136,16 @@ export const ProductRegistrationDialog = ({
   const handleFlavorToggle = (flavorId: string) => {
     setSelectedFlavors(prev => prev.includes(flavorId) ? prev.filter(id => id !== flavorId) : [...prev, flavorId]);
   };
+  
   const handleProductNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setProductName(e.target.value);
   };
+  
   const handleSelectProductName = (name: string) => {
     setProductName(name);
     setShowProductNameDropdown(false);
   };
+  
   const handleAddNewProductName = async () => {
     if (productName.trim() === '') return;
 
@@ -168,6 +171,7 @@ export const ProductRegistrationDialog = ({
     });
     setShowProductNameDropdown(false);
   };
+  
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!brandId) {
@@ -275,6 +279,7 @@ export const ProductRegistrationDialog = ({
       setIsSubmitting(false);
     }
   };
+  
   return <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-2xl max-h-[85vh] overflow-y-auto">
         <DialogHeader>
@@ -348,11 +353,22 @@ export const ProductRegistrationDialog = ({
           
           <div className="space-y-4">
             <h3 className="text-sm font-medium">Flavors</h3>
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-              {flavors.map(flavor => <div key={flavor.id} className="flex items-center space-x-2">
-                  <Checkbox id={`flavor-${flavor.id}`} checked={selectedFlavors.includes(flavor.id)} onCheckedChange={() => handleFlavorToggle(flavor.id)} />
-                  <Label htmlFor={`flavor-${flavor.id}`} className="font-normal">{flavor.name}</Label>
-                </div>)}
+            <div className="flex flex-wrap gap-2">
+              {flavors.map(flavor => (
+                <Badge 
+                  key={flavor.id} 
+                  variant="outline" 
+                  className={`
+                    rounded-full px-4 py-1 text-gray-700 cursor-pointer 
+                    ${selectedFlavors.includes(flavor.id) 
+                      ? 'bg-cream-200 border-cream-300' 
+                      : 'bg-gray-100 hover:bg-gray-200 border-gray-200'}
+                  `}
+                  onClick={() => handleFlavorToggle(flavor.id)}
+                >
+                  {flavor.name}
+                </Badge>
+              ))}
             </div>
           </div>
           

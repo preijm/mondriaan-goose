@@ -36,7 +36,7 @@ export const SelectedProduct = ({ product }: SelectedProductProps) => {
           text: type.split('_')
             .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
             .join(' '),
-          className: type.toLowerCase() === 'barista' ? "bg-cream-100" : "bg-gray-100"
+          className: type.toLowerCase() === 'barista' ? "bg-cream-200 border-cream-300" : "bg-gray-100 border-gray-200"
         });
       });
     }
@@ -47,7 +47,7 @@ export const SelectedProduct = ({ product }: SelectedProductProps) => {
         badges.push({
           key: `flavor-${flavor}`,
           text: flavor,
-          className: "bg-gray-100 text-gray-700"
+          className: "bg-gray-100 border-gray-200 text-gray-700"
         });
       });
     }
@@ -58,9 +58,9 @@ export const SelectedProduct = ({ product }: SelectedProductProps) => {
   return (
     <div className="mt-2 p-3 bg-gray-50 border rounded-md">
       <div className="font-medium">{product.brand_name} - {product.product_name}</div>
-      <div className="flex flex-wrap gap-1 mt-1">
+      <div className="flex flex-wrap gap-2 mt-2">
         {getAllBadges().map(badge => (
-          <Badge key={badge.key} variant="outline" className={badge.className}>
+          <Badge key={badge.key} variant="outline" className={`rounded-full px-4 py-1 ${badge.className}`}>
             {badge.text}
           </Badge>
         ))}

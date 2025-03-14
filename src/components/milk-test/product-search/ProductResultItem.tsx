@@ -4,111 +4,55 @@ import { Badge } from "@/components/ui/badge";
 
 interface ProductResult {
   id: string;
-  brand_id: string;
   brand_name: string;
-  name: string;
+  product_name: string;
   product_types?: string[] | null;
   product_properties?: string[] | null;
-  ingredients: string[] | null;
   flavor_names: string[] | null;
 }
 
 interface ProductResultItemProps {
-  result: ProductResult;
-  searchTerm: string;
-  onSelect: () => void;
+  product: ProductResult;
+  onSelect: (productId: string) => void;
 }
 
-export const ProductResultItem = ({ result, searchTerm, onSelect }: ProductResultItemProps) => {
-  const lowercaseSearchTerm = searchTerm.toLowerCase();
+export const ProductResultItem = ({ product, onSelect }: ProductResultItemProps) => {
+  const productProperties = product.product_properties || product.product_types || [];
+  const isBarista = productProperties.some(prop => prop.toLowerCase() === 'barista');
   
-  // Helper function to check if the search term is a partial match in the product properties
-  const hasMatchingProductProperty = () => {
-    const properties = result.product_properties || result.product_types;
-    if (!properties || properties.length === 0 || !searchTerm) return false;
-    
-    return properties.some(type => {
-      const formattedType = type.replace(/_/g, ' ');
-      return formattedType.toLowerCase().includes(lowercaseSearchTerm);
-    });
-  };
-  
-  // Format product property for display
-  const formatProductProperty = (type: string) => {
-    return type.split('_')
-      .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-      .join(' ');
-  };
-  
-  // Helper to check if a flavor matches the search term
-  const isMatchingFlavor = (flavor: string) => {
-    if (!flavor || !searchTerm) return false;
-    // More aggressive matching for flavors
-    return flavor.toLowerCase().includes(lowercaseSearchTerm) || 
-           lowercaseSearchTerm.includes(flavor.toLowerCase());
-  };
-  
-  // Combine product properties and flavors into a single array for more compact display
-  const getAllBadges = () => {
-    const badges = [];
-    
-    // Add product properties badges (prioritize "barista")
-    const properties = result.product_properties || result.product_types;
-    if (properties && properties.length > 0) {
-      // Sort product properties to prioritize "barista"
-      const sortedTypes = [...properties].sort((a, b) => {
-        if (a.toLowerCase() === 'barista') return -1;
-        if (b.toLowerCase() === 'barista') return 1;
-        return 0;
-      });
-      
-      sortedTypes.forEach(type => {
-        const formattedType = type.replace(/_/g, ' ');
-        const isMatching = lowercaseSearchTerm && 
-          formattedType.toLowerCase().includes(lowercaseSearchTerm);
-          
-        badges.push({
-          key: `type-${type}`,
-          text: formatProductProperty(type),
-          className: `text-xs ${isMatching ? 'bg-cream-100 font-semibold' : 
-            type.toLowerCase() === 'barista' ? 'bg-cream-100' : 'bg-gray-100'}`
-        });
-      });
-    }
-    
-    // Add flavor badges with the new styling
-    if (result.flavor_names && result.flavor_names.length > 0) {
-      result.flavor_names
-        .filter(flavor => flavor !== null)
-        .forEach(flavor => {
-          const isMatching = isMatchingFlavor(flavor);
-          badges.push({
-            key: `flavor-${flavor}`,
-            text: flavor,
-            className: `text-xs ${isMatching ? 'font-semibold' : ''} bg-gray-100 text-gray-700`
-          });
-        });
-    }
-    
-    return badges;
-  };
-
   return (
-    <div
-      className="px-4 py-2 cursor-pointer hover:bg-gray-100 border-b last:border-b-0"
-      onClick={onSelect}
+    <div 
+      className="px-4 py-3 hover:bg-gray-50 cursor-pointer flex flex-col"
+      onClick={() => onSelect(product.id)}
     >
-      <div className="font-medium">{result.brand_name} - {result.name}</div>
+      <div className="font-medium">{product.brand_name} - {product.product_name}</div>
       
-      {/* Render badges in a single, compact row */}
-      <div className="flex flex-wrap gap-1 mt-1">
-        {getAllBadges().map(badge => (
+      <div className="flex flex-wrap gap-2 mt-1">
+        {/* Display product properties badges */}
+        {productProperties.map(prop => (
           <Badge 
-            key={badge.key} 
+            key={`prop-${prop}`} 
             variant="outline" 
-            className={badge.className}
+            className={`rounded-full px-3 py-0.5 text-xs ${
+              prop.toLowerCase() === 'barista' 
+                ? 'bg-cream-200 border-cream-300' 
+                : 'bg-gray-100 border-gray-200'
+            }`}
           >
-            {badge.text}
+            {prop.split('_')
+              .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+              .join(' ')}
+          </Badge>
+        ))}
+        
+        {/* Display flavor badges with consistent styling */}
+        {product.flavor_names && product.flavor_names.map(flavor => (
+          <Badge 
+            key={`flavor-${flavor}`} 
+            variant="outline" 
+            className="rounded-full px-3 py-0.5 text-xs bg-gray-100 border-gray-200 text-gray-700"
+          >
+            {flavor}
           </Badge>
         ))}
       </div>

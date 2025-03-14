@@ -2,22 +2,20 @@
 import React from "react";
 import { ProductResultItem } from "./ProductResultItem";
 
-interface SearchResult {
+interface ProductResult {
   id: string;
-  name: string;
-  brand_id: string;
   brand_name: string;
+  product_name: string;
   product_types?: string[] | null;
   product_properties?: string[] | null;
-  ingredients: string[] | null;
   flavor_names: string[] | null;
 }
 
 interface SearchResultsProps {
-  results: SearchResult[];
+  results: ProductResult[];
   searchTerm: string;
   isLoading: boolean;
-  onSelectProduct: (productId: string, brandId: string) => void;
+  onSelectProduct: (productId: string) => void;
   isVisible: boolean;
 }
 
@@ -36,14 +34,13 @@ export const SearchResults = ({
   return (
     <div className="absolute z-10 w-full mt-1 bg-white border rounded-md shadow-lg max-h-60 overflow-y-auto">
       {isLoading ? (
-        <div className="px-4 py-3 text-sm text-gray-500">Searching...</div>
+        <div className="px-4 py-3 text-sm text-gray-500">Loading...</div>
       ) : results.length > 0 ? (
-        results.map(result => (
-          <ProductResultItem 
-            key={result.id} 
-            result={result} 
-            searchTerm={searchTerm} 
-            onSelect={() => onSelectProduct(result.id, result.brand_id)} 
+        results.map(product => (
+          <ProductResultItem
+            key={product.id}
+            product={product}
+            onSelect={onSelectProduct}
           />
         ))
       ) : (

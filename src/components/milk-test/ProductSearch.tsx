@@ -1,21 +1,29 @@
 
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { Input } from "@/components/ui/input";
 import { SearchBox } from "./product-search/SearchBox";
 import { SearchResults } from "./product-search/SearchResults";
-import { SelectedProduct } from "./product-search/SelectedProduct";
 import { useProductSearch } from "./product-search/useProductSearch";
+import { SelectedProduct } from "./product-search/SelectedProduct";
+import { ProductRegistrationDialog } from "./ProductRegistrationDialog";
+import { Button } from "@/components/ui/button";
+import { PlusCircle } from "lucide-react";
 
 interface ProductSearchProps {
-  onSelectProduct: (productId: string, brandId: string) => void;
-  onAddNew: () => void;
-  selectedProductId?: string;
+  brandId: string;
+  productId: string;
+  setBrandId: (id: string) => void;
+  setProductId: (id: string) => void;
 }
 
 export const ProductSearch = ({
-  onSelectProduct,
-  onAddNew,
-  selectedProductId
+  brandId,
+  productId,
+  setBrandId,
+  setProductId
 }: ProductSearchProps) => {
+  const [showRegistrationDialog, setShowRegistrationDialog] = useState(false);
+  
   const {
     searchTerm,
     setSearchTerm,
@@ -24,29 +32,25 @@ export const ProductSearch = ({
     isDropdownVisible,
     setIsDropdownVisible,
     selectedProduct
-  } = useProductSearch(selectedProductId);
+  } = useProductSearch({
+    initialProductId: productId
+  });
 
-  const handleSearchChange = (value: string) => {
-    setSearchTerm(value);
-    // Clear selected product if user is typing new search
-    if (selectedProductId) {
-      onSelectProduct("", "");
+  // If brandId or productId change externally, make sure we update
+  useEffect(() => {
+    if (selectedProduct && selectedProduct.brand_id !== brandId) {
+      setBrandId(selectedProduct.brand_id);
     }
-    
-    // Always show dropdown when user is typing
-    if (value.length >= 2) {
-      setIsDropdownVisible(true);
-    }
-  };
+  }, [selectedProduct, setBrandId, brandId]);
 
-  const handleClearSearch = () => {
-    setSearchTerm("");
-    onSelectProduct("", "");
+  const handleSelectProduct = (selectedId: string) => {
+    setProductId(selectedId);
     setIsDropdownVisible(false);
   };
 
-  const handleSelectProduct = (productId: string, brandId: string) => {
-    onSelectProduct(productId, brandId);
+  const handleProductRegistrationSuccess = (newProductId: string, newBrandId: string) => {
+    setBrandId(newBrandId);
+    setProductId(newProductId);
     setIsDropdownVisible(false);
   };
 
@@ -54,20 +58,26 @@ export const ProductSearch = ({
   console.log("Search results:", searchResults);
   console.log("Is dropdown visible:", isDropdownVisible);
   console.log("Search term length:", searchTerm.length);
-  console.log("Selected product ID:", selectedProductId);
+  console.log("Selected product ID:", productId);
 
   return (
     <div className="space-y-4">
       <div className="relative">
-        <SearchBox 
+        <SearchBox
           searchTerm={searchTerm}
-          onSearchChange={handleSearchChange}
-          onAddNew={onAddNew}
-          onClear={handleClearSearch}
-          hasSelectedProduct={!!selectedProductId}
+          setSearchTerm={setSearchTerm}
+          onFocus={() => setIsDropdownVisible(true)}
         />
         
-        {/* Selected product details */}
+        <Button 
+          type="button"
+          variant="outline"
+          className="absolute right-2 top-1 h-8"
+          onClick={() => setShowRegistrationDialog(true)}
+        >
+          <PlusCircle className="h-4 w-4 mr-1" /> Add New
+        </Button>
+        
         {selectedProduct && <SelectedProduct product={{
           ...selectedProduct,
           product_properties: selectedProduct.product_types // Add for compatibility
@@ -79,9 +89,15 @@ export const ProductSearch = ({
           searchTerm={searchTerm}
           isLoading={isLoading}
           onSelectProduct={handleSelectProduct}
-          isVisible={searchTerm.length >= 2 && !selectedProductId}
+          isVisible={searchTerm.length >= 2 && !productId}
         />
       </div>
+      
+      <ProductRegistrationDialog
+        open={showRegistrationDialog}
+        onOpenChange={setShowRegistrationDialog}
+        onSuccess={handleProductRegistrationSuccess}
+      />
     </div>
   );
 };
