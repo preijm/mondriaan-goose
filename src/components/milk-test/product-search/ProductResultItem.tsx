@@ -45,7 +45,7 @@ export const ProductResultItem = ({ product, onSelect }: ProductResultItemProps)
         ))}
         
         {/* Display flavor badges with consistent styling */}
-        {product.flavor_names && product.flavor_names.map(flavor => (
+        {product.flavor_names && product.flavor_names.length > 0 && product.flavor_names.map(flavor => (
           <Badge 
             key={`flavor-${flavor}`} 
             variant="outline" 

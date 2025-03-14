@@ -31,6 +31,7 @@ export const useProductSearch = (selectedProductId?: string) => {
         console.error('Error fetching selected product:', error);
         return null;
       }
+      console.log("Selected product data:", data);
       return data;
     },
     enabled: !!selectedProductId
@@ -125,6 +126,9 @@ export const useProductSearch = (selectedProductId?: string) => {
           });
         }
       });
+
+      // Log results for debugging
+      console.log('Combined search results:', combinedResults);
 
       // Transform the results to match the format expected by the component
       return combinedResults.map(item => ({

@@ -26,7 +26,12 @@ export const SearchResults = ({
   isVisible
 }: SearchResultsProps) => {
   // For debugging
-  console.log("SearchResults component:", { isVisible, resultsLength: results.length, searchTerm });
+  console.log("SearchResults component:", { 
+    isVisible, 
+    resultsLength: results.length, 
+    searchTerm, 
+    sampleResult: results[0] 
+  });
   
   if (!isVisible) return null;
 

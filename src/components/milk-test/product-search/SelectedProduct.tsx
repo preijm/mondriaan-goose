@@ -52,6 +52,8 @@ export const SelectedProduct = ({ product }: SelectedProductProps) => {
     return badges;
   };
 
+  console.log("SelectedProduct data:", product);
+
   return (
     <div className="mt-2 p-3 bg-gray-50 border rounded-md">
       <div className="font-medium">{product.brand_name} - {product.product_name}</div>
