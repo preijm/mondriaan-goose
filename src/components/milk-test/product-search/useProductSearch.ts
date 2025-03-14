@@ -90,7 +90,10 @@ export const useProductSearch = (selectedProductId?: string) => {
       const {
         data: additionalFlavorResults,
         error: additionalFlavorError
-      } = await supabase.rpc('search_flavors', { search_term: lowercaseSearchTerm })
+      } = await supabase
+        .from('product_search_view')
+        .select('*')
+        .filter('flavor_names', 'cs', `{%${lowercaseSearchTerm}%}`)
         .limit(20);
       
       if (additionalFlavorError) {
