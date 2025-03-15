@@ -89,7 +89,7 @@ export const ProductSearch = ({
           results={searchResults.map(result => ({
             id: result.id,
             brand_name: result.brand_name,
-            product_name: result.product_name,
+            product_name: result.name, // Fix: Use name property instead of product_name
             property_names: result.property_names,
             flavor_names: result.flavor_names,
             is_barista: result.is_barista
