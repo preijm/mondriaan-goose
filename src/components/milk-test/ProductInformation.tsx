@@ -18,6 +18,7 @@ export const ProductInformation = ({
   setProductId,
 }: ProductInformationProps) => {
   const [isRegistrationDialogOpen, setIsRegistrationDialogOpen] = useState(false);
+  const [registrationKey, setRegistrationKey] = useState(0); // Add a key to force re-render
   const { toast } = useToast();
 
   const handleSelectProduct = (productId: string, brandId: string) => {
@@ -31,6 +32,8 @@ export const ProductInformation = ({
   };
 
   const handleAddNewProduct = () => {
+    // Increment the key to force the dialog to re-render with fresh state
+    setRegistrationKey(prevKey => prevKey + 1);
     setIsRegistrationDialogOpen(true);
   };
 
@@ -54,6 +57,7 @@ export const ProductInformation = ({
       />
       
       <ProductRegistrationDialog 
+        key={registrationKey} // Add a key to ensure fresh state on each open
         open={isRegistrationDialogOpen}
         onOpenChange={setIsRegistrationDialogOpen}
         onSuccess={handleProductAdded}

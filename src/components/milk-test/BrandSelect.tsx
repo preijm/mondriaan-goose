@@ -47,6 +47,10 @@ export const BrandSelect = ({ brandId, setBrandId, defaultBrand }: BrandSelectPr
         setInputValue(selectedBrand.name);
         console.log("BrandSelect: Setting input value to", selectedBrand.name);
       }
+    } else {
+      // Clear input value when brandId is empty
+      setInputValue("");
+      console.log("BrandSelect: Clearing input value since brandId is empty");
     }
   }, [brandId, brands]);
 
