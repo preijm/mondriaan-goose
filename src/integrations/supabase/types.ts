@@ -99,46 +99,6 @@ export type Database = {
         }
         Relationships: []
       }
-      milk_test_product_types: {
-        Row: {
-          created_at: string
-          milk_test_id: string
-          product_type_id: string
-        }
-        Insert: {
-          created_at?: string
-          milk_test_id: string
-          product_type_id: string
-        }
-        Update: {
-          created_at?: string
-          milk_test_id?: string
-          product_type_id?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "milk_test_product_types_milk_test_id_fkey"
-            columns: ["milk_test_id"]
-            isOneToOne: false
-            referencedRelation: "milk_tests"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "milk_test_product_types_milk_test_id_fkey"
-            columns: ["milk_test_id"]
-            isOneToOne: false
-            referencedRelation: "milk_tests_with_brands"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "milk_test_product_types_product_type_id_fkey"
-            columns: ["product_type_id"]
-            isOneToOne: false
-            referencedRelation: "properties"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
       milk_tests: {
         Row: {
           brand_id: string
@@ -147,6 +107,7 @@ export type Database = {
           display_name: string | null
           drink_preference: string | null
           id: string
+          is_barista: boolean | null
           notes: string | null
           picture_path: string | null
           price: number | null
@@ -163,6 +124,7 @@ export type Database = {
           display_name?: string | null
           drink_preference?: string | null
           id?: string
+          is_barista?: boolean | null
           notes?: string | null
           picture_path?: string | null
           price?: number | null
@@ -179,6 +141,7 @@ export type Database = {
           display_name?: string | null
           drink_preference?: string | null
           id?: string
+          is_barista?: boolean | null
           notes?: string | null
           picture_path?: string | null
           price?: number | null
@@ -475,6 +438,7 @@ export type Database = {
           display_name: string | null
           drink_preference: string | null
           id: string | null
+          is_barista: boolean | null
           notes: string | null
           price: number | null
           product_id: string | null

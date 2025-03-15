@@ -11,6 +11,7 @@ import { RatingSelect } from "./RatingSelect";
 import { ProductOptions } from "./ProductOptions";
 import { PictureCapture } from "./PictureCapture";
 import { Separator } from "@/components/ui/separator";
+import { BaristaToggle } from "./BaristaToggle";
 import {
   Dialog,
   DialogContent,
@@ -28,9 +29,6 @@ interface EditMilkTestProps {
     country?: string;
     shop?: string;
     is_barista?: boolean;
-    is_unsweetened?: boolean;
-    is_special_edition?: boolean;
-    is_no_sugar?: boolean;
     rating: number;
     notes?: string;
     product_type_keys?: string[];
@@ -49,6 +47,7 @@ export const EditMilkTest = ({ test, open, onOpenChange, onSuccess }: EditMilkTe
   const [notes, setNotes] = useState(test.notes || "");
   const [selectedProductProperties, setSelectedProductProperties] = useState<string[]>(test.product_type_keys || []);
   const [shop, setShop] = useState(test.shop_name || "");
+  const [isBarista, setIsBarista] = useState(test.is_barista || false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [picture, setPicture] = useState<File | null>(null);
   const [picturePreview, setPicturePreview] = useState<string | null>(null);
@@ -74,6 +73,10 @@ export const EditMilkTest = ({ test, open, onOpenChange, onSuccess }: EditMilkTe
     
     loadExistingPicture();
   }, [test.picture_path]);
+
+  const handleBaristaToggle = (checked: boolean) => {
+    setIsBarista(checked);
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -128,6 +131,7 @@ export const EditMilkTest = ({ test, open, onOpenChange, onSuccess }: EditMilkTe
         }
       }
 
+      // Update milk test with the is_barista field
       const { error: milkTestError } = await supabase
         .from('milk_tests')
         .update({
@@ -136,38 +140,12 @@ export const EditMilkTest = ({ test, open, onOpenChange, onSuccess }: EditMilkTe
           shop_id: shopData?.id || null,
           rating,
           notes,
-          picture_path: picturePath
+          picture_path: picturePath,
+          is_barista: isBarista
         })
         .eq('id', test.id);
 
       if (milkTestError) throw milkTestError;
-
-      const { error: deleteError } = await supabase
-        .from('milk_test_product_types')
-        .delete()
-        .eq('milk_test_id', test.id);
-
-      if (deleteError) throw deleteError;
-
-      if (selectedProductProperties.length > 0) {
-        const { data: productTypes } = await supabase
-          .from('properties')
-          .select('id, key')
-          .in('key', selectedProductProperties);
-
-        if (productTypes) {
-          const productPropertyLinks = productTypes.map(pp => ({
-            milk_test_id: test.id,
-            product_type_id: pp.id
-          }));
-
-          const { error: linkError } = await supabase
-            .from('milk_test_product_types')
-            .insert(productPropertyLinks);
-
-          if (linkError) throw linkError;
-        }
-      }
 
       toast({
         title: "Success",
@@ -227,10 +205,16 @@ export const EditMilkTest = ({ test, open, onOpenChange, onSuccess }: EditMilkTe
 
           <div className="space-y-4">
             <h2 className="text-lg font-semibold text-gray-900">Product Properties</h2>
-            <ProductOptions
-              selectedTypes={selectedProductProperties}
-              setSelectedTypes={setSelectedProductProperties}
-            />
+            <div className="space-y-4">
+              <BaristaToggle
+                isBarista={isBarista}
+                onToggle={handleBaristaToggle}
+              />
+              <ProductOptions
+                selectedTypes={selectedProductProperties}
+                setSelectedTypes={setSelectedProductProperties}
+              />
+            </div>
           </div>
 
           <Separator />
