@@ -1,13 +1,10 @@
 
 import React, { useState, useEffect } from "react";
-import { Input } from "@/components/ui/input";
 import { SearchBox } from "./product-search/SearchBox";
 import { SearchResults } from "./product-search/SearchResults";
 import { useProductSearch } from "./product-search/useProductSearch";
 import { SelectedProduct } from "./product-search/SelectedProduct";
 import { ProductRegistrationDialog } from "./registration-ui/ProductRegistrationDialog";
-import { Button } from "@/components/ui/button";
-import { PlusCircle } from "lucide-react";
 
 interface ProductSearchProps {
   onSelectProduct: (productId: string, brandId: string) => void;
@@ -40,17 +37,27 @@ export const ProductSearch = ({
     setIsDropdownVisible(false);
   };
 
+  // Handle clearing the search and selected product
+  const handleClearSearch = () => {
+    setSearchTerm('');
+    // Clear the selected product in the parent component
+    if (selectedProductId) {
+      onSelectProduct('', '');
+    }
+  };
+
   const handleProductRegistrationSuccess = (newProductId: string, newBrandId: string) => {
     onSelectProduct(newProductId, newBrandId);
     setIsDropdownVisible(false);
   };
 
   // For debugging purposes
-  console.log("Search results:", searchResults);
-  console.log("Is dropdown visible:", isDropdownVisible);
-  console.log("Search term length:", searchTerm.length);
-  console.log("Selected product ID:", selectedProductId);
-  console.log("Selected product is barista:", selectedProduct?.is_barista);
+  console.log("ProductSearch component state:", {
+    searchTerm,
+    selectedProductId,
+    selectedProduct,
+    isProductSelected: !!selectedProductId && !!selectedProduct
+  });
 
   return (
     <div className="space-y-4">
@@ -60,11 +67,11 @@ export const ProductSearch = ({
           onSearchChange={setSearchTerm}
           onFocus={() => setIsDropdownVisible(true)}
           onAddNew={onAddNew}
-          onClear={() => setSearchTerm('')}
+          onClear={handleClearSearch}
           hasSelectedProduct={!!selectedProductId}
         />
         
-        {selectedProduct && (
+        {selectedProductId && selectedProduct && (
           <SelectedProduct product={selectedProduct} />
         )}
         

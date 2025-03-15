@@ -15,6 +15,12 @@ interface SelectedProductProps {
 }
 
 export const SelectedProduct = ({ product }: SelectedProductProps) => {
+  // Safety check - if product is invalid, don't render anything
+  if (!product || !product.brand_name || !product.product_name) {
+    console.log("SelectedProduct received invalid product data:", product);
+    return null;
+  }
+
   // Get all badges in a single array for compact display
   const getAllBadges = () => {
     const badges = [];
@@ -61,8 +67,7 @@ export const SelectedProduct = ({ product }: SelectedProductProps) => {
   };
 
   // Enhanced logging for debugging
-  console.log("SelectedProduct data:", {
-    product,
+  console.log("SelectedProduct rendering with data:", {
     brandName: product.brand_name,
     productName: product.product_name,
     propertyNames: product.property_names,

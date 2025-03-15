@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
@@ -19,12 +18,14 @@ export const useProductSearch = (selectedProductId?: string) => {
   
   // Fetch selected product details if available
   const {
-    data: selectedProduct
+    data: selectedProduct,
+    isLoading: isLoadingSelectedProduct
   } = useQuery({
     queryKey: ['selected_product', selectedProductId],
     queryFn: async () => {
       if (!selectedProductId) return null;
       
+      console.log("Fetching selected product with ID:", selectedProductId);
       // Use maybeSingle instead of single for RLS compatibility
       const {
         data,
@@ -45,8 +46,14 @@ export const useProductSearch = (selectedProductId?: string) => {
   useEffect(() => {
     if (selectedProduct) {
       setSearchTerm(`${selectedProduct.brand_name} - ${selectedProduct.product_name}`);
+    } else if (!selectedProductId) {
+      // Only clear search term if selectedProductId is explicitly empty or null
+      // This prevents clearing when the query is just loading
+      if (!isLoadingSelectedProduct) {
+        setSearchTerm("");
+      }
     }
-  }, [selectedProduct]);
+  }, [selectedProduct, selectedProductId, isLoadingSelectedProduct]);
 
   const {
     data: searchResults = [],
@@ -147,7 +154,6 @@ export const useProductSearch = (selectedProductId?: string) => {
 
       // Enhanced logging for debugging RLS issues
       console.log('Combined search results:', combinedResults);
-      console.log('Sample product with flavor data:', combinedResults[0]);
       
       if (combinedResults.length > 0) {
         combinedResults.forEach((result, index) => {

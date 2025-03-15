@@ -21,8 +21,13 @@ export const ProductInformation = ({
   const { toast } = useToast();
 
   const handleSelectProduct = (productId: string, brandId: string) => {
+    console.log("ProductInformation: handleSelectProduct called with", { productId, brandId });
+    
+    // Update product and brand IDs
     setProductId(productId);
     setBrandId(brandId);
+    
+    // Show toast only when actually selecting a product (not when clearing)
     if (productId) {
       toast({
         title: "Product selected",
