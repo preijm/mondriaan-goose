@@ -1,5 +1,5 @@
 
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Camera, X } from "lucide-react";
 import {
@@ -21,93 +21,30 @@ export const PictureCapture: React.FC<PictureCaptureProps> = ({
   setPicture,
   setPicturePreview,
 }) => {
-  const [showCamera, setShowCamera] = useState(false);
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const streamRef = useRef<MediaStream | null>(null);
   const [isImageDialogOpen, setIsImageDialogOpen] = useState(false);
-  const [cameraError, setCameraError] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
-  // Start camera when showCamera becomes true
-  useEffect(() => {
-    if (showCamera) {
-      initializeCamera();
-    } else {
-      stopCamera();
-    }
-    
-    // Cleanup function to ensure camera is stopped when component unmounts
-    return () => {
-      stopCamera();
-    };
-  }, [showCamera]);
-
-  const initializeCamera = async () => {
-    try {
-      setCameraError(null);
-      const stream = await navigator.mediaDevices.getUserMedia({ 
-        video: { 
-          facingMode: "environment",
-          width: { ideal: 1280 },
-          height: { ideal: 720 }
-        } 
-      });
-      
-      streamRef.current = stream;
-      
-      if (videoRef.current) {
-        videoRef.current.srcObject = stream;
-        // Start playing as soon as metadata is loaded
-        videoRef.current.onloadedmetadata = () => {
-          if (videoRef.current) {
-            videoRef.current.play().catch(err => {
-              console.error("Error playing video:", err);
-              setCameraError("Failed to start video playback");
-            });
-          }
-        };
-      }
-    } catch (err) {
-      console.error("Error accessing camera:", err);
-      setCameraError("Failed to access camera. Please ensure camera permissions are granted.");
-      setShowCamera(false);
+  const handleCameraClick = () => {
+    // Trigger the file input click
+    if (fileInputRef.current) {
+      fileInputRef.current.click();
     }
   };
 
-  const stopCamera = () => {
-    if (streamRef.current) {
-      streamRef.current.getTracks().forEach(track => track.stop());
-      streamRef.current = null;
-    }
-  };
-
-  const takePicture = () => {
-    if (!videoRef.current) return;
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
 
     try {
-      const canvas = document.createElement("canvas");
-      canvas.width = videoRef.current.videoWidth;
-      canvas.height = videoRef.current.videoHeight;
+      // Create a preview URL
+      const previewUrl = URL.createObjectURL(file);
+      setPicture(file);
+      setPicturePreview(previewUrl);
       
-      const ctx = canvas.getContext("2d");
-      if (!ctx) {
-        console.error("Could not get canvas context");
-        return;
-      }
-      
-      ctx.drawImage(videoRef.current, 0, 0, canvas.width, canvas.height);
-      
-      canvas.toBlob((blob) => {
-        if (blob) {
-          const file = new File([blob], "milk-picture.jpg", { type: "image/jpeg" });
-          setPicture(file);
-          setPicturePreview(URL.createObjectURL(blob));
-          setShowCamera(false);
-        } else {
-          console.error("Failed to create blob from canvas");
-        }
-      }, "image/jpeg", 0.9);
+      // Reset the input so the same file can be selected again if needed
+      e.target.value = '';
     } catch (err) {
-      console.error("Error capturing picture:", err);
+      console.error("Error handling selected picture:", err);
     }
   };
 
@@ -119,12 +56,18 @@ export const PictureCapture: React.FC<PictureCaptureProps> = ({
     }
   };
 
-  const handleCameraClick = () => {
-    setShowCamera(true);
-  };
-
   return (
     <div className="h-full flex flex-col items-center justify-center">
+      {/* Hidden file input that accepts camera capture and file selection */}
+      <input
+        type="file"
+        accept="image/*"
+        capture="environment"
+        ref={fileInputRef}
+        className="hidden"
+        onChange={handleFileChange}
+      />
+
       {picturePreview ? (
         <div className="relative h-full w-full">
           <div className="h-full w-full rounded-md overflow-hidden">
@@ -159,39 +102,14 @@ export const PictureCapture: React.FC<PictureCaptureProps> = ({
         </div>
       ) : (
         <div className="h-full w-full flex items-center justify-center">
-          {showCamera ? (
-            <div className="relative w-full h-full">
-              <video 
-                ref={videoRef} 
-                autoPlay 
-                playsInline 
-                muted
-                className="w-full h-full object-cover rounded-md"
-              />
-              {cameraError && (
-                <div className="absolute inset-0 flex items-center justify-center bg-black/50 text-white p-4 text-center rounded-md">
-                  <p>{cameraError}</p>
-                </div>
-              )}
-              <div className="absolute inset-x-0 bottom-2 flex justify-center gap-2">
-                <Button onClick={takePicture} size="sm" className="bg-green-500 hover:bg-green-600">
-                  Capture
-                </Button>
-                <Button onClick={() => setShowCamera(false)} variant="outline" size="sm">
-                  Cancel
-                </Button>
-              </div>
-            </div>
-          ) : (
-            <Button 
-              type="button" 
-              variant="outline"
-              className="w-full h-full min-h-[120px] flex items-center justify-center border-dashed"
-              onClick={handleCameraClick}
-            >
-              <Camera className="h-8 w-8 text-gray-400" />
-            </Button>
-          )}
+          <Button 
+            type="button" 
+            variant="outline"
+            className="w-full h-full min-h-[120px] flex items-center justify-center border-dashed"
+            onClick={handleCameraClick}
+          >
+            <Camera className="h-8 w-8 text-gray-400" />
+          </Button>
         </div>
       )}
     </div>
