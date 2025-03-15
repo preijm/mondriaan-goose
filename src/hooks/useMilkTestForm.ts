@@ -7,6 +7,7 @@ import { supabase } from "@/integrations/supabase/client";
 export const useMilkTestForm = () => {
   const [rating, setRating] = useState(0);
   const [productId, setProductId] = useState("");
+  const [brandId, setBrandId] = useState("");
   const [notes, setNotes] = useState("");
   const [shop, setShop] = useState<string>("");
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -23,6 +24,7 @@ export const useMilkTestForm = () => {
     
     // Debug logging to help identify issues
     console.log("Milk Test Form submission values:", {
+      brandId,
       productId, 
       rating,
       notes,
@@ -83,7 +85,7 @@ export const useMilkTestForm = () => {
 
       console.log("Inserting milk test with user_id:", userData.user.id);
       
-      // Insert the milk test (without brand_id, country, and is_barista)
+      // Insert the milk test
       const { data: milkTest, error: milkTestError } = await supabase
         .from('milk_tests')
         .insert({
@@ -127,6 +129,7 @@ export const useMilkTestForm = () => {
   return {
     formState: {
       rating,
+      brandId,
       productId,
       notes,
       shop,
@@ -138,6 +141,7 @@ export const useMilkTestForm = () => {
     },
     formSetters: {
       setRating,
+      setBrandId,
       setProductId,
       setNotes,
       setShop,

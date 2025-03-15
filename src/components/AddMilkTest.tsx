@@ -33,6 +33,8 @@ export const AddMilkTest = () => {
       className="space-y-8 bg-white rounded-lg shadow-md p-6 animate-fade-up"
     >
       <ProductInformation
+        brandId={formState.brandId}
+        setBrandId={formSetters.setBrandId}
         productId={formState.productId}
         setProductId={formSetters.setProductId}
       />
