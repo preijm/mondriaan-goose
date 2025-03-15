@@ -83,8 +83,8 @@ export const ProductRegistrationDialog = ({
   
   // Modify inputs to create a unique product
   const handleModifyInputs = () => {
-    setDuplicateAlertOpen(false);
     // Just close the alert and keep the dialog open so users can modify inputs
+    setDuplicateAlertOpen(false);
   };
   
   return (

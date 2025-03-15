@@ -41,7 +41,10 @@ export const DuplicateProductAlert = ({
           }}>
             Modify Inputs
           </AlertDialogCancel>
-          <AlertDialogAction onClick={onUseExisting}>
+          <AlertDialogAction onClick={() => {
+            onUseExisting();
+            // Don't close the dialog here - it will be closed by the success handler
+          }}>
             Use Existing
           </AlertDialogAction>
         </AlertDialogFooter>
