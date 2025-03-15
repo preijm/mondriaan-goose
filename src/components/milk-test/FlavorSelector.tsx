@@ -1,11 +1,14 @@
 
 import React from "react";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Plus } from "lucide-react";
 
 interface FlavorSelectorProps {
   flavors: Array<{ id: string; name: string; key: string }>;
   selectedFlavors: string[];
   onFlavorToggle: (flavorKey: string) => void;
+  onAddNewFlavor?: () => void;
 }
 
 // Helper function to format keys like "pumpkin_spice" to "Pumpkin Spice"
@@ -36,26 +39,40 @@ const formatDisplayName = (key: string): string => {
 export const FlavorSelector = ({ 
   flavors, 
   selectedFlavors, 
-  onFlavorToggle 
+  onFlavorToggle,
+  onAddNewFlavor 
 }: FlavorSelectorProps) => {
   return (
-    <div className="flex flex-wrap gap-2">
-      {flavors.map(flavor => (
-        <Badge 
-          key={flavor.id} 
-          variant="outline" 
-          className={`
-            rounded-full px-4 py-1 cursor-pointer transition-all 
-            ${selectedFlavors.includes(flavor.key) 
-              ? 'bg-blue-500 text-white border-blue-600 font-medium shadow-sm hover:bg-blue-600' 
-              : 'bg-gray-100 hover:bg-gray-200 border-gray-200 text-gray-700'}
-          `} 
-          onClick={() => onFlavorToggle(flavor.key)}
+    <div>
+      <div className="flex flex-wrap gap-2">
+        {flavors.map(flavor => (
+          <Badge 
+            key={flavor.id} 
+            variant="outline" 
+            className={`
+              rounded-full px-4 py-1 cursor-pointer transition-all 
+              ${selectedFlavors.includes(flavor.key) 
+                ? 'bg-blue-500 text-white border-blue-600 font-medium shadow-sm hover:bg-blue-600' 
+                : 'bg-gray-100 hover:bg-gray-200 border-gray-200 text-gray-700'}
+            `} 
+            onClick={() => onFlavorToggle(flavor.key)}
+          >
+            {/* Use the flavor name from the API or format the key as a fallback */}
+            {flavor.name || formatDisplayName(flavor.key)}
+          </Badge>
+        ))}
+        
+        {/* Add New Flavor button with plus icon */}
+        <Button
+          variant="outline"
+          size="sm"
+          className="rounded-full bg-gray-100 hover:bg-gray-200 border-gray-200 text-gray-700"
+          onClick={onAddNewFlavor}
         >
-          {/* Use the flavor name from the API or format the key as a fallback */}
-          {flavor.name || formatDisplayName(flavor.key)}
-        </Badge>
-      ))}
+          <Plus size={16} className="mr-1" />
+          Add Flavor
+        </Button>
+      </div>
     </div>
   );
 };

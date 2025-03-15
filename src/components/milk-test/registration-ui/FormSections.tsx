@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Separator } from "@/components/ui/separator";
 import { BrandSelect } from "../BrandSelect";
@@ -7,6 +6,7 @@ import { BaristaToggle } from "../BaristaToggle";
 import { ProductOptions } from "../ProductOptions";
 import { FlavorSelector } from "../FlavorSelector";
 import { useProductRegistration } from "./ProductRegistrationContext";
+import { useToast } from "@/hooks/use-toast";
 
 export const BrandSection = () => {
   const { brandId, setBrandId } = useProductRegistration();
@@ -61,6 +61,14 @@ export const PropertiesSection = () => {
 
 export const FlavorsSection = () => {
   const { flavors, selectedFlavors, handleFlavorToggle } = useProductRegistration();
+  const { toast } = useToast();
+  
+  const handleAddNewFlavor = () => {
+    toast({
+      title: "Feature coming soon",
+      description: "Adding new flavors will be available in a future update.",
+    });
+  };
   
   return (
     <div className="space-y-4">
@@ -68,7 +76,8 @@ export const FlavorsSection = () => {
       <FlavorSelector 
         flavors={flavors} 
         selectedFlavors={selectedFlavors} 
-        onFlavorToggle={handleFlavorToggle} 
+        onFlavorToggle={handleFlavorToggle}
+        onAddNewFlavor={handleAddNewFlavor}
       />
     </div>
   );

@@ -10,7 +10,7 @@ interface BaristaToggleProps {
 export const BaristaToggle = ({ isBarista, onToggle }: BaristaToggleProps) => {
   return (
     <div className="space-y-2">
-      <h3 className="text-sm font-medium">Barista Version</h3>
+      <h3 className="text-sm font-medium">Barista</h3>
       <div className="flex items-center">
         <Switch id="barista-version" checked={isBarista} onCheckedChange={onToggle} />
       </div>
