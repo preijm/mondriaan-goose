@@ -58,6 +58,8 @@ export const useProductRegistrationForm = ({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
+    console.log("Submitting form with brandId:", brandId);
+    
     // Validate form
     if (!validateForm(brandId, productName)) {
       return;

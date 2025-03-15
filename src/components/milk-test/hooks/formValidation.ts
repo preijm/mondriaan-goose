@@ -5,7 +5,7 @@ export const useFormValidation = () => {
   const { toast } = useToast();
 
   const validateForm = (brandId: string, productName: string): boolean => {
-    if (!brandId) {
+    if (!brandId || brandId.trim() === '') {
       toast({
         title: "Missing brand",
         description: "Please select a brand for this product",
@@ -14,7 +14,7 @@ export const useFormValidation = () => {
       return false;
     }
     
-    if (!productName) {
+    if (!productName || productName.trim() === '') {
       toast({
         title: "Missing product",
         description: "Please enter a name for this product",

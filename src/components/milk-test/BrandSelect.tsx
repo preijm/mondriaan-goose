@@ -71,20 +71,27 @@ export const BrandSelect = ({ brandId, setBrandId, defaultBrand }: BrandSelectPr
       setBrandId(exactMatch.id);
       setShowAddNew(false);
     } else {
+      // Only clear brandId if the input has changed
+      if (brandId) {
+        const currentBrand = brands.find(brand => brand.id === brandId);
+        if (currentBrand && currentBrand.name.toLowerCase() !== inputValue.trim().toLowerCase()) {
+          setBrandId('');
+        }
+      }
       setShowAddNew(inputValue.trim() !== '');
     }
-  }, [inputValue, brands, setBrandId]);
+  }, [inputValue, brands, setBrandId, brandId]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
     
-    // If the input doesn't match any existing brand, clear the brandId
+    // If the input matches any existing brand, update the brandId
     const exactMatch = brands.find(
       brand => brand.name.toLowerCase() === e.target.value.trim().toLowerCase()
     );
     
-    if (!exactMatch) {
-      setBrandId('');
+    if (exactMatch) {
+      setBrandId(exactMatch.id);
     }
   };
 
