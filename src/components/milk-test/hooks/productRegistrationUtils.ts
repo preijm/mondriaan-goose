@@ -1,14 +1,6 @@
 
 import { supabase } from "@/integrations/supabase/client";
-
-interface FormSetters {
-  setBrandId: (id: string) => void;
-  setProductName: (name: string) => void;
-  setNameId: (id: string | null) => void;
-  setSelectedProductTypes: (types: string[]) => void;
-  setIsBarista: (isBarista: boolean) => void;
-  setSelectedFlavors: (flavors: string[]) => void;
-}
+import { FormSetters, ProductSubmitParams } from "./types";
 
 export const resetFormState = ({
   setBrandId,
@@ -26,18 +18,6 @@ export const resetFormState = ({
   setSelectedFlavors([]);
 };
 
-interface SubmitProps {
-  brandId: string;
-  productName: string;
-  nameId: string | null;
-  selectedProductTypes: string[];
-  isBarista: boolean;
-  selectedFlavors: string[];
-  toast: any;
-  onSuccess: (productId: string, brandId: string) => void;
-  onOpenChange: (open: boolean) => void;
-}
-
 export const handleProductSubmit = async ({
   brandId,
   productName,
@@ -48,7 +28,7 @@ export const handleProductSubmit = async ({
   toast,
   onSuccess,
   onOpenChange
-}: SubmitProps) => {
+}: ProductSubmitParams) => {
   // First check if product already exists with this brand and name_id
   let finalNameId = nameId;
 

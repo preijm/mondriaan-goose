@@ -1,18 +1,13 @@
 
 import { useState, useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
-import { supabase } from "@/integrations/supabase/client";
-import { useQuery } from "@tanstack/react-query";
+import { useProductFlavors } from "./useProductFlavors";
+import { useFormValidation } from "./formValidation";
 import { 
   handleProductSubmit, 
   resetFormState 
 } from "./productRegistrationUtils";
-
-interface UseProductRegistrationFormProps {
-  open: boolean;
-  onOpenChange: (open: boolean) => void;
-  onSuccess: (productId: string, brandId: string) => void;
-}
+import { UseProductRegistrationFormProps } from "./types";
 
 export const useProductRegistrationForm = ({
   open,
@@ -28,6 +23,7 @@ export const useProductRegistrationForm = ({
   const [selectedFlavors, setSelectedFlavors] = useState<string[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
+  const { validateForm } = useFormValidation();
 
   // Reset form when dialog opens
   useEffect(() => {
@@ -38,27 +34,14 @@ export const useProductRegistrationForm = ({
         setNameId,
         setSelectedProductTypes,
         setIsBarista,
-        setSelectedFlavors
+        setSelectedFlavors,
+        setIsSubmitting
       });
     }
   }, [open]);
 
   // Fetch product_flavors
-  const { data: flavors = [] } = useQuery({
-    queryKey: ['product_flavors'],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from('flavors')
-        .select('id, name, key')
-        .order('ordering', { ascending: true });
-      
-      if (error) {
-        console.error('Error fetching product flavors:', error);
-        throw error;
-      }
-      return data || [];
-    }
-  });
+  const { data: flavors = [] } = useProductFlavors();
   
   const handleFlavorToggle = (flavorKey: string) => {
     setSelectedFlavors(prev => 
@@ -76,20 +59,7 @@ export const useProductRegistrationForm = ({
     e.preventDefault();
     
     // Validate form
-    if (!brandId) {
-      toast({
-        title: "Missing brand",
-        description: "Please select a brand for this product",
-        variant: "destructive"
-      });
-      return;
-    }
-    if (!productName) {
-      toast({
-        title: "Missing product",
-        description: "Please enter a name for this product",
-        variant: "destructive"
-      });
+    if (!validateForm(brandId, productName)) {
       return;
     }
     
