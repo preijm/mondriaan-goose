@@ -24,7 +24,7 @@ export const ProductSelect = ({ brandId, productId, setProductId }: ProductSelec
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
   const { toast } = useToast();
 
-  const { data: products = [] } = useQuery({
+  const { data: products = [], isLoading } = useQuery({
     queryKey: ['products', brandId],
     queryFn: async () => {
       if (!brandId) return [];
@@ -82,17 +82,17 @@ export const ProductSelect = ({ brandId, productId, setProductId }: ProductSelec
 
     setSuggestions(filteredProducts);
     
+    // Check if exact match (case-insensitive)
     const exactMatch = products.some(
       product => product.name.toLowerCase() === inputValue.trim().toLowerCase()
     );
+    
     setShowAddNew(!exactMatch && inputValue.trim() !== '');
   }, [inputValue, products, brandId]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
-    if (!e.target.value) {
-      setProductId("");
-    }
+    // Don't reset productId here - only set it when explicitly chosen
   };
 
   const handleSelectProduct = (selectedProduct: ProductWithName) => {
@@ -103,6 +103,17 @@ export const ProductSelect = ({ brandId, productId, setProductId }: ProductSelec
 
   const handleAddNewProduct = async () => {
     if (!brandId || inputValue.trim() === '') return;
+
+    // Check if product already exists for this brand (case-insensitive)
+    const existingProduct = products.find(
+      product => product.name.toLowerCase() === inputValue.trim().toLowerCase()
+    );
+
+    if (existingProduct) {
+      console.log('Product already exists for this brand, selecting it:', existingProduct);
+      handleSelectProduct(existingProduct);
+      return;
+    }
 
     try {
       // 1. First create a name entry
@@ -145,7 +156,14 @@ export const ProductSelect = ({ brandId, productId, setProductId }: ProductSelec
         description: "New product added successfully!",
       });
       
-      setProductId(data.id);
+      // Transform the data to match our expected format
+      const newProduct = {
+        id: data.id,
+        name: data.names.name
+      };
+      
+      setProductId(newProduct.id);
+      setInputValue(newProduct.name);
       setIsDropdownVisible(false);
     } catch (error) {
       console.error('Error in product creation:', error);
@@ -166,7 +184,7 @@ export const ProductSelect = ({ brandId, productId, setProductId }: ProductSelec
         onFocus={() => setIsDropdownVisible(true)}
         onBlur={() => setTimeout(() => setIsDropdownVisible(false), 200)}
         className="w-full"
-        disabled={!brandId}
+        disabled={!brandId || isLoading}
       />
       {isDropdownVisible && (suggestions.length > 0 || showAddNew) && (
         <div className="absolute z-10 w-full mt-1 bg-white border rounded-md shadow-lg">

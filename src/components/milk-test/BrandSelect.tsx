@@ -38,6 +38,16 @@ export const BrandSelect = ({ brandId, setBrandId, defaultBrand }: BrandSelectPr
     },
   });
 
+  // Update the input value when brands or brandId changes
+  useEffect(() => {
+    if (brandId) {
+      const selectedBrand = brands.find(brand => brand.id === brandId);
+      if (selectedBrand) {
+        setInputValue(selectedBrand.name);
+      }
+    }
+  }, [brandId, brands]);
+
   useEffect(() => {
     if (inputValue.trim() === '') {
       setSuggestions([]);
@@ -59,6 +69,7 @@ export const BrandSelect = ({ brandId, setBrandId, defaultBrand }: BrandSelectPr
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
+    // Don't reset brandId here - only set it when explicitly chosen
   };
 
   const handleSelectBrand = (selectedBrand: { id: string; name: string }) => {
@@ -70,29 +81,44 @@ export const BrandSelect = ({ brandId, setBrandId, defaultBrand }: BrandSelectPr
   const handleAddNewBrand = async () => {
     if (inputValue.trim() === '') return;
 
-    const { data, error } = await supabase
-      .from('brands')
-      .insert({ name: inputValue.trim() })
-      .select()
-      .single();
+    // First, check if the brand already exists (case-insensitive)
+    const existingBrand = brands.find(
+      brand => brand.name.toLowerCase() === inputValue.trim().toLowerCase()
+    );
 
-    if (error) {
-      console.error('Error inserting new brand:', error);
-      toast({
-        title: "Error",
-        description: "Failed to add new brand. Please try again.",
-        variant: "destructive",
-      });
+    if (existingBrand) {
+      console.log('Brand already exists, selecting it:', existingBrand);
+      handleSelectBrand(existingBrand);
       return;
     }
 
-    toast({
-      title: "Success",
-      description: "New brand added successfully!",
-    });
-    
-    setBrandId(data.id);
-    setIsDropdownVisible(false);
+    try {
+      const { data, error } = await supabase
+        .from('brands')
+        .insert({ name: inputValue.trim() })
+        .select()
+        .single();
+
+      if (error) {
+        console.error('Error inserting new brand:', error);
+        toast({
+          title: "Error",
+          description: "Failed to add new brand. Please try again.",
+          variant: "destructive",
+        });
+        return;
+      }
+
+      toast({
+        title: "Success",
+        description: "New brand added successfully!",
+      });
+      
+      setBrandId(data.id);
+      setIsDropdownVisible(false);
+    } catch (error) {
+      console.error('Error creating brand:', error);
+    }
   };
 
   return (
@@ -102,7 +128,7 @@ export const BrandSelect = ({ brandId, setBrandId, defaultBrand }: BrandSelectPr
         value={inputValue}
         onChange={handleInputChange}
         onFocus={() => setIsDropdownVisible(true)}
-        onBlur={() => setIsDropdownVisible(false)}
+        onBlur={() => setTimeout(() => setIsDropdownVisible(false), 200)}
         className="w-full pr-10"
       />
       {isDropdownVisible && (suggestions.length > 0 || showAddNew) && (
