@@ -6,6 +6,7 @@ import {
   Dialog,
   DialogContent,
   DialogClose,
+  DialogDescription,
 } from "@/components/ui/dialog";
 
 interface BarcodeScannerProps {
@@ -19,12 +20,12 @@ export const BarcodeScanner: React.FC<BarcodeScannerProps> = ({
   onClose, 
   onScan 
 }) => {
-  // Implementation of BarcodeScanner component
-  // This would include barcode scanning functionality
-  // For now, we'll create a placeholder implementation
   return (
     <Dialog open={open} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-md">
+        <DialogDescription className="sr-only">
+          Scan a barcode to identify a milk product
+        </DialogDescription>
         <div className="text-center">
           <h3 className="text-lg font-medium">Scan Barcode</h3>
           <p className="text-sm text-gray-500">

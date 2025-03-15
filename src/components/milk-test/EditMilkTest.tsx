@@ -16,6 +16,7 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
+  DialogDescription,
 } from "@/components/ui/dialog";
 
 interface EditMilkTestProps {
@@ -192,6 +193,9 @@ export const EditMilkTest = ({ test, open, onOpenChange, onSuccess }: EditMilkTe
       <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>Edit Milk Test</DialogTitle>
+          <DialogDescription>
+            Make changes to your milk test record
+          </DialogDescription>
         </DialogHeader>
         
         <form onSubmit={handleSubmit} className="space-y-6">

@@ -44,8 +44,12 @@ export const BarcodeResultDialog = ({
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle>Product Information</DialogTitle>
-          {isLoading && (
+          {isLoading ? (
             <DialogDescription>Loading product details...</DialogDescription>
+          ) : (
+            <DialogDescription>
+              Confirm or edit the scanned product information
+            </DialogDescription>
           )}
         </DialogHeader>
         <div className="grid gap-4 py-4">

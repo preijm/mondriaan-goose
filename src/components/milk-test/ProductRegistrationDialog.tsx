@@ -1,6 +1,6 @@
 
 import React from "react";
-import { Dialog, DialogContent, DialogFooter } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogFooter, DialogDescription } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { BrandSelect } from "./BrandSelect";
 import { NameSelect } from "./NameSelect";
@@ -44,6 +44,9 @@ export const ProductRegistrationDialog = ({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-2xl max-h-[85vh] overflow-y-auto">
         <ProductRegistrationHeader />
+        <DialogDescription className="sr-only">
+          Register a new milk product with brand, product details, properties, and flavors
+        </DialogDescription>
         
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="space-y-4">
