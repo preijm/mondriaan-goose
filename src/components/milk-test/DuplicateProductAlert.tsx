@@ -35,8 +35,15 @@ export const DuplicateProductAlert = ({
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel onClick={onModify}>Modify Inputs</AlertDialogCancel>
-          <AlertDialogAction onClick={onUseExisting}>Use Existing</AlertDialogAction>
+          <AlertDialogCancel onClick={() => {
+            onModify();
+            onOpenChange(false);
+          }}>
+            Modify Inputs
+          </AlertDialogCancel>
+          <AlertDialogAction onClick={onUseExisting}>
+            Use Existing
+          </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

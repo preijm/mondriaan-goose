@@ -84,7 +84,7 @@ export const ProductRegistrationDialog = ({
   // Modify inputs to create a unique product
   const handleModifyInputs = () => {
     setDuplicateAlertOpen(false);
-    // Keep the dialog open to let users modify their inputs
+    // Just close the alert and keep the dialog open so users can modify inputs
   };
   
   return (
@@ -141,7 +141,7 @@ export const ProductRegistrationDialog = ({
               <Button 
                 type="button" 
                 variant="outline" 
-                onClick={() => onOpenChange(false)} 
+                onClick={() => onOpenChange(false)}
                 disabled={isSubmitting}
               >
                 Cancel
