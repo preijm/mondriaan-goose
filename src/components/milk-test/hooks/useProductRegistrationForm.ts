@@ -60,7 +60,7 @@ export const useProductRegistrationForm = ({
     
     console.log("Submitting form with brandId:", brandId);
     
-    // Validate form
+    // Only validate the required fields: brandId and productName
     if (!validateForm(brandId, productName)) {
       return;
     }
