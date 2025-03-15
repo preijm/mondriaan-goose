@@ -4,7 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Flavor } from "./types";
 
 export const useProductFlavors = () => {
-  return useQuery({
+  const flavorQuery = useQuery({
     queryKey: ['product_flavors'],
     queryFn: async (): Promise<Flavor[]> => {
       const { data, error } = await supabase
@@ -19,4 +19,12 @@ export const useProductFlavors = () => {
       return data || [];
     }
   });
+
+  return {
+    data: flavorQuery.data || [],
+    isLoading: flavorQuery.isLoading,
+    error: flavorQuery.error,
+    refetch: flavorQuery.refetch,
+    flavorQuery
+  };
 };

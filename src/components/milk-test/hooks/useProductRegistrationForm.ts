@@ -35,7 +35,9 @@ export const useProductRegistrationForm = ({
   }, [open]);
 
   // Fetch product_flavors
-  const { data: flavors = [] } = useProductFlavors();
+  const flavorsResult = useProductFlavors();
+  const flavors = flavorsResult.data;
+  const flavorQuery = flavorsResult.flavorQuery;
   
   const handleFlavorToggle = (flavorKey: string) => {
     setSelectedFlavors(prev => 
@@ -98,6 +100,7 @@ export const useProductRegistrationForm = ({
     handleFlavorToggle,
     originalHandleSubmit: handleSubmit,
     flavors,
+    flavorQuery,
     toast
   };
 };
