@@ -17,7 +17,6 @@ export const useProductRegistrationForm = ({
   const [selectedProductTypes, setSelectedProductTypes] = useState<string[]>([]);
   const [isBarista, setIsBarista] = useState(false);
   const [selectedFlavors, setSelectedFlavors] = useState<string[]>([]);
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
 
   // Reset form when dialog opens
@@ -30,7 +29,7 @@ export const useProductRegistrationForm = ({
         setSelectedProductTypes,
         setIsBarista,
         setSelectedFlavors,
-        setIsSubmitting
+        setIsSubmitting: () => {} // This is now handled by the context
       });
     }
   }, [open]);
@@ -97,9 +96,8 @@ export const useProductRegistrationForm = ({
     setIsBarista: handleBaristaToggle,
     selectedFlavors,
     handleFlavorToggle,
-    isSubmitting,
-    setIsSubmitting,
-    handleSubmit,
-    flavors
+    originalHandleSubmit: handleSubmit,
+    flavors,
+    toast
   };
 };
