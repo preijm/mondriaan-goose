@@ -74,114 +74,26 @@ export const handleProductSubmit = async ({
       }
     }
 
-    // 2. Check if a product with the exact same brand_id and name_id already exists
-    const { data: existingProduct } = await supabase
+    // 2. Always create a new product entry, regardless of existing products with the same name and brand
+    console.log('Creating new product with:', { brandId, nameId: finalNameId });
+    const { data: newProduct, error: productError } = await supabase
       .from('products')
-      .select('id, brand_id, name_id')
-      .eq('name_id', finalNameId)
-      .eq('brand_id', brandId)
-      .maybeSingle();
-
-    if (existingProduct) {
-      console.log('Found existing product with same brand and name:', existingProduct);
-      
-      // 3. If product exists, check if it has the exact same properties and flavors
-      const { data: existingProductProperties } = await supabase
-        .from('product_properties')
-        .select('property_id')
-        .eq('product_id', existingProduct.id);
-      
-      const { data: existingProductFlavors } = await supabase
-        .from('product_flavors')
-        .select('flavor_id')
-        .eq('product_id', existingProduct.id);
-      
-      // Get IDs for selected product types
-      const { data: propertyData } = await supabase
-        .from('properties')
-        .select('id, key')
-        .in('key', [...selectedProductTypes, ...(isBarista ? ['barista'] : [])]);
-      
-      // Get IDs for selected flavors
-      const { data: flavorData } = await supabase
-        .from('flavors')
-        .select('id, key')
-        .in('key', selectedFlavors);
-      
-      // Convert to arrays of ids for comparison
-      const existingPropertyIds = (existingProductProperties || []).map(p => p.property_id).sort();
-      const existingFlavorIds = (existingProductFlavors || []).map(f => f.flavor_id).sort();
-      
-      const newPropertyIds = (propertyData || []).map(p => p.id).sort();
-      const newFlavorIds = (flavorData || []).map(f => f.id).sort();
-      
-      // Compare arrays to check if they have the same values
-      const propertiesMatch = JSON.stringify(existingPropertyIds) === JSON.stringify(newPropertyIds);
-      const flavorsMatch = JSON.stringify(existingFlavorIds) === JSON.stringify(newFlavorIds);
-      
-      console.log('Properties match:', propertiesMatch);
-      console.log('Flavors match:', flavorsMatch);
-      
-      if (propertiesMatch && flavorsMatch) {
-        // This is a true duplicate - same brand, name, properties and flavors
-        toast({
-          title: "Duplicate Product",
-          description: "This exact product already exists with the same brand, name, properties and flavors.",
-          variant: "destructive"
-        });
-        return;
-      }
-      
-      // Not a true duplicate, just the same brand and name but different properties/flavors
-      newProductId = existingProduct.id;
-      console.log('Using existing product ID but updating properties/flavors:', newProductId);
-      
-      // Remove existing properties and flavors to replace with new ones
-      if (!propertiesMatch) {
-        await supabase
-          .from('product_properties')
-          .delete()
-          .eq('product_id', newProductId);
-      }
-      
-      if (!flavorsMatch) {
-        await supabase
-          .from('product_flavors')
-          .delete()
-          .eq('product_id', newProductId);
-      }
-      
-    } else {
-      // Product doesn't exist with this brand and name, create a new one
-      console.log('Creating new product with:', { brandId, nameId: finalNameId });
-      const { data: newProduct, error: productError } = await supabase
-        .from('products')
-        .insert({
-          brand_id: brandId,
-          name_id: finalNameId
-        })
-        .select()
-        .single();
-      
-      if (productError) {
-        console.error('Error adding product:', productError);
-        throw productError;
-      }
-      
-      console.log('New product created:', newProduct);
-      newProductId = newProduct.id;
-      
-      toast({
-        title: "Product added",
-        description: "New product added successfully!"
-      });
+      .insert({
+        brand_id: brandId,
+        name_id: finalNameId
+      })
+      .select()
+      .single();
+    
+    if (productError) {
+      console.error('Error adding product:', productError);
+      throw productError;
     }
     
-    if (!newProductId) {
-      throw new Error('Failed to create or find product');
-    }
+    console.log('New product created:', newProduct);
+    newProductId = newProduct.id;
     
-    // 4. Add product types if selected
+    // 3. Add product types if selected
     if ((selectedProductTypes.length > 0 || isBarista) && newProductId) {
       try {
         await addProductTypes(newProductId, selectedProductTypes, isBarista);
@@ -192,7 +104,7 @@ export const handleProductSubmit = async ({
       }
     }
     
-    // 5. Add flavors if selected
+    // 4. Add flavors if selected
     if (selectedFlavors.length > 0 && newProductId) {
       try {
         await addProductFlavors(newProductId, selectedFlavors);
@@ -204,6 +116,11 @@ export const handleProductSubmit = async ({
     }
     
     console.log('Product registration complete for product ID:', newProductId);
+    
+    toast({
+      title: "Product added",
+      description: "New product added successfully!"
+    });
     
     // Return success
     onSuccess(newProductId, brandId);
