@@ -2,7 +2,6 @@
 import React from "react";
 import { useProductRegistration } from "./ProductRegistrationContext";
 import { DuplicateProductAlert } from "../DuplicateProductAlert";
-import { useToast } from "@/hooks/use-toast";
 
 export const useDuplicateHandling = (onSuccess: (productId: string, brandId: string) => void, onClose: () => void) => {
   const { 
@@ -16,10 +15,8 @@ export const useDuplicateHandling = (onSuccess: (productId: string, brandId: str
   // Use the existing product
   const handleUseExisting = () => {
     if (duplicateProductId) {
-      toast({
-        title: "Using existing product",
-        description: "Selected the existing product from the database"
-      });
+      // Call onSuccess without showing a toast - the ProductInformation component
+      // will handle showing the appropriate toast
       onSuccess(duplicateProductId, brandId);
       onClose(); // Close the dialog after selecting existing product
     }

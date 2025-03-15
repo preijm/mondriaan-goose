@@ -38,10 +38,9 @@ export const ProductInformation = ({
   const handleProductAdded = (productId: string, brandId: string) => {
     setProductId(productId);
     setBrandId(brandId);
-    toast({
-      title: "New product added",
-      description: "Your new product has been registered and selected",
-    });
+    // Don't show a toast here - the dialog component is responsible
+    // for showing the appropriate toast based on whether it's a new
+    // product or an existing one that was selected from the duplicate alert
   };
 
   return (
