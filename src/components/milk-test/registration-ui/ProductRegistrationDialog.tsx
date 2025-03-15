@@ -12,7 +12,6 @@ import { useToast } from "@/hooks/use-toast";
 import { 
   AlertDialog,
   AlertDialogAction,
-  AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,
   AlertDialogFooter,
@@ -42,7 +41,6 @@ const ProductRegistrationContainer: React.FC<ProductRegistrationDialogProps> = (
   } = useProductRegistration();
   
   const [duplicateDialogOpen, setDuplicateDialogOpen] = useState(false);
-  const [duplicateProductId, setDuplicateProductId] = useState<string | null>(null);
   
   // Handle dialog close to ensure isSubmitting is reset
   const handleOpenChange = (newOpen: boolean) => {
@@ -92,9 +90,8 @@ const ProductRegistrationContainer: React.FC<ProductRegistrationDialogProps> = (
       // Submit the form and check if we got a duplicate product
       const result = await originalHandleSubmit(e, true); // Skip auto-success handling
       
-      if (result?.isDuplicate && result.productId) {
-        // Show duplicate product dialog
-        setDuplicateProductId(result.productId);
+      if (result?.isDuplicate) {
+        // Show simple duplicate product dialog
         setDuplicateDialogOpen(true);
         setIsSubmitting(false);
       } else if (result?.productId) {
@@ -121,15 +118,6 @@ const ProductRegistrationContainer: React.FC<ProductRegistrationDialogProps> = (
     }
   };
   
-  // Handle duplicate product selection
-  const handleUseDuplicateProduct = () => {
-    if (duplicateProductId) {
-      onSuccess(duplicateProductId, brandId);
-      setDuplicateDialogOpen(false);
-      onOpenChange(false);
-    }
-  };
-  
   return (
     <>
       <Dialog open={open} onOpenChange={handleOpenChange}>
@@ -143,7 +131,7 @@ const ProductRegistrationContainer: React.FC<ProductRegistrationDialogProps> = (
         </DialogContent>
       </Dialog>
       
-      {/* Alert dialog for duplicate products */}
+      {/* Simplified Alert dialog for duplicate products */}
       <AlertDialog open={duplicateDialogOpen} onOpenChange={setDuplicateDialogOpen}>
         <AlertDialogContent>
           <AlertDialogHeader>
@@ -154,11 +142,8 @@ const ProductRegistrationContainer: React.FC<ProductRegistrationDialogProps> = (
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel onClick={() => setDuplicateDialogOpen(false)}>
-              Edit Product
-            </AlertDialogCancel>
-            <AlertDialogAction onClick={handleUseDuplicateProduct}>
-              Use Existing Product
+            <AlertDialogAction onClick={() => setDuplicateDialogOpen(false)}>
+              OK
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
