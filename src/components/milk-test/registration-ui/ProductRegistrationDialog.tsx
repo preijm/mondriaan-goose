@@ -38,6 +38,7 @@ const ProductRegistrationContainer: React.FC<ProductRegistrationDialogProps> = (
     if (!newOpen) {
       // Reset the isSubmitting state when the dialog is closed
       setIsSubmitting(false);
+      console.log("Dialog closed, isSubmitting set to false");
     }
     onOpenChange(newOpen);
   };
@@ -71,6 +72,7 @@ const ProductRegistrationContainer: React.FC<ProductRegistrationDialogProps> = (
     }
     
     setIsSubmitting(true);
+    console.log("Form submission started, isSubmitting set to true");
     
     try {
       const result = await originalHandleSubmit(e, true); // Pass true to skip auto-success
@@ -79,6 +81,7 @@ const ProductRegistrationContainer: React.FC<ProductRegistrationDialogProps> = (
         // Show duplicate product alert
         setDuplicateProductId(result.productId);
         setDuplicateAlertOpen(true);
+        console.log("Duplicate product detected, showing alert");
         setIsSubmitting(false); // Clear submitting state to unfreeze the button
       } else if (result?.productId) {
         // Success with new product
@@ -89,18 +92,28 @@ const ProductRegistrationContainer: React.FC<ProductRegistrationDialogProps> = (
         onSuccess(result.productId, brandId);
         handleOpenChange(false);
         setIsSubmitting(false);
+        console.log("New product added, isSubmitting set to false");
       } else {
         setIsSubmitting(false);
+        console.log("No product ID returned, isSubmitting set to false");
       }
     } catch (error) {
       console.error('Error adding product:', error);
       setIsSubmitting(false);
+      console.log("Error occurred, isSubmitting set to false");
       toast({
         title: "Error",
         description: "Failed to add product. Please try again.",
         variant: "destructive"
       });
     }
+  };
+  
+  const handleSuccessWithExisting = (productId: string, brandId: string) => {
+    // Ensure we're not submitting when handling success with existing product
+    setIsSubmitting(false);
+    console.log("handleSuccessWithExisting called, passing to onSuccess, isSubmitting set to false");
+    onSuccess(productId, brandId);
   };
   
   return (
@@ -117,7 +130,7 @@ const ProductRegistrationContainer: React.FC<ProductRegistrationDialogProps> = (
       </Dialog>
       
       <DuplicateAlertHandler 
-        onSuccess={onSuccess} 
+        onSuccess={handleSuccessWithExisting} 
         onClose={() => handleOpenChange(false)} 
       />
     </>
