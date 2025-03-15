@@ -1,9 +1,9 @@
 
 import React, { createContext, useContext } from "react";
 import { 
-  useProductRegistrationForm,
-  UseProductRegistrationFormProps 
+  useProductRegistrationForm
 } from "../hooks/useProductRegistrationForm";
+import { UseProductRegistrationFormProps } from "../hooks/types";
 
 // The context holds the entire state and handlers from useProductRegistrationForm
 type ProductRegistrationContextType = ReturnType<typeof useProductRegistrationForm> & {

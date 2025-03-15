@@ -5,7 +5,7 @@ import { SearchBox } from "./product-search/SearchBox";
 import { SearchResults } from "./product-search/SearchResults";
 import { useProductSearch } from "./product-search/useProductSearch";
 import { SelectedProduct } from "./product-search/SelectedProduct";
-import { ProductRegistrationDialog } from "./ProductRegistrationDialog";
+import { ProductRegistrationDialog } from "./registration-ui/ProductRegistrationDialog";
 import { Button } from "@/components/ui/button";
 import { PlusCircle } from "lucide-react";
 

@@ -1,7 +1,7 @@
 
 import React, { useState } from "react";
 import { ProductSearch } from "./ProductSearch";
-import { ProductRegistrationDialog } from "./ProductRegistrationDialog";
+import { ProductRegistrationDialog } from "./registration-ui/ProductRegistrationDialog";
 import { useToast } from "@/components/ui/use-toast";
 
 interface ProductInformationProps {
