@@ -144,7 +144,7 @@ const addProductTypes = async (
   if (selectedTypes.length === 0 && !isBarista) return;
   
   const finalProductTypes = isBarista 
-    ? [...selectedTypes, "barista"] 
+    ? [...new Set([...selectedTypes, "barista"])] // Use Set to ensure no duplicates
     : selectedTypes;
   
   console.log('Adding product types:', finalProductTypes, 'to product ID:', productId);
