@@ -6,11 +6,11 @@ import { cn } from "@/lib/utils";
 interface MilkTestResult {
   id: string;
   brand_name: string;
-  product_type_keys: string[];
+  property_names: string[];
   rating: number;
   notes: string | null;
   created_at: string;
-  display_name?: string | null;
+  username?: string | null;
   product_name?: string;
 }
 
@@ -21,8 +21,8 @@ interface MilkCardProps {
 
 export const MilkCard = ({ result, showUsername = false }: MilkCardProps) => {
   // Get the first product type to display as the "type"
-  const type = result.product_type_keys?.length > 0 
-    ? result.product_type_keys[0].split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ') 
+  const type = result.property_names?.length > 0 
+    ? result.property_names[0] 
     : 'Unknown';
 
   return (
@@ -41,9 +41,9 @@ export const MilkCard = ({ result, showUsername = false }: MilkCardProps) => {
         <span className="inline-block text-milk-500 text-sm">
           {type}
         </span>
-        {showUsername && result.display_name && (
+        {showUsername && result.username && (
           <span className="inline-block bg-blue-100 text-blue-800 rounded-full px-3 py-1 text-sm ml-2">
-            {result.display_name}
+            {result.username}
           </span>
         )}
       </div>

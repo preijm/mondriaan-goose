@@ -3,7 +3,7 @@ import React from "react";
 
 interface MilkTestResult {
   rating: number;
-  product_type_keys: string[];
+  property_names: string[];
   brand_name: string;
   created_at: string;
 }

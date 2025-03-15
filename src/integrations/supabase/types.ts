@@ -405,7 +405,6 @@ export type Database = {
           brand_id: string | null
           brand_name: string | null
           created_at: string | null
-          display_name: string | null
           drink_preference: string | null
           flavor_names: string[] | null
           id: string | null
@@ -415,8 +414,7 @@ export type Database = {
           price: number | null
           product_id: string | null
           product_name: string | null
-          product_type_keys: string[] | null
-          product_type_names: string[] | null
+          property_names: string[] | null
           rating: number | null
           shop_country_code: string | null
           shop_id: string | null

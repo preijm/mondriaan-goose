@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import {
   BarChart,
@@ -22,7 +23,7 @@ import { motion } from "framer-motion";
 interface MilkTestResult {
   id: string;
   brand_name: string;
-  product_type_keys: string[];
+  property_names: string[];
   rating: number;
   notes: string | null;
   created_at: string;
@@ -45,7 +46,7 @@ export const MilkCharts = ({ results }: { results: MilkTestResult[] }) => {
 
   // Prepare data for bar chart - average rating by milk type
   const typeData = results.reduce((acc: { [key: string]: { count: number; total: number } }, curr) => {
-    const productTypes = curr.product_type_keys || [];
+    const productTypes = curr.property_names || [];
     
     // If no product types, use 'Unknown'
     if (productTypes.length === 0) {
@@ -59,7 +60,7 @@ export const MilkCharts = ({ results }: { results: MilkTestResult[] }) => {
     
     // Otherwise, count for each product type
     productTypes.forEach(type => {
-      const displayType = type.split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+      const displayType = type;
       if (!acc[displayType]) {
         acc[displayType] = { count: 0, total: 0 };
       }
@@ -207,7 +208,6 @@ export const MilkCharts = ({ results }: { results: MilkTestResult[] }) => {
   };
 
   return (
-    
     <div className="bg-white rounded-lg p-6 shadow-lg">
       <h2 className="text-2xl font-semibold text-gray-900 mb-6">Milk Rating Analytics</h2>
       

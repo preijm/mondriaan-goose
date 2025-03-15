@@ -4,7 +4,7 @@ import { Milk } from "lucide-react";
 
 interface MilkTestResult {
   rating: number;
-  product_type_keys: string[];
+  property_names: string[];
   created_at: string;
 }
 
@@ -13,9 +13,9 @@ export const StatsOverview = ({ results }: { results: MilkTestResult[] }) => {
     ? (results.reduce((acc, curr) => acc + curr.rating, 0) / results.length).toFixed(1)
     : "0.0";
 
-  // Get unique product types from the product_type_keys array
+  // Get unique product types from the property_names array
   const types = results.length
-    ? [...new Set(results.flatMap(r => r.product_type_keys || []))]
+    ? [...new Set(results.flatMap(r => r.property_names || []))]
     : [];
 
   return (

@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { Navigation } from "@/components/Navigation";
 import {
@@ -57,7 +58,7 @@ const Results = () => {
     return (
       (result.brand_name || "").toLowerCase().includes(searchString) ||
       (result.product_name || "").toLowerCase().includes(searchString) ||
-      (result.display_name || "").toLowerCase().includes(searchString)
+      (result.username || "").toLowerCase().includes(searchString)
     );
   });
 
@@ -153,7 +154,7 @@ const Results = () => {
                       <span className="font-semibold text-milk-500">{Number(result.rating).toFixed(1)}</span>
                     </div>
                   </TableCell>
-                  <TableCell>{result.display_name || "Anonymous"}</TableCell>
+                  <TableCell>{result.username || "Anonymous"}</TableCell>
                   <TableCell className="max-w-xs truncate">{result.notes}</TableCell>
                 </TableRow>
               ))}
