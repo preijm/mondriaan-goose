@@ -3,7 +3,7 @@ import { FormSetters, ProductSubmitParams, ProductSubmitResult } from "../types"
 import { addProductTypes } from "./productTypes";
 import { addProductFlavors } from "./productFlavors";
 import { resolveProductNameId } from "./nameResolver";
-import { createNewProduct } from "./productCreator";
+import { createNewProduct, checkDuplicateProduct } from "./productCreator";
 
 /**
  * Resets all form fields to their initial state
@@ -57,10 +57,24 @@ export const handleProductSubmit = async ({
     // 1. First handle the name_id resolution
     finalNameId = await resolveProductNameId(productName, finalNameId);
     
-    // 2. Create a new product entry with is_barista flag set directly
+    // 2. Check for duplicate products before creating
+    const duplicateProductId = await checkDuplicateProduct(
+      brandId, 
+      finalNameId, 
+      isBarista, 
+      selectedProductTypes, 
+      selectedFlavors
+    );
+    
+    if (duplicateProductId) {
+      console.log('Duplicate product found, ID:', duplicateProductId);
+      return { productId: duplicateProductId, isDuplicate: true };
+    }
+    
+    // 3. Create a new product entry with is_barista flag set directly
     newProductId = await createNewProduct(brandId, finalNameId, isBarista);
     
-    // 3. Add product types if selected
+    // 4. Add product types if selected
     if (selectedProductTypes.length > 0 && newProductId) {
       try {
         await addProductTypes(newProductId, selectedProductTypes, isBarista);
@@ -71,7 +85,7 @@ export const handleProductSubmit = async ({
       }
     }
     
-    // 4. Add flavors if selected
+    // 5. Add flavors if selected
     if (selectedFlavors.length > 0 && newProductId) {
       try {
         await addProductFlavors(newProductId, selectedFlavors);
