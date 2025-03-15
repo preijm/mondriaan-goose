@@ -2,50 +2,53 @@
 import { supabase } from "@/integrations/supabase/client";
 
 /**
- * Adds product types to a product
+ * Adds product types to a newly created product
  */
 export const addProductTypes = async (
   productId: string, 
-  selectedTypes: string[], 
+  selectedProductTypes: string[], 
   isBarista: boolean
-) => {
-  if (selectedTypes.length === 0 && !isBarista) return;
+): Promise<void> => {
+  // Skip if there are no product types to add and it's not a barista product
+  if (selectedProductTypes.length === 0 && !isBarista) {
+    return;
+  }
   
-  const finalProductTypes = isBarista 
-    ? [...new Set([...selectedTypes, "barista"])] // Use Set to ensure no duplicates
-    : selectedTypes;
+  console.log('Adding product types:', { productId, selectedProductTypes, isBarista });
   
-  console.log('Adding product types:', finalProductTypes, 'to product ID:', productId);
-  
-  const { data: propertyData, error: propertyLookupError } = await supabase
-    .from('properties')
-    .select('id, key')
-    .in('key', finalProductTypes);
-  
-  if (propertyLookupError) {
-    console.error('Error looking up property IDs:', propertyLookupError);
-    throw propertyLookupError;
-  } 
-  
-  if (propertyData && propertyData.length > 0) {
-    console.log('Found property data:', propertyData);
-    // Insert product type links
-    const propertyLinks = propertyData.map(property => ({
-      product_id: productId,
-      property_id: property.id
-    }));
+  try {
+    // 1. Fetch property IDs for the selected types
+    const { data: properties, error: propError } = await supabase
+      .from('properties')
+      .select('id, key')
+      .in('key', selectedProductTypes);
     
-    const { error: propertiesError } = await supabase
-      .from('product_properties')
-      .insert(propertyLinks);
-    
-    if (propertiesError) {
-      console.error('Error adding product properties:', propertiesError);
-      throw propertiesError;
+    if (propError) {
+      console.error('Error fetching property IDs:', propError);
+      throw propError;
     }
     
-    console.log('Successfully added properties:', propertyLinks);
-  } else {
-    console.log('No matching properties found for types:', finalProductTypes);
+    // 2. Create array of property ID mappings
+    const propertyMappings = properties.map(prop => ({
+      product_id: productId,
+      property_id: prop.id
+    }));
+    
+    // 3. Insert the mappings into product_properties table
+    if (propertyMappings.length > 0) {
+      const { error: insertError } = await supabase
+        .from('product_properties')
+        .insert(propertyMappings);
+      
+      if (insertError) {
+        console.error('Error inserting product properties:', insertError);
+        throw insertError;
+      }
+    }
+    
+    console.log('Product types added successfully');
+  } catch (error) {
+    console.error('Failed to add product types:', error);
+    throw error;
   }
 };

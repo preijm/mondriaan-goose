@@ -55,11 +55,11 @@ export const handleProductSubmit = async ({
     // 1. First handle the name_id resolution
     finalNameId = await resolveProductNameId(productName, finalNameId);
     
-    // 2. Always create a new product entry, regardless of existing products with the same name and brand
-    newProductId = await createNewProduct(brandId, finalNameId);
+    // 2. Create a new product entry with is_barista flag set directly
+    newProductId = await createNewProduct(brandId, finalNameId, isBarista);
     
     // 3. Add product types if selected
-    if ((selectedProductTypes.length > 0 || isBarista) && newProductId) {
+    if (selectedProductTypes.length > 0 && newProductId) {
       try {
         await addProductTypes(newProductId, selectedProductTypes, isBarista);
         console.log('Product types added successfully');
@@ -137,14 +137,15 @@ const resolveProductNameId = async (productName: string, existingNameId: string 
 /**
  * Creates a new product in the database
  */
-const createNewProduct = async (brandId: string, nameId: string): Promise<string> => {
-  console.log('Creating new product with:', { brandId, nameId });
+const createNewProduct = async (brandId: string, nameId: string, isBarista: boolean): Promise<string> => {
+  console.log('Creating new product with:', { brandId, nameId, isBarista });
   
   const { data: newProduct, error: productError } = await supabase
     .from('products')
     .insert({
       brand_id: brandId,
-      name_id: nameId
+      name_id: nameId,
+      is_barista: isBarista
     })
     .select()
     .single();
