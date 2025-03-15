@@ -122,6 +122,7 @@ const ProductRegistrationContainer: React.FC<ProductRegistrationDialogProps> = (
     setIsSubmitting(false);
     console.log("handleSuccessWithExisting called, passing to onSuccess, isSubmitting set to false");
     onSuccess(productId, brandId);
+    handleOpenChange(false); // Close the dialog after selecting existing product
   };
   
   return (
@@ -143,7 +144,7 @@ const ProductRegistrationContainer: React.FC<ProductRegistrationDialogProps> = (
           // Make sure we reset the submitting state before closing
           setIsSubmitting(false);
           console.log("DuplicateAlert onClose, isSubmitting set to false");
-          handleOpenChange(false);
+          // We don't close the main dialog here anymore
         }} 
       />
     </>
