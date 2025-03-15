@@ -1,3 +1,4 @@
+
 import React from "react";
 import { Separator } from "@/components/ui/separator";
 import { BrandSelect } from "../BrandSelect";
@@ -101,21 +102,19 @@ import { Button } from "@/components/ui/button";
 import { DialogFooter } from "@/components/ui/dialog";
 
 export const DialogButtons: React.FC<{ isSubmitting: boolean }> = ({ isSubmitting }) => {
-  const { duplicateAlertOpen } = useProductRegistration();
-  
   return (
     <DialogFooter>
       <Button 
         type="button" 
         variant="outline" 
         onClick={() => window.history.back()}
-        disabled={isSubmitting || duplicateAlertOpen}
+        disabled={isSubmitting}
       >
         Cancel
       </Button>
       <Button 
         type="submit" 
-        disabled={isSubmitting || duplicateAlertOpen} 
+        disabled={isSubmitting} 
         className="bg-black text-white"
       >
         {isSubmitting ? "Registering..." : "Register Product"}
