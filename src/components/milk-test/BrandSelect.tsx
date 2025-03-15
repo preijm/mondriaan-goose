@@ -19,7 +19,7 @@ export const BrandSelect = ({ brandId, setBrandId, defaultBrand }: BrandSelectPr
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
   const { toast } = useToast();
 
-  const { data: brands = [] } = useQuery({
+  const { data: brands = [], isLoading } = useQuery({
     queryKey: ['brands'],
     queryFn: async () => {
       console.log('Fetching brands from database...');
@@ -61,15 +61,31 @@ export const BrandSelect = ({ brandId, setBrandId, defaultBrand }: BrandSelectPr
 
     setSuggestions(filteredBrands);
     
-    const exactMatch = brands.some(
+    // Check for exact match (case-insensitive)
+    const exactMatch = brands.find(
       brand => brand.name.toLowerCase() === inputValue.trim().toLowerCase()
     );
-    setShowAddNew(!exactMatch && inputValue.trim() !== '');
-  }, [inputValue, brands]);
+    
+    // If there's an exact match, select it automatically and don't show "Add new"
+    if (exactMatch) {
+      setBrandId(exactMatch.id);
+      setShowAddNew(false);
+    } else {
+      setShowAddNew(inputValue.trim() !== '');
+    }
+  }, [inputValue, brands, setBrandId]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
-    // Don't reset brandId here - only set it when explicitly chosen
+    
+    // If the input doesn't match any existing brand, clear the brandId
+    const exactMatch = brands.find(
+      brand => brand.name.toLowerCase() === e.target.value.trim().toLowerCase()
+    );
+    
+    if (!exactMatch) {
+      setBrandId('');
+    }
   };
 
   const handleSelectBrand = (selectedBrand: { id: string; name: string }) => {
@@ -130,6 +146,7 @@ export const BrandSelect = ({ brandId, setBrandId, defaultBrand }: BrandSelectPr
         onFocus={() => setIsDropdownVisible(true)}
         onBlur={() => setTimeout(() => setIsDropdownVisible(false), 200)}
         className="w-full pr-10"
+        disabled={isLoading}
       />
       {isDropdownVisible && (suggestions.length > 0 || showAddNew) && (
         <div className="absolute z-10 w-full mt-1 bg-white border rounded-md shadow-lg">

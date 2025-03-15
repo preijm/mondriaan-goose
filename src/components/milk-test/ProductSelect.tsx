@@ -64,10 +64,16 @@ export const ProductSelect = ({ brandId, productId, setProductId }: ProductSelec
       if (product) {
         setInputValue(product.name);
       }
-    } else {
+    } else if (products.length === 0 || !productId) {
       setInputValue("");
     }
   }, [productId, products]);
+
+  // Clear product selection if brand changes
+  useEffect(() => {
+    setProductId("");
+    setInputValue("");
+  }, [brandId, setProductId]);
 
   useEffect(() => {
     if (!brandId || inputValue.trim() === '') {
@@ -83,16 +89,29 @@ export const ProductSelect = ({ brandId, productId, setProductId }: ProductSelec
     setSuggestions(filteredProducts);
     
     // Check if exact match (case-insensitive)
-    const exactMatch = products.some(
+    const exactMatch = products.find(
       product => product.name.toLowerCase() === inputValue.trim().toLowerCase()
     );
     
-    setShowAddNew(!exactMatch && inputValue.trim() !== '');
-  }, [inputValue, products, brandId]);
+    if (exactMatch) {
+      setProductId(exactMatch.id);
+      setShowAddNew(false);
+    } else {
+      setShowAddNew(inputValue.trim() !== '');
+    }
+  }, [inputValue, products, brandId, setProductId]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
-    // Don't reset productId here - only set it when explicitly chosen
+    
+    // If input doesn't match any existing product, clear the productId
+    const exactMatch = products.find(
+      product => product.name.toLowerCase() === e.target.value.trim().toLowerCase()
+    );
+    
+    if (!exactMatch) {
+      setProductId('');
+    }
   };
 
   const handleSelectProduct = (selectedProduct: ProductWithName) => {
@@ -128,6 +147,8 @@ export const ProductSelect = ({ brandId, productId, setProductId }: ProductSelec
         throw nameError;
       }
 
+      console.log('Created name entry:', nameData);
+
       // 2. Then create the product with the name_id
       const { data, error } = await supabase
         .from('products')
@@ -135,10 +156,7 @@ export const ProductSelect = ({ brandId, productId, setProductId }: ProductSelec
           brand_id: brandId,
           name_id: nameData.id
         })
-        .select(`
-          id, 
-          names!inner(name)
-        `)
+        .select()
         .single();
 
       if (error) {
@@ -151,16 +169,34 @@ export const ProductSelect = ({ brandId, productId, setProductId }: ProductSelec
         return;
       }
 
+      console.log('Created product entry:', data);
+      
+      // 3. Fetch the newly created product with its name
+      const { data: newProductData, error: fetchError } = await supabase
+        .from('products')
+        .select(`
+          id, 
+          names!inner(name)
+        `)
+        .eq('id', data.id)
+        .single();
+        
+      if (fetchError) {
+        console.error('Error fetching new product:', fetchError);
+        throw fetchError;
+      }
+      
+      const newProduct = {
+        id: newProductData.id,
+        name: newProductData.names.name
+      };
+      
+      console.log('New product with name:', newProduct);
+
       toast({
         title: "Success",
         description: "New product added successfully!",
       });
-      
-      // Transform the data to match our expected format
-      const newProduct = {
-        id: data.id,
-        name: data.names.name
-      };
       
       setProductId(newProduct.id);
       setInputValue(newProduct.name);
