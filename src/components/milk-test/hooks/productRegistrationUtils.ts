@@ -70,7 +70,8 @@ export const handleProductSubmit = async ({
       return;
     }
 
-    // Create the new product
+    // Create the new product - improved error handling
+    console.log('Creating new product with:', { brandId, nameId: finalNameId });
     const { data: newProduct, error: productError } = await supabase
       .from('products')
       .insert({
@@ -84,22 +85,50 @@ export const handleProductSubmit = async ({
       console.error('Error adding product:', productError);
       return; // Exit early without showing an error toast
     }
+    
+    console.log('New product created:', newProduct);
+    
+    // Sequentially add product types and flavors to ensure they complete
+    let typesAdded = false;
+    let flavorsAdded = false;
 
     // Add product types if selected
     if (selectedProductTypes.length > 0 || isBarista) {
-      await addProductTypes(newProduct.id, selectedProductTypes, isBarista);
+      try {
+        await addProductTypes(newProduct.id, selectedProductTypes, isBarista);
+        typesAdded = true;
+        console.log('Product types added successfully');
+      } catch (error) {
+        console.error('Failed to add product types:', error);
+        // Continue with flavor addition even if types fail
+      }
+    } else {
+      typesAdded = true; // No types to add, so mark as successful
     }
     
     // Add flavors if selected
     if (selectedFlavors.length > 0) {
-      await addProductFlavors(newProduct.id, selectedFlavors);
+      try {
+        await addProductFlavors(newProduct.id, selectedFlavors);
+        flavorsAdded = true;
+        console.log('Product flavors added successfully');
+      } catch (error) {
+        console.error('Failed to add product flavors:', error);
+        // Continue even if flavor addition fails
+      }
+    } else {
+      flavorsAdded = true; // No flavors to add, so mark as successful
     }
+    
+    // Log the overall success status
+    console.log('Product registration complete. Types added:', typesAdded, 'Flavors added:', flavorsAdded);
     
     toast({
       title: "Product added",
       description: "New product added successfully!"
     });
     
+    // Return success even if some components failed
     onSuccess(newProduct.id, brandId);
     onOpenChange(false);
   } catch (error) {
@@ -121,6 +150,8 @@ const addProductTypes = async (
       ? [...selectedTypes, "barista"] 
       : selectedTypes;
     
+    console.log('Adding product types:', finalProductTypes, 'to product ID:', productId);
+    
     const { data: propertyData, error: propertyLookupError } = await supabase
       .from('properties')
       .select('id, key')
@@ -128,10 +159,11 @@ const addProductTypes = async (
     
     if (propertyLookupError) {
       console.error('Error looking up property IDs:', propertyLookupError);
-      return;
+      throw propertyLookupError;
     } 
     
     if (propertyData && propertyData.length > 0) {
+      console.log('Found property data:', propertyData);
       // Insert product type links
       const propertyLinks = propertyData.map(property => ({
         product_id: productId,
@@ -144,10 +176,16 @@ const addProductTypes = async (
       
       if (propertiesError) {
         console.error('Error adding product properties:', propertiesError);
+        throw propertiesError;
       }
+      
+      console.log('Successfully added properties:', propertyLinks);
+    } else {
+      console.log('No matching properties found for types:', finalProductTypes);
     }
   } catch (error) {
     console.error('Error in addProductTypes:', error);
+    throw error;
   }
 };
 
@@ -156,6 +194,8 @@ const addProductFlavors = async (productId: string, selectedFlavors: string[]) =
   if (selectedFlavors.length === 0) return;
   
   try {
+    console.log('Adding flavors:', selectedFlavors, 'to product ID:', productId);
+    
     // Get the flavor IDs from their keys
     const { data: flavorData, error: flavorLookupError } = await supabase
       .from('flavors')
@@ -164,10 +204,11 @@ const addProductFlavors = async (productId: string, selectedFlavors: string[]) =
     
     if (flavorLookupError) {
       console.error('Error looking up flavor IDs:', flavorLookupError);
-      return;
+      throw flavorLookupError;
     } 
     
     if (flavorData && flavorData.length > 0) {
+      console.log('Found flavor data:', flavorData);
       const flavorLinks = flavorData.map(flavor => ({
         product_id: productId,
         flavor_id: flavor.id
@@ -179,9 +220,15 @@ const addProductFlavors = async (productId: string, selectedFlavors: string[]) =
       
       if (flavorError) {
         console.error('Error adding flavors:', flavorError);
+        throw flavorError;
       }
+      
+      console.log('Successfully added flavors:', flavorLinks);
+    } else {
+      console.log('No matching flavors found for keys:', selectedFlavors);
     }
   } catch (error) {
     console.error('Error in addProductFlavors:', error);
+    throw error;
   }
 };
