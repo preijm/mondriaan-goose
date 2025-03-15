@@ -6,7 +6,7 @@ import { useFormValidation } from "./formValidation";
 import { 
   handleProductSubmit, 
   resetFormState 
-} from "./productRegistrationUtils";
+} from "./product-registration";
 import { UseProductRegistrationFormProps } from "./types";
 
 export const useProductRegistrationForm = ({
