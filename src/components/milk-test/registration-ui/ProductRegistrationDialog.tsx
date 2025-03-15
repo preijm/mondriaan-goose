@@ -8,7 +8,6 @@ import {
   useProductRegistration
 } from "./ProductRegistrationContext";
 import { ProductForm } from "./FormSections";
-import { DuplicateAlertHandler } from "./DuplicateAlert";
 import { useToast } from "@/hooks/use-toast";
 
 interface ProductRegistrationDialogProps {
@@ -29,8 +28,6 @@ const ProductRegistrationContainer: React.FC<ProductRegistrationDialogProps> = (
     originalHandleSubmit,
     setIsSubmitting,
     isSubmitting,
-    setDuplicateProductId,
-    setDuplicateAlertOpen,
     toast
   } = useProductRegistration();
   
@@ -46,7 +43,7 @@ const ProductRegistrationContainer: React.FC<ProductRegistrationDialogProps> = (
     onOpenChange(newOpen);
   };
   
-  // Handle form submission with duplicate product check
+  // Handle form submission
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
@@ -78,32 +75,9 @@ const ProductRegistrationContainer: React.FC<ProductRegistrationDialogProps> = (
     console.log("Form submission started, isSubmitting set to true");
     
     try {
-      const result = await originalHandleSubmit(e, true); // Pass true to skip auto-success
-      
-      if (result?.isDuplicate && result?.productId) {
-        // Show duplicate product alert
-        setDuplicateProductId(result.productId);
-        setDuplicateAlertOpen(true);
-        console.log("Duplicate product detected, showing alert");
-        // Clear submitting state so the form is not frozen
-        setIsSubmitting(false);
-      } else if (result?.productId) {
-        // Success with new product
-        toast({
-          title: "Product added",
-          description: "New product added successfully!"
-        });
-        
-        // Clear submitting state BEFORE calling onSuccess
-        setIsSubmitting(false);
-        console.log("New product added, isSubmitting set to false");
-        
-        onSuccess(result.productId, brandId);
-        handleOpenChange(false);
-      } else {
-        setIsSubmitting(false);
-        console.log("No product ID returned, isSubmitting set to false");
-      }
+      await originalHandleSubmit(e);
+      // The handle submit function in formState.ts now directly calls onSuccess
+      // and closes the dialog, so we don't need to handle those actions here
     } catch (error) {
       console.error('Error adding product:', error);
       setIsSubmitting(false);
@@ -116,34 +90,17 @@ const ProductRegistrationContainer: React.FC<ProductRegistrationDialogProps> = (
     }
   };
   
-  // Handle success with existing product (from duplicate alert)
-  const handleSuccessWithExisting = (productId: string, brandId: string) => {
-    console.log("handleSuccessWithExisting called with:", productId, brandId);
-    toast({
-      title: "Existing product selected",
-      description: "You've selected an existing product"
-    });
-    onSuccess(productId, brandId);
-    handleOpenChange(false); // Close the dialog after selecting existing product
-  };
-  
   return (
-    <>
-      <Dialog open={open} onOpenChange={handleOpenChange}>
-        <DialogContent className="max-w-2xl max-h-[85vh] overflow-y-auto">
-          <ProductRegistrationHeader />
-          <DialogDescription className="sr-only">
-            Register a new milk product with brand, product details, properties, and flavors
-          </DialogDescription>
-          
-          <ProductForm onSubmit={handleSubmit} />
-        </DialogContent>
-      </Dialog>
-      
-      <DuplicateAlertHandler 
-        onSuccess={handleSuccessWithExisting} 
-      />
-    </>
+    <Dialog open={open} onOpenChange={handleOpenChange}>
+      <DialogContent className="max-w-2xl max-h-[85vh] overflow-y-auto">
+        <ProductRegistrationHeader />
+        <DialogDescription className="sr-only">
+          Register a new milk product with brand, product details, properties, and flavors
+        </DialogDescription>
+        
+        <ProductForm onSubmit={handleSubmit} />
+      </DialogContent>
+    </Dialog>
   );
 };
 

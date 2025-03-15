@@ -9,10 +9,6 @@ import { UseProductRegistrationFormProps } from "../hooks/types";
 type ProductRegistrationContextType = ReturnType<typeof useProductRegistrationForm> & {
   isSubmitting: boolean;
   setIsSubmitting: (value: boolean) => void;
-  duplicateAlertOpen: boolean;
-  setDuplicateAlertOpen: (value: boolean) => void;
-  duplicateProductId: string | null;
-  setDuplicateProductId: (value: string | null) => void;
   handleSubmit: (e: React.FormEvent) => Promise<any>;
 };
 
@@ -35,8 +31,6 @@ export const ProductRegistrationProvider: React.FC<ProductRegistrationProviderPr
   children, 
   formProps 
 }) => {
-  const [duplicateAlertOpen, setDuplicateAlertOpen] = React.useState(false);
-  const [duplicateProductId, setDuplicateProductId] = React.useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = React.useState(false);
   
   const formState = useProductRegistrationForm(formProps);
@@ -45,10 +39,6 @@ export const ProductRegistrationProvider: React.FC<ProductRegistrationProviderPr
     ...formState,
     isSubmitting,
     setIsSubmitting,
-    duplicateAlertOpen,
-    setDuplicateAlertOpen,
-    duplicateProductId,
-    setDuplicateProductId,
     // The handleSubmit will be overridden in the Dialog component
     handleSubmit: async (e: React.FormEvent) => Promise.resolve(null)
   };

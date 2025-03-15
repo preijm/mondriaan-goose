@@ -5,4 +5,3 @@ export { addProductTypes } from './productTypes';
 export { addProductFlavors } from './productFlavors';
 export { resolveProductNameId } from './nameResolver';
 export { createNewProduct } from './productCreator';
-export { checkProductExists } from './duplicateChecker';
