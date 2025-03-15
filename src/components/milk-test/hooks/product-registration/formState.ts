@@ -27,8 +27,9 @@ export const resetFormState = ({
 
 /**
  * Checks if a product with the same attributes already exists
+ * Returns the existing product ID if found, null otherwise
  */
-const checkProductExists = async (
+export const checkProductExists = async (
   brandId: string,
   nameId: string,
   isBarista: boolean,
@@ -166,6 +167,7 @@ const checkProductExists = async (
 
 /**
  * Handles the submission of a new product
+ * Returns a promise with the existing product ID if found or the new product ID
  */
 export const handleProductSubmit = async ({
   brandId,
@@ -177,7 +179,7 @@ export const handleProductSubmit = async ({
   toast,
   onSuccess,
   onOpenChange
-}: ProductSubmitParams) => {
+}: ProductSubmitParams): Promise<{ productId: string | null, isDuplicate: boolean }> => {
   let finalNameId = nameId;
   let newProductId = null;
 
@@ -205,15 +207,7 @@ export const handleProductSubmit = async ({
     
     if (existingProductId) {
       console.log('Product already exists, using existing product ID:', existingProductId);
-      toast({
-        title: "Product exists",
-        description: "This product already exists in the database!"
-      });
-      
-      // Return success with the existing product ID
-      onSuccess(existingProductId, brandId);
-      onOpenChange(false);
-      return;
+      return { productId: existingProductId, isDuplicate: true };
     }
     
     // 3. Create a new product entry with is_barista flag set directly
@@ -242,15 +236,8 @@ export const handleProductSubmit = async ({
     }
     
     console.log('Product registration complete for product ID:', newProductId);
+    return { productId: newProductId, isDuplicate: false };
     
-    toast({
-      title: "Product added",
-      description: "New product added successfully!"
-    });
-    
-    // Return success
-    onSuccess(newProductId, brandId);
-    onOpenChange(false);
   } catch (error) {
     console.error('Global error in product submission:', error);
     toast({
@@ -258,6 +245,7 @@ export const handleProductSubmit = async ({
       description: "Failed to register product. Please try again.",
       variant: "destructive"
     });
+    return { productId: null, isDuplicate: false };
   }
 };
 

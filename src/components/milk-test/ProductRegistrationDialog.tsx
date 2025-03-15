@@ -1,5 +1,4 @@
-
-import React from "react";
+import React, { useState } from "react";
 import { Dialog, DialogContent, DialogFooter, DialogDescription } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { BrandSelect } from "./BrandSelect";
@@ -10,6 +9,8 @@ import { ProductRegistrationHeader } from "./ProductRegistrationHeader";
 import { BaristaToggle } from "./BaristaToggle";
 import { FlavorSelector } from "./FlavorSelector";
 import { useProductRegistrationForm } from "./hooks/useProductRegistrationForm";
+import { DuplicateProductAlert } from "./DuplicateProductAlert";
+import { useToast } from "@/components/ui/use-toast";
 
 interface ProductRegistrationDialogProps {
   open: boolean;
@@ -22,6 +23,10 @@ export const ProductRegistrationDialog = ({
   onOpenChange,
   onSuccess
 }: ProductRegistrationDialogProps) => {
+  const [duplicateAlertOpen, setDuplicateAlertOpen] = useState(false);
+  const [duplicateProductId, setDuplicateProductId] = useState<string | null>(null);
+  const { toast } = useToast();
+  
   const {
     brandId,
     setBrandId,
@@ -36,78 +41,129 @@ export const ProductRegistrationDialog = ({
     selectedFlavors,
     handleFlavorToggle,
     isSubmitting,
-    handleSubmit,
+    handleSubmit: originalHandleSubmit,
     flavors
   } = useProductRegistrationForm({ open, onOpenChange, onSuccess });
   
+  // Handle form submission with duplicate product check
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (isSubmitting) return;
+    
+    const result = await originalHandleSubmit(e, true); // Pass true to skip auto-success
+    
+    if (result?.isDuplicate && result?.productId) {
+      // Show duplicate product alert
+      setDuplicateProductId(result.productId);
+      setDuplicateAlertOpen(true);
+    } else if (result?.productId) {
+      // Success with new product
+      toast({
+        title: "Product added",
+        description: "New product added successfully!"
+      });
+      onSuccess(result.productId, brandId);
+      onOpenChange(false);
+    }
+  };
+  
+  // Use the existing product
+  const handleUseExisting = () => {
+    if (duplicateProductId) {
+      toast({
+        title: "Using existing product",
+        description: "Selected the existing product from the database"
+      });
+      onSuccess(duplicateProductId, brandId);
+      setDuplicateAlertOpen(false);
+      onOpenChange(false);
+    }
+  };
+  
+  // Modify inputs to create a unique product
+  const handleModifyInputs = () => {
+    setDuplicateAlertOpen(false);
+    // Keep the dialog open to let users modify their inputs
+  };
+  
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-2xl max-h-[85vh] overflow-y-auto">
-        <ProductRegistrationHeader />
-        <DialogDescription className="sr-only">
-          Register a new milk product with brand, product details, properties, and flavors
-        </DialogDescription>
-        
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <div className="space-y-4">
-            <h3 className="text-sm font-medium">Brand *</h3>
-            <BrandSelect brandId={brandId} setBrandId={setBrandId} />
-          </div>
+    <>
+      <Dialog open={open} onOpenChange={onOpenChange}>
+        <DialogContent className="max-w-2xl max-h-[85vh] overflow-y-auto">
+          <ProductRegistrationHeader />
+          <DialogDescription className="sr-only">
+            Register a new milk product with brand, product details, properties, and flavors
+          </DialogDescription>
           
-          <div className="space-y-4">
-            <h3 className="text-sm font-medium">Product *</h3>
-            <NameSelect 
-              productName={productName} 
-              setProductName={setProductName} 
-              onNameIdChange={setNameId} 
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <div className="space-y-4">
+              <h3 className="text-sm font-medium">Brand *</h3>
+              <BrandSelect brandId={brandId} setBrandId={setBrandId} />
+            </div>
+            
+            <div className="space-y-4">
+              <h3 className="text-sm font-medium">Product *</h3>
+              <NameSelect 
+                productName={productName} 
+                setProductName={setProductName} 
+                onNameIdChange={setNameId} 
+              />
+            </div>
+            
+            <Separator />
+            
+            <BaristaToggle 
+              isBarista={isBarista} 
+              onToggle={setIsBarista} 
             />
-          </div>
-          
-          <Separator />
-          
-          <BaristaToggle 
-            isBarista={isBarista} 
-            onToggle={setIsBarista} 
-          />
-          
-          <div className="space-y-4">
-            <h3 className="text-sm font-medium">Properties</h3>
-            <ProductOptions 
-              selectedTypes={selectedProductTypes} 
-              setSelectedTypes={setSelectedProductTypes} 
-            />
-          </div>
-          
-          <Separator />
-          
-          <div className="space-y-4">
-            <h3 className="text-sm font-medium">Flavors</h3>
-            <FlavorSelector 
-              flavors={flavors} 
-              selectedFlavors={selectedFlavors} 
-              onFlavorToggle={handleFlavorToggle} 
-            />
-          </div>
-          
-          <DialogFooter>
-            <Button 
-              type="button" 
-              variant="outline" 
-              onClick={() => onOpenChange(false)} 
-              disabled={isSubmitting}
-            >
-              Cancel
-            </Button>
-            <Button 
-              type="submit" 
-              disabled={isSubmitting} 
-              className="bg-black text-white"
-            >
-              {isSubmitting ? "Registering..." : "Register Product"}
-            </Button>
-          </DialogFooter>
-        </form>
-      </DialogContent>
-    </Dialog>
+            
+            <div className="space-y-4">
+              <h3 className="text-sm font-medium">Properties</h3>
+              <ProductOptions 
+                selectedTypes={selectedProductTypes} 
+                setSelectedTypes={setSelectedProductTypes} 
+              />
+            </div>
+            
+            <Separator />
+            
+            <div className="space-y-4">
+              <h3 className="text-sm font-medium">Flavors</h3>
+              <FlavorSelector 
+                flavors={flavors} 
+                selectedFlavors={selectedFlavors} 
+                onFlavorToggle={handleFlavorToggle} 
+              />
+            </div>
+            
+            <DialogFooter>
+              <Button 
+                type="button" 
+                variant="outline" 
+                onClick={() => onOpenChange(false)} 
+                disabled={isSubmitting}
+              >
+                Cancel
+              </Button>
+              <Button 
+                type="submit" 
+                disabled={isSubmitting} 
+                className="bg-black text-white"
+              >
+                {isSubmitting ? "Registering..." : "Register Product"}
+              </Button>
+            </DialogFooter>
+          </form>
+        </DialogContent>
+      </Dialog>
+      
+      <DuplicateProductAlert
+        open={duplicateAlertOpen}
+        onOpenChange={setDuplicateAlertOpen}
+        onUseExisting={handleUseExisting}
+        onModify={handleModifyInputs}
+      />
+    </>
   );
 };

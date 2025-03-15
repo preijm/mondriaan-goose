@@ -55,7 +55,7 @@ export const useProductRegistrationForm = ({
     setIsBarista(checked);
   };
   
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent, skipAutoSuccess = false) => {
     e.preventDefault();
     
     console.log("Submitting form with:", {
@@ -67,13 +67,13 @@ export const useProductRegistrationForm = ({
     
     // Only validate the required fields: brandId and productName
     if (!validateForm(brandId, productName)) {
-      return;
+      return null;
     }
     
     setIsSubmitting(true);
     
     try {
-      await handleProductSubmit({
+      const result = await handleProductSubmit({
         brandId,
         productName,
         nameId,
@@ -81,13 +81,16 @@ export const useProductRegistrationForm = ({
         isBarista,
         selectedFlavors,
         toast,
-        onSuccess,
-        onOpenChange
+        onSuccess: skipAutoSuccess ? () => {} : onSuccess,
+        onOpenChange: skipAutoSuccess ? () => {} : onOpenChange
       });
+      
+      setIsSubmitting(false);
+      return result;
     } catch (error) {
       console.error('Error adding product:', error);
-      // Reset submission state even if there's an error
       setIsSubmitting(false);
+      return null;
     }
   };
 

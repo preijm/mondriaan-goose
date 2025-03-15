@@ -42,3 +42,8 @@ export interface ProductSubmitParams {
   onSuccess: (productId: string, brandId: string) => void;
   onOpenChange: (open: boolean) => void;
 }
+
+export interface ProductSubmitResult {
+  productId: string | null;
+  isDuplicate: boolean;
+}
