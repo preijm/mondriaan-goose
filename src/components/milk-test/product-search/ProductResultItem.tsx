@@ -16,6 +16,31 @@ interface ProductResultItemProps {
   onSelect: (productId: string) => void;
 }
 
+// Helper function to format keys like "pumpkin_spice" to "Pumpkin Spice"
+// and "three_point_five_percent" to "3.5%"
+const formatDisplayName = (key: string): string => {
+  // Special case for percentage values
+  if (key.includes('point') && key.includes('percent')) {
+    return key.replace(/_point_/g, '.')
+              .replace(/_percent/g, '%')
+              .replace(/one/g, '1')
+              .replace(/two/g, '2')
+              .replace(/three/g, '3')
+              .replace(/four/g, '4')
+              .replace(/five/g, '5')
+              .replace(/six/g, '6')
+              .replace(/seven/g, '7')
+              .replace(/eight/g, '8')
+              .replace(/nine/g, '9')
+              .replace(/zero/g, '0');
+  }
+  
+  // Regular formatting for other keys: capitalize each word and replace underscores with spaces
+  return key.split('_')
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ');
+};
+
 export const ProductResultItem = ({ product, onSelect }: ProductResultItemProps) => {
   const propertyNames = product.property_names || [];
   const flavorNames = product.flavor_names || [];
@@ -55,25 +80,25 @@ export const ProductResultItem = ({ product, onSelect }: ProductResultItemProps)
           </Badge>
         )}
         
-        {/* Display product properties badges */}
+        {/* Display product properties badges with formatted names */}
         {propertyNames.map(prop => (
           <Badge 
             key={`prop-${prop}`} 
             variant="outline" 
             className="rounded-full px-3 py-0.5 text-xs bg-gray-100 border-gray-200"
           >
-            {prop}
+            {formatDisplayName(prop)}
           </Badge>
         ))}
         
-        {/* Display flavor badges with better contrast */}
+        {/* Display flavor badges with better contrast and formatted names */}
         {flavorNames.length > 0 && flavorNames.map(flavor => (
           <Badge 
             key={`flavor-${flavor}`} 
             variant="outline" 
             className="rounded-full px-3 py-0.5 text-xs bg-blue-500 text-white border-blue-600"
           >
-            {flavor}
+            {formatDisplayName(flavor)}
           </Badge>
         ))}
       </div>

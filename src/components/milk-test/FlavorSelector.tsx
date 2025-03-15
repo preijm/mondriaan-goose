@@ -8,6 +8,31 @@ interface FlavorSelectorProps {
   onFlavorToggle: (flavorKey: string) => void;
 }
 
+// Helper function to format keys like "pumpkin_spice" to "Pumpkin Spice"
+// and "three_point_five_percent" to "3.5%"
+const formatDisplayName = (key: string): string => {
+  // Special case for percentage values
+  if (key.includes('point') && key.includes('percent')) {
+    return key.replace(/_point_/g, '.')
+              .replace(/_percent/g, '%')
+              .replace(/one/g, '1')
+              .replace(/two/g, '2')
+              .replace(/three/g, '3')
+              .replace(/four/g, '4')
+              .replace(/five/g, '5')
+              .replace(/six/g, '6')
+              .replace(/seven/g, '7')
+              .replace(/eight/g, '8')
+              .replace(/nine/g, '9')
+              .replace(/zero/g, '0');
+  }
+  
+  // Regular formatting for other keys: capitalize each word and replace underscores with spaces
+  return key.split('_')
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ');
+};
+
 export const FlavorSelector = ({ 
   flavors, 
   selectedFlavors, 
@@ -27,7 +52,8 @@ export const FlavorSelector = ({
           `} 
           onClick={() => onFlavorToggle(flavor.key)}
         >
-          {flavor.name}
+          {/* Use the flavor name from the API or format the key as a fallback */}
+          {flavor.name || formatDisplayName(flavor.key)}
         </Badge>
       ))}
     </div>
