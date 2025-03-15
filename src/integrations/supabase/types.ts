@@ -204,6 +204,13 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "milk_tests_brand_id_fkey"
+            columns: ["brand_id"]
+            isOneToOne: false
+            referencedRelation: "product_search_view"
+            referencedColumns: ["brand_id"]
+          },
+          {
             foreignKeyName: "milk_tests_product_id_fkey"
             columns: ["product_id"]
             isOneToOne: false
@@ -352,11 +359,25 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "products_brand_id_fkey"
+            columns: ["brand_id"]
+            isOneToOne: false
+            referencedRelation: "product_search_view"
+            referencedColumns: ["brand_id"]
+          },
+          {
             foreignKeyName: "products_name_id_fkey"
             columns: ["name_id"]
             isOneToOne: false
             referencedRelation: "names"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "products_name_id_fkey"
+            columns: ["name_id"]
+            isOneToOne: false
+            referencedRelation: "product_search_view"
+            referencedColumns: ["product_name_id"]
           },
         ]
       }
@@ -480,6 +501,13 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "milk_tests_brand_id_fkey"
+            columns: ["brand_id"]
+            isOneToOne: false
+            referencedRelation: "product_search_view"
+            referencedColumns: ["brand_id"]
+          },
+          {
             foreignKeyName: "milk_tests_product_id_fkey"
             columns: ["product_id"]
             isOneToOne: false
@@ -520,22 +548,7 @@ export type Database = {
           product_name_id: string | null
           property_names: string[] | null
         }
-        Relationships: [
-          {
-            foreignKeyName: "products_brand_id_fkey"
-            columns: ["brand_id"]
-            isOneToOne: false
-            referencedRelation: "brands"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "products_name_id_fkey"
-            columns: ["product_name_id"]
-            isOneToOne: false
-            referencedRelation: "names"
-            referencedColumns: ["id"]
-          },
-        ]
+        Relationships: []
       }
     }
     Functions: {
