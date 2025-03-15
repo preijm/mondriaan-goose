@@ -43,7 +43,7 @@ export const DuplicateProductAlert = ({
           </AlertDialogCancel>
           <AlertDialogAction onClick={() => {
             onUseExisting();
-            onOpenChange(false); // Close the dialog immediately
+            onOpenChange(false);
           }}>
             Use Existing
           </AlertDialogAction>

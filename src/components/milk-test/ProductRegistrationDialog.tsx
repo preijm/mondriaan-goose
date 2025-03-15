@@ -51,7 +51,8 @@ export const ProductRegistrationDialog = ({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    // Only validate the required fields: brandId and productName
+    // CRITICAL: Only validate the required fields for PRODUCT REGISTRATION: brandId and productName
+    // This validation is separate from the milk test form validation
     if (!brandId || brandId.trim() === '') {
       toast({
         title: "Missing required field",

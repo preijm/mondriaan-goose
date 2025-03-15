@@ -60,7 +60,8 @@ export const useProductRegistrationForm = ({
       productNameEmpty: !productName || productName.trim() === ''
     });
     
-    // No validation here, moved to the dialog component
+    // Note: We've moved validation to the ProductRegistrationDialog component
+    // to ensure a clear separation of concerns
     
     try {
       const result = await handleProductSubmit({

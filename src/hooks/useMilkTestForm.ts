@@ -33,7 +33,7 @@ export const useMilkTestForm = () => {
       price
     });
     
-    // Create list of missing fields
+    // Create list of missing fields - THIS IS FOR MILK TEST FORM, NOT PRODUCT REGISTRATION
     const missingFields = [];
     
     if (!brandId) {
