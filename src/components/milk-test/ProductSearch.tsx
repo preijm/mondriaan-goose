@@ -31,10 +31,18 @@ export const ProductSearch = ({
 
   // Handle product selection
   const handleSelectProduct = (productId: string) => {
-    if (selectedProduct) {
-      onSelectProduct(productId, selectedProduct.brand_id);
+    console.log("ProductSearch: handleSelectProduct called with productId:", productId);
+    
+    // Find the selected product in search results to get its brand_id
+    const selected = searchResults.find(product => product.id === productId);
+    
+    if (selected) {
+      console.log("Found selected product:", selected);
+      onSelectProduct(productId, selected.brand_id);
+      setIsDropdownVisible(false);
+    } else {
+      console.error("Selected product not found in search results:", productId);
     }
-    setIsDropdownVisible(false);
   };
 
   // Handle clearing the search and selected product
@@ -56,7 +64,8 @@ export const ProductSearch = ({
     searchTerm,
     selectedProductId,
     selectedProduct,
-    isProductSelected: !!selectedProductId && !!selectedProduct
+    isProductSelected: !!selectedProductId && !!selectedProduct,
+    searchResultsCount: searchResults.length
   });
 
   return (
@@ -80,7 +89,7 @@ export const ProductSearch = ({
           results={searchResults.map(result => ({
             id: result.id,
             brand_name: result.brand_name,
-            product_name: result.name,
+            product_name: result.product_name,
             property_names: result.property_names,
             flavor_names: result.flavor_names,
             is_barista: result.is_barista

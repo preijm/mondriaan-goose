@@ -37,6 +37,11 @@ export const SearchResults = ({
   
   if (!isVisible) return null;
 
+  const handleProductSelect = (productId: string) => {
+    console.log("SearchResults: handleProductSelect called with:", productId);
+    onSelectProduct(productId);
+  };
+
   return (
     <div className="absolute z-10 w-full mt-1 bg-white border rounded-md shadow-lg max-h-60 overflow-y-auto">
       {isLoading ? (
@@ -46,7 +51,7 @@ export const SearchResults = ({
           <ProductResultItem
             key={product.id}
             product={product}
-            onSelect={onSelectProduct}
+            onSelect={handleProductSelect}
           />
         ))
       ) : (

@@ -32,10 +32,15 @@ export const ProductResultItem = ({ product, onSelect }: ProductResultItemProps)
     isBarista
   });
   
+  const handleItemClick = () => {
+    console.log("Product item clicked:", product.id);
+    onSelect(product.id);
+  };
+  
   return (
     <div 
       className="px-4 py-3 hover:bg-gray-50 cursor-pointer flex flex-col"
-      onClick={() => onSelect(product.id)}
+      onClick={handleItemClick}
     >
       <div className="font-medium">{product.brand_name} - {product.product_name}</div>
       

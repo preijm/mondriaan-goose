@@ -41,6 +41,7 @@ export const ProductInformation = ({
   };
 
   const handleProductAdded = (productId: string, brandId: string) => {
+    console.log("ProductInformation: handleProductAdded called with", { productId, brandId });
     setProductId(productId);
     setBrandId(brandId);
     // Don't show a toast here - the dialog component is responsible
