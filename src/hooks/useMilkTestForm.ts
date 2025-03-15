@@ -61,13 +61,6 @@ export const useMilkTestForm = () => {
         .eq('name', shop)
         .maybeSingle();
 
-      // Get user profile data
-      const { data: profileData } = await supabase
-        .from('profiles')
-        .select('display_name')
-        .eq('id', userData.user.id)
-        .maybeSingle();
-
       // Upload picture if available
       let picturePath = null;
       if (picture) {
@@ -103,9 +96,9 @@ export const useMilkTestForm = () => {
           notes,
           drink_preference: drinkPreference,
           user_id: userData.user.id,
-          display_name: profileData?.display_name || null,
           price: price ? parseFloat(price) : null,
-          picture_path: picturePath
+          picture_path: picturePath,
+          is_barista: false // Default value
         })
         .select()
         .single();

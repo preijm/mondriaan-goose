@@ -56,8 +56,8 @@ const Results = () => {
   const filteredResults = results.filter((result) => {
     const searchString = searchTerm.toLowerCase();
     return (
-      result.brand.toLowerCase().includes(searchString) ||
-      (result.type || "").toLowerCase().includes(searchString) ||
+      (result.brand || "").toLowerCase().includes(searchString) ||
+      (result.product_name || "").toLowerCase().includes(searchString) ||
       (result.display_name || "").toLowerCase().includes(searchString)
     );
   });
@@ -93,7 +93,7 @@ const Results = () => {
         <div className="bg-white rounded-lg shadow-md p-6">
           <div className="mb-4">
             <Input
-              placeholder="Search by brand, type, or tester..."
+              placeholder="Search by brand, product, or tester..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="max-w-sm"
@@ -124,10 +124,10 @@ const Results = () => {
                 <TableHead>
                   <Button
                     variant="ghost"
-                    onClick={() => handleSort('type')}
+                    onClick={() => handleSort('product_name')}
                     className="hover:bg-transparent"
                   >
-                    Type {getSortIcon('type')}
+                    Product {getSortIcon('product_name')}
                   </Button>
                 </TableHead>
                 <TableHead>
@@ -148,7 +148,7 @@ const Results = () => {
                 <TableRow key={result.id}>
                   <TableCell>{new Date(result.created_at).toLocaleDateString()}</TableCell>
                   <TableCell className="font-medium">{result.brand}</TableCell>
-                  <TableCell>{result.type}</TableCell>
+                  <TableCell>{result.product_name}</TableCell>
                   <TableCell>
                     <div className="rounded-full h-8 w-8 flex items-center justify-center bg-cream-300">
                       <span className="font-semibold text-milk-500">{Number(result.rating).toFixed(1)}</span>

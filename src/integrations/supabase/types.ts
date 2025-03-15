@@ -104,7 +104,6 @@ export type Database = {
           brand_id: string
           country: string | null
           created_at: string
-          display_name: string | null
           drink_preference: string | null
           id: string
           is_barista: boolean | null
@@ -114,14 +113,12 @@ export type Database = {
           product_id: string | null
           rating: number
           shop_id: string | null
-          type: string | null
           user_id: string | null
         }
         Insert: {
           brand_id: string
           country?: string | null
           created_at?: string
-          display_name?: string | null
           drink_preference?: string | null
           id?: string
           is_barista?: boolean | null
@@ -131,14 +128,12 @@ export type Database = {
           product_id?: string | null
           rating: number
           shop_id?: string | null
-          type?: string | null
           user_id?: string | null
         }
         Update: {
           brand_id?: string
           country?: string | null
           created_at?: string
-          display_name?: string | null
           drink_preference?: string | null
           id?: string
           is_barista?: boolean | null
@@ -148,7 +143,6 @@ export type Database = {
           product_id?: string | null
           rating?: number
           shop_id?: string | null
-          type?: string | null
           user_id?: string | null
         }
         Relationships: [
