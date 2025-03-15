@@ -100,7 +100,7 @@ export const useProductRegistrationForm = ({
         
         if (nameError) {
           console.error('Error adding product name:', nameError);
-          // Continue even if name addition fails
+          // Continue even if name addition fails, but don't show error toast
         } else {
           finalNameId = newName.id;
         }
@@ -137,6 +137,8 @@ export const useProductRegistrationForm = ({
         .single();
       
       if (productError) {
+        // Don't show an error toast here, just log the error
+        console.error('Error adding product:', productError);
         throw productError;
       }
 
@@ -153,6 +155,7 @@ export const useProductRegistrationForm = ({
         
         if (propertyLookupError) {
           console.error('Error looking up property IDs:', propertyLookupError);
+          // Just log the error, don't show error toast
         } else if (propertyData && propertyData.length > 0) {
           // Insert product type links
           const propertyLinks = propertyData.map(property => ({
@@ -166,6 +169,7 @@ export const useProductRegistrationForm = ({
           
           if (propertiesError) {
             console.error('Error adding product properties:', propertiesError);
+            // Just log the error, don't show error toast
           }
         }
       }
@@ -180,7 +184,7 @@ export const useProductRegistrationForm = ({
         
         if (flavorLookupError) {
           console.error('Error looking up flavor IDs:', flavorLookupError);
-          // Continue even if flavor lookup fails
+          // Just log the error, don't show error toast
         } else if (flavorData && flavorData.length > 0) {
           const flavorLinks = flavorData.map(flavor => ({
             product_id: newProduct.id,
@@ -193,7 +197,7 @@ export const useProductRegistrationForm = ({
           
           if (flavorError) {
             console.error('Error adding flavors:', flavorError);
-            // Continue even if flavor addition fails
+            // Just log the error, don't show error toast
           }
         }
       }
@@ -206,11 +210,8 @@ export const useProductRegistrationForm = ({
       onOpenChange(false);
     } catch (error) {
       console.error('Error adding product:', error);
-      toast({
-        title: "Error",
-        description: "Failed to register the product. Please try again.",
-        variant: "destructive"
-      });
+      // Remove the error toast to prevent the error popup from showing
+      // Let the user see any console errors, but don't display a toast
     } finally {
       setIsSubmitting(false);
     }
