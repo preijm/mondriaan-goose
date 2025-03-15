@@ -1,11 +1,9 @@
-
 import React, { useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Plus, X, Check } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
-import { useToast } from "@/hooks/use-toast";
 
 interface FlavorSelectorProps {
   flavors: Array<{ id: string; name: string; key: string }>;
@@ -48,7 +46,6 @@ export const FlavorSelector = ({
   const [isAddingFlavor, setIsAddingFlavor] = useState(false);
   const [newFlavorName, setNewFlavorName] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const { toast } = useToast();
 
   const createFlavorKey = (name: string): string => {
     return name
@@ -60,11 +57,6 @@ export const FlavorSelector = ({
 
   const handleAddFlavor = async () => {
     if (!newFlavorName.trim()) {
-      toast({
-        title: "Invalid flavor name",
-        description: "Please enter a flavor name",
-        variant: "destructive"
-      });
       return;
     }
 
@@ -77,11 +69,7 @@ export const FlavorSelector = ({
       const { data: sessionData } = await supabase.auth.getSession();
       
       if (!sessionData.session) {
-        toast({
-          title: "Authentication required",
-          description: "You must be signed in to add flavors",
-          variant: "destructive"
-        });
+        console.error('Authentication required to add flavors');
         setIsSubmitting(false);
         return;
       }
@@ -93,11 +81,7 @@ export const FlavorSelector = ({
         .eq('key', key);
       
       if (existingFlavors && existingFlavors.length > 0) {
-        toast({
-          title: "Flavor already exists",
-          description: "A flavor with this name already exists",
-          variant: "destructive"
-        });
+        console.log('Flavor already exists');
         setIsSubmitting(false);
         return;
       }
@@ -113,16 +97,8 @@ export const FlavorSelector = ({
       
       if (error) {
         console.error('Error adding flavor:', error);
-        toast({
-          title: "Error",
-          description: error.message || "Failed to add flavor. Please try again.",
-          variant: "destructive"
-        });
       } else {
-        toast({
-          title: "Success",
-          description: "New flavor added"
-        });
+        console.log('New flavor added successfully');
         setNewFlavorName("");
         if (onAddNewFlavor) {
           onAddNewFlavor();
@@ -131,11 +107,6 @@ export const FlavorSelector = ({
       }
     } catch (error) {
       console.error('Error adding flavor:', error);
-      toast({
-        title: "Error",
-        description: "Failed to add flavor. Please try again.",
-        variant: "destructive"
-      });
     } finally {
       setIsSubmitting(false);
     }
@@ -182,13 +153,13 @@ export const FlavorSelector = ({
       
       {/* Add flavor section */}
       {isAddingFlavor && (
-        <div className="p-3 bg-white rounded-lg border shadow-sm mb-2 max-w-md">
+        <div className="p-2 bg-white rounded-lg border shadow-sm mb-2 max-w-sm">
           <div className="flex gap-2 items-center">
             <Input
               value={newFlavorName}
               onChange={(e) => setNewFlavorName(e.target.value)}
               placeholder="Add new flavor"
-              className="h-9 border-2 rounded-lg text-sm flex-1"
+              className="h-8 border-2 rounded-lg text-xs flex-1"
               autoFocus
               disabled={isSubmitting}
               onKeyDown={(e) => {
@@ -204,7 +175,7 @@ export const FlavorSelector = ({
               type="button"
               variant="outline"
               size="sm"
-              className="bg-cream-200 hover:bg-cream-300 border-cream-200 text-gray-800 h-9"
+              className="bg-cream-200 hover:bg-cream-300 border-cream-200 text-gray-800 h-8 text-xs px-2"
               onClick={handleAddFlavor}
               disabled={isSubmitting}
             >
