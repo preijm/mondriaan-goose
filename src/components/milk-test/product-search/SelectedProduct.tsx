@@ -19,22 +19,29 @@ export const SelectedProduct = ({ product }: SelectedProductProps) => {
   const getAllBadges = () => {
     const badges = [];
     
-    // Add product properties badges (prioritize "barista")
-    if (product.property_names && product.property_names.length > 0) {
-      // Sort product properties to prioritize "barista"
-      const sortedProperties = [...product.property_names].sort((a, b) => {
-        if (a.toLowerCase() === 'barista') return -1;
-        if (b.toLowerCase() === 'barista') return 1;
-        return 0;
+    // Add barista badge if applicable (with highest priority)
+    if (product.is_barista === true) {
+      badges.push({
+        key: 'barista-badge',
+        text: 'Barista',
+        className: "bg-cream-200 border-cream-300 font-medium"
       });
+    }
+    
+    // Add product properties badges
+    if (product.property_names && product.property_names.length > 0) {
+      // Filter out 'barista' property since we're displaying it separately
+      const filteredProperties = product.property_names.filter(
+        type => type.toLowerCase() !== 'barista'
+      );
       
-      sortedProperties.forEach(type => {
+      filteredProperties.forEach(type => {
         badges.push({
           key: `type-${type}`,
           text: type.split('_')
             .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
             .join(' '),
-          className: type.toLowerCase() === 'barista' ? "bg-cream-200 border-cream-300" : "bg-gray-100 border-gray-200"
+          className: "bg-gray-100 border-gray-200"
         });
       });
     }

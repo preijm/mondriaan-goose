@@ -20,7 +20,7 @@ export const ProductResultItem = ({ product, onSelect }: ProductResultItemProps)
   const propertyNames = product.property_names || [];
   const flavorNames = product.flavor_names || [];
   
-  // Use the is_barista flag directly instead of checking the array
+  // Use the is_barista flag directly from the product
   const isBarista = product.is_barista === true;
   
   // Debug logging
@@ -40,6 +40,16 @@ export const ProductResultItem = ({ product, onSelect }: ProductResultItemProps)
       <div className="font-medium">{product.brand_name} - {product.product_name}</div>
       
       <div className="flex flex-wrap gap-2 mt-1">
+        {/* Display barista badge if applicable */}
+        {isBarista && (
+          <Badge 
+            variant="outline" 
+            className="rounded-full px-3 py-0.5 text-xs bg-cream-200 border-cream-300 font-medium"
+          >
+            Barista
+          </Badge>
+        )}
+        
         {/* Display product properties badges */}
         {propertyNames.map(prop => (
           <Badge 

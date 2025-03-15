@@ -9,14 +9,32 @@ export const addProductTypes = async (
   selectedProductTypes: string[], 
   isBarista: boolean
 ): Promise<void> => {
-  // Skip if there are no product types to add and it's not a barista product
+  // Skip if there are no product types to add (but still need to update is_barista)
   if (selectedProductTypes.length === 0 && !isBarista) {
     return;
   }
   
-  console.log('Adding product types:', { productId, selectedProductTypes, isBarista });
+  console.log('Adding product types and barista status:', { productId, selectedProductTypes, isBarista });
   
   try {
+    // Update the product's is_barista field directly
+    if (isBarista) {
+      const { error: updateError } = await supabase
+        .from('products')
+        .update({ is_barista: true })
+        .eq('id', productId);
+      
+      if (updateError) {
+        console.error('Error updating barista status:', updateError);
+        throw updateError;
+      }
+    }
+    
+    // Skip property mapping if no selected types
+    if (selectedProductTypes.length === 0) {
+      return;
+    }
+    
     // 1. Fetch property IDs for the selected types
     const { data: properties, error: propError } = await supabase
       .from('properties')
@@ -46,9 +64,9 @@ export const addProductTypes = async (
       }
     }
     
-    console.log('Product types added successfully');
+    console.log('Product types and barista status added successfully');
   } catch (error) {
-    console.error('Failed to add product types:', error);
+    console.error('Failed to add product types or update barista status:', error);
     throw error;
   }
 };
