@@ -53,15 +53,16 @@ export const useProductRegistrationForm = ({
   const handleSubmit = async (e: React.FormEvent, skipAutoSuccess = false) => {
     e.preventDefault();
     
-    console.log("Submitting form with:", {
+    console.log("Submitting product registration form with:", {
       brandId,
       productName,
-      brandIdEmpty: !brandId || brandId.trim() === '',
-      productNameEmpty: !productName || productName.trim() === ''
+      nameId,
+      selectedProductTypes,
+      isBarista,
+      selectedFlavors
     });
     
-    // Note: We've moved validation to the ProductRegistrationDialog component
-    // to ensure a clear separation of concerns
+    // Note: Validation is now handled in the ProductRegistrationDialog component
     
     try {
       const result = await handleProductSubmit({

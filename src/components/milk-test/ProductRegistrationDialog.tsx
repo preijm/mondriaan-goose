@@ -51,8 +51,12 @@ export const ProductRegistrationDialog = ({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
+    console.log("Product Registration Form - validating fields:", {
+      brandId, 
+      productName
+    });
+    
     // CRITICAL: Only validate the required fields for PRODUCT REGISTRATION: brandId and productName
-    // This validation is separate from the milk test form validation
     if (!brandId || brandId.trim() === '') {
       toast({
         title: "Missing required field",
@@ -112,12 +116,14 @@ export const ProductRegistrationDialog = ({
         description: "Selected the existing product from the database"
       });
       onSuccess(duplicateProductId, brandId);
+      onOpenChange(false); // Close the dialog after selecting existing product
     }
   };
   
   // Modify inputs to create a unique product
   const handleModifyInputs = () => {
-    // Dialog will remain open so users can modify inputs
+    // Just close the duplicate alert dialog, main form will remain open
+    setDuplicateAlertOpen(false);
   };
   
   return (

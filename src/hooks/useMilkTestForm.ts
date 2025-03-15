@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { useNavigate } from "react-router-dom";
@@ -23,7 +22,7 @@ export const useMilkTestForm = () => {
     e.preventDefault();
     
     // Debug logging to help identify issues
-    console.log("Form submission values:", {
+    console.log("Milk Test Form submission values:", {
       brandId, 
       productId, 
       rating,
@@ -33,7 +32,7 @@ export const useMilkTestForm = () => {
       price
     });
     
-    // Create list of missing fields - THIS IS FOR MILK TEST FORM, NOT PRODUCT REGISTRATION
+    // Create list of missing fields - THIS IS FOR MILK TEST FORM ONLY, NOT PRODUCT REGISTRATION
     const missingFields = [];
     
     if (!brandId) {
