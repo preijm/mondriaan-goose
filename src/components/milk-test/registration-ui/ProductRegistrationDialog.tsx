@@ -75,29 +75,12 @@ const ProductRegistrationContainer: React.FC<ProductRegistrationDialogProps> = (
     e.preventDefault();
     e.stopPropagation(); // Prevent the event from bubbling up to parent forms
     
-    console.log("Product Registration Form - validating fields:", {
+    console.log("Product Registration Form - submitting:", {
       brandId, 
       productName
     });
     
-    // Validate required fields
-    if (!brandId || brandId.trim() === '') {
-      toast({
-        title: "Missing required field",
-        description: "Please enter a brand",
-        variant: "destructive"
-      });
-      return;
-    }
-    
-    if (!productName || productName.trim() === '') {
-      toast({
-        title: "Missing required field",
-        description: "Please enter a product name",
-        variant: "destructive"
-      });
-      return;
-    }
+    // No need for validation here - the submit button is disabled if form is invalid
     
     setIsSubmitting(true);
     console.log("Form submission started, isSubmitting set to true");

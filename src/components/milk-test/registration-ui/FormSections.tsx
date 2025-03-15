@@ -76,7 +76,10 @@ export const FlavorsSection = () => {
 };
 
 export const ProductForm: React.FC<{ onSubmit: (e: React.FormEvent) => Promise<any> }> = ({ onSubmit }) => {
-  const { isSubmitting } = useProductRegistration();
+  const { isSubmitting, brandId, productName } = useProductRegistration();
+  
+  // Check if form has required fields filled
+  const isFormValid = brandId !== "" && productName.trim() !== "";
   
   return (
     <form onSubmit={onSubmit} className="space-y-6">
@@ -94,7 +97,7 @@ export const ProductForm: React.FC<{ onSubmit: (e: React.FormEvent) => Promise<a
       
       <FlavorsSection />
       
-      <DialogButtons isSubmitting={isSubmitting} />
+      <DialogButtons isSubmitting={isSubmitting} isFormValid={isFormValid} />
     </form>
   );
 };
@@ -102,7 +105,7 @@ export const ProductForm: React.FC<{ onSubmit: (e: React.FormEvent) => Promise<a
 import { Button } from "@/components/ui/button";
 import { DialogFooter } from "@/components/ui/dialog";
 
-export const DialogButtons: React.FC<{ isSubmitting: boolean }> = ({ isSubmitting }) => {
+export const DialogButtons: React.FC<{ isSubmitting: boolean; isFormValid: boolean }> = ({ isSubmitting, isFormValid }) => {
   return (
     <DialogFooter>
       <Button 
@@ -115,8 +118,8 @@ export const DialogButtons: React.FC<{ isSubmitting: boolean }> = ({ isSubmittin
       </Button>
       <Button 
         type="submit" 
-        disabled={isSubmitting} 
-        className="bg-black text-white"
+        disabled={isSubmitting || !isFormValid} 
+        className={`${isFormValid ? 'bg-black text-white' : 'bg-gray-300 text-gray-500 cursor-not-allowed'}`}
       >
         {isSubmitting ? "Registering..." : "Register Product"}
       </Button>
