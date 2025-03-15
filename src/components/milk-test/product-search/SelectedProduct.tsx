@@ -36,17 +36,10 @@ export const SelectedProduct = ({ product }: SelectedProductProps) => {
     
     // Add product properties badges
     if (product.property_names && product.property_names.length > 0) {
-      // Filter out 'barista' property since we're displaying it separately
-      const filteredProperties = product.property_names.filter(
-        type => type.toLowerCase() !== 'barista'
-      );
-      
-      filteredProperties.forEach(type => {
+      product.property_names.forEach(type => {
         badges.push({
           key: `type-${type}`,
-          text: type.split('_')
-            .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-            .join(' '),
+          text: type,
           className: "bg-gray-100 border-gray-200"
         });
       });

@@ -60,19 +60,13 @@ export const ProductResultItem = ({ product, onSelect }: ProductResultItemProps)
           <Badge 
             key={`prop-${prop}`} 
             variant="outline" 
-            className={`rounded-full px-3 py-0.5 text-xs ${
-              prop.toLowerCase() === 'barista' 
-                ? 'bg-cream-200 border-cream-300' 
-                : 'bg-gray-100 border-gray-200'
-            }`}
+            className="rounded-full px-3 py-0.5 text-xs bg-gray-100 border-gray-200"
           >
-            {prop.split('_')
-              .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-              .join(' ')}
+            {prop}
           </Badge>
         ))}
         
-        {/* Updated flavor badges with better contrast */}
+        {/* Display flavor badges with better contrast */}
         {flavorNames.length > 0 && flavorNames.map(flavor => (
           <Badge 
             key={`flavor-${flavor}`} 
