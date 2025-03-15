@@ -49,6 +49,19 @@ export const AddFlavorDialog = ({ open, onOpenChange, onFlavorAdded }: AddFlavor
     const key = createFlavorKey(flavorName);
     
     try {
+      // Get the current user's session
+      const { data: sessionData } = await supabase.auth.getSession();
+      
+      if (!sessionData.session) {
+        toast({
+          title: "Authentication required",
+          description: "You must be signed in to add flavors",
+          variant: "destructive"
+        });
+        setIsSubmitting(false);
+        return;
+      }
+      
       // Check if flavor with this key already exists
       const { data: existingFlavors } = await supabase
         .from('flavors')
@@ -65,7 +78,7 @@ export const AddFlavorDialog = ({ open, onOpenChange, onFlavorAdded }: AddFlavor
         return;
       }
       
-      // Add new flavor to database
+      // Add new flavor to database with RLS compliance
       const { error } = await supabase
         .from('flavors')
         .insert({
@@ -78,13 +91,13 @@ export const AddFlavorDialog = ({ open, onOpenChange, onFlavorAdded }: AddFlavor
         console.error('Error adding flavor:', error);
         toast({
           title: "Error",
-          description: "Failed to add flavor. Please try again.",
+          description: error.message || "Failed to add flavor. Please try again.",
           variant: "destructive"
         });
       } else {
         toast({
-          title: "Flavor added",
-          description: "The new flavor has been added successfully"
+          title: "Success",
+          description: "New flavor added"
         });
         setFlavorName("");
         onFlavorAdded();
@@ -104,38 +117,41 @@ export const AddFlavorDialog = ({ open, onOpenChange, onFlavorAdded }: AddFlavor
   
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent className="sm:max-w-xs p-4">
         <DialogHeader>
-          <DialogTitle>Add New Flavor</DialogTitle>
+          <DialogTitle className="text-center">Add Flavor</DialogTitle>
         </DialogHeader>
         
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-3">
           <div className="space-y-2">
-            <Label htmlFor="flavor-name">Flavor Name</Label>
+            <Label htmlFor="flavor-name">Name</Label>
             <Input 
               id="flavor-name"
-              placeholder="e.g. Vanilla, Chocolate, etc."
+              placeholder="e.g. Vanilla"
               value={flavorName}
               onChange={(e) => setFlavorName(e.target.value)}
               autoFocus
             />
           </div>
           
-          <DialogFooter>
+          <DialogFooter className="pt-2">
             <Button 
               type="button" 
               variant="outline" 
               onClick={() => onOpenChange(false)}
               disabled={isSubmitting}
+              className="w-full sm:w-auto"
+              size="sm"
             >
               Cancel
             </Button>
             <Button 
               type="submit" 
               disabled={isSubmitting} 
-              className="bg-black text-white"
+              className="bg-black text-white w-full sm:w-auto"
+              size="sm"
             >
-              {isSubmitting ? "Adding..." : "Add Flavor"}
+              {isSubmitting ? "Adding..." : "Add"}
             </Button>
           </DialogFooter>
         </form>
