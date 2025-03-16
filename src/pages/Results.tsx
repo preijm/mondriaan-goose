@@ -123,6 +123,16 @@ const Results = () => {
           comparison = a.avg_rating - b.avg_rating;
         } else if (sortConfig.column === 'count') {
           comparison = a.count - b.count;
+        } else if (sortConfig.column === 'properties') {
+          // Sort by barista first, then by number of properties
+          if (a.is_barista && !b.is_barista) {
+            comparison = 1;
+          } else if (!a.is_barista && b.is_barista) {
+            comparison = -1;
+          } else {
+            comparison = ((a.property_names?.length || 0) + (a.flavor_names?.length || 0)) - 
+                         ((b.property_names?.length || 0) + (b.flavor_names?.length || 0));
+          }
         }
         
         return sortConfig.direction === 'asc' ? comparison : -comparison;
@@ -250,6 +260,15 @@ const Results = () => {
                 <TableHead>
                   <Button
                     variant="ghost"
+                    onClick={() => handleSort('properties')}
+                    className="hover:bg-transparent"
+                  >
+                    Properties {getSortIcon('properties')}
+                  </Button>
+                </TableHead>
+                <TableHead>
+                  <Button
+                    variant="ghost"
                     onClick={() => handleSort('rating')}
                     className="hover:bg-transparent"
                   >
@@ -275,16 +294,14 @@ const Results = () => {
                     onClick={() => toggleProductExpand(result.product_id)}
                   >
                     <TableCell className="font-medium">{result.brand_name}</TableCell>
+                    <TableCell>{result.product_name}</TableCell>
                     <TableCell>
-                      <div className="flex items-center flex-wrap">
-                        <span>{result.product_name}</span>
-                        <ProductPropertyBadges 
-                          propertyNames={result.property_names}
-                          isBarista={result.is_barista}
-                          flavorNames={result.flavor_names}
-                          compact={true}
-                        />
-                      </div>
+                      <ProductPropertyBadges 
+                        propertyNames={result.property_names}
+                        isBarista={result.is_barista}
+                        flavorNames={result.flavor_names}
+                        compact={true}
+                      />
                     </TableCell>
                     <TableCell>
                       <div className="rounded-full h-8 w-8 flex items-center justify-center bg-cream-300">
@@ -295,11 +312,11 @@ const Results = () => {
                   </TableRow>
                   
                   <TableRow>
-                    <TableCell colSpan={4} className="p-0">
+                    <TableCell colSpan={5} className="p-0">
                       <Collapsible open={expandedProduct === result.product_id}>
                         <CollapsibleContent>
                           <div className="bg-gray-50 p-4">
-                            <h3 className="text-lg font-medium mb-4">Individual tests for {result.product_name}</h3>
+                            <h3 className="text-lg font-medium mb-4">Individual Tests</h3>
                             {isLoadingTests ? (
                               <div className="text-center py-4">Loading test details...</div>
                             ) : (
@@ -381,7 +398,7 @@ const Results = () => {
               
               {filteredResults.length === 0 && (
                 <TableRow>
-                  <TableCell colSpan={4} className="text-center py-8">
+                  <TableCell colSpan={5} className="text-center py-8">
                     No results found
                   </TableCell>
                 </TableRow>

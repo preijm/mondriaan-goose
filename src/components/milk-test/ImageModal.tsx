@@ -18,13 +18,6 @@ export const ImageModal = ({ imageUrl, isOpen, onClose }: ImageModalProps) => {
         closeButton={false}
       >
         <div className="relative w-full h-full">
-          <button 
-            onClick={onClose}
-            className="absolute top-2 right-2 z-10 bg-black/50 rounded-full p-1 text-white hover:bg-black/70 transition-colors"
-            aria-label="Close"
-          >
-            <X className="h-6 w-6" />
-          </button>
           <AspectRatio ratio={1}>
             <img
               src={imageUrl}
@@ -44,6 +37,13 @@ export const ImageModal = ({ imageUrl, isOpen, onClose }: ImageModalProps) => {
                 }
               }}
             />
+            <button 
+              onClick={onClose}
+              className="absolute top-4 right-4 z-10 bg-black/50 rounded-full p-1 text-white hover:bg-black/70 transition-colors"
+              aria-label="Close"
+            >
+              <X className="h-6 w-6" />
+            </button>
           </AspectRatio>
         </div>
       </DialogContent>
