@@ -171,7 +171,7 @@ const Results = () => {
         <div className="bg-white rounded-lg shadow-md p-6">
           <div className="mb-4">
             <Input
-              placeholder="Search by brand, product, or tester..."
+              placeholder="Search by brand or product..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="max-w-sm"
@@ -181,15 +181,6 @@ const Results = () => {
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>
-                  <Button
-                    variant="ghost"
-                    onClick={() => handleSort('created_at')}
-                    className="hover:bg-transparent"
-                  >
-                    Date {getSortIcon('created_at')}
-                  </Button>
-                </TableHead>
                 <TableHead>
                   <Button
                     variant="ghost"
@@ -217,8 +208,15 @@ const Results = () => {
                     Score {getSortIcon('rating')}
                   </Button>
                 </TableHead>
-                <TableHead>Tests</TableHead>
-                <TableHead className="hidden md:table-cell">Notes</TableHead>
+                <TableHead>
+                  <Button
+                    variant="ghost"
+                    onClick={() => handleSort('count')}
+                    className="hover:bg-transparent"
+                  >
+                    Tests {getSortIcon('count')}
+                  </Button>
+                </TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -228,7 +226,6 @@ const Results = () => {
                     className="cursor-pointer hover:bg-gray-50"
                     onClick={() => toggleProductExpand(result.product_id)}
                   >
-                    <TableCell>-</TableCell>
                     <TableCell className="font-medium">{result.brand_name}</TableCell>
                     <TableCell>{result.product_name}</TableCell>
                     <TableCell>
@@ -237,11 +234,10 @@ const Results = () => {
                       </div>
                     </TableCell>
                     <TableCell>{result.count}</TableCell>
-                    <TableCell className="hidden md:table-cell">-</TableCell>
                   </TableRow>
                   
                   <TableRow>
-                    <TableCell colSpan={6} className="p-0">
+                    <TableCell colSpan={4} className="p-0">
                       <Collapsible open={expandedProduct === result.product_id}>
                         <CollapsibleContent>
                           <div className="bg-gray-50 p-4">
@@ -327,7 +323,7 @@ const Results = () => {
               
               {filteredResults.length === 0 && (
                 <TableRow>
-                  <TableCell colSpan={6} className="text-center py-8">
+                  <TableCell colSpan={4} className="text-center py-8">
                     No results found
                   </TableCell>
                 </TableRow>
