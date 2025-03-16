@@ -1,3 +1,4 @@
+
 import { ProductSearchResult } from "./types";
 import { performBasicSearch } from "./basicSearch";
 import { performBaristaSearch, performPropertySearch, performFlavorSearch } from "./specialSearch";
@@ -9,30 +10,44 @@ export async function searchProducts(searchTerm: string): Promise<ProductSearchR
   console.log('Searching for products:', searchTerm);
 
   const lowercaseSearchTerm = searchTerm.toLowerCase();
-  // Keep spaces for user-friendly searches but also create underscore version
-  const formattedSearchTerm = lowercaseSearchTerm.replace(/\s+/g, '_');
   const combinedResults: ProductSearchResult[] = [];
   const processedIds = new Set<string>(); // To track already added products
 
   try {
-    // Try to find direct property matches first for property-specific searches
-    // like "no sugar", "barista", etc.
-    await performPropertySearch(lowercaseSearchTerm, processedIds, combinedResults);
+    // Always start with basic search for product name and brand name
+    // This should run regardless of other searches
+    await performBasicSearch(lowercaseSearchTerm, processedIds, combinedResults);
+    
+    // Try to do property, barista, and flavor searches even if basic search found results
+    try {
+      await performPropertySearch(lowercaseSearchTerm, processedIds, combinedResults);
+    } catch (error) {
+      console.error('Error in property search (caught):', error);
+      // Continue with other searches
+    }
     
     // If we're possibly searching for a barista product
     if (lowercaseSearchTerm.includes('barista')) {
-      await performBaristaSearch(lowercaseSearchTerm, processedIds, combinedResults);
+      try {
+        await performBaristaSearch(lowercaseSearchTerm, processedIds, combinedResults);
+      } catch (error) {
+        console.error('Error in barista search (caught):', error);
+      }
     }
     
-    // Try flavor searches next
-    await performFlavorSearch(lowercaseSearchTerm, processedIds, combinedResults);
+    // Try flavor searches
+    try {
+      await performFlavorSearch(lowercaseSearchTerm, processedIds, combinedResults);
+    } catch (error) {
+      console.error('Error in flavor search (caught):', error);
+    }
     
-    // If we didn't find anything specific or search term is ambiguous,
-    // fall back to basic name/brand search
-    if (combinedResults.length === 0) {
-      await performBasicSearch(lowercaseSearchTerm, processedIds, combinedResults);
+    // Do additional searches by common terms and percentages
+    try {
       await searchByCommonTerms(lowercaseSearchTerm, processedIds, combinedResults);
       await searchByPercentage(lowercaseSearchTerm, processedIds, combinedResults);
+    } catch (error) {
+      console.error('Error in additional searches (caught):', error);
     }
 
     console.log(`Found ${combinedResults.length} combined search results`);
