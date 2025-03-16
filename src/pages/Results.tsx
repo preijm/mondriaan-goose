@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Navigation } from "@/components/Navigation";
 import {
@@ -263,12 +262,16 @@ const Results = () => {
                                           <div className="w-10 h-10 relative overflow-hidden rounded-md">
                                             <AspectRatio ratio={1/1}>
                                               <img 
-                                                src={`${supabase.storageClient.url}/object/public/milk-pictures/${test.picture_path}`} 
+                                                src={`${supabase.storage.from('milk-pictures').getPublicUrl(test.picture_path).data.publicUrl}`} 
                                                 alt="Product"
                                                 className="object-cover w-full h-full"
                                                 onError={(e) => {
-                                                  (e.target as HTMLImageElement).style.display = 'none';
-                                                  (e.target as HTMLImageElement).nextSibling!.setAttribute('style', 'display: flex');
+                                                  const target = e.target as HTMLImageElement;
+                                                  target.style.display = 'none';
+                                                  const nextSibling = target.nextSibling as HTMLElement;
+                                                  if (nextSibling) {
+                                                    nextSibling.style.display = 'flex';
+                                                  }
                                                 }}
                                               />
                                               <div className="absolute inset-0 flex items-center justify-center bg-gray-100" style={{display: 'none'}}>
