@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { Navigation } from "@/components/Navigation";
 import {
@@ -275,12 +276,13 @@ const Results = () => {
                   >
                     <TableCell className="font-medium">{result.brand_name}</TableCell>
                     <TableCell>
-                      <div>
-                        <div>{result.product_name}</div>
+                      <div className="flex items-center flex-wrap">
+                        <span>{result.product_name}</span>
                         <ProductPropertyBadges 
                           propertyNames={result.property_names}
                           isBarista={result.is_barista}
                           flavorNames={result.flavor_names}
+                          compact={true}
                         />
                       </div>
                     </TableCell>

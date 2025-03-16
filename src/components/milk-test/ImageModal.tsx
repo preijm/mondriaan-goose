@@ -2,7 +2,7 @@
 import React from "react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
-import { Image as ImageIcon } from "lucide-react";
+import { X } from "lucide-react";
 
 interface ImageModalProps {
   imageUrl: string;
@@ -13,8 +13,18 @@ interface ImageModalProps {
 export const ImageModal = ({ imageUrl, isOpen, onClose }: ImageModalProps) => {
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-      <DialogContent className="max-w-4xl p-0 overflow-hidden" closeButton={true}>
-        <div className="relative w-full h-full p-1">
+      <DialogContent 
+        className="max-w-4xl p-0 overflow-hidden bg-transparent border-0 shadow-none" 
+        closeButton={false}
+      >
+        <div className="relative w-full h-full">
+          <button 
+            onClick={onClose}
+            className="absolute top-2 right-2 z-10 bg-black/50 rounded-full p-1 text-white hover:bg-black/70 transition-colors"
+            aria-label="Close"
+          >
+            <X className="h-6 w-6" />
+          </button>
           <AspectRatio ratio={1}>
             <img
               src={imageUrl}

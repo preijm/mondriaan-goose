@@ -31,25 +31,33 @@ interface ProductPropertyBadgesProps {
   propertyNames?: string[] | null;
   isBarista?: boolean;
   flavorNames?: string[] | null;
+  className?: string;
+  compact?: boolean;
 }
 
 export const ProductPropertyBadges: React.FC<ProductPropertyBadgesProps> = ({ 
   propertyNames, 
   isBarista,
-  flavorNames 
+  flavorNames,
+  className = "",
+  compact = false
 }) => {
   // Safety check
   if (!propertyNames && !isBarista && !flavorNames) {
     return null;
   }
 
+  const badgeBaseClasses = compact 
+    ? "text-xs px-2 py-0.5" 
+    : "rounded-full px-4 py-1";
+
   return (
-    <div className="flex flex-wrap gap-2 mt-1">
+    <div className={`flex flex-wrap gap-1 ${compact ? "inline-flex ml-2" : "mt-1"} ${className}`}>
       {/* Barista badge with priority styling */}
       {isBarista && (
         <Badge 
           variant="outline" 
-          className="rounded-full px-4 py-1 bg-cream-200 border-cream-300 font-medium"
+          className={`${badgeBaseClasses} bg-cream-200 border-cream-300 font-medium`}
         >
           Barista
         </Badge>
@@ -60,7 +68,7 @@ export const ProductPropertyBadges: React.FC<ProductPropertyBadgesProps> = ({
         <Badge 
           key={`property-${index}`} 
           variant="outline" 
-          className="rounded-full px-4 py-1 bg-gray-100 border-gray-200"
+          className={`${badgeBaseClasses} bg-gray-100 border-gray-200`}
         >
           {formatDisplayName(property)}
         </Badge>
@@ -71,7 +79,7 @@ export const ProductPropertyBadges: React.FC<ProductPropertyBadgesProps> = ({
         <Badge 
           key={`flavor-${index}`} 
           variant="outline" 
-          className="rounded-full px-4 py-1 bg-blue-500 border-blue-600 text-white"
+          className={`${badgeBaseClasses} bg-blue-500 border-blue-600 text-white`}
         >
           {formatDisplayName(flavor)}
         </Badge>
