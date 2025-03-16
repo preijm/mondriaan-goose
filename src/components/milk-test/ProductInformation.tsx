@@ -25,8 +25,6 @@ export const ProductInformation = ({
     // Update product and brand IDs
     setProductId(productId);
     setBrandId(brandId);
-    
-    // Toast notification removed as requested
   };
 
   const handleAddNewProduct = () => {

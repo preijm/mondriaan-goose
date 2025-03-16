@@ -77,7 +77,7 @@ export const useProductSearch = (selectedProductId?: string) => {
     }
   }, [selectedProduct, localSelectedProductId, isLoadingSelectedProduct]);
 
-  // Enhanced product search with improved support for properties, barista status, and flavors
+  // Enhanced product search with improved partial matching for all fields
   const {
     data: searchResults = [],
     isLoading,
@@ -106,7 +106,7 @@ export const useProductSearch = (selectedProductId?: string) => {
       };
 
       try {
-        // 1. Basic search for product name and brand name (always checked first)
+        // 1. Basic search for product name and brand name
         const { data: basicResults, error: basicError } = await supabase
           .from('product_search_view')
           .select('*')
@@ -116,7 +116,7 @@ export const useProductSearch = (selectedProductId?: string) => {
         if (basicError) throw basicError;
         addUniqueResults(basicResults);
 
-        // 2. Search for "barista" specifically
+        // 2. Search specifically for barista products
         if (lowercaseSearchTerm.includes('barista')) {
           const { data: baristaResults, error: baristaError } = await supabase
             .from('product_search_view')
@@ -128,7 +128,7 @@ export const useProductSearch = (selectedProductId?: string) => {
           addUniqueResults(baristaResults);
         }
 
-        // 3. Property names search (improved matching for property terms)
+        // 3. Property names search with improved partial matching
         const { data: propertyResults, error: propertyError } = await supabase
           .from('product_search_view')
           .select('*')
@@ -138,7 +138,7 @@ export const useProductSearch = (selectedProductId?: string) => {
         if (propertyError) throw propertyError;
         addUniqueResults(propertyResults);
 
-        // 4. Flavor search (with better partial matching)
+        // 4. Flavor search with improved partial matching
         const { data: flavorResults, error: flavorError } = await supabase
           .from('product_search_view')
           .select('*')
@@ -148,7 +148,7 @@ export const useProductSearch = (selectedProductId?: string) => {
         if (flavorError) throw flavorError;
         addUniqueResults(flavorResults);
 
-        // 5. Special case for percentage values and common milk properties
+        // 5. Handle common milk properties and special search terms
         const specialTerms = [
           "oat", "soy", "almond", "coconut", "cashew", "rice", "pea", "hazelnut",
           "organic", "dairy", "lactose", "free", "whole", "skim", "fat",
@@ -177,13 +177,13 @@ export const useProductSearch = (selectedProductId?: string) => {
           }
         }
 
-        // Handle specific percentage searches
+        // Handle percentage searches
         if (lowercaseSearchTerm.includes('%') || /\d+(\.\d+)?/.test(lowercaseSearchTerm)) {
           // Extract numbers
           const numberMatches = lowercaseSearchTerm.match(/\d+(\.\d+)?/g);
           if (numberMatches) {
             for (const number of numberMatches) {
-              // Format number search terms for property names (e.g., "3.5%" -> "three_point_five_percent")
+              // Format number search terms for property names
               const numberWords = {
                 '0': 'zero', '1': 'one', '2': 'two', '3': 'three', '4': 'four',
                 '5': 'five', '6': 'six', '7': 'seven', '8': 'eight', '9': 'nine'
