@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
@@ -76,7 +77,7 @@ export const useProductSearch = (selectedProductId?: string) => {
     }
   }, [selectedProduct, localSelectedProductId, isLoadingSelectedProduct]);
 
-  // Enhanced product search with better support for properties, barista, and flavors
+  // Enhanced product search with improved support for properties, barista status, and flavors
   const {
     data: searchResults = [],
     isLoading,
@@ -105,7 +106,7 @@ export const useProductSearch = (selectedProductId?: string) => {
       };
 
       try {
-        // 1. Basic search for product name and brand name
+        // 1. Basic search for product name and brand name (always checked first)
         const { data: basicResults, error: basicError } = await supabase
           .from('product_search_view')
           .select('*')
@@ -115,7 +116,7 @@ export const useProductSearch = (selectedProductId?: string) => {
         if (basicError) throw basicError;
         addUniqueResults(basicResults);
 
-        // 2. Search for barista products - prioritize if 'barista' is in the search term
+        // 2. Search for "barista" specifically
         if (lowercaseSearchTerm.includes('barista')) {
           const { data: baristaResults, error: baristaError } = await supabase
             .from('product_search_view')
@@ -131,7 +132,7 @@ export const useProductSearch = (selectedProductId?: string) => {
         const { data: propertyResults, error: propertyError } = await supabase
           .from('product_search_view')
           .select('*')
-          .filter('property_names', 'cs', `{%${formattedSearchTerm}%}`)
+          .or(`property_names.cs.{%${formattedSearchTerm}%},property_names.cs.{${formattedSearchTerm}%},property_names.cs.{%${formattedSearchTerm}}`)
           .limit(20);
         
         if (propertyError) throw propertyError;
@@ -141,19 +142,21 @@ export const useProductSearch = (selectedProductId?: string) => {
         const { data: flavorResults, error: flavorError } = await supabase
           .from('product_search_view')
           .select('*')
-          .filter('flavor_names', 'cs', `{%${formattedSearchTerm}%}`)
+          .or(`flavor_names.cs.{%${formattedSearchTerm}%},flavor_names.cs.{${formattedSearchTerm}%},flavor_names.cs.{%${formattedSearchTerm}}`)
           .limit(20);
         
         if (flavorError) throw flavorError;
         addUniqueResults(flavorResults);
 
-        // 5. Special case for percentage values or specific properties
-        // For example, handling searches like "3.5%", "oat", "lactose free"
+        // 5. Special case for percentage values and common milk properties
         const specialTerms = [
-          "oat", "soy", "almond", "lactose", "free", "organic", 
-          "1%", "2%", "3%", "3.5%", "4%", "0%", "whole", "skim", "fat"
+          "oat", "soy", "almond", "coconut", "cashew", "rice", "pea", "hazelnut",
+          "organic", "dairy", "lactose", "free", "whole", "skim", "fat",
+          "1", "2", "3", "3.5", "4", "0", "semi", 
+          "percent", "point", "barista", "full"
         ];
         
+        // Check if any special term appears in the search
         const matchedSpecialTerms = specialTerms.filter(term => 
           lowercaseSearchTerm.includes(term)
         );
@@ -162,6 +165,7 @@ export const useProductSearch = (selectedProductId?: string) => {
           for (const term of matchedSpecialTerms) {
             const formattedTerm = term.replace(/\./g, '_point_').replace(/%/g, '_percent');
             
+            // Try to find products with matching properties or flavors
             const { data: specialResults, error: specialError } = await supabase
               .from('product_search_view')
               .select('*')
@@ -170,6 +174,44 @@ export const useProductSearch = (selectedProductId?: string) => {
             
             if (specialError) throw specialError;
             addUniqueResults(specialResults);
+          }
+        }
+
+        // Handle specific percentage searches
+        if (lowercaseSearchTerm.includes('%') || /\d+(\.\d+)?/.test(lowercaseSearchTerm)) {
+          // Extract numbers
+          const numberMatches = lowercaseSearchTerm.match(/\d+(\.\d+)?/g);
+          if (numberMatches) {
+            for (const number of numberMatches) {
+              // Format number search terms for property names (e.g., "3.5%" -> "three_point_five_percent")
+              const numberWords = {
+                '0': 'zero', '1': 'one', '2': 'two', '3': 'three', '4': 'four',
+                '5': 'five', '6': 'six', '7': 'seven', '8': 'eight', '9': 'nine'
+              };
+              
+              // Convert digit by digit
+              let formattedNumber = '';
+              for (let i = 0; i < number.length; i++) {
+                const char = number[i];
+                if (char === '.') {
+                  formattedNumber += '_point_';
+                } else {
+                  formattedNumber += numberWords[char as keyof typeof numberWords] || char;
+                }
+              }
+              
+              // Add _percent to make a complete property name pattern
+              const propertyPattern = `${formattedNumber}_percent`;
+              
+              const { data: percentResults, error: percentError } = await supabase
+                .from('product_search_view')
+                .select('*')
+                .filter('property_names', 'cs', `{%${propertyPattern}%}`)
+                .limit(20);
+              
+              if (percentError) throw percentError;
+              addUniqueResults(percentResults);
+            }
           }
         }
 

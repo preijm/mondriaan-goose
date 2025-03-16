@@ -2,7 +2,6 @@
 import React, { useState } from "react";
 import { ProductSearch } from "./ProductSearch";
 import { ProductRegistrationDialog } from "./registration-ui/ProductRegistrationDialog";
-import { useToast } from "@/hooks/use-toast";
 
 interface ProductInformationProps {
   brandId: string;
@@ -19,7 +18,6 @@ export const ProductInformation = ({
 }: ProductInformationProps) => {
   const [isRegistrationDialogOpen, setIsRegistrationDialogOpen] = useState(false);
   const [registrationKey, setRegistrationKey] = useState(0); // Add a key to force re-render
-  const { toast } = useToast();
 
   const handleSelectProduct = (productId: string, brandId: string) => {
     console.log("ProductInformation: handleSelectProduct called with", { productId, brandId });
@@ -28,12 +26,7 @@ export const ProductInformation = ({
     setProductId(productId);
     setBrandId(brandId);
     
-    // Toast notification added to confirm product selection
-    toast({
-      title: "Product selected",
-      description: "You can now continue with your milk test.",
-      duration: 2000,
-    });
+    // Toast notification removed as requested
   };
 
   const handleAddNewProduct = () => {
