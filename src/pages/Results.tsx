@@ -19,6 +19,8 @@ import {
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
+import { DrinkPreferenceIcon } from "@/components/milk-test/DrinkPreferenceIcon";
+import { ImageModal } from "@/components/milk-test/ImageModal";
 
 type SortConfig = {
   column: string;
@@ -44,12 +46,14 @@ type MilkTest = {
   notes?: string;
   shop_name?: string;
   picture_path?: string;
+  drink_preference?: string;
 };
 
 const Results = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [sortConfig, setSortConfig] = useState<SortConfig>({ column: 'avg_rating', direction: 'desc' });
   const [expandedProduct, setExpandedProduct] = useState<string | null>(null);
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
   // Fetch aggregated results with average ratings
   const { data: aggregatedResults = [], isLoading: isLoadingAggregated } = useQuery({
@@ -97,7 +101,7 @@ const Results = () => {
       
       const { data, error } = await supabase
         .from('milk_tests_view')
-        .select('id, created_at, brand_name, product_name, rating, username, notes, shop_name, picture_path')
+        .select('id, created_at, brand_name, product_name, rating, username, notes, shop_name, picture_path, drink_preference')
         .eq('product_id', expandedProduct)
         .order('created_at', { ascending: false });
       
@@ -135,6 +139,14 @@ const Results = () => {
       (result.product_name || "").toLowerCase().includes(searchString)
     );
   });
+
+  // Handle opening the image modal
+  const handleImageClick = (picturePath: string) => {
+    if (!picturePath) return;
+    
+    const imageUrl = supabase.storage.from('milk-pictures').getPublicUrl(picturePath).data.publicUrl;
+    setSelectedImage(imageUrl);
+  };
 
   if (isLoadingAggregated) {
     return (
@@ -242,6 +254,7 @@ const Results = () => {
                                     <TableHead>Tester</TableHead>
                                     <TableHead className="hidden md:table-cell">Shop</TableHead>
                                     <TableHead>Notes</TableHead>
+                                    <TableHead>Style</TableHead>
                                     <TableHead>Image</TableHead>
                                   </TableRow>
                                 </TableHeader>
@@ -258,8 +271,17 @@ const Results = () => {
                                       <TableCell className="hidden md:table-cell">{test.shop_name || "-"}</TableCell>
                                       <TableCell className="max-w-xs truncate">{test.notes || "-"}</TableCell>
                                       <TableCell>
+                                        <DrinkPreferenceIcon preference={test.drink_preference} />
+                                      </TableCell>
+                                      <TableCell>
                                         {test.picture_path ? (
-                                          <div className="w-10 h-10 relative overflow-hidden rounded-md">
+                                          <div 
+                                            className="w-10 h-10 relative overflow-hidden rounded-md cursor-pointer transition-transform hover:scale-105"
+                                            onClick={(e) => {
+                                              e.stopPropagation();
+                                              handleImageClick(test.picture_path!);
+                                            }}
+                                          >
                                             <AspectRatio ratio={1/1}>
                                               <img 
                                                 src={`${supabase.storage.from('milk-pictures').getPublicUrl(test.picture_path).data.publicUrl}`} 
@@ -309,6 +331,15 @@ const Results = () => {
           </Table>
         </div>
       </div>
+
+      {/* Image modal for enlarged view */}
+      {selectedImage && (
+        <ImageModal 
+          imageUrl={selectedImage} 
+          isOpen={!!selectedImage} 
+          onClose={() => setSelectedImage(null)} 
+        />
+      )}
     </div>
   );
 };
