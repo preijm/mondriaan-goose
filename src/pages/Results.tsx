@@ -56,19 +56,25 @@ const Results = () => {
   const [sortConfig, setSortConfig] = useState<SortConfig>({ column: 'avg_rating', direction: 'desc' });
   const [expandedProduct, setExpandedProduct] = useState<string | null>(null);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
-  const [selectedNotes, setSelectedNotes] = useState<string | null>(null);
 
   // Fetch aggregated results with average ratings
   const { data: aggregatedResults = [], isLoading: isLoadingAggregated } = useQuery({
     queryKey: ['milk-tests-aggregated', sortConfig],
     queryFn: async () => {
+      console.log("Fetching with sort config:", sortConfig);
+      
+      // Get all milk test data first
       const { data, error } = await supabase
         .from('milk_tests_view')
-        .select('brand_id, brand_name, product_id, product_name, rating')
-        .order(sortConfig.column === 'avg_rating' ? 'rating' : sortConfig.column, { ascending: sortConfig.direction === 'asc' });
+        .select('brand_id, brand_name, product_id, product_name, rating');
       
-      if (error) throw error;
+      if (error) {
+        console.error("Supabase query error:", error);
+        throw error;
+      }
 
+      console.log("Raw data length:", data?.length);
+      
       // Group by product and calculate average
       const productMap = new Map<string, AggregatedResult>();
       
@@ -92,7 +98,28 @@ const Results = () => {
         product.count += 1;
       });
       
-      return Array.from(productMap.values());
+      let results = Array.from(productMap.values());
+      console.log("Aggregated results before sorting:", results.length);
+      
+      // Manual sorting based on sortConfig
+      results.sort((a, b) => {
+        let comparison = 0;
+        
+        if (sortConfig.column === 'brand_name') {
+          comparison = (a.brand_name || '').localeCompare(b.brand_name || '');
+        } else if (sortConfig.column === 'product_name') {
+          comparison = (a.product_name || '').localeCompare(b.product_name || '');
+        } else if (sortConfig.column === 'avg_rating') {
+          comparison = a.avg_rating - b.avg_rating;
+        } else if (sortConfig.column === 'count') {
+          comparison = a.count - b.count;
+        }
+        
+        return sortConfig.direction === 'asc' ? comparison : -comparison;
+      });
+      
+      console.log("Sorted results:", results.length);
+      return results;
     },
   });
 
