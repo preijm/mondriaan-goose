@@ -22,6 +22,7 @@ import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { DrinkPreferenceIcon } from "@/components/milk-test/DrinkPreferenceIcon";
 import { ImageModal } from "@/components/milk-test/ImageModal";
 import { NotesPopover } from "@/components/milk-test/NotesPopover";
+import { ProductPropertyBadges } from "@/components/milk-test/ProductPropertyBadges";
 
 type SortConfig = {
   column: string;
@@ -33,6 +34,9 @@ type AggregatedResult = {
   brand_name: string;
   product_id: string;
   product_name: string;
+  property_names?: string[] | null;
+  is_barista?: boolean;
+  flavor_names?: string[] | null;
   avg_rating: number;
   count: number;
 };
@@ -48,6 +52,9 @@ type MilkTest = {
   shop_name?: string;
   picture_path?: string;
   drink_preference?: string;
+  property_names?: string[] | null;
+  is_barista?: boolean;
+  flavor_names?: string[] | null;
 };
 
 const Results = () => {
@@ -65,7 +72,7 @@ const Results = () => {
       // Get all milk test data first
       const { data, error } = await supabase
         .from('milk_tests_view')
-        .select('brand_id, brand_name, product_id, product_name, rating');
+        .select('brand_id, brand_name, product_id, product_name, property_names, is_barista, flavor_names, rating');
       
       if (error) {
         console.error("Supabase query error:", error);
@@ -87,6 +94,9 @@ const Results = () => {
             brand_name: item.brand_name || '',
             product_id: item.product_id,
             product_name: item.product_name || '',
+            property_names: item.property_names || null,
+            is_barista: item.is_barista || false,
+            flavor_names: item.flavor_names || null,
             avg_rating: 0,
             count: 0
           });
@@ -130,7 +140,7 @@ const Results = () => {
       
       const { data, error } = await supabase
         .from('milk_tests_view')
-        .select('id, created_at, brand_name, product_name, rating, username, notes, shop_name, picture_path, drink_preference')
+        .select('id, created_at, brand_name, product_name, rating, username, notes, shop_name, picture_path, drink_preference, property_names, is_barista, flavor_names')
         .eq('product_id', expandedProduct)
         .order('created_at', { ascending: false }); // Ensure newest results are on top
       
@@ -264,7 +274,16 @@ const Results = () => {
                     onClick={() => toggleProductExpand(result.product_id)}
                   >
                     <TableCell className="font-medium">{result.brand_name}</TableCell>
-                    <TableCell>{result.product_name}</TableCell>
+                    <TableCell>
+                      <div>
+                        <div>{result.product_name}</div>
+                        <ProductPropertyBadges 
+                          propertyNames={result.property_names}
+                          isBarista={result.is_barista}
+                          flavorNames={result.flavor_names}
+                        />
+                      </div>
+                    </TableCell>
                     <TableCell>
                       <div className="rounded-full h-8 w-8 flex items-center justify-center bg-cream-300">
                         <span className="font-semibold text-milk-500">{result.avg_rating.toFixed(1)}</span>
