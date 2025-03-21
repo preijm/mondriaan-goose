@@ -16,7 +16,7 @@ export const PriceInput = ({
   const priceValue = parseFloat(price) || 5; // Default to middle value (5)
 
   const handlePriceChange = (value: number[]) => {
-    setPrice(value[0].toFixed(1));
+    setPrice(value[0].toString());
   };
 
   const getPriceLabel = (value: number) => {
@@ -38,7 +38,7 @@ export const PriceInput = ({
           onValueChange={handlePriceChange} 
           min={1} 
           max={10} 
-          step={0.1} 
+          step={1} 
           className="relative flex w-full touch-none select-none items-center"
         >
           <SliderPrimitive.Track className="relative h-1.5 w-full grow overflow-hidden rounded-full bg-secondary">
@@ -50,7 +50,7 @@ export const PriceInput = ({
         </SliderPrimitive.Root>
         <div className="flex items-center gap-1 min-w-[50px] justify-center">
           <span className="flex items-center justify-center bg-cream-300 rounded-full h-8 w-12 font-semibold">
-            {priceValue.toFixed(1)}
+            {priceValue}
           </span>
         </div>
       </div>
