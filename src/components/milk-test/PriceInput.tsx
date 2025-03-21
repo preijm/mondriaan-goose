@@ -38,10 +38,6 @@ export const PriceInput = ({
 
   return (
     <div className="space-y-4 w-full">
-      <div className="flex items-center justify-between mb-2">
-        <span className="text-sm text-muted-foreground">Low value</span>
-        <span className="text-sm text-muted-foreground">High value</span>
-      </div>
       <div className="flex items-center gap-2">
         <SliderPrimitive.Root 
           value={[priceValue]} 
@@ -66,9 +62,6 @@ export const PriceInput = ({
       </div>
       <div className="text-sm text-center font-medium">
         {getPriceLabel(priceValue)}
-      </div>
-      <div className="text-xs text-muted-foreground text-center">
-        How would you rate the value for money?
       </div>
     </div>
   );
