@@ -1,5 +1,5 @@
 
-import React, { useState } from "react";
+import React from "react";
 import * as SliderPrimitive from "@radix-ui/react-slider";
 import { Coins } from "lucide-react";
 
@@ -13,17 +13,27 @@ export const PriceInput = ({
   setPrice
 }: PriceInputProps) => {
   // Convert price string to number for the slider
-  const priceValue = parseFloat(price) || 5; // Default to middle value (5)
+  const priceValue = parseFloat(price) || 3; // Default to middle value (3)
 
   const handlePriceChange = (value: number[]) => {
     setPrice(value[0].toString());
   };
 
   const getPriceLabel = (value: number) => {
-    if (value <= 3) return "Poor value";
-    if (value <= 5) return "Fair value";
-    if (value <= 7) return "Good value";
-    return "Excellent value";
+    switch (value) {
+      case 1:
+        return "❌ Total waste of money";
+      case 2:
+        return "⚠️ Not worth it";
+      case 3:
+        return "✅ Fair price";
+      case 4:
+        return "🏆 Good deal";
+      case 5:
+        return "💎 Great value for money";
+      default:
+        return "✅ Fair price";
+    }
   };
 
   return (
@@ -37,7 +47,7 @@ export const PriceInput = ({
           value={[priceValue]} 
           onValueChange={handlePriceChange} 
           min={1} 
-          max={10} 
+          max={5} 
           step={1} 
           className="relative flex w-full touch-none select-none items-center"
         >
@@ -49,7 +59,7 @@ export const PriceInput = ({
           </SliderPrimitive.Thumb>
         </SliderPrimitive.Root>
         <div className="flex items-center gap-1 min-w-[50px] justify-center">
-          <span className="flex items-center justify-center bg-cream-300 rounded-full h-8 w-12 font-semibold">
+          <span className="flex items-center justify-center bg-cream-300 rounded-full h-8 w-8 font-semibold">
             {priceValue}
           </span>
         </div>
