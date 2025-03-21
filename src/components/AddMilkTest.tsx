@@ -60,10 +60,13 @@ export const AddMilkTest = () => {
           shop={formState.shop}
           setShop={formSetters.setShop}
         />
-        <PriceInput
-          price={formState.price}
-          setPrice={formSetters.setPrice}
-        />
+        <div className="space-y-2">
+          <h3 className="text-lg font-medium text-gray-800">Price-to-Quality Ratio</h3>
+          <PriceInput
+            price={formState.price}
+            setPrice={formSetters.setPrice}
+          />
+        </div>
       </div>
 
       <div className="space-y-4">

@@ -12,7 +12,7 @@ export const useMilkTestForm = () => {
   const [shop, setShop] = useState<string>("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [drinkPreference, setDrinkPreference] = useState("cold");
-  const [price, setPrice] = useState("");
+  const [price, setPrice] = useState("5.0"); // Default to middle value for price-to-quality ratio
   const [picture, setPicture] = useState<File | null>(null);
   const [picturePreview, setPicturePreview] = useState<string | null>(null);
 
@@ -30,7 +30,7 @@ export const useMilkTestForm = () => {
       notes,
       shop,
       drinkPreference,
-      price
+      priceToQualityRatio: price // Renamed for clarity
     });
     
     // Validation moved to the component itself
@@ -85,7 +85,7 @@ export const useMilkTestForm = () => {
 
       console.log("Inserting milk test with user_id:", userData.user.id);
       
-      // Insert the milk test
+      // Insert the milk test with price_quality_ratio instead of price
       const { data: milkTest, error: milkTestError } = await supabase
         .from('milk_tests')
         .insert({
@@ -95,7 +95,7 @@ export const useMilkTestForm = () => {
           notes,
           drink_preference: drinkPreference,
           user_id: userData.user.id,
-          price: price ? parseFloat(price) : null,
+          price_quality_ratio: price ? parseFloat(price) : null, // Store as price_quality_ratio
           picture_path: picturePath
         })
         .select()

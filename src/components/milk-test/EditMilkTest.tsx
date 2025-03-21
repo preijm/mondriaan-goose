@@ -10,6 +10,7 @@ import { RatingSelect } from "./RatingSelect";
 import { PictureCapture } from "./PictureCapture";
 import { Separator } from "@/components/ui/separator";
 import { BaristaToggle } from "./BaristaToggle";
+import { PriceInput } from "./PriceInput";
 import {
   Dialog,
   DialogContent,
@@ -32,6 +33,7 @@ interface EditMilkTestProps {
     product_type_keys?: string[];
     shop_name?: string;
     picture_path?: string;
+    price_quality_ratio?: number;
   };
   open: boolean;
   onOpenChange: (open: boolean) => void;
@@ -45,6 +47,7 @@ export const EditMilkTest = ({ test, open, onOpenChange, onSuccess }: EditMilkTe
   const [selectedProductProperties, setSelectedProductProperties] = useState<string[]>(test.product_type_keys || []);
   const [shop, setShop] = useState(test.shop_name || "");
   const [isBarista, setIsBarista] = useState(test.is_barista || false);
+  const [priceQualityRatio, setPriceQualityRatio] = useState(test.price_quality_ratio ? test.price_quality_ratio.toString() : "5.0");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [picture, setPicture] = useState<File | null>(null);
   const [picturePreview, setPicturePreview] = useState<string | null>(null);
@@ -128,7 +131,7 @@ export const EditMilkTest = ({ test, open, onOpenChange, onSuccess }: EditMilkTe
         }
       }
 
-      // Update milk test without brand_id and is_barista (they're in the products table now)
+      // Update milk test with price_quality_ratio instead of price
       const { error: milkTestError } = await supabase
         .from('milk_tests')
         .update({
@@ -136,6 +139,7 @@ export const EditMilkTest = ({ test, open, onOpenChange, onSuccess }: EditMilkTe
           shop_id: shopData?.id || null,
           rating,
           notes,
+          price_quality_ratio: priceQualityRatio ? parseFloat(priceQualityRatio) : null,
           picture_path: picturePath
         })
         .eq('id', test.id);
@@ -172,7 +176,7 @@ export const EditMilkTest = ({ test, open, onOpenChange, onSuccess }: EditMilkTe
         </DialogHeader>
         
         <form onSubmit={handleSubmit} className="space-y-6">
-          {/* Product information section remains largely the same */}
+          {/* Product information section */}
           <div className="space-y-4">
             <h2 className="text-lg font-semibold text-gray-900">Product Information</h2>
             <div className="p-4 bg-gray-100 rounded-md">
@@ -213,6 +217,15 @@ export const EditMilkTest = ({ test, open, onOpenChange, onSuccess }: EditMilkTe
                 <label className="text-sm font-medium mb-2 block">Rating</label>
                 <RatingSelect rating={rating} setRating={setRating} />
               </div>
+              
+              <div>
+                <label className="text-sm font-medium mb-2 block">Price-to-Quality Ratio</label>
+                <PriceInput 
+                  price={priceQualityRatio} 
+                  setPrice={setPriceQualityRatio} 
+                />
+              </div>
+              
               <div className="flex gap-4 items-start">
                 <div className="flex-1">
                   <label className="text-sm font-medium mb-2 block">Notes</label>
