@@ -65,6 +65,8 @@ export const AddMilkTest = () => {
           <PriceInput
             price={formState.price}
             setPrice={formSetters.setPrice}
+            hasChanged={formState.priceHasChanged}
+            setHasChanged={formSetters.setPriceHasChanged}
           />
         </div>
       </div>

@@ -12,7 +12,8 @@ export const useMilkTestForm = () => {
   const [shop, setShop] = useState<string>("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [drinkPreference, setDrinkPreference] = useState("cold");
-  const [price, setPrice] = useState("5.0"); // Default to middle value for price-to-quality ratio
+  const [price, setPrice] = useState("3"); // Default to middle value for price-to-quality ratio
+  const [priceHasChanged, setPriceHasChanged] = useState(false);
   const [picture, setPicture] = useState<File | null>(null);
   const [picturePreview, setPicturePreview] = useState<string | null>(null);
 
@@ -30,7 +31,7 @@ export const useMilkTestForm = () => {
       notes,
       shop,
       drinkPreference,
-      priceToQualityRatio: price // Renamed for clarity
+      priceToQualityRatio: priceHasChanged ? price : null // Only include price if it was changed
     });
     
     // Validation moved to the component itself
@@ -85,19 +86,25 @@ export const useMilkTestForm = () => {
 
       console.log("Inserting milk test with user_id:", userData.user.id);
       
-      // Insert the milk test with price_quality_ratio instead of price
+      // Only include price_quality_ratio if the user has changed it
+      const milkTestData: any = {
+        product_id: productId,
+        shop_id: shopData?.id || null,
+        rating,
+        notes,
+        drink_preference: drinkPreference,
+        user_id: userData.user.id,
+        picture_path: picturePath
+      };
+      
+      // Only add price_quality_ratio if the user actually changed it
+      if (priceHasChanged) {
+        milkTestData.price_quality_ratio = price ? parseFloat(price) : null;
+      }
+
       const { data: milkTest, error: milkTestError } = await supabase
         .from('milk_tests')
-        .insert({
-          product_id: productId,
-          shop_id: shopData?.id || null,
-          rating,
-          notes,
-          drink_preference: drinkPreference,
-          user_id: userData.user.id,
-          price_quality_ratio: price ? parseFloat(price) : null, // Store as price_quality_ratio
-          picture_path: picturePath
-        })
+        .insert(milkTestData)
         .select()
         .single();
 
@@ -136,6 +143,7 @@ export const useMilkTestForm = () => {
       isSubmitting,
       drinkPreference,
       price,
+      priceHasChanged,
       picture,
       picturePreview,
     },
@@ -147,6 +155,7 @@ export const useMilkTestForm = () => {
       setShop,
       setDrinkPreference,
       setPrice,
+      setPriceHasChanged,
       setPicture,
       setPicturePreview,
     },

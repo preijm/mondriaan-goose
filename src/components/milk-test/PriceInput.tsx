@@ -1,22 +1,29 @@
 
-import React from "react";
+import React, { useEffect } from "react";
 import * as SliderPrimitive from "@radix-ui/react-slider";
 import { Coins } from "lucide-react";
 
 interface PriceInputProps {
   price: string;
   setPrice: (price: string) => void;
+  hasChanged: boolean;
+  setHasChanged: (hasChanged: boolean) => void;
 }
 
 export const PriceInput = ({
   price,
-  setPrice
+  setPrice,
+  hasChanged,
+  setHasChanged
 }: PriceInputProps) => {
   // Convert price string to number for the slider
   const priceValue = parseFloat(price) || 3; // Default to middle value (3)
 
   const handlePriceChange = (value: number[]) => {
     setPrice(value[0].toString());
+    if (!hasChanged) {
+      setHasChanged(true);
+    }
   };
 
   const getPriceLabel = (value: number) => {
