@@ -32,15 +32,15 @@ export const PriceInput = ({
   const getPriceLabel = (value: string) => {
     switch (value) {
       case "1":
-        return "Total waste of money";
+        return "❌ Total waste of money";
       case "2":
-        return "Not worth it";
+        return "⚠️ Not worth it";
       case "3":
-        return "Fair price";
+        return "✅ Fair price";
       case "4":
-        return "Good deal";
+        return "🏆 Good deal";
       case "5":
-        return "Great value for money";
+        return "💎 Great value for money";
       default:
         return "Select a price rating";
     }
@@ -62,15 +62,11 @@ export const PriceInput = ({
             aria-label={`Rating ${value}`}
           >
             <span className="text-sm font-medium">
-              {getPriceLabel(value.toString())}
+              {getPriceLabel(value.toString()).split(" ")[0]}
             </span>
           </ToggleGroupItem>
         ))}
       </ToggleGroup>
-      
-      <div className="text-sm text-center font-medium">
-        {priceValue ? getPriceLabel(priceValue) : "No price rating selected"}
-      </div>
     </div>
   );
 };
