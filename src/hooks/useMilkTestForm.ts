@@ -12,7 +12,7 @@ export const useMilkTestForm = () => {
   const [shop, setShop] = useState<string>("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [drinkPreference, setDrinkPreference] = useState("cold");
-  const [price, setPrice] = useState("3"); // Default to middle value for price-to-quality ratio
+  const [price, setPrice] = useState(""); // Changed from "3" to "" for no default selection
   const [priceHasChanged, setPriceHasChanged] = useState(false);
   const [picture, setPicture] = useState<File | null>(null);
   const [picturePreview, setPicturePreview] = useState<string | null>(null);

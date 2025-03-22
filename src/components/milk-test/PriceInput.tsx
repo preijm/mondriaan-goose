@@ -1,6 +1,13 @@
 
 import React from "react";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+import { X, AlertTriangle, Check, Trophy, Diamond } from "lucide-react";
+import { 
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger
+} from "@/components/ui/tooltip";
 
 interface PriceInputProps {
   price: string;
@@ -29,44 +36,67 @@ export const PriceInput = ({
     }
   };
 
-  const getPriceLabel = (value: string) => {
+  const getPriceTooltip = (value: string) => {
     switch (value) {
       case "1":
-        return "❌ Total waste of money";
+        return "Total waste of money";
       case "2":
-        return "⚠️ Not worth it";
+        return "Not worth it";
       case "3":
-        return "✅ Fair price";
+        return "Fair price";
       case "4":
-        return "🏆 Good deal";
+        return "Good deal";
       case "5":
-        return "💎 Great value for money";
+        return "Great value for money";
       default:
-        return "Select a price rating";
+        return "";
+    }
+  };
+
+  const getPriceIcon = (value: string) => {
+    switch (value) {
+      case "1":
+        return <X className="h-5 w-5" color="#FF0000" />;
+      case "2":
+        return <AlertTriangle className="h-5 w-5" color="#FFA500" />;
+      case "3":
+        return <Check className="h-5 w-5" color="#00A000" />;
+      case "4":
+        return <Trophy className="h-5 w-5" color="#FFC107" />;
+      case "5":
+        return <Diamond className="h-5 w-5" color="#00BFFF" />;
+      default:
+        return null;
     }
   };
 
   return (
     <div className="space-y-4 w-full">
-      <ToggleGroup 
-        type="single" 
-        value={priceValue} 
-        onValueChange={handlePriceChange}
-        className="flex flex-wrap justify-between gap-2 w-full"
-      >
-        {[1, 2, 3, 4, 5].map((value) => (
-          <ToggleGroupItem 
-            key={value} 
-            value={value.toString()}
-            className="flex-1 py-2 border rounded-md data-[state=on]:bg-cream-300 data-[state=on]:text-milk-500 min-w-16"
-            aria-label={`Rating ${value}`}
-          >
-            <span className="text-sm font-medium">
-              {getPriceLabel(value.toString()).split(" ")[0]}
-            </span>
-          </ToggleGroupItem>
-        ))}
-      </ToggleGroup>
+      <TooltipProvider>
+        <ToggleGroup 
+          type="single" 
+          value={priceValue} 
+          onValueChange={handlePriceChange}
+          className="flex flex-wrap justify-between gap-2 w-full"
+        >
+          {[1, 2, 3, 4, 5].map((value) => (
+            <Tooltip key={value}>
+              <TooltipTrigger asChild>
+                <ToggleGroupItem 
+                  value={value.toString()}
+                  className="flex-1 py-2 border rounded-md data-[state=on]:bg-cream-300 data-[state=on]:text-milk-500 min-w-16 flex items-center justify-center"
+                  aria-label={`Rating ${value}`}
+                >
+                  {getPriceIcon(value.toString())}
+                </ToggleGroupItem>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>{getPriceTooltip(value.toString())}</p>
+              </TooltipContent>
+            </Tooltip>
+          ))}
+        </ToggleGroup>
+      </TooltipProvider>
     </div>
   );
 };
