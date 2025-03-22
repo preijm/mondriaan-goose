@@ -47,10 +47,11 @@ export const EditMilkTest = ({ test, open, onOpenChange, onSuccess }: EditMilkTe
   const [selectedProductProperties, setSelectedProductProperties] = useState<string[]>(test.product_type_keys || []);
   const [shop, setShop] = useState(test.shop_name || "");
   const [isBarista, setIsBarista] = useState(test.is_barista || false);
-  const [priceQualityRatio, setPriceQualityRatio] = useState(test.price_quality_ratio ? test.price_quality_ratio.toString() : "5.0");
+  const [priceQualityRatio, setPriceQualityRatio] = useState(test.price_quality_ratio ? test.price_quality_ratio.toString() : "3");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [picture, setPicture] = useState<File | null>(null);
   const [picturePreview, setPicturePreview] = useState<string | null>(null);
+  const [priceHasChanged, setPriceHasChanged] = useState(test.price_quality_ratio !== undefined && test.price_quality_ratio !== null);
 
   const { toast } = useToast();
 
@@ -131,17 +132,23 @@ export const EditMilkTest = ({ test, open, onOpenChange, onSuccess }: EditMilkTe
         }
       }
 
-      // Update milk test with price_quality_ratio instead of price
+      // Create the base update data without price_quality_ratio
+      const updateData: any = {
+        product_id: productId,
+        shop_id: shopData?.id || null,
+        rating,
+        notes,
+        picture_path: picturePath
+      };
+
+      // Only include price_quality_ratio if the user has interacted with the slider
+      if (priceHasChanged) {
+        updateData.price_quality_ratio = priceQualityRatio ? parseFloat(priceQualityRatio) : null;
+      }
+
       const { error: milkTestError } = await supabase
         .from('milk_tests')
-        .update({
-          product_id: productId,
-          shop_id: shopData?.id || null,
-          rating,
-          notes,
-          price_quality_ratio: priceQualityRatio ? parseFloat(priceQualityRatio) : null,
-          picture_path: picturePath
-        })
+        .update(updateData)
         .eq('id', test.id);
 
       if (milkTestError) throw milkTestError;
@@ -222,7 +229,9 @@ export const EditMilkTest = ({ test, open, onOpenChange, onSuccess }: EditMilkTe
                 <label className="text-sm font-medium mb-2 block">Price-to-Quality Ratio</label>
                 <PriceInput 
                   price={priceQualityRatio} 
-                  setPrice={setPriceQualityRatio} 
+                  setPrice={setPriceQualityRatio}
+                  hasChanged={priceHasChanged}
+                  setHasChanged={setPriceHasChanged}
                 />
               </div>
               
