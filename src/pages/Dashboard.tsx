@@ -5,17 +5,23 @@ import { MilkCharts } from "@/components/MilkCharts";
 import { Navigation } from "@/components/Navigation";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { MilkTestResult } from "@/types/milk-test";
 
 const Dashboard = () => {
   const { data: results = [], isLoading, error } = useQuery({
     queryKey: ['milk-tests'],
     queryFn: async () => {
+      // Cast the result to unknown first and then to MilkTestResult[]
+      // This is a workaround since milk_tests_view isn't in the generated types
       const { data, error } = await supabase
         .from('milk_tests_view')
-        .select('*');
+        .select('*') as unknown as { 
+          data: MilkTestResult[] | null, 
+          error: Error | null 
+        };
       
       if (error) throw error;
-      return data;
+      return data || [];
     }
   });
 

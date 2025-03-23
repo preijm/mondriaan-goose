@@ -23,6 +23,7 @@ import { DrinkPreferenceIcon } from "@/components/milk-test/DrinkPreferenceIcon"
 import { ImageModal } from "@/components/milk-test/ImageModal";
 import { NotesPopover } from "@/components/milk-test/NotesPopover";
 import { ProductPropertyBadges } from "@/components/milk-test/ProductPropertyBadges";
+import { MilkTestResult } from "@/types/milk-test";
 
 type SortConfig = {
   column: string;
@@ -41,22 +42,6 @@ type AggregatedResult = {
   count: number;
 };
 
-type MilkTest = {
-  id: string;
-  created_at: string;
-  brand_name: string;
-  product_name: string;
-  rating: number;
-  username: string;
-  notes?: string;
-  shop_name?: string;
-  picture_path?: string;
-  drink_preference?: string;
-  property_names?: string[] | null;
-  is_barista?: boolean;
-  flavor_names?: string[] | null;
-};
-
 const Results = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [sortConfig, setSortConfig] = useState<SortConfig>({ column: 'avg_rating', direction: 'desc' });
@@ -72,7 +57,10 @@ const Results = () => {
       // Get all milk test data first
       const { data, error } = await supabase
         .from('milk_tests_view')
-        .select('brand_id, brand_name, product_id, product_name, property_names, is_barista, flavor_names, rating');
+        .select('brand_id, brand_name, product_id, product_name, property_names, is_barista, flavor_names, rating') as unknown as {
+          data: MilkTestResult[] | null,
+          error: Error | null
+        };
       
       if (error) {
         console.error("Supabase query error:", error);
@@ -84,7 +72,7 @@ const Results = () => {
       // Group by product and calculate average
       const productMap = new Map<string, AggregatedResult>();
       
-      data.forEach(item => {
+      data?.forEach(item => {
         if (!item.product_id) return;
         
         const key = item.product_id;
@@ -142,10 +130,13 @@ const Results = () => {
         .from('milk_tests_view')
         .select('id, created_at, brand_name, product_name, rating, username, notes, shop_name, picture_path, drink_preference, property_names, is_barista, flavor_names')
         .eq('product_id', expandedProduct)
-        .order('created_at', { ascending: false }); // Ensure newest results are on top
+        .order('created_at', { ascending: false }) as unknown as {
+          data: MilkTestResult[] | null,
+          error: Error | null
+        };
       
       if (error) throw error;
-      return data as MilkTest[];
+      return data || [];
     },
     enabled: !!expandedProduct
   });

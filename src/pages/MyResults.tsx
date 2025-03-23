@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { Navigation } from "@/components/Navigation";
 import { useQuery } from "@tanstack/react-query";
@@ -9,6 +10,7 @@ import { Pencil, Trash2, ArrowUpDown, ChevronDown, ChevronUp } from "lucide-reac
 import { useToast } from "@/components/ui/use-toast";
 import { EditMilkTest } from "@/components/milk-test/EditMilkTest";
 import { UserStatsOverview } from "@/components/UserStatsOverview";
+import { MilkTestResult } from "@/types/milk-test";
 import {
   Table,
   TableBody,
@@ -27,7 +29,7 @@ const MyResults = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const [searchTerm, setSearchTerm] = useState("");
-  const [editingTest, setEditingTest] = useState<any>(null);
+  const [editingTest, setEditingTest] = useState<MilkTestResult | null>(null);
   const [sortConfig, setSortConfig] = useState<SortConfig>({ column: 'created_at', direction: 'desc' });
 
   const { data: results = [], isLoading, error, refetch } = useQuery({
@@ -39,14 +41,18 @@ const MyResults = () => {
         return [];
       }
       
+      // Cast to unknown first, then to our specific type
       const { data, error } = await supabase
         .from('milk_tests_view')
         .select('*')
         .eq('user_id', user.id)
-        .order(sortConfig.column, { ascending: sortConfig.direction === 'asc' });
+        .order(sortConfig.column, { ascending: sortConfig.direction === 'asc' }) as unknown as {
+          data: MilkTestResult[] | null,
+          error: Error | null
+        };
       
       if (error) throw error;
-      return data;
+      return data || [];
     }
   });
 

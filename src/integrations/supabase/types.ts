@@ -272,6 +272,13 @@ export type Database = {
             foreignKeyName: "products_brand_id_fkey"
             columns: ["brand_id"]
             isOneToOne: false
+            referencedRelation: "milk_tests_view"
+            referencedColumns: ["brand_id"]
+          },
+          {
+            foreignKeyName: "products_brand_id_fkey"
+            columns: ["brand_id"]
+            isOneToOne: false
             referencedRelation: "product_search_view"
             referencedColumns: ["brand_id"]
           },
@@ -373,6 +380,66 @@ export type Database = {
       }
     }
     Views: {
+      milk_tests_view: {
+        Row: {
+          brand_id: string | null
+          brand_name: string | null
+          created_at: string | null
+          drink_preference: string | null
+          flavor_names: string[] | null
+          id: string | null
+          is_barista: boolean | null
+          notes: string | null
+          picture_path: string | null
+          price: number | null
+          product_id: string | null
+          product_name: string | null
+          property_names: string[] | null
+          rating: number | null
+          shop_country_code: string | null
+          shop_id: string | null
+          shop_name: string | null
+          user_id: string | null
+          username: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "fk_milk_tests_profiles"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "milk_tests_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "product_search_view"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "milk_tests_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "milk_tests_shop_id_fkey"
+            columns: ["shop_id"]
+            isOneToOne: false
+            referencedRelation: "shops"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "shops_country_code_fkey"
+            columns: ["shop_country_code"]
+            isOneToOne: false
+            referencedRelation: "countries"
+            referencedColumns: ["code"]
+          },
+        ]
+      }
       product_search_view: {
         Row: {
           brand_id: string | null
