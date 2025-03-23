@@ -55,20 +55,21 @@ export const AddMilkTest = () => {
       </div>
 
       <div className="space-y-4">
+        <h2 className="text-xl font-semibold text-gray-900">Price-to-Quality Ratio</h2>
+        <PriceInput
+          price={formState.price}
+          setPrice={formSetters.setPrice}
+          hasChanged={formState.priceHasChanged}
+          setHasChanged={formSetters.setPriceHasChanged}
+        />
+      </div>
+
+      <div className="space-y-4">
         <h2 className="text-xl font-semibold text-gray-900">Buying Information</h2>
         <ShopSelect
           shop={formState.shop}
           setShop={formSetters.setShop}
         />
-        <div className="space-y-2">
-          <h3 className="text-lg font-medium text-gray-800">Price-to-Quality Ratio</h3>
-          <PriceInput
-            price={formState.price}
-            setPrice={formSetters.setPrice}
-            hasChanged={formState.priceHasChanged}
-            setHasChanged={formSetters.setPriceHasChanged}
-          />
-        </div>
       </div>
 
       <div className="space-y-4">
