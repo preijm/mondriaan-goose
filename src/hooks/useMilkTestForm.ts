@@ -12,7 +12,7 @@ export const useMilkTestForm = () => {
   const [shop, setShop] = useState<string>("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [drinkPreference, setDrinkPreference] = useState("cold");
-  const [price, setPrice] = useState(""); // Changed from "3" to "" for no default selection
+  const [price, setPrice] = useState(""); // Empty string for no default selection
   const [priceHasChanged, setPriceHasChanged] = useState(false);
   const [picture, setPicture] = useState<File | null>(null);
   const [picturePreview, setPicturePreview] = useState<string | null>(null);
@@ -31,7 +31,7 @@ export const useMilkTestForm = () => {
       notes,
       shop,
       drinkPreference,
-      priceToQualityRatio: priceHasChanged ? price : null // Only include price if it was changed
+      priceQualityRatio: price // Log the actual price value
     });
     
     // Validation moved to the component itself
@@ -97,9 +97,9 @@ export const useMilkTestForm = () => {
         picture_path: picturePath
       };
       
-      // Only add price_quality_ratio if the user actually changed it
-      if (priceHasChanged) {
-        milkTestData.price_quality_ratio = price ? parseFloat(price) : null;
+      // Only add price_quality_ratio if the user actually changed it and selected a value
+      if (priceHasChanged && price) {
+        milkTestData.price = parseFloat(price);
       }
 
       const { data: milkTest, error: milkTestError } = await supabase

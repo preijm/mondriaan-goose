@@ -25,13 +25,17 @@ export const PriceInput = ({
   const priceValue = price || "";
 
   const handlePriceChange = (value: string) => {
-    // If value is empty or the same as current (toggle off), reset it
-    const newValue = value === price ? "" : value;
-    setPrice(newValue);
-    
-    // Mark as changed even when deselecting
-    if (!hasChanged) {
-      setHasChanged(true);
+    if (value) {
+      // If a value is selected, update the price
+      setPrice(value);
+      
+      // Mark as changed
+      if (!hasChanged) {
+        setHasChanged(true);
+      }
+    } else {
+      // If no value is passed (empty string), reset it
+      setPrice("");
     }
   };
 
