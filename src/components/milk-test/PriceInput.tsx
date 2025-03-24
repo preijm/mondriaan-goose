@@ -1,12 +1,7 @@
 
 import React from "react";
-import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
-import { 
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger
-} from "@/components/ui/tooltip";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { X, AlertTriangle, Check, Trophy, Diamond } from "lucide-react";
 
 interface PriceInputProps {
   price: string;
@@ -21,6 +16,8 @@ export const PriceInput = ({
   hasChanged,
   setHasChanged
 }: PriceInputProps) => {
+  const isMobile = useIsMobile();
+  
   // Ensure price is a string and default to empty string if null/undefined
   const priceValue = price || "";
 
@@ -37,70 +34,61 @@ export const PriceInput = ({
     console.log('Price quality ratio selected:', value);
   };
 
-  const getPriceTooltip = (value: string) => {
-    switch (value) {
-      case "1":
-        return "Total waste of money";
-      case "2":
-        return "Not worth it";
-      case "3":
-        return "Fair price";
-      case "4":
-        return "Good deal";
-      case "5":
-        return "Great value for money";
-      default:
-        return "";
-    }
-  };
-
-  const getPriceEmoji = (value: string) => {
-    switch (value) {
-      case "1":
-        return "❌";
-      case "2":
-        return "⚠️";
-      case "3":
-        return "✅";
-      case "4":
-        return "🏆";
-      case "5":
-        return "💎";
-      default:
-        return null;
-    }
-  };
+  const buttons = [
+    {
+      value: "1",
+      icon: X,
+      label: "Total waste of money",
+      activeClass: "bg-soft-pink text-red-600",
+    },
+    {
+      value: "2",
+      icon: AlertTriangle,
+      label: "Not worth it",
+      activeClass: "bg-soft-yellow text-yellow-600",
+    },
+    {
+      value: "3",
+      icon: Check,
+      label: "Fair price",
+      activeClass: "bg-soft-green text-green-600",
+    },
+    {
+      value: "4",
+      icon: Trophy,
+      label: "Good deal",
+      activeClass: "bg-amber-100 text-amber-600",
+    },
+    {
+      value: "5",
+      icon: Diamond,
+      label: "Great value for money",
+      activeClass: "bg-soft-blue text-blue-600",
+    },
+  ];
 
   // For debugging
   console.log('Price quality ratio value in PriceInput:', priceValue);
 
   return (
-    <div className="space-y-4 w-full">
-      <TooltipProvider>
-        <ToggleGroup 
-          type="single" 
-          value={priceValue} 
-          onValueChange={handlePriceChange}
-          className="flex flex-wrap justify-between gap-2 w-full"
+    <div className={`grid ${isMobile ? 'grid-cols-2 gap-2' : 'grid-cols-5 gap-4'}`}>
+      {buttons.map(({ value, icon: Icon, label, activeClass }) => (
+        <button
+          key={value}
+          type="button"
+          onClick={() => handlePriceChange(value)}
+          className={`flex flex-col items-center p-3 rounded-lg transition-all ${
+            priceValue === value
+              ? activeClass
+              : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+          }`}
+          aria-label={label}
+          title={label}
         >
-          {[1, 2, 3, 4, 5].map((value) => (
-            <Tooltip key={value}>
-              <TooltipTrigger asChild>
-                <ToggleGroupItem 
-                  value={value.toString()}
-                  className="flex-1 py-2 border rounded-md data-[state=on]:bg-cream-300 data-[state=on]:text-milk-500 min-w-16 flex items-center justify-center"
-                  aria-label={`Rating ${value}`}
-                >
-                  <span className="text-xl">{getPriceEmoji(value.toString())}</span>
-                </ToggleGroupItem>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>{getPriceTooltip(value.toString())}</p>
-              </TooltipContent>
-            </Tooltip>
-          ))}
-        </ToggleGroup>
-      </TooltipProvider>
+          <Icon className="w-6 h-6 mb-1" />
+          {!isMobile && <span className="text-sm text-center">{label}</span>}
+        </button>
+      ))}
     </div>
   );
 };
