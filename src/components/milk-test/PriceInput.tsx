@@ -1,7 +1,6 @@
 
 import React from "react";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { X, AlertTriangle, Check, Trophy, Diamond } from "lucide-react";
 
 interface PriceInputProps {
   price: string;
@@ -37,31 +36,31 @@ export const PriceInput = ({
   const buttons = [
     {
       value: "1",
-      icon: X,
+      emoji: "😡",
       label: "Total waste of money",
       activeClass: "bg-soft-pink text-red-600",
     },
     {
       value: "2",
-      icon: AlertTriangle,
+      emoji: "😕",
       label: "Not worth it",
       activeClass: "bg-soft-yellow text-yellow-600",
     },
     {
       value: "3",
-      icon: Check,
+      emoji: "😐",
       label: "Fair price",
       activeClass: "bg-soft-green text-green-600",
     },
     {
       value: "4",
-      icon: Trophy,
+      emoji: "😊",
       label: "Good deal",
       activeClass: "bg-amber-100 text-amber-600",
     },
     {
       value: "5",
-      icon: Diamond,
+      emoji: "🤩",
       label: "Great value for money",
       activeClass: "bg-soft-blue text-blue-600",
     },
@@ -72,7 +71,7 @@ export const PriceInput = ({
 
   return (
     <div className={`grid ${isMobile ? 'grid-cols-2 gap-2' : 'grid-cols-5 gap-4'}`}>
-      {buttons.map(({ value, icon: Icon, label, activeClass }) => (
+      {buttons.map(({ value, emoji, label, activeClass }) => (
         <button
           key={value}
           type="button"
@@ -85,7 +84,7 @@ export const PriceInput = ({
           aria-label={label}
           title={label}
         >
-          <Icon className="w-6 h-6 mb-1" />
+          <span className="text-2xl mb-1">{emoji}</span>
           {!isMobile && <span className="text-sm text-center">{label}</span>}
         </button>
       ))}
