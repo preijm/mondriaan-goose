@@ -27,8 +27,11 @@ export const PriceInput = ({
   const priceValue = price || "";
 
   const handlePriceChange = (value: string) => {
-    // Always update the price when a button is clicked
-    setPrice(value);
+    // If the button is already selected, unselect it by setting empty string
+    const newValue = value === priceValue ? "" : value;
+    
+    // Update the price with new value or empty string if unselecting
+    setPrice(newValue);
     
     // Mark as changed if not already changed
     if (!hasChanged) {
@@ -36,7 +39,7 @@ export const PriceInput = ({
     }
     
     // For debugging
-    console.log('Price quality ratio selected:', value);
+    console.log('Price quality ratio selected:', newValue);
   };
 
   const buttons = [
