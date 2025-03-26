@@ -39,35 +39,35 @@ export const PriceInput = ({
       value: "1",
       icon: X,
       label: "Total waste of money",
-      activeClass: "bg-white text-red-500",
+      activeClass: "bg-white text-red-500 border-red-500",
       iconColor: "text-red-500",
     },
     {
       value: "2",
       icon: AlertTriangle,
       label: "Not worth it",
-      activeClass: "bg-white text-amber-500",
+      activeClass: "bg-white text-amber-500 border-amber-500",
       iconColor: "text-amber-500",
     },
     {
       value: "3",
       icon: Check,
       label: "Fair price",
-      activeClass: "bg-white text-green-500",
+      activeClass: "bg-white text-green-500 border-green-500",
       iconColor: "text-green-500",
     },
     {
       value: "4",
       icon: Trophy,
       label: "Good deal",
-      activeClass: "bg-white text-amber-500", 
+      activeClass: "bg-white text-amber-500 border-amber-500", 
       iconColor: "text-amber-500",
     },
     {
       value: "5",
       icon: Diamond,
       label: "Great value for money",
-      activeClass: "bg-white text-blue-500",
+      activeClass: "bg-white text-blue-500 border-blue-500",
       iconColor: "text-blue-500",
     },
   ];
@@ -82,9 +82,9 @@ export const PriceInput = ({
           key={value}
           type="button"
           onClick={() => handlePriceChange(value)}
-          className={`flex items-center justify-center py-3 px-2 rounded-lg border transition-all ${
+          className={`flex items-center justify-center py-3 px-2 rounded-lg border-2 transition-all ${
             priceValue === value
-              ? `${activeClass} border-gray-300`
+              ? `${activeClass} shadow-sm`
               : "bg-white border-gray-200 hover:border-gray-300"
           }`}
           aria-label={label}
