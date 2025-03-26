@@ -1,6 +1,7 @@
 
 import React from "react";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { X, AlertTriangle, Check, Trophy, Diamond } from "lucide-react";
 
 interface PriceInputProps {
   price: string;
@@ -36,33 +37,38 @@ export const PriceInput = ({
   const buttons = [
     {
       value: "1",
-      emoji: "😡",
+      icon: X,
       label: "Total waste of money",
-      activeClass: "bg-soft-pink text-red-600",
+      activeClass: "bg-white text-red-500",
+      iconColor: "text-red-500",
     },
     {
       value: "2",
-      emoji: "😕",
+      icon: AlertTriangle,
       label: "Not worth it",
-      activeClass: "bg-soft-yellow text-yellow-600",
+      activeClass: "bg-white text-amber-500",
+      iconColor: "text-amber-500",
     },
     {
       value: "3",
-      emoji: "😐",
+      icon: Check,
       label: "Fair price",
-      activeClass: "bg-soft-green text-green-600",
+      activeClass: "bg-white text-green-500",
+      iconColor: "text-green-500",
     },
     {
       value: "4",
-      emoji: "😊",
+      icon: Trophy,
       label: "Good deal",
-      activeClass: "bg-amber-100 text-amber-600",
+      activeClass: "bg-white text-amber-500", 
+      iconColor: "text-amber-500",
     },
     {
       value: "5",
-      emoji: "🤩",
+      icon: Diamond,
       label: "Great value for money",
-      activeClass: "bg-soft-blue text-blue-600",
+      activeClass: "bg-white text-blue-500",
+      iconColor: "text-blue-500",
     },
   ];
 
@@ -70,22 +76,21 @@ export const PriceInput = ({
   console.log('Price quality ratio value in PriceInput:', priceValue);
 
   return (
-    <div className={`grid ${isMobile ? 'grid-cols-2 gap-2' : 'grid-cols-5 gap-4'}`}>
-      {buttons.map(({ value, emoji, label, activeClass }) => (
+    <div className="grid grid-cols-5 gap-2">
+      {buttons.map(({ value, icon: Icon, label, activeClass, iconColor }) => (
         <button
           key={value}
           type="button"
           onClick={() => handlePriceChange(value)}
-          className={`flex flex-col items-center p-3 rounded-lg transition-all ${
+          className={`flex items-center justify-center py-3 px-2 rounded-lg border transition-all ${
             priceValue === value
-              ? activeClass
-              : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+              ? `${activeClass} border-gray-300`
+              : "bg-white border-gray-200 hover:border-gray-300"
           }`}
           aria-label={label}
           title={label}
         >
-          <span className="text-2xl mb-1">{emoji}</span>
-          {!isMobile && <span className="text-sm text-center">{label}</span>}
+          <Icon className={`w-6 h-6 ${priceValue === value ? '' : iconColor}`} />
         </button>
       ))}
     </div>
