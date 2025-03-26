@@ -1,7 +1,5 @@
-
 import React from "react";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { X, AlertTriangle, Check, Trophy, Diamond } from "lucide-react";
 
 interface PriceInputProps {
   price: string;
@@ -37,38 +35,33 @@ export const PriceInput = ({
   const buttons = [
     {
       value: "1",
-      icon: X,
+      emoji: "🚫",
       label: "Total waste of money",
       activeClass: "bg-white text-red-500 border-red-500",
-      iconColor: "text-red-500",
     },
     {
       value: "2",
-      icon: AlertTriangle,
+      emoji: "⚠️",
       label: "Not worth it",
       activeClass: "bg-white text-amber-500 border-amber-500",
-      iconColor: "text-amber-500",
     },
     {
       value: "3",
-      icon: Check,
+      emoji: "✅",
       label: "Fair price",
       activeClass: "bg-white text-green-500 border-green-500",
-      iconColor: "text-green-500",
     },
     {
       value: "4",
-      icon: Trophy,
+      emoji: "🏆",
       label: "Good deal",
-      activeClass: "bg-white text-amber-500 border-amber-500", 
-      iconColor: "text-amber-500",
+      activeClass: "bg-white text-amber-500 border-amber-500",
     },
     {
       value: "5",
-      icon: Diamond,
+      emoji: "💎",
       label: "Great value for money",
       activeClass: "bg-white text-blue-500 border-blue-500",
-      iconColor: "text-blue-500",
     },
   ];
 
@@ -77,7 +70,7 @@ export const PriceInput = ({
 
   return (
     <div className="grid grid-cols-5 gap-2">
-      {buttons.map(({ value, icon: Icon, label, activeClass, iconColor }) => (
+      {buttons.map(({ value, emoji, label, activeClass }) => (
         <button
           key={value}
           type="button"
@@ -90,7 +83,7 @@ export const PriceInput = ({
           aria-label={label}
           title={label}
         >
-          <Icon className={`w-6 h-6 ${priceValue === value ? '' : iconColor}`} />
+          <span className="text-xl">{emoji}</span>
         </button>
       ))}
     </div>
