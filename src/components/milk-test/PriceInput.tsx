@@ -1,5 +1,12 @@
+
 import React from "react";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { 
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 interface PriceInputProps {
   price: string;
@@ -70,22 +77,29 @@ export const PriceInput = ({
 
   return (
     <div className="grid grid-cols-5 gap-2">
-      {buttons.map(({ value, emoji, label, activeClass }) => (
-        <button
-          key={value}
-          type="button"
-          onClick={() => handlePriceChange(value)}
-          className={`flex items-center justify-center py-3 px-2 rounded-lg border-2 transition-all ${
-            priceValue === value
-              ? `${activeClass} shadow-sm`
-              : "bg-white border-gray-200 hover:border-gray-300"
-          }`}
-          aria-label={label}
-          title={label}
-        >
-          <span className="text-xl">{emoji}</span>
-        </button>
-      ))}
+      <TooltipProvider>
+        {buttons.map(({ value, emoji, label, activeClass }) => (
+          <Tooltip key={value} delayDuration={300}>
+            <TooltipTrigger asChild>
+              <button
+                type="button"
+                onClick={() => handlePriceChange(value)}
+                className={`flex items-center justify-center py-3 px-2 rounded-lg border-2 transition-all ${
+                  priceValue === value
+                    ? `${activeClass} shadow-sm`
+                    : "bg-white border-gray-200 hover:border-gray-300"
+                }`}
+                aria-label={label}
+              >
+                <span className="text-xl">{emoji}</span>
+              </button>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>{label}</p>
+            </TooltipContent>
+          </Tooltip>
+        ))}
+      </TooltipProvider>
     </div>
   );
 };
