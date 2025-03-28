@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Navigation } from "@/components/Navigation";
 import { useQuery } from "@tanstack/react-query";
@@ -11,6 +10,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { EditMilkTest } from "@/components/milk-test/EditMilkTest";
 import { UserStatsOverview } from "@/components/UserStatsOverview";
 import { MilkTestResult } from "@/types/milk-test";
+import { PriceQualityBadge } from "@/components/milk-test/PriceQualityBadge";
 import {
   Table,
   TableBody,
@@ -180,6 +180,7 @@ const MyResults = () => {
                     Score {getSortIcon('rating')}
                   </Button>
                 </TableHead>
+                <TableHead>Price</TableHead>
                 <TableHead>Notes</TableHead>
                 <TableHead>Actions</TableHead>
               </TableRow>
@@ -194,6 +195,9 @@ const MyResults = () => {
                     <div className="rounded-full h-8 w-8 flex items-center justify-center bg-cream-300">
                       <span className="font-semibold text-milk-500">{Number(result.rating).toFixed(1)}</span>
                     </div>
+                  </TableCell>
+                  <TableCell>
+                    <PriceQualityBadge priceQuality={result.price_quality_ratio} />
                   </TableCell>
                   <TableCell className="max-w-xs truncate">{result.notes}</TableCell>
                   <TableCell>

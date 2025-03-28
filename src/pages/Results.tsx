@@ -23,6 +23,7 @@ import { DrinkPreferenceIcon } from "@/components/milk-test/DrinkPreferenceIcon"
 import { ImageModal } from "@/components/milk-test/ImageModal";
 import { NotesPopover } from "@/components/milk-test/NotesPopover";
 import { ProductPropertyBadges } from "@/components/milk-test/ProductPropertyBadges";
+import { PriceQualityBadge } from "@/components/milk-test/PriceQualityBadge";
 import { MilkTestResult } from "@/types/milk-test";
 
 type SortConfig = {
@@ -128,7 +129,7 @@ const Results = () => {
       
       const { data, error } = await supabase
         .from('milk_tests_view')
-        .select('id, created_at, brand_name, product_name, rating, username, notes, shop_name, picture_path, drink_preference, property_names, is_barista, flavor_names')
+        .select('id, created_at, brand_name, product_name, rating, username, notes, shop_name, picture_path, drink_preference, property_names, is_barista, flavor_names, price_quality_ratio')
         .eq('product_id', expandedProduct)
         .order('created_at', { ascending: false }) as unknown as {
           data: MilkTestResult[] | null,
@@ -303,6 +304,7 @@ const Results = () => {
                                     <TableHead className="hidden md:table-cell">Shop</TableHead>
                                     <TableHead>Notes</TableHead>
                                     <TableHead>Style</TableHead>
+                                    <TableHead>Price</TableHead>
                                     <TableHead>Image</TableHead>
                                   </TableRow>
                                 </TableHeader>
@@ -322,6 +324,9 @@ const Results = () => {
                                       </TableCell>
                                       <TableCell>
                                         <DrinkPreferenceIcon preference={test.drink_preference} />
+                                      </TableCell>
+                                      <TableCell>
+                                        <PriceQualityBadge priceQuality={test.price_quality_ratio} />
                                       </TableCell>
                                       <TableCell>
                                         {test.picture_path ? (
