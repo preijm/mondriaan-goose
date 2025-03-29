@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
@@ -21,8 +20,7 @@ export const ImageModal = ({ imageUrl, isOpen, onClose }: ImageModalProps) => {
             <img
               src={imageUrl}
               alt="Product"
-              className="object-contain w-full h-full rounded-xl border-0"
-              style={{ borderRadius: '0.75rem' }}
+              className="object-contain w-full h-full rounded-xl"
               onError={(e) => {
                 const target = e.target as HTMLImageElement;
                 target.style.display = 'none';

@@ -84,7 +84,7 @@ export const PictureCapture: React.FC<PictureCaptureProps> = ({
             <img 
               src={picturePreview} 
               alt="Milk product" 
-              className="w-full h-full object-cover cursor-pointer rounded-md"
+              className="w-full h-full object-cover cursor-pointer rounded-lg"
               onClick={handleImageClick}
             />
           </div>
