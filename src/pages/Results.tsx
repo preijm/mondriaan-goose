@@ -129,7 +129,7 @@ const Results = () => {
       
       const { data, error } = await supabase
         .from('milk_tests_view')
-        .select('id, created_at, brand_name, product_name, rating, username, notes, shop_name, picture_path, drink_preference, property_names, is_barista, flavor_names, price_quality_ratio')
+        .select('id, created_at, brand_name, product_name, rating, username, notes, shop_name, picture_path, drink_preference, property_names, is_barista, flavor_names, price_quality_ratio, shop_country_code')
         .eq('product_id', expandedProduct)
         .order('created_at', { ascending: false }) as unknown as {
           data: MilkTestResult[] | null,
@@ -302,10 +302,10 @@ const Results = () => {
                                     <TableHead>Tester</TableHead>
                                     <TableHead>Score</TableHead>
                                     <TableHead className="hidden md:table-cell">Shop</TableHead>
-                                    <TableHead>Notes</TableHead>
                                     <TableHead>Style</TableHead>
                                     <TableHead>Price</TableHead>
                                     <TableHead>Image</TableHead>
+                                    <TableHead className="w-48">Notes</TableHead>
                                   </TableRow>
                                 </TableHeader>
                                 <TableBody>
@@ -318,9 +318,19 @@ const Results = () => {
                                           <span className="font-semibold text-milk-500">{Number(test.rating).toFixed(1)}</span>
                                         </div>
                                       </TableCell>
-                                      <TableCell className="hidden md:table-cell">{test.shop_name || "-"}</TableCell>
-                                      <TableCell className="max-w-xs">
-                                        <NotesPopover notes={test.notes || "-"} />
+                                      <TableCell className="hidden md:table-cell">
+                                        {test.shop_name ? (
+                                          <>
+                                            {test.shop_name} 
+                                            {test.shop_country_code && (
+                                              <span className="text-gray-500 ml-1">
+                                                [{test.shop_country_code}]
+                                              </span>
+                                            )}
+                                          </>
+                                        ) : (
+                                          "-"
+                                        )}
                                       </TableCell>
                                       <TableCell>
                                         <DrinkPreferenceIcon preference={test.drink_preference} />
@@ -331,7 +341,7 @@ const Results = () => {
                                       <TableCell>
                                         {test.picture_path ? (
                                           <div 
-                                            className="w-10 h-10 relative overflow-hidden rounded-md cursor-pointer transition-transform hover:scale-105"
+                                            className="w-10 h-10 relative overflow-hidden rounded-lg cursor-pointer transition-transform hover:scale-105"
                                             onClick={(e) => {
                                               e.stopPropagation();
                                               handleImageClick(test.picture_path!);
@@ -341,7 +351,7 @@ const Results = () => {
                                               <img 
                                                 src={`${supabase.storage.from('milk-pictures').getPublicUrl(test.picture_path).data.publicUrl}`} 
                                                 alt="Product"
-                                                className="object-cover w-full h-full"
+                                                className="object-cover w-full h-full rounded-lg"
                                                 onError={(e) => {
                                                   const target = e.target as HTMLImageElement;
                                                   target.style.display = 'none';
@@ -351,16 +361,19 @@ const Results = () => {
                                                   }
                                                 }}
                                               />
-                                              <div className="absolute inset-0 flex items-center justify-center bg-gray-100" style={{display: 'none'}}>
+                                              <div className="absolute inset-0 flex items-center justify-center bg-gray-100 rounded-lg" style={{display: 'none'}}>
                                                 <ImageIcon className="w-5 h-5 text-gray-400" />
                                               </div>
                                             </AspectRatio>
                                           </div>
                                         ) : (
-                                          <div className="w-10 h-10 flex items-center justify-center bg-gray-100 rounded-md">
+                                          <div className="w-10 h-10 flex items-center justify-center bg-gray-100 rounded-lg">
                                             <ImageIcon className="w-5 h-5 text-gray-400" />
                                           </div>
                                         )}
+                                      </TableCell>
+                                      <TableCell className="w-48">
+                                        <NotesPopover notes={test.notes || "-"} />
                                       </TableCell>
                                     </TableRow>
                                   ))}

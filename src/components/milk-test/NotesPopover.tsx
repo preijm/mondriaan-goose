@@ -19,16 +19,16 @@ export const NotesPopover = ({ notes }: NotesPopoverProps) => {
         <TooltipTrigger asChild>
           <Popover>
             <PopoverTrigger asChild>
-              <div className="max-w-[200px] truncate cursor-pointer hover:text-blue-500 transition-colors">
+              <div className="w-48 truncate cursor-pointer hover:text-blue-500 transition-colors">
                 {notes}
               </div>
             </PopoverTrigger>
-            <PopoverContent className="max-w-md max-h-[300px] overflow-auto p-4">
+            <PopoverContent className="max-w-md max-h-[300px] overflow-auto p-4 bg-white">
               <p className="whitespace-pre-wrap break-words">{notes}</p>
             </PopoverContent>
           </Popover>
         </TooltipTrigger>
-        <TooltipContent side="top">
+        <TooltipContent side="top" className="bg-gray-800 text-white">
           <p className="text-xs">Click to read full note</p>
         </TooltipContent>
       </Tooltip>
