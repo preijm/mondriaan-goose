@@ -32,7 +32,8 @@ export const useMilkTestForm = () => {
       shop,
       drinkPreference,
       price, // Log the actual price value
-      priceHasChanged // Log whether price has changed
+      priceHasChanged, // Log whether price has changed
+      hasPicture: !!picture // Log whether a picture is attached
     });
     
     // Validation moved to the component itself
@@ -66,10 +67,11 @@ export const useMilkTestForm = () => {
       // Upload picture if available
       let picturePath = null;
       if (picture) {
+        console.log("Uploading picture to Supabase storage...");
         const fileExt = picture.name.split('.').pop();
         const filePath = `${userData.user.id}/${Date.now()}.${fileExt}`;
         
-        const { error: uploadError } = await supabase.storage
+        const { data: uploadData, error: uploadError } = await supabase.storage
           .from('milk-pictures')
           .upload(filePath, picture);
           
@@ -81,6 +83,7 @@ export const useMilkTestForm = () => {
             variant: "destructive",
           });
         } else {
+          console.log("Picture uploaded successfully:", uploadData);
           picturePath = filePath;
         }
       }

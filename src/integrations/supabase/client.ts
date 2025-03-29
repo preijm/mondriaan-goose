@@ -11,25 +11,4 @@ const SUPABASE_PUBLISHABLE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiO
 
 export const supabase = createClient<Database>(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
 
-// Initialize storage bucket if not exists
-(async () => {
-  try {
-    const { data: buckets } = await supabase.storage.listBuckets();
-    const milkPicturesBucketExists = buckets?.some(bucket => bucket.name === 'milk-pictures');
-    
-    if (!milkPicturesBucketExists) {
-      const { error } = await supabase.storage.createBucket('milk-pictures', {
-        public: true,
-        fileSizeLimit: 5242880, // 5MB
-      });
-      
-      if (error) {
-        console.error('Error creating milk-pictures bucket:', error);
-      } else {
-        console.log('Created milk-pictures bucket');
-      }
-    }
-  } catch (error) {
-    console.error('Failed to initialize storage:', error);
-  }
-})();
+// We no longer need to initialize storage bucket here since we've done it with SQL
