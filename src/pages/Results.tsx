@@ -1,29 +1,12 @@
+
 import React, { useState } from "react";
 import { Navigation } from "@/components/Navigation";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import { Input } from "@/components/ui/input";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { ArrowUpDown, ChevronDown, ChevronUp, Image as ImageIcon } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "@/components/ui/collapsible";
-import { AspectRatio } from "@/components/ui/aspect-ratio";
-import { DrinkPreferenceIcon } from "@/components/milk-test/DrinkPreferenceIcon";
+import { Collapsible, CollapsibleContent } from "@/components/ui/collapsible";
+import { SearchBar } from "@/components/milk-test/SearchBar";
+import { AggregatedResultsTable } from "@/components/milk-test/AggregatedResultsTable";
 import { ImageModal } from "@/components/milk-test/ImageModal";
-import { NotesPopover } from "@/components/milk-test/NotesPopover";
-import { ProductPropertyBadges } from "@/components/milk-test/ProductPropertyBadges";
-import { PriceQualityBadge } from "@/components/milk-test/PriceQualityBadge";
 import { MilkTestResult } from "@/types/milk-test";
 
 type SortConfig = {
@@ -160,15 +143,6 @@ const Results = () => {
     });
   };
 
-  const getSortIcon = (column: string) => {
-    if (sortConfig.column !== column) return <ArrowUpDown className="w-4 h-4" />;
-    return sortConfig.direction === 'asc' ? (
-      <ChevronUp className="w-4 h-4" />
-    ) : (
-      <ChevronDown className="w-4 h-4" />
-    );
-  };
-
   const toggleProductExpand = (productId: string) => {
     setExpandedProduct(current => current === productId ? null : productId);
   };
@@ -207,196 +181,22 @@ const Results = () => {
         <h1 className="text-3xl font-bold text-gray-900 mb-8">All Results</h1>
         
         <div className="bg-white rounded-lg shadow-md p-6">
-          <div className="mb-4">
-            <Input
-              placeholder="Search by brand or product..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="max-w-sm"
-            />
-          </div>
+          <SearchBar
+            searchTerm={searchTerm}
+            setSearchTerm={setSearchTerm}
+            className="mb-4"
+          />
           
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead className="text-left">
-                  <Button
-                    variant="ghost"
-                    onClick={() => handleSort('brand_name')}
-                    className="hover:bg-transparent pl-0"
-                  >
-                    Brand {getSortIcon('brand_name')}
-                  </Button>
-                </TableHead>
-                <TableHead className="text-left pr-0">
-                  <Button
-                    variant="ghost"
-                    onClick={() => handleSort('product_name')}
-                    className="hover:bg-transparent pl-0"
-                  >
-                    Product {getSortIcon('product_name')}
-                  </Button>
-                </TableHead>
-                <TableHead className="w-auto pl-1">
-                  {/* Badges column - no header or sorting */}
-                </TableHead>
-                <TableHead className="text-left">
-                  <Button
-                    variant="ghost"
-                    onClick={() => handleSort('avg_rating')}
-                    className="hover:bg-transparent pl-0"
-                  >
-                    Score {getSortIcon('avg_rating')}
-                  </Button>
-                </TableHead>
-                <TableHead className="text-left">
-                  <Button
-                    variant="ghost"
-                    onClick={() => handleSort('count')}
-                    className="hover:bg-transparent pl-0"
-                  >
-                    Tests {getSortIcon('count')}
-                  </Button>
-                </TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {filteredResults.map((result) => (
-                <React.Fragment key={result.product_id}>
-                  <TableRow 
-                    className="cursor-pointer hover:bg-gray-50"
-                    onClick={() => toggleProductExpand(result.product_id)}
-                  >
-                    <TableCell className="font-medium">{result.brand_name}</TableCell>
-                    <TableCell className="pr-0">{result.product_name}</TableCell>
-                    <TableCell className="pl-1">
-                      {/* Badges in single column with less spacing */}
-                      <ProductPropertyBadges 
-                        propertyNames={result.property_names}
-                        isBarista={result.is_barista}
-                        flavorNames={result.flavor_names}
-                        compact={true}
-                      />
-                    </TableCell>
-                    <TableCell>
-                      <div className="rounded-full h-8 w-8 flex items-center justify-center bg-cream-300">
-                        <span className="font-semibold text-milk-500">{result.avg_rating.toFixed(1)}</span>
-                      </div>
-                    </TableCell>
-                    <TableCell>{result.count}</TableCell>
-                  </TableRow>
-                  
-                  <TableRow>
-                    <TableCell colSpan={5} className="p-0">
-                      <Collapsible open={expandedProduct === result.product_id}>
-                        <CollapsibleContent>
-                          <div className="bg-gray-50 p-4">
-                            <h3 className="text-lg font-medium mb-4">Individual Tests</h3>
-                            {isLoadingTests ? (
-                              <div className="text-center py-4">Loading test details...</div>
-                            ) : (
-                              <Table>
-                                <TableHeader>
-                                  <TableRow>
-                                    <TableHead>Date</TableHead>
-                                    <TableHead>Tester</TableHead>
-                                    <TableHead>Score</TableHead>
-                                    <TableHead className="hidden md:table-cell">Shop</TableHead>
-                                    <TableHead>Style</TableHead>
-                                    <TableHead>Price</TableHead>
-                                    <TableHead>Image</TableHead>
-                                    <TableHead className="w-48">Notes</TableHead>
-                                  </TableRow>
-                                </TableHeader>
-                                <TableBody>
-                                  {productTests.map((test) => (
-                                    <TableRow key={test.id}>
-                                      <TableCell>{new Date(test.created_at).toLocaleDateString()}</TableCell>
-                                      <TableCell>{test.username || "Anonymous"}</TableCell>
-                                      <TableCell>
-                                        <div className="rounded-full h-8 w-8 flex items-center justify-center bg-cream-300">
-                                          <span className="font-semibold text-milk-500">{Number(test.rating).toFixed(1)}</span>
-                                        </div>
-                                      </TableCell>
-                                      <TableCell className="hidden md:table-cell">
-                                        {test.shop_name ? (
-                                          <>
-                                            {test.shop_name} 
-                                            {test.shop_country_code && (
-                                              <span className="text-gray-500 ml-1">
-                                                [{test.shop_country_code}]
-                                              </span>
-                                            )}
-                                          </>
-                                        ) : (
-                                          "-"
-                                        )}
-                                      </TableCell>
-                                      <TableCell>
-                                        <DrinkPreferenceIcon preference={test.drink_preference} />
-                                      </TableCell>
-                                      <TableCell>
-                                        <PriceQualityBadge priceQuality={test.price_quality_ratio} />
-                                      </TableCell>
-                                      <TableCell>
-                                        {test.picture_path ? (
-                                          <div 
-                                            className="w-10 h-10 relative overflow-hidden rounded-lg cursor-pointer transition-transform hover:scale-105"
-                                            onClick={(e) => {
-                                              e.stopPropagation();
-                                              handleImageClick(test.picture_path!);
-                                            }}
-                                          >
-                                            <AspectRatio ratio={1/1}>
-                                              <img 
-                                                src={`${supabase.storage.from('milk-pictures').getPublicUrl(test.picture_path).data.publicUrl}`} 
-                                                alt="Product"
-                                                className="object-cover w-full h-full rounded-lg"
-                                                onError={(e) => {
-                                                  const target = e.target as HTMLImageElement;
-                                                  target.style.display = 'none';
-                                                  const nextSibling = target.nextSibling as HTMLElement;
-                                                  if (nextSibling) {
-                                                    nextSibling.style.display = 'flex';
-                                                  }
-                                                }}
-                                              />
-                                              <div className="absolute inset-0 flex items-center justify-center bg-gray-100 rounded-lg" style={{display: 'none'}}>
-                                                <ImageIcon className="w-5 h-5 text-gray-400" />
-                                              </div>
-                                            </AspectRatio>
-                                          </div>
-                                        ) : (
-                                          <div className="w-10 h-10 flex items-center justify-center bg-gray-100 rounded-lg">
-                                            <ImageIcon className="w-5 h-5 text-gray-400" />
-                                          </div>
-                                        )}
-                                      </TableCell>
-                                      <TableCell className="w-48">
-                                        <NotesPopover notes={test.notes || "-"} />
-                                      </TableCell>
-                                    </TableRow>
-                                  ))}
-                                </TableBody>
-                              </Table>
-                            )}
-                          </div>
-                        </CollapsibleContent>
-                      </Collapsible>
-                    </TableCell>
-                  </TableRow>
-                </React.Fragment>
-              ))}
-              
-              {filteredResults.length === 0 && (
-                <TableRow>
-                  <TableCell colSpan={5} className="text-center py-8">
-                    No results found
-                  </TableCell>
-                </TableRow>
-              )}
-            </TableBody>
-          </Table>
+          <AggregatedResultsTable
+            results={filteredResults}
+            sortConfig={sortConfig}
+            handleSort={handleSort}
+            expandedProduct={expandedProduct}
+            toggleProductExpand={toggleProductExpand}
+            isLoadingTests={isLoadingTests}
+            productTests={productTests}
+            handleImageClick={handleImageClick}
+          />
         </div>
       </div>
 
