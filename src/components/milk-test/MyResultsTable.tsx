@@ -69,14 +69,15 @@ export const MyResultsTable = ({
             />
           </TableHead>
           <TableHead>Price</TableHead>
-          <TableHead>Notes</TableHead>
+          <TableHead>Shop</TableHead>
+          <TableHead className="w-48">Notes</TableHead>
           <TableHead>Actions</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
         {results.length === 0 ? (
           <TableRow>
-            <TableCell colSpan={7} className="text-center py-8">
+            <TableCell colSpan={8} className="text-center py-8">
               No results found
             </TableCell>
           </TableRow>
@@ -94,7 +95,15 @@ export const MyResultsTable = ({
               <TableCell>
                 <PriceQualityBadge priceQuality={result.price_quality_ratio} />
               </TableCell>
-              <TableCell className="max-w-xs truncate">{result.notes}</TableCell>
+              <TableCell>
+                {result.shop_name}
+                {result.shop_country_code && (
+                  <span className="text-gray-500 text-xs ml-1">
+                    ({result.shop_country_code})
+                  </span>
+                )}
+              </TableCell>
+              <TableCell className="max-w-xs w-48 truncate">{result.notes}</TableCell>
               <TableCell>
                 <div className="flex gap-2">
                   <Button
