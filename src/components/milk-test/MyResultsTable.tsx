@@ -47,7 +47,7 @@ export const MyResultsTable = ({
           <TableHead>
             <SortableColumnHeader
               column="brand_name"
-              label="Brand"
+              label="Tester"
               sortConfig={sortConfig}
               onSort={handleSort}
             />
@@ -60,7 +60,7 @@ export const MyResultsTable = ({
               onSort={handleSort}
             />
           </TableHead>
-          <TableHead>Price</TableHead>
+          <TableHead>Shop</TableHead>
           <TableHead>
             <SortableColumnHeader
               column="product_name"
@@ -69,7 +69,8 @@ export const MyResultsTable = ({
               onSort={handleSort}
             />
           </TableHead>
-          <TableHead>Shop</TableHead>
+          <TableHead>Price</TableHead>
+          <TableHead>Image</TableHead>
           <TableHead className="w-48">Notes</TableHead>
           <TableHead>Actions</TableHead>
         </TableRow>
@@ -77,7 +78,7 @@ export const MyResultsTable = ({
       <TableBody>
         {results.length === 0 ? (
           <TableRow>
-            <TableCell colSpan={8} className="text-center py-8">
+            <TableCell colSpan={9} className="text-center py-8">
               No results found
             </TableCell>
           </TableRow>
@@ -92,15 +93,22 @@ export const MyResultsTable = ({
                 </div>
               </TableCell>
               <TableCell>
-                <PriceQualityBadge priceQuality={result.price_quality_ratio} />
-              </TableCell>
-              <TableCell>{result.product_name}</TableCell>
-              <TableCell>
                 {result.shop_name}
                 {result.shop_country_code && (
                   <span className="text-gray-500 text-xs ml-1">
                     ({result.shop_country_code})
                   </span>
+                )}
+              </TableCell>
+              <TableCell>{result.product_name}</TableCell>
+              <TableCell>
+                <PriceQualityBadge priceQuality={result.price_quality_ratio} />
+              </TableCell>
+              <TableCell>
+                {result.picture_path && (
+                  <div className="h-10 w-10 bg-gray-200 rounded">
+                    {/* Placeholder for image */}
+                  </div>
                 )}
               </TableCell>
               <TableCell className="max-w-xs w-48 truncate">{result.notes}</TableCell>
