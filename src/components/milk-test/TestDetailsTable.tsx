@@ -32,8 +32,8 @@ export const TestDetailsTable = ({ productTests, handleImageClick }: TestDetails
           <TableHead className="hidden md:table-cell">Shop</TableHead>
           <TableHead>Style</TableHead>
           <TableHead>Price</TableHead>
-          <TableHead>Image</TableHead>
           <TableHead className="w-48">Notes</TableHead>
+          <TableHead>Image</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -65,6 +65,9 @@ export const TestDetailsTable = ({ productTests, handleImageClick }: TestDetails
             </TableCell>
             <TableCell>
               <PriceQualityBadge priceQuality={test.price_quality_ratio} />
+            </TableCell>
+            <TableCell className="w-48">
+              <NotesPopover notes={test.notes || "-"} />
             </TableCell>
             <TableCell>
               {test.picture_path ? (
@@ -99,9 +102,6 @@ export const TestDetailsTable = ({ productTests, handleImageClick }: TestDetails
                   <ImageIcon className="w-5 h-5 text-gray-400" />
                 </div>
               )}
-            </TableCell>
-            <TableCell className="w-48">
-              <NotesPopover notes={test.notes || "-"} />
             </TableCell>
           </TableRow>
         ))}
