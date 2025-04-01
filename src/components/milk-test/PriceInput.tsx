@@ -127,7 +127,7 @@ export const PriceInput = ({
                   <span className="text-xl">{emoji}</span>
                 </button>
               </TooltipTrigger>
-              <TooltipContent>
+              <TooltipContent side="top" align="center">
                 <p>{label}</p>
               </TooltipContent>
             </Tooltip>

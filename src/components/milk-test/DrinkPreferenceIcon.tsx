@@ -44,7 +44,7 @@ export const DrinkPreferenceIcon = ({ preference, className = "w-6 h-6" }: Drink
     return (
       <HoverCard>
         <HoverCardTrigger asChild>
-          <div className="cursor-help">
+          <div>
             {icon}
           </div>
         </HoverCardTrigger>
@@ -59,11 +59,11 @@ export const DrinkPreferenceIcon = ({ preference, className = "w-6 h-6" }: Drink
     <TooltipProvider>
       <Tooltip delayDuration={300}>
         <TooltipTrigger asChild>
-          <div className="cursor-help">
+          <div>
             {icon}
           </div>
         </TooltipTrigger>
-        <TooltipContent>
+        <TooltipContent side="top" align="center">
           <p>{label}</p>
         </TooltipContent>
       </Tooltip>
