@@ -8,6 +8,12 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@/components/ui/hover-card";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface DrinkPreferenceIconProps {
   preference: string | null | undefined;
@@ -15,6 +21,8 @@ interface DrinkPreferenceIconProps {
 }
 
 export const DrinkPreferenceIcon = ({ preference, className = "w-6 h-6" }: DrinkPreferenceIconProps) => {
+  const isMobile = useIsMobile();
+  
   if (!preference) return null;
   
   const preferenceMap = {
@@ -30,6 +38,22 @@ export const DrinkPreferenceIcon = ({ preference, className = "w-6 h-6" }: Drink
     icon: <Milk className={className} />, 
     label: "Milk" 
   };
+  
+  // Use HoverCard for mobile devices and Tooltip for desktop
+  if (isMobile) {
+    return (
+      <HoverCard>
+        <HoverCardTrigger asChild>
+          <div className="cursor-help">
+            {icon}
+          </div>
+        </HoverCardTrigger>
+        <HoverCardContent className="p-2 text-center">
+          <p>{label}</p>
+        </HoverCardContent>
+      </HoverCard>
+    );
+  }
   
   return (
     <TooltipProvider>

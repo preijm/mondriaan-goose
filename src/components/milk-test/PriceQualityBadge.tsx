@@ -6,12 +6,20 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@/components/ui/hover-card";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface PriceQualityBadgeProps {
   priceQuality?: string | null;
 }
 
 export const PriceQualityBadge: React.FC<PriceQualityBadgeProps> = ({ priceQuality }) => {
+  const isMobile = useIsMobile();
+  
   if (!priceQuality) return <span className="text-gray-400">-</span>;
 
   const priceQualityMap = {
@@ -28,6 +36,22 @@ export const PriceQualityBadge: React.FC<PriceQualityBadgeProps> = ({ priceQuali
   }
 
   const { emoji, label } = priceQualityMap[priceQuality as keyof typeof priceQualityMap];
+
+  // Use HoverCard for mobile devices and Tooltip for desktop
+  if (isMobile) {
+    return (
+      <HoverCard>
+        <HoverCardTrigger asChild>
+          <div className="flex items-center cursor-help">
+            <span className="text-xl">{emoji}</span>
+          </div>
+        </HoverCardTrigger>
+        <HoverCardContent className="p-2 text-center">
+          <p>{label}</p>
+        </HoverCardContent>
+      </HoverCard>
+    );
+  }
 
   return (
     <TooltipProvider>
