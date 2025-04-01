@@ -82,7 +82,7 @@ export const TestDetailsTable = ({ productTests, handleImageClick }: TestDetails
                     <img 
                       src={`${supabase.storage.from('milk-pictures').getPublicUrl(test.picture_path).data.publicUrl}`} 
                       alt="Product"
-                      className="object-cover w-full h-full rounded-lg"
+                      className="object-cover w-full h-full"
                       onError={(e) => {
                         const target = e.target as HTMLImageElement;
                         target.style.display = 'none';
@@ -92,7 +92,7 @@ export const TestDetailsTable = ({ productTests, handleImageClick }: TestDetails
                         }
                       }}
                     />
-                    <div className="absolute inset-0 flex items-center justify-center bg-gray-100 rounded-lg" style={{display: 'none'}}>
+                    <div className="absolute inset-0 flex items-center justify-center bg-gray-100" style={{display: 'none'}}>
                       <ImageIcon className="w-5 h-5 text-gray-400" />
                     </div>
                   </AspectRatio>
