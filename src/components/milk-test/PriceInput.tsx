@@ -7,6 +7,11 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@/components/ui/hover-card";
 
 interface PriceInputProps {
   price: string;
@@ -80,10 +85,11 @@ export const PriceInput = ({
 
   return (
     <div className="grid grid-cols-5 gap-2">
-      <TooltipProvider>
-        {buttons.map(({ value, emoji, label, activeClass }) => (
-          <Tooltip key={value} delayDuration={300}>
-            <TooltipTrigger asChild>
+      {isMobile ? (
+        // Mobile view using HoverCard
+        buttons.map(({ value, emoji, label, activeClass }) => (
+          <HoverCard key={value}>
+            <HoverCardTrigger asChild>
               <button
                 type="button"
                 onClick={() => handlePriceChange(value)}
@@ -96,13 +102,38 @@ export const PriceInput = ({
               >
                 <span className="text-xl">{emoji}</span>
               </button>
-            </TooltipTrigger>
-            <TooltipContent>
+            </HoverCardTrigger>
+            <HoverCardContent className="p-2 text-center">
               <p>{label}</p>
-            </TooltipContent>
-          </Tooltip>
-        ))}
-      </TooltipProvider>
+            </HoverCardContent>
+          </HoverCard>
+        ))
+      ) : (
+        // Desktop view using Tooltip
+        <TooltipProvider>
+          {buttons.map(({ value, emoji, label, activeClass }) => (
+            <Tooltip key={value} delayDuration={300}>
+              <TooltipTrigger asChild>
+                <button
+                  type="button"
+                  onClick={() => handlePriceChange(value)}
+                  className={`flex items-center justify-center py-3 px-2 rounded-lg border-2 transition-all ${
+                    priceValue === value
+                      ? `${activeClass} shadow-sm`
+                      : "bg-white border-gray-200 hover:border-gray-300"
+                  }`}
+                  aria-label={label}
+                >
+                  <span className="text-xl">{emoji}</span>
+                </button>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>{label}</p>
+              </TooltipContent>
+            </Tooltip>
+          ))}
+        </TooltipProvider>
+      )}
     </div>
   );
 };
