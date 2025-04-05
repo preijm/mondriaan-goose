@@ -115,8 +115,12 @@ const Results = () => {
         .select('id, created_at, brand_name, product_name, rating, username, notes, shop_name, picture_path, drink_preference, property_names, is_barista, flavor_names, price_quality_ratio, shop_country_code')
         .eq('product_id', expandedProduct);
       
-      // Add sorting based on sortConfig if applicable to this detail view
-      const detailSortableColumns = ['created_at', 'rating', 'price_quality_ratio', 'username'];
+      // Add sorting based on sortConfig for all possible columns in the detail view
+      const detailSortableColumns = [
+        'created_at', 'username', 'rating', 'drink_preference', 'price_quality_ratio', 
+        'shop_name', 'notes', 'picture_path'
+      ];
+      
       if (detailSortableColumns.includes(sortConfig.column)) {
         query = query.order(sortConfig.column, { ascending: sortConfig.direction === 'asc' });
       } else {

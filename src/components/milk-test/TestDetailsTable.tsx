@@ -20,11 +20,11 @@ import { SortableColumnHeader } from "./SortableColumnHeader";
 interface TestDetailsTableProps {
   productTests: MilkTestResult[];
   handleImageClick: (path: string) => void;
-  sortConfig?: {
+  sortConfig: {
     column: string;
     direction: 'asc' | 'desc';
   };
-  handleSort?: (column: string) => void;
+  handleSort: (column: string) => void;
 }
 
 export const TestDetailsTable = ({ 
@@ -33,10 +33,6 @@ export const TestDetailsTable = ({
   sortConfig,
   handleSort
 }: TestDetailsTableProps) => {
-  // Default handlers if not provided (for backward compatibility)
-  const onSort = handleSort || (() => {});
-  const sortCfg = sortConfig || { column: '', direction: 'asc' };
-
   return (
     <Table>
       <TableHeader>
@@ -45,64 +41,64 @@ export const TestDetailsTable = ({
             <SortableColumnHeader
               column="created_at"
               label="Date"
-              sortConfig={sortCfg}
-              onSort={onSort}
+              sortConfig={sortConfig}
+              onSort={handleSort}
             />
           </TableHead>
           <TableHead>
             <SortableColumnHeader
               column="username"
               label="Tester"
-              sortConfig={sortCfg}
-              onSort={onSort}
+              sortConfig={sortConfig}
+              onSort={handleSort}
             />
           </TableHead>
           <TableHead>
             <SortableColumnHeader
               column="rating"
               label="Score"
-              sortConfig={sortCfg}
-              onSort={onSort}
+              sortConfig={sortConfig}
+              onSort={handleSort}
             />
           </TableHead>
           <TableHead>
             <SortableColumnHeader
               column="drink_preference"
               label="Style"
-              sortConfig={sortCfg}
-              onSort={onSort}
+              sortConfig={sortConfig}
+              onSort={handleSort}
             />
           </TableHead>
           <TableHead>
             <SortableColumnHeader
               column="price_quality_ratio"
               label="Price"
-              sortConfig={sortCfg}
-              onSort={onSort}
+              sortConfig={sortConfig}
+              onSort={handleSort}
             />
           </TableHead>
           <TableHead className="hidden md:table-cell">
             <SortableColumnHeader
               column="shop_name"
               label="Shop"
-              sortConfig={sortCfg}
-              onSort={onSort}
+              sortConfig={sortConfig}
+              onSort={handleSort}
             />
           </TableHead>
           <TableHead className="w-48">
             <SortableColumnHeader
               column="notes"
               label="Notes"
-              sortConfig={sortCfg}
-              onSort={onSort}
+              sortConfig={sortConfig}
+              onSort={handleSort}
             />
           </TableHead>
           <TableHead>
             <SortableColumnHeader
               column="picture_path"
               label="Image"
-              sortConfig={sortCfg}
-              onSort={onSort}
+              sortConfig={sortConfig}
+              onSort={handleSort}
             />
           </TableHead>
         </TableRow>
