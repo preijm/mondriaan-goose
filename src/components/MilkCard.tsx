@@ -36,15 +36,37 @@ export const MilkCard = ({ result, showUsername = false }: MilkCardProps) => {
       </div>
       
       <div className="mb-3">
-        <ProductPropertyBadges
-          propertyNames={result.property_names}
-          isBarista={result.is_barista}
-          flavorNames={result.flavor_names}
-          compact={true}
-        />
+        {/* Barista badge */}
+        {result.is_barista && (
+          <ProductPropertyBadges
+            isBarista={result.is_barista}
+            compact={true}
+            displayType="barista"
+            className="mb-1"
+          />
+        )}
+        
+        {/* Properties badges */}
+        {result.property_names && result.property_names.length > 0 && (
+          <ProductPropertyBadges
+            propertyNames={result.property_names}
+            compact={true}
+            displayType="properties"
+            className="mb-1"
+          />
+        )}
+        
+        {/* Flavor badges */}
+        {result.flavor_names && result.flavor_names.length > 0 && (
+          <ProductPropertyBadges
+            flavorNames={result.flavor_names}
+            compact={true}
+            displayType="flavors"
+          />
+        )}
         
         {showUsername && result.username && (
-          <span className="inline-block bg-blue-100 text-blue-800 rounded-full px-3 py-1 text-sm ml-2">
+          <span className="inline-block bg-blue-100 text-blue-800 rounded-full px-3 py-1 text-sm mt-2">
             {result.username}
           </span>
         )}

@@ -7,6 +7,7 @@ import { DrinkPreferenceIcon } from "./DrinkPreferenceIcon";
 import { PriceQualityBadge } from "./PriceQualityBadge";
 import { NotesPopover } from "./NotesPopover";
 import { MilkTestResult } from "@/types/milk-test";
+import { ProductPropertyBadges } from "./ProductPropertyBadges";
 import {
   Table,
   TableBody,
@@ -63,6 +64,30 @@ export const TestDetailsTable = ({
           </TableHead>
           <TableHead>
             <SortableColumnHeader
+              column="is_barista"
+              label="Barista"
+              sortConfig={sortConfig}
+              onSort={handleSort}
+            />
+          </TableHead>
+          <TableHead>
+            <SortableColumnHeader
+              column="property_names"
+              label="Properties"
+              sortConfig={sortConfig}
+              onSort={handleSort}
+            />
+          </TableHead>
+          <TableHead>
+            <SortableColumnHeader
+              column="flavor_names"
+              label="Flavors"
+              sortConfig={sortConfig}
+              onSort={handleSort}
+            />
+          </TableHead>
+          <TableHead>
+            <SortableColumnHeader
               column="drink_preference"
               label="Style"
               sortConfig={sortConfig}
@@ -112,6 +137,29 @@ export const TestDetailsTable = ({
               <div className="rounded-full h-8 w-8 flex items-center justify-center bg-cream-300">
                 <span className="font-semibold text-milk-500">{Number(test.rating).toFixed(1)}</span>
               </div>
+            </TableCell>
+            <TableCell>
+              {test.is_barista && (
+                <ProductPropertyBadges 
+                  isBarista={test.is_barista} 
+                  compact={true} 
+                  displayType="barista" 
+                />
+              )}
+            </TableCell>
+            <TableCell>
+              <ProductPropertyBadges 
+                propertyNames={test.property_names}
+                compact={true}
+                displayType="properties"
+              />
+            </TableCell>
+            <TableCell>
+              <ProductPropertyBadges 
+                flavorNames={test.flavor_names}
+                compact={true}
+                displayType="flavors"
+              />
             </TableCell>
             <TableCell>
               <DrinkPreferenceIcon preference={test.drink_preference} />

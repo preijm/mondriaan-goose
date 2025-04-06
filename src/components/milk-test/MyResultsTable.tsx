@@ -5,6 +5,7 @@ import { Pencil, Trash2 } from "lucide-react";
 import { MilkTestResult } from "@/types/milk-test";
 import { PriceQualityBadge } from "@/components/milk-test/PriceQualityBadge";
 import { SortableColumnHeader } from "@/components/milk-test/SortableColumnHeader";
+import { ProductPropertyBadges } from "@/components/milk-test/ProductPropertyBadges";
 import { SortConfig } from "@/hooks/useUserMilkTests";
 import {
   Table,
@@ -45,7 +46,7 @@ export const MyResultsTable = ({
           <TableHead>
             <SortableColumnHeader
               column="brand_name"
-              label="Tester"
+              label="Brand"
               sortConfig={sortConfig}
               onSort={handleSort}
             />
@@ -54,6 +55,30 @@ export const MyResultsTable = ({
             <SortableColumnHeader
               column="rating"
               label="Score"
+              sortConfig={sortConfig}
+              onSort={handleSort}
+            />
+          </TableHead>
+          <TableHead>
+            <SortableColumnHeader
+              column="is_barista"
+              label="Barista"
+              sortConfig={sortConfig}
+              onSort={handleSort}
+            />
+          </TableHead>
+          <TableHead>
+            <SortableColumnHeader
+              column="property_names"
+              label="Properties"
+              sortConfig={sortConfig}
+              onSort={handleSort}
+            />
+          </TableHead>
+          <TableHead>
+            <SortableColumnHeader
+              column="flavor_names"
+              label="Flavors"
               sortConfig={sortConfig}
               onSort={handleSort}
             />
@@ -84,14 +109,6 @@ export const MyResultsTable = ({
           </TableHead>
           <TableHead>
             <SortableColumnHeader
-              column="picture_path"
-              label="Image"
-              sortConfig={sortConfig}
-              onSort={handleSort}
-            />
-          </TableHead>
-          <TableHead className="w-48">
-            <SortableColumnHeader
               column="notes"
               label="Notes"
               sortConfig={sortConfig}
@@ -104,7 +121,7 @@ export const MyResultsTable = ({
       <TableBody>
         {results.length === 0 ? (
           <TableRow>
-            <TableCell colSpan={9} className="text-center py-8">
+            <TableCell colSpan={11} className="text-center py-8">
               No results found
             </TableCell>
           </TableRow>
@@ -119,6 +136,29 @@ export const MyResultsTable = ({
                 </div>
               </TableCell>
               <TableCell>
+                {result.is_barista && (
+                  <ProductPropertyBadges 
+                    isBarista={result.is_barista}
+                    compact={true}
+                    displayType="barista"
+                  />
+                )}
+              </TableCell>
+              <TableCell>
+                <ProductPropertyBadges 
+                  propertyNames={result.property_names}
+                  compact={true}
+                  displayType="properties"
+                />
+              </TableCell>
+              <TableCell>
+                <ProductPropertyBadges 
+                  flavorNames={result.flavor_names}
+                  compact={true}
+                  displayType="flavors"
+                />
+              </TableCell>
+              <TableCell>
                 {result.shop_name}
                 {result.shop_country_code && (
                   <span className="text-gray-500 text-xs ml-1">
@@ -130,14 +170,7 @@ export const MyResultsTable = ({
               <TableCell>
                 <PriceQualityBadge priceQuality={result.price_quality_ratio} />
               </TableCell>
-              <TableCell>
-                {result.picture_path && (
-                  <div className="h-10 w-10 bg-gray-200 rounded">
-                    {/* Placeholder for image */}
-                  </div>
-                )}
-              </TableCell>
-              <TableCell className="max-w-xs w-48 truncate">{result.notes}</TableCell>
+              <TableCell className="max-w-xs truncate">{result.notes}</TableCell>
               <TableCell>
                 <div className="flex gap-2">
                   <Button

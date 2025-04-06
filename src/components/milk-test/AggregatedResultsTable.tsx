@@ -72,10 +72,26 @@ export const AggregatedResultsTable = ({
               onSort={handleSort} 
             />
           </TableHead>
-          <TableHead className="w-auto pl-1">
+          <TableHead className="w-auto">
+            <SortableColumnHeader 
+              column="is_barista" 
+              label="Barista" 
+              sortConfig={sortConfig} 
+              onSort={handleSort} 
+            />
+          </TableHead>
+          <TableHead className="w-auto">
             <SortableColumnHeader 
               column="property_names" 
               label="Properties" 
+              sortConfig={sortConfig} 
+              onSort={handleSort} 
+            />
+          </TableHead>
+          <TableHead className="w-auto">
+            <SortableColumnHeader 
+              column="flavor_names" 
+              label="Flavors" 
               sortConfig={sortConfig} 
               onSort={handleSort} 
             />
@@ -101,7 +117,7 @@ export const AggregatedResultsTable = ({
       <TableBody>
         {results.length === 0 ? (
           <TableRow>
-            <TableCell colSpan={5} className="text-center py-8">
+            <TableCell colSpan={7} className="text-center py-8">
               No results found
             </TableCell>
           </TableRow>
@@ -114,12 +130,27 @@ export const AggregatedResultsTable = ({
               >
                 <TableCell className="font-medium">{result.brand_name}</TableCell>
                 <TableCell className="pr-0">{result.product_name}</TableCell>
-                <TableCell className="pl-1">
+                <TableCell>
+                  {result.is_barista && (
+                    <ProductPropertyBadges 
+                      isBarista={result.is_barista}
+                      compact={true}
+                      displayType="barista"
+                    />
+                  )}
+                </TableCell>
+                <TableCell>
                   <ProductPropertyBadges 
                     propertyNames={result.property_names}
-                    isBarista={result.is_barista}
+                    compact={true}
+                    displayType="properties"
+                  />
+                </TableCell>
+                <TableCell>
+                  <ProductPropertyBadges 
                     flavorNames={result.flavor_names}
                     compact={true}
+                    displayType="flavors"
                   />
                 </TableCell>
                 <TableCell>
@@ -132,7 +163,7 @@ export const AggregatedResultsTable = ({
               
               {expandedProduct === result.product_id && (
                 <TableRow>
-                  <TableCell colSpan={5} className="p-0">
+                  <TableCell colSpan={7} className="p-0">
                     <div className="bg-gray-50 p-4">
                       <h3 className="text-lg font-medium mb-4">Individual Tests</h3>
                       {isLoadingTests ? (
