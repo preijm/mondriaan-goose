@@ -1,51 +1,21 @@
 
 import React, { useState } from "react";
 import { Navigation } from "@/components/Navigation";
-import { useQuery } from "@tanstack/react-query";
-import { supabase } from "@/integrations/supabase/client";
-import { useNavigate } from "react-router-dom";
 import { useToast } from "@/components/ui/use-toast";
 import { EditMilkTest } from "@/components/milk-test/EditMilkTest";
 import { UserStatsOverview } from "@/components/UserStatsOverview";
 import { MilkTestResult } from "@/types/milk-test";
-import { SearchBar } from "@/components/milk-test/SearchBar";
-import { MyResultsTable } from "@/components/milk-test/MyResultsTable";
-
-type SortConfig = {
-  column: string;
-  direction: 'asc' | 'desc';
-};
+import { UserResultsContainer } from "@/components/milk-test/UserResultsContainer";
+import { supabase } from "@/integrations/supabase/client";
+import { useUserMilkTests } from "@/hooks/useUserMilkTests";
 
 const MyResults = () => {
-  const navigate = useNavigate();
   const { toast } = useToast();
   const [searchTerm, setSearchTerm] = useState("");
   const [editingTest, setEditingTest] = useState<MilkTestResult | null>(null);
-  const [sortConfig, setSortConfig] = useState<SortConfig>({ column: 'created_at', direction: 'desc' });
+  const [sortConfig, setSortConfig] = useState({ column: 'created_at', direction: 'desc' as const });
 
-  const { data: results = [], isLoading, error, refetch } = useQuery({
-    queryKey: ['my-milk-tests', sortConfig],
-    queryFn: async () => {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) {
-        navigate('/auth');
-        return [];
-      }
-      
-      // Cast to unknown first, then to our specific type
-      const { data, error } = await supabase
-        .from('milk_tests_view')
-        .select('*')
-        .eq('user_id', user.id)
-        .order(sortConfig.column, { ascending: sortConfig.direction === 'asc' }) as unknown as {
-          data: MilkTestResult[] | null,
-          error: Error | null
-        };
-      
-      if (error) throw error;
-      return data || [];
-    }
-  });
+  const { data: results = [], isLoading, error, refetch } = useUserMilkTests(sortConfig);
 
   const handleDelete = async (id: string) => {
     const { error } = await supabase
@@ -124,22 +94,15 @@ const MyResults = () => {
         
         <UserStatsOverview results={results} />
         
-        <div className="bg-white rounded-lg shadow-md p-6">
-          <SearchBar
-            searchTerm={searchTerm}
-            setSearchTerm={setSearchTerm}
-            className="mb-4"
-            placeholder="Search by brand or product..."
-          />
-          
-          <MyResultsTable
-            results={filteredResults}
-            sortConfig={sortConfig}
-            handleSort={handleSort}
-            onEdit={handleEdit}
-            onDelete={handleDelete}
-          />
-        </div>
+        <UserResultsContainer 
+          filteredResults={filteredResults}
+          sortConfig={sortConfig}
+          handleSort={handleSort}
+          onEdit={handleEdit}
+          onDelete={handleDelete}
+          searchTerm={searchTerm}
+          setSearchTerm={setSearchTerm}
+        />
 
         {editingTest && (
           <EditMilkTest
