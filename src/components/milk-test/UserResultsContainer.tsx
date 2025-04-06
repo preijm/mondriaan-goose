@@ -3,13 +3,11 @@ import React from "react";
 import { SearchBar } from "@/components/milk-test/SearchBar";
 import { MyResultsTable } from "@/components/milk-test/MyResultsTable";
 import { MilkTestResult } from "@/types/milk-test";
+import { SortConfig } from "@/hooks/useUserMilkTests";
 
 interface UserResultsContainerProps {
   filteredResults: MilkTestResult[];
-  sortConfig: {
-    column: string;
-    direction: 'asc' | 'desc';
-  };
+  sortConfig: SortConfig;
   handleSort: (column: string) => void;
   onEdit: (result: MilkTestResult) => void;
   onDelete: (id: string) => void;

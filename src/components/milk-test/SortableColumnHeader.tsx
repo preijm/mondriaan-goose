@@ -2,11 +2,7 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowUpDown, ChevronDown, ChevronUp } from "lucide-react";
-
-interface SortConfig {
-  column: string;
-  direction: 'asc' | 'desc';
-}
+import { SortConfig } from "@/hooks/useUserMilkTests";
 
 interface SortableColumnHeaderProps {
   column: string;

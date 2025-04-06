@@ -7,13 +7,13 @@ import { UserStatsOverview } from "@/components/UserStatsOverview";
 import { MilkTestResult } from "@/types/milk-test";
 import { UserResultsContainer } from "@/components/milk-test/UserResultsContainer";
 import { supabase } from "@/integrations/supabase/client";
-import { useUserMilkTests } from "@/hooks/useUserMilkTests";
+import { useUserMilkTests, SortConfig } from "@/hooks/useUserMilkTests";
 
 const MyResults = () => {
   const { toast } = useToast();
   const [searchTerm, setSearchTerm] = useState("");
   const [editingTest, setEditingTest] = useState<MilkTestResult | null>(null);
-  const [sortConfig, setSortConfig] = useState({ column: 'created_at', direction: 'desc' as const });
+  const [sortConfig, setSortConfig] = useState<SortConfig>({ column: 'created_at', direction: 'desc' });
 
   const { data: results = [], isLoading, error, refetch } = useUserMilkTests(sortConfig);
 

@@ -5,6 +5,7 @@ import { Pencil, Trash2 } from "lucide-react";
 import { MilkTestResult } from "@/types/milk-test";
 import { PriceQualityBadge } from "@/components/milk-test/PriceQualityBadge";
 import { SortableColumnHeader } from "@/components/milk-test/SortableColumnHeader";
+import { SortConfig } from "@/hooks/useUserMilkTests";
 import {
   Table,
   TableBody,
@@ -16,10 +17,7 @@ import {
 
 interface MyResultsTableProps {
   results: MilkTestResult[];
-  sortConfig: {
-    column: string;
-    direction: 'asc' | 'desc';
-  };
+  sortConfig: SortConfig;
   handleSort: (column: string) => void;
   onEdit: (result: MilkTestResult) => void;
   onDelete: (id: string) => void;
