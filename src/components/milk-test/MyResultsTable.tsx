@@ -106,10 +106,10 @@ export const MyResultsTable = ({
             <TableRow key={result.id}>
               <TableCell>{new Date(result.created_at).toLocaleDateString()}</TableCell>
               <TableCell className="font-medium">{result.brand_name}</TableCell>
-              <TableCell className="max-w-[240px]">
-                <div className="flex flex-col">
+              <TableCell>
+                <div>
                   <span className="font-medium">{result.product_name}</span>
-                  <div className="flex flex-wrap gap-1 mt-1">
+                  <div className="flex flex-wrap gap-1 mt-0.5">
                     {result.is_barista && (
                       <ProductPropertyBadges 
                         isBarista={result.is_barista}

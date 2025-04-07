@@ -58,7 +58,7 @@ export const ProductPropertyBadges: React.FC<ProductPropertyBadgesProps> = ({
   const shouldRenderFlavors = displayType === 'all' || displayType === 'flavors';
 
   return (
-    <div className={`flex flex-wrap gap-1.5 ${compact ? "inline-flex" : "mt-1"} ${className}`}>
+    <div className={`flex flex-wrap gap-1 ${compact ? "inline-flex" : ""} ${className}`}>
       {/* Barista badge with priority styling */}
       {shouldRenderBarista && isBarista && (
         <Badge 

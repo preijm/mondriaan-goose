@@ -119,36 +119,37 @@ export const AggregatedResultsTable = ({
               >
                 <TableCell className="font-medium text-gray-900">{result.brand_name}</TableCell>
                 <TableCell className="pr-0">
-                  <div className="flex flex-col">
-                    <div className="flex items-center">
-                      <span className="font-medium">{result.product_name}</span>
-                      <span className="ml-1 text-gray-400">
-                        {expandedProduct === result.product_id ? 
-                          <ChevronUp className="w-4 h-4" /> : 
-                          <ChevronDown className="w-4 h-4" />}
-                      </span>
-                    </div>
-                    
-                    <div className="flex flex-wrap gap-1 mt-1">
-                      {result.is_barista && (
+                  <div className="flex items-center">
+                    <div className="flex-grow">
+                      <div className="flex items-center">
+                        <span className="font-medium">{result.product_name}</span>
+                        <span className="ml-1 text-gray-400">
+                          {expandedProduct === result.product_id ? 
+                            <ChevronUp className="w-4 h-4" /> : 
+                            <ChevronDown className="w-4 h-4" />}
+                        </span>
+                      </div>
+                      <div className="flex flex-wrap gap-1 mt-0.5">
+                        {result.is_barista && (
+                          <ProductPropertyBadges 
+                            isBarista={result.is_barista}
+                            compact={true}
+                            displayType="barista"
+                          />
+                        )}
+                        
                         <ProductPropertyBadges 
-                          isBarista={result.is_barista}
+                          propertyNames={result.property_names}
                           compact={true}
-                          displayType="barista"
+                          displayType="properties"
                         />
-                      )}
-                      
-                      <ProductPropertyBadges 
-                        propertyNames={result.property_names}
-                        compact={true}
-                        displayType="properties"
-                      />
-                      
-                      <ProductPropertyBadges 
-                        flavorNames={result.flavor_names}
-                        compact={true}
-                        displayType="flavors"
-                      />
+                        
+                        <ProductPropertyBadges 
+                          flavorNames={result.flavor_names}
+                          compact={true}
+                          displayType="flavors"
+                        />
+                      </div>
                     </div>
                   </div>
                 </TableCell>
@@ -192,3 +193,4 @@ export const AggregatedResultsTable = ({
     </Table>
   );
 };
+
