@@ -1,7 +1,7 @@
 
 import React from "react";
 import { Button } from "@/components/ui/button";
-import { ArrowUpDown, ChevronDown, ChevronUp } from "lucide-react";
+import { ChevronDown, ChevronUp } from "lucide-react";
 import { SortConfig } from "@/hooks/useUserMilkTests";
 
 interface SortableColumnHeaderProps {
@@ -22,7 +22,7 @@ export const SortableColumnHeader = ({
   const getSortIcon = () => {
     // Only show directional icons if this column is currently sorted
     if (sortConfig.column !== column) {
-      return <ArrowUpDown className="w-3.5 h-3.5 ml-1 text-gray-400" />;
+      return null; // Don't show any icon for unsorted columns
     }
     
     return sortConfig.direction === 'asc' ? (
