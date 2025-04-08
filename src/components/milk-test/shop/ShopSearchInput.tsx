@@ -13,7 +13,7 @@ export const ShopSearchInput = ({ value, onChange }: ShopSearchInputProps) => {
       placeholder="Search for shop..."
       value={value}
       onChange={onChange}
-      className="w-full"
+      className="w-full focus-visible:ring-primary/70"
       autoComplete="off"
     />
   );

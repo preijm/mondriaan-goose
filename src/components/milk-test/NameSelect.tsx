@@ -110,7 +110,7 @@ export const NameSelect = ({ productName, setProductName, onNameIdChange }: Name
         onChange={handleInputChange}
         onFocus={() => setIsDropdownVisible(true)}
         onBlur={() => setTimeout(() => setIsDropdownVisible(false), 200)}
-        className="w-full pr-10"
+        className="w-full pr-10 focus-visible:ring-primary/70"
       />
       {isDropdownVisible && (suggestions.length > 0 || showAddNew) && (
         <div className="absolute z-10 w-full mt-1 bg-white border rounded-md shadow-lg">

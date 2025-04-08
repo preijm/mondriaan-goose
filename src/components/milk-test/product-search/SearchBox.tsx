@@ -51,7 +51,7 @@ export const SearchBox = ({
             onChange={handleInputChange}
             onKeyDown={handleKeyDown}
             onFocus={!hasSelectedProduct ? onFocus : undefined} 
-            className="pl-9 w-full" 
+            className="pl-9 w-full focus-visible:ring-primary/70" 
           />
           {searchTerm && (
             <button 
