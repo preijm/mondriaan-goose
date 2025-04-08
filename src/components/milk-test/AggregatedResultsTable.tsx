@@ -1,4 +1,3 @@
-
 import React from "react";
 import {
   Table,
@@ -66,7 +65,7 @@ export const AggregatedResultsTable = ({
     <Table>
       <TableHeader>
         <TableRow className="bg-gray-50 border-b border-gray-200">
-          <TableHead className="text-left font-semibold text-gray-700">
+          <TableHead className="text-left font-semibold text-gray-700 pl-4">
             <SortableColumnHeader 
               column="brand_name" 
               label="Brand" 

@@ -1,4 +1,3 @@
-
 import React from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { ImageIcon } from "lucide-react";
@@ -48,7 +47,7 @@ export const TestDetailsTable = ({
       <Table>
         <TableHeader>
           <TableRow className="bg-gray-100 text-sm">
-            <TableHead className="font-semibold text-gray-700">
+            <TableHead className="font-semibold text-gray-700 text-left">
               <SortableColumnHeader
                 column="created_at"
                 label="Date"
@@ -56,7 +55,7 @@ export const TestDetailsTable = ({
                 onSort={handleSort}
               />
             </TableHead>
-            <TableHead className="font-semibold text-gray-700">
+            <TableHead className="font-semibold text-gray-700 text-left">
               <SortableColumnHeader
                 column="username"
                 label="Tester"
@@ -64,7 +63,7 @@ export const TestDetailsTable = ({
                 onSort={handleSort}
               />
             </TableHead>
-            <TableHead className="font-semibold text-gray-700">
+            <TableHead className="font-semibold text-gray-700 text-left">
               <SortableColumnHeader
                 column="rating"
                 label="Score"
@@ -72,7 +71,7 @@ export const TestDetailsTable = ({
                 onSort={handleSort}
               />
             </TableHead>
-            <TableHead className="font-semibold text-gray-700">
+            <TableHead className="font-semibold text-gray-700 text-left">
               <SortableColumnHeader
                 column="drink_preference"
                 label="Style"
@@ -80,7 +79,7 @@ export const TestDetailsTable = ({
                 onSort={handleSort}
               />
             </TableHead>
-            <TableHead className="font-semibold text-gray-700">
+            <TableHead className="font-semibold text-gray-700 text-left">
               <SortableColumnHeader
                 column="price_quality_ratio"
                 label="Price"
@@ -88,7 +87,7 @@ export const TestDetailsTable = ({
                 onSort={handleSort}
               />
             </TableHead>
-            <TableHead className="hidden md:table-cell font-semibold text-gray-700">
+            <TableHead className="hidden md:table-cell font-semibold text-gray-700 text-left">
               <SortableColumnHeader
                 column="shop_name"
                 label="Shop"
@@ -96,7 +95,7 @@ export const TestDetailsTable = ({
                 onSort={handleSort}
               />
             </TableHead>
-            <TableHead className="w-48 font-semibold text-gray-700">
+            <TableHead className="w-48 font-semibold text-gray-700 text-left">
               <SortableColumnHeader
                 column="notes"
                 label="Notes"
@@ -104,7 +103,7 @@ export const TestDetailsTable = ({
                 onSort={handleSort}
               />
             </TableHead>
-            <TableHead className="font-semibold text-gray-700">
+            <TableHead className="font-semibold text-gray-700 text-left">
               <SortableColumnHeader
                 column="picture_path"
                 label="Image"
