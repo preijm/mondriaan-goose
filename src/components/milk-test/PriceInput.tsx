@@ -93,7 +93,7 @@ export const PriceInput = ({
               <button
                 type="button"
                 onClick={() => handlePriceChange(value)}
-                className={`flex items-center justify-center py-3 px-2 rounded-lg border-2 transition-all ${
+                className={`flex items-center justify-center py-3 px-2 rounded-lg border-2 transition-all cursor-pointer ${
                   priceValue === value
                     ? `${activeClass} shadow-sm`
                     : "bg-white border-gray-200 hover:border-gray-300"
@@ -117,7 +117,7 @@ export const PriceInput = ({
                 <button
                   type="button"
                   onClick={() => handlePriceChange(value)}
-                  className={`flex items-center justify-center py-3 px-2 rounded-lg border-2 transition-all ${
+                  className={`flex items-center justify-center py-3 px-2 rounded-lg border-2 transition-all cursor-pointer ${
                     priceValue === value
                       ? `${activeClass} shadow-sm`
                       : "bg-white border-gray-200 hover:border-gray-300"
