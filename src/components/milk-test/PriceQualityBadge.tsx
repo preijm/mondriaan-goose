@@ -42,7 +42,7 @@ export const PriceQualityBadge: React.FC<PriceQualityBadgeProps> = ({ priceQuali
     return (
       <HoverCard>
         <HoverCardTrigger asChild>
-          <div className="flex items-center cursor-pointer">
+          <div className="flex items-center cursor-default">
             <span className="text-xl">{emoji}</span>
           </div>
         </HoverCardTrigger>
@@ -57,7 +57,7 @@ export const PriceQualityBadge: React.FC<PriceQualityBadgeProps> = ({ priceQuali
     <TooltipProvider>
       <Tooltip delayDuration={300}>
         <TooltipTrigger asChild>
-          <div className="flex items-center cursor-pointer">
+          <div className="flex items-center cursor-default">
             <span className="text-xl">{emoji}</span>
           </div>
         </TooltipTrigger>
