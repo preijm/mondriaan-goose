@@ -166,6 +166,30 @@ const ProductDetails = () => {
                   <div className="text-xs text-gray-500">Product</div>
                   <div className="flex items-center gap-2">
                     <h3 className="text-lg font-medium">{product.product_name}</h3>
+                    <div className="flex flex-wrap gap-1">
+                      {product.is_barista && (
+                        <ProductPropertyBadges 
+                          isBarista={product.is_barista}
+                          displayType="barista"
+                          inline={true}
+                          compact={true}
+                        />
+                      )}
+                      
+                      <ProductPropertyBadges 
+                        propertyNames={product.property_names}
+                        displayType="properties"
+                        inline={true}
+                        compact={true}
+                      />
+                      
+                      <ProductPropertyBadges 
+                        flavorNames={product.flavor_names}
+                        displayType="flavors"
+                        inline={true}
+                        compact={true}
+                      />
+                    </div>
                   </div>
                 </div>
               </div>
@@ -186,28 +210,8 @@ const ProductDetails = () => {
                 </div>
               </div>
             </div>
-            
-            {/* Product properties in a compact row */}
-            <div className="mt-2 flex flex-wrap gap-1">
-              {product.is_barista && (
-                <ProductPropertyBadges 
-                  isBarista={product.is_barista}
-                  displayType="barista"
-                  className="mr-1"
-                />
-              )}
-              
-              <ProductPropertyBadges 
-                propertyNames={product.property_names}
-                displayType="properties"
-                className="mr-1"
-              />
-              
-              <ProductPropertyBadges 
-                flavorNames={product.flavor_names}
-                displayType="flavors"
-              />
-            </div>
+
+            {/* Remove the separate product properties section since we've moved them inline */}
           </CardContent>
         </Card>
 
