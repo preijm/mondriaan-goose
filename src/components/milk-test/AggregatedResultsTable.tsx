@@ -152,10 +152,12 @@ export const AggregatedResultsTable = ({
                 </div>
               </TableCell>
               <TableCell className="relative">
-                <div className="inline-flex items-center justify-center rounded-full bg-gray-100 h-7 w-7">
-                  <span className="text-gray-700 font-medium">{result.count}</span>
+                <div className="flex items-center justify-between">
+                  <div className="inline-flex items-center justify-center rounded-full bg-gray-100 h-7 w-7">
+                    <span className="text-gray-700 font-medium">{result.count}</span>
+                  </div>
+                  <ChevronRight className="opacity-0 group-hover:opacity-100 text-black transition-opacity" size={24} />
                 </div>
-                <ChevronRight className="absolute right-4 opacity-0 group-hover:opacity-100 text-blue-500 transition-opacity" size={18} />
               </TableCell>
             </TableRow>
           ))
