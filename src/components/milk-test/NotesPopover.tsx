@@ -1,7 +1,7 @@
 
 import React from "react";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { FileText } from "lucide-react";
 
 interface NotesPopoverProps {
   notes: string;
@@ -10,28 +10,16 @@ interface NotesPopoverProps {
 export const NotesPopover = ({ notes }: NotesPopoverProps) => {
   if (!notes || notes === "-") return <span className="text-gray-500">-</span>;
 
-  // For very short notes, just show them directly
-  if (notes.length < 20) return <span>{notes}</span>;
-
   return (
-    <TooltipProvider>
-      <Tooltip>
-        <TooltipTrigger asChild>
-          <Popover>
-            <PopoverTrigger asChild>
-              <div className="w-48 truncate cursor-pointer hover:text-blue-500 transition-colors">
-                {notes}
-              </div>
-            </PopoverTrigger>
-            <PopoverContent className="max-w-md max-h-[300px] overflow-auto p-4 bg-white">
-              <p className="whitespace-pre-wrap break-words">{notes}</p>
-            </PopoverContent>
-          </Popover>
-        </TooltipTrigger>
-        <TooltipContent side="top" className="bg-gray-800 text-white">
-          <p className="text-xs">Click to read full note</p>
-        </TooltipContent>
-      </Tooltip>
-    </TooltipProvider>
+    <Popover>
+      <PopoverTrigger asChild>
+        <button className="inline-flex items-center text-blue-500 hover:text-blue-700 transition-colors">
+          <FileText className="h-5 w-5" />
+        </button>
+      </PopoverTrigger>
+      <PopoverContent className="w-80 max-h-[300px] overflow-auto p-4">
+        <p className="whitespace-pre-wrap break-words">{notes}</p>
+      </PopoverContent>
+    </Popover>
   );
 };

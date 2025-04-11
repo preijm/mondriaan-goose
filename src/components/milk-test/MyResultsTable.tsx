@@ -7,6 +7,8 @@ import { PriceQualityBadge } from "@/components/milk-test/PriceQualityBadge";
 import { SortableColumnHeader } from "@/components/milk-test/SortableColumnHeader";
 import { ProductPropertyBadges } from "@/components/milk-test/ProductPropertyBadges";
 import { SortConfig } from "@/hooks/useUserMilkTests";
+import { NotesPopover } from "@/components/milk-test/NotesPopover";
+import { DrinkPreferenceIcon } from "@/components/milk-test/DrinkPreferenceIcon";
 import {
   Table,
   TableBody,
@@ -44,8 +46,8 @@ export const MyResultsTable = ({
     <div className="overflow-x-auto">
       <Table>
         <TableHeader>
-          <TableRow>
-            <TableHead className="text-left pl-4">
+          <TableRow className="bg-gray-100 text-sm">
+            <TableHead className="font-semibold text-gray-700 text-left pl-4">
               <SortableColumnHeader
                 column="created_at"
                 label="Date"
@@ -53,7 +55,7 @@ export const MyResultsTable = ({
                 onSort={handleSort}
               />
             </TableHead>
-            <TableHead className="text-left pl-4">
+            <TableHead className="font-semibold text-gray-700 text-left pl-4">
               <SortableColumnHeader
                 column="brand_name"
                 label="Brand"
@@ -61,7 +63,7 @@ export const MyResultsTable = ({
                 onSort={handleSort}
               />
             </TableHead>
-            <TableHead className="text-left pl-4">
+            <TableHead className="font-semibold text-gray-700 text-left pl-4">
               <SortableColumnHeader
                 column="product_name"
                 label="Product"
@@ -69,7 +71,7 @@ export const MyResultsTable = ({
                 onSort={handleSort}
               />
             </TableHead>
-            <TableHead className="text-left pl-4">
+            <TableHead className="font-semibold text-gray-700 text-left pl-4">
               <SortableColumnHeader
                 column="rating"
                 label="Score"
@@ -77,15 +79,15 @@ export const MyResultsTable = ({
                 onSort={handleSort}
               />
             </TableHead>
-            <TableHead className="text-left pl-4">
+            <TableHead className="font-semibold text-gray-700 text-left pl-4">
               <SortableColumnHeader
-                column="shop_name"
-                label="Shop"
+                column="drink_preference"
+                label="Style"
                 sortConfig={sortConfig}
                 onSort={handleSort}
               />
             </TableHead>
-            <TableHead className="text-left pl-4">
+            <TableHead className="font-semibold text-gray-700 text-left pl-4">
               <SortableColumnHeader
                 column="price_quality_ratio"
                 label="Price Quality"
@@ -93,7 +95,15 @@ export const MyResultsTable = ({
                 onSort={handleSort}
               />
             </TableHead>
-            <TableHead className="text-left pl-4">
+            <TableHead className="font-semibold text-gray-700 text-left pl-4">
+              <SortableColumnHeader
+                column="shop_name"
+                label="Shop"
+                sortConfig={sortConfig}
+                onSort={handleSort}
+              />
+            </TableHead>
+            <TableHead className="font-semibold text-gray-700 text-left pl-4">
               <SortableColumnHeader
                 column="price"
                 label="Price"
@@ -101,7 +111,7 @@ export const MyResultsTable = ({
                 onSort={handleSort}
               />
             </TableHead>
-            <TableHead className="text-left pl-4">
+            <TableHead className="font-semibold text-gray-700 text-left pl-4">
               <SortableColumnHeader
                 column="notes"
                 label="Notes"
@@ -109,13 +119,13 @@ export const MyResultsTable = ({
                 onSort={handleSort}
               />
             </TableHead>
-            <TableHead className="text-left pl-4">Actions</TableHead>
+            <TableHead className="font-semibold text-gray-700 text-left pl-4">Actions</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {results.length === 0 ? (
             <TableRow>
-              <TableCell colSpan={9} className="text-center py-8">
+              <TableCell colSpan={10} className="text-center py-8">
                 No results found
               </TableCell>
             </TableRow>
@@ -161,6 +171,14 @@ export const MyResultsTable = ({
                   </div>
                 </TableCell>
                 <TableCell>
+                  <div className="flex items-center">
+                    <DrinkPreferenceIcon preference={result.drink_preference} />
+                  </div>
+                </TableCell>
+                <TableCell>
+                  <PriceQualityBadge priceQuality={result.price_quality_ratio} />
+                </TableCell>
+                <TableCell>
                   {result.shop_name}
                   {result.shop_country_code && (
                     <span className="text-gray-500 text-xs ml-1">
@@ -169,16 +187,15 @@ export const MyResultsTable = ({
                   )}
                 </TableCell>
                 <TableCell>
-                  <PriceQualityBadge priceQuality={result.price_quality_ratio} />
-                </TableCell>
-                <TableCell>
-                  {result.price ? (
+                  {result.price !== null && result.price !== undefined ? (
                     <span>{Number(result.price).toFixed(2)} {result.currency_code || ''}</span>
                   ) : (
                     <span className="text-gray-400">-</span>
                   )}
                 </TableCell>
-                <TableCell className="max-w-xs truncate">{result.notes}</TableCell>
+                <TableCell className="text-center">
+                  <NotesPopover notes={result.notes || "-"} />
+                </TableCell>
                 <TableCell>
                   <div className="flex gap-2">
                     <Button

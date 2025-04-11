@@ -101,7 +101,7 @@ export const TestDetailsTable = ({
                 width="100%"
               />
             </TableHead>
-            <TableHead className="w-[25%] font-semibold text-gray-700 text-left pl-4">
+            <TableHead className="w-[10%] font-semibold text-gray-700 text-left pl-4">
               <SortableColumnHeader
                 column="notes"
                 label="Notes"
@@ -166,7 +166,7 @@ export const TestDetailsTable = ({
                     "-"
                   )}
                 </TableCell>
-                <TableCell className="w-48">
+                <TableCell className="text-center">
                   <NotesPopover notes={test.notes || "-"} />
                 </TableCell>
                 <TableCell>
