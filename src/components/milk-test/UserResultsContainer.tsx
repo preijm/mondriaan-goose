@@ -29,6 +29,12 @@ export const UserResultsContainer = ({
 }: UserResultsContainerProps) => {
   const [viewMode, setViewMode] = useState<'grid' | 'table'>('grid');
 
+  // Create a wrapper for handleSort that doesn't change the view mode
+  const handleSortWithoutViewChange = (column: string) => {
+    handleSort(column);
+    // We don't change viewMode here, which ensures it stays on table view after sorting
+  };
+
   return (
     <div className="bg-white rounded-lg shadow-md p-6">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
@@ -71,7 +77,7 @@ export const UserResultsContainer = ({
         <MyResultsTable
           results={filteredResults}
           sortConfig={sortConfig}
-          handleSort={handleSort}
+          handleSort={handleSortWithoutViewChange}
           onEdit={onEdit}
           onDelete={onDelete}
         />
