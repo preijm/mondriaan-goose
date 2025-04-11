@@ -1,5 +1,5 @@
 
-import React, { useState } from "react";
+import React from "react";
 import { SearchBar } from "@/components/milk-test/SearchBar";
 import { MyResultsTable } from "@/components/milk-test/MyResultsTable";
 import { MyResultsGrid } from "@/components/milk-test/MyResultsGrid";
@@ -16,6 +16,8 @@ interface UserResultsContainerProps {
   onDelete: (id: string) => void;
   searchTerm: string;
   setSearchTerm: (term: string) => void;
+  viewMode: 'grid' | 'table';
+  setViewMode: (mode: 'grid' | 'table') => void;
 }
 
 export const UserResultsContainer = ({
@@ -25,10 +27,10 @@ export const UserResultsContainer = ({
   onEdit,
   onDelete,
   searchTerm,
-  setSearchTerm
+  setSearchTerm,
+  viewMode,
+  setViewMode
 }: UserResultsContainerProps) => {
-  const [viewMode, setViewMode] = useState<'grid' | 'table'>('grid');
-
   // Create a wrapper for handleSort that doesn't change the view mode
   const handleSortWithoutViewChange = (column: string) => {
     handleSort(column);
