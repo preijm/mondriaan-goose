@@ -31,11 +31,11 @@ export const UserResultsContainer = ({
 
   return (
     <div className="bg-white rounded-lg shadow-md p-6">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
         <SearchBar
           searchTerm={searchTerm}
           setSearchTerm={setSearchTerm}
-          className="w-full sm:w-auto"
+          className="w-full max-w-md"
           placeholder="Search by brand or product..."
         />
         

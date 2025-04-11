@@ -4,7 +4,7 @@ import { MilkTestResult } from "@/types/milk-test";
 import { Card, CardContent } from "@/components/ui/card";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { supabase } from "@/integrations/supabase/client";
-import { Star, Calendar, Edit2, Trash2 } from "lucide-react";
+import { Calendar, Edit2, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ProductPropertyBadges } from "@/components/milk-test/ProductPropertyBadges";
 import { 
@@ -26,6 +26,15 @@ export const MyResultsGrid = ({ results, onEdit, onDelete }: MyResultsGridProps)
     return supabase.storage.from('milk-pictures').getPublicUrl(picturePath).data.publicUrl;
   };
 
+  const getRatingColorClass = (rating: number) => {
+    if (rating >= 8.5) return "bg-green-500 text-white";
+    if (rating >= 7.5) return "bg-green-400 text-white";
+    if (rating >= 6.5) return "bg-blue-400 text-white";
+    if (rating >= 5.5) return "bg-yellow-400 text-gray-800";
+    if (rating >= 4.5) return "bg-orange-400 text-white";
+    return "bg-red-400 text-white";
+  };
+
   if (results.length === 0) {
     return (
       <div className="text-center py-12">
@@ -38,6 +47,7 @@ export const MyResultsGrid = ({ results, onEdit, onDelete }: MyResultsGridProps)
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
       {results.map((result) => {
         const imageUrl = getPictureUrl(result.picture_path);
+        const ratingColorClass = getRatingColorClass(Number(result.rating));
         
         return (
           <Card key={result.id} className="overflow-hidden hover:shadow-md transition-shadow">
@@ -60,12 +70,12 @@ export const MyResultsGrid = ({ results, onEdit, onDelete }: MyResultsGridProps)
                 )}
                 
                 {/* Rating badge */}
-                <div className="absolute top-2 right-2 bg-cream-300 rounded-full h-10 w-10 flex items-center justify-center shadow-md">
+                <div className={`absolute top-2 right-2 rounded-full h-10 w-10 flex items-center justify-center shadow-md ${ratingColorClass}`}>
                   <TooltipProvider>
                     <Tooltip>
                       <TooltipTrigger asChild>
                         <div className="flex items-center gap-1">
-                          <span className="font-semibold text-milk-500">{Number(result.rating).toFixed(1)}</span>
+                          <span className="font-semibold">{Number(result.rating).toFixed(1)}</span>
                         </div>
                       </TooltipTrigger>
                       <TooltipContent>
