@@ -13,6 +13,7 @@ import NotFound from "./pages/NotFound";
 import Auth from "./pages/Auth";
 import MyResults from "./pages/MyResults";
 import Account from "./pages/Account";
+import ProductDetails from "./pages/ProductDetails";
 
 const queryClient = new QueryClient();
 
@@ -27,6 +28,7 @@ const App = () => {
             <Route path="/" element={<Home />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/results" element={<Results />} />
+            <Route path="/product/:productId" element={<ProductDetails />} />
             <Route path="/add" element={<Index />} />
             <Route path="/about" element={<About />} />
             <Route path="/auth" element={<Auth />} />

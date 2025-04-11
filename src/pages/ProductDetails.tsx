@@ -1,0 +1,209 @@
+
+import React from "react";
+import { useParams, Link } from "react-router-dom";
+import { Navigation } from "@/components/Navigation";
+import { SortConfig, useProductTests } from "@/hooks/useProductTests";
+import { TestDetailsTable } from "@/components/milk-test/TestDetailsTable";
+import { ImageModal } from "@/components/milk-test/ImageModal";
+import { Button } from "@/components/ui/button";
+import { ArrowLeft } from "lucide-react";
+import { Card, CardHeader, CardContent, CardTitle } from "@/components/ui/card";
+import { supabase } from "@/integrations/supabase/client";
+import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { ProductPropertyBadges } from "@/components/milk-test/ProductPropertyBadges";
+
+const ProductDetails = () => {
+  const { productId } = useParams<{ productId: string }>();
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  // Set default sort to created_at in descending order to show latest tests first
+  const [sortConfig, setSortConfig] = useState<SortConfig>({ column: 'created_at', direction: 'desc' });
+  
+  // Fetch product details
+  const { data: product, isLoading: isLoadingProduct } = useQuery({
+    queryKey: ['product-details', productId],
+    queryFn: async () => {
+      if (!productId) return null;
+      
+      const { data, error } = await supabase
+        .from('products_aggregated_view')
+        .select('product_id, brand_name, product_name, property_names, is_barista, flavor_names, avg_rating, count')
+        .eq('product_id', productId)
+        .single();
+      
+      if (error) throw error;
+      return data;
+    },
+    enabled: !!productId
+  });
+
+  // Fetch individual tests for the product
+  const { data: productTests = [], isLoading: isLoadingTests } = useProductTests(productId, sortConfig);
+
+  const handleSort = (column: string) => {
+    setSortConfig(current => {
+      // If clicking on the same column, toggle direction
+      if (current.column === column) {
+        return {
+          column,
+          direction: current.direction === 'asc' ? 'desc' : 'asc'
+        };
+      }
+      
+      // If clicking on a different column, default to desc direction
+      return {
+        column,
+        direction: 'desc'
+      };
+    });
+  };
+
+  // Handle opening the image modal
+  const handleImageClick = (picturePath: string) => {
+    if (!picturePath) return;
+    
+    const imageUrl = supabase.storage.from('milk-pictures').getPublicUrl(picturePath).data.publicUrl;
+    setSelectedImage(imageUrl);
+  };
+
+  const getRatingColorClass = (rating: number) => {
+    if (rating >= 8.5) return "bg-green-500 text-white";
+    if (rating >= 7.5) return "bg-green-400 text-white";
+    if (rating >= 6.5) return "bg-blue-400 text-white";
+    if (rating >= 5.5) return "bg-yellow-400 text-gray-800";
+    if (rating >= 4.5) return "bg-orange-400 text-white";
+    return "bg-red-400 text-white";
+  };
+
+  if (isLoadingProduct) {
+    return (
+      <div className="min-h-screen bg-milk-100 py-8 px-4">
+        <div className="container max-w-5xl mx-auto">
+          <Navigation />
+          <div className="flex items-center mt-6 mb-6">
+            <Link to="/results">
+              <Button variant="outline" size="sm" className="gap-1">
+                <ArrowLeft className="h-4 w-4" /> Back to results
+              </Button>
+            </Link>
+          </div>
+          <div className="text-center py-12">Loading product details...</div>
+        </div>
+      </div>
+    );
+  }
+
+  if (!product) {
+    return (
+      <div className="min-h-screen bg-milk-100 py-8 px-4">
+        <div className="container max-w-5xl mx-auto">
+          <Navigation />
+          <div className="flex items-center mt-6 mb-6">
+            <Link to="/results">
+              <Button variant="outline" size="sm" className="gap-1">
+                <ArrowLeft className="h-4 w-4" /> Back to results
+              </Button>
+            </Link>
+          </div>
+          <div className="text-center py-12">Product not found</div>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-milk-100 py-8 px-4">
+      <div className="container max-w-5xl mx-auto">
+        <Navigation />
+        
+        <div className="flex items-center mt-6 mb-6">
+          <Link to="/results">
+            <Button variant="outline" size="sm" className="gap-1">
+              <ArrowLeft className="h-4 w-4" /> Back to results
+            </Button>
+          </Link>
+        </div>
+
+        <Card className="bg-white rounded-lg shadow-md mb-6">
+          <CardHeader className="pb-2">
+            <div className="flex items-center justify-between">
+              <div>
+                <div className="text-sm text-gray-500 mb-1">Brand</div>
+                <h2 className="text-2xl font-bold text-gray-900">{product.brand_name}</h2>
+              </div>
+              
+              <div className="flex flex-col items-end">
+                <div className="text-sm text-gray-500 mb-1">Average Score</div>
+                <div className="flex items-center gap-3">
+                  <div className={`rounded-full h-10 w-10 flex items-center justify-center ${getRatingColorClass(product.avg_rating)}`}>
+                    <span className="font-semibold">{product.avg_rating.toFixed(1)}</span>
+                  </div>
+                  <div className="inline-flex items-center justify-center rounded-full bg-gray-100 h-8 w-8">
+                    <span className="text-gray-700 font-medium">{product.count}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </CardHeader>
+          <CardContent>
+            <div className="mb-4">
+              <div className="text-sm text-gray-500 mb-1">Product</div>
+              <div className="flex items-center">
+                <h3 className="text-xl font-semibold">{product.product_name}</h3>
+                <div className="ml-2">
+                  {product.is_barista && (
+                    <ProductPropertyBadges 
+                      isBarista={product.is_barista}
+                      displayType="barista"
+                      className="mr-1"
+                    />
+                  )}
+                  
+                  <ProductPropertyBadges 
+                    propertyNames={product.property_names}
+                    displayType="properties"
+                    className="mr-1"
+                  />
+                  
+                  <ProductPropertyBadges 
+                    flavorNames={product.flavor_names}
+                    displayType="flavors"
+                  />
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="bg-white rounded-lg shadow-md overflow-hidden">
+          <CardHeader className="bg-white pt-6 px-6">
+            <CardTitle className="text-xl">Individual Tests</CardTitle>
+          </CardHeader>
+          <CardContent className="p-0">
+            {isLoadingTests ? (
+              <div className="text-center py-8">Loading test results...</div>
+            ) : (
+              <TestDetailsTable 
+                productTests={productTests} 
+                handleImageClick={handleImageClick}
+                sortConfig={sortConfig}
+                handleSort={handleSort}
+              />
+            )}
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Image modal */}
+      {selectedImage && (
+        <ImageModal 
+          imageUrl={selectedImage} 
+          isOpen={!!selectedImage} 
+          onClose={() => setSelectedImage(null)} 
+        />
+      )}
+    </div>
+  );
+};
+
+export default ProductDetails;
