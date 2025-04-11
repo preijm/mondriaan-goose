@@ -23,11 +23,8 @@ interface MilkCardProps {
 }
 
 export const MilkCard = ({ result, showUsername = false }: MilkCardProps) => {
-  // Use consistent bg-soft-peach for all cards
-  const bgColorClass = "bg-soft-peach";
-
   return (
-    <div className={`rounded-lg shadow-md p-6 animate-fade-up hover:shadow-lg transition-shadow relative h-[200px] flex flex-col ${bgColorClass} border border-gray-100`}>
+    <div className="rounded-lg shadow-md p-6 animate-fade-up hover:shadow-lg transition-shadow relative h-[200px] flex flex-col border border-gray-100" style={{ backgroundColor: '#fff9f0' }}>
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2">
           <Milk className="w-6 h-6 text-milk-400" />

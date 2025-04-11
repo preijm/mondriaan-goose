@@ -37,23 +37,23 @@ export const StatsOverview = ({ results }: { results: MilkTestResult[] }) => {
       </div>
 
       <div className="grid grid-cols-5 gap-3">
-        <div className="flex flex-col bg-soft-peach rounded-lg p-3 shadow-sm transition-transform hover:shadow-md hover:-translate-y-1">
+        <div className="flex flex-col rounded-lg p-3 shadow-sm transition-transform hover:shadow-md hover:-translate-y-1" style={{ backgroundColor: '#fff9f0' }}>
           <p className="text-xs text-gray-600 mb-1">Average Rating</p>
           <p className="text-xl font-bold text-gray-900">{avgRating}/10</p>
         </div>
-        <div className="flex flex-col bg-soft-peach rounded-lg p-3 shadow-sm transition-transform hover:shadow-md hover:-translate-y-1">
+        <div className="flex flex-col rounded-lg p-3 shadow-sm transition-transform hover:shadow-md hover:-translate-y-1" style={{ backgroundColor: '#fff9f0' }}>
           <p className="text-xs text-gray-600 mb-1">Total Tests</p>
           <p className="text-xl font-bold text-gray-900">{results.length}</p>
         </div>
-        <div className="flex flex-col bg-soft-peach rounded-lg p-3 shadow-sm transition-transform hover:shadow-md hover:-translate-y-1">
+        <div className="flex flex-col rounded-lg p-3 shadow-sm transition-transform hover:shadow-md hover:-translate-y-1" style={{ backgroundColor: '#fff9f0' }}>
           <p className="text-xs text-gray-600 mb-1">Milk Types</p>
           <p className="text-xl font-bold text-gray-900">{types.length}</p>
         </div>
-        <div className="flex flex-col bg-soft-peach rounded-lg p-3 shadow-sm transition-transform hover:shadow-md hover:-translate-y-1">
+        <div className="flex flex-col rounded-lg p-3 shadow-sm transition-transform hover:shadow-md hover:-translate-y-1" style={{ backgroundColor: '#fff9f0' }}>
           <p className="text-xs text-gray-600 mb-1">Most Common</p>
           <p className="text-xl font-bold text-gray-900 truncate">{mostCommonType}</p>
         </div>
-        <div className="flex flex-col bg-soft-peach rounded-lg p-3 shadow-sm transition-transform hover:shadow-md hover:-translate-y-1">
+        <div className="flex flex-col rounded-lg p-3 shadow-sm transition-transform hover:shadow-md hover:-translate-y-1" style={{ backgroundColor: '#fff9f0' }}>
           <p className="text-xs text-gray-600 mb-1">Avg. Price</p>
           <p className="text-xl font-bold text-gray-900">{avgPrice !== "N/A" ? `$${avgPrice}` : avgPrice}</p>
         </div>

@@ -1,3 +1,4 @@
+
 import React from "react";
 import { MilkTestResult } from "@/types/milk-test";
 export const UserStatsOverview = ({
@@ -23,34 +24,33 @@ export const UserStatsOverview = ({
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     return date.toLocaleDateString(undefined, {
-      month: 'short',
-      day: 'numeric'
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric'
     });
   };
+  
   return <div className="rounded-lg p-4 mb-6 bg-white">
       <div className="grid grid-cols-5 gap-3">
-        <div className="flex flex-col bg-soft-peach rounded-lg p-3 shadow-sm transition-transform hover:shadow-md hover:-translate-y-1">
+        <div className="flex flex-col rounded-lg p-3 shadow-sm transition-transform hover:shadow-md hover:-translate-y-1" style={{ backgroundColor: '#fff9f0' }}>
           <p className="text-xs text-milk-500 mb-1">Average Rating</p>
           <p className="text-xl font-semibold text-gray-900">{avgRating}/10</p>
         </div>
-        <div className="flex flex-col bg-soft-peach rounded-lg p-3 shadow-sm transition-transform hover:shadow-md hover:-translate-y-1">
+        <div className="flex flex-col rounded-lg p-3 shadow-sm transition-transform hover:shadow-md hover:-translate-y-1" style={{ backgroundColor: '#fff9f0' }}>
           <p className="text-xs text-milk-500 mb-1">Total Tests</p>
           <p className="text-xl font-semibold text-gray-900">{results.length}</p>
         </div>
-        <div className="flex flex-col bg-soft-peach rounded-lg p-3 shadow-sm transition-transform hover:shadow-md hover:-translate-y-1">
+        <div className="flex flex-col rounded-lg p-3 shadow-sm transition-transform hover:shadow-md hover:-translate-y-1" style={{ backgroundColor: '#fff9f0' }}>
           <p className="text-xs text-milk-500 mb-1">Unique Brands</p>
           <p className="text-xl font-semibold text-gray-900">{uniqueBrands.length}</p>
         </div>
-        <div className="flex flex-col bg-soft-peach rounded-lg p-3 shadow-sm transition-transform hover:shadow-md hover:-translate-y-1">
+        <div className="flex flex-col rounded-lg p-3 shadow-sm transition-transform hover:shadow-md hover:-translate-y-1" style={{ backgroundColor: '#fff9f0' }}>
           <p className="text-xs text-milk-500 mb-1">Latest Test</p>
           <p className="text-xl font-semibold text-gray-900 truncate">
-            {latestTest ? <>
-                {latestTest.brand_name || 'Unknown'} 
-                <span className="text-sm font-normal ml-1">({formatDate(latestTest.created_at)})</span>
-              </> : 'None'}
+            {latestTest ? formatDate(latestTest.created_at) : 'None'}
           </p>
         </div>
-        <div className="flex flex-col bg-soft-peach rounded-lg p-3 shadow-sm transition-transform hover:shadow-md hover:-translate-y-1">
+        <div className="flex flex-col rounded-lg p-3 shadow-sm transition-transform hover:shadow-md hover:-translate-y-1" style={{ backgroundColor: '#fff9f0' }}>
           <p className="text-xs text-milk-500 mb-1">Most Tested</p>
           <p className="text-xl font-semibold text-gray-900 truncate">{mostTestedBrand}</p>
         </div>
