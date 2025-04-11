@@ -47,7 +47,7 @@ export const MyResultsTable = ({
       <Table>
         <TableHeader>
           <TableRow className="bg-gray-100 text-sm">
-            <TableHead className="font-semibold text-gray-700 text-left pl-4">
+            <TableHead className="font-semibold text-gray-700 text-left pl-4 w-[12%]">
               <SortableColumnHeader
                 column="created_at"
                 label="Date"
@@ -55,7 +55,7 @@ export const MyResultsTable = ({
                 onSort={handleSort}
               />
             </TableHead>
-            <TableHead className="font-semibold text-gray-700 text-left pl-4">
+            <TableHead className="font-semibold text-gray-700 text-left pl-4 w-[15%]">
               <SortableColumnHeader
                 column="brand_name"
                 label="Brand"
@@ -63,7 +63,7 @@ export const MyResultsTable = ({
                 onSort={handleSort}
               />
             </TableHead>
-            <TableHead className="font-semibold text-gray-700 text-left pl-4">
+            <TableHead className="font-semibold text-gray-700 text-left pl-4 w-[20%]">
               <SortableColumnHeader
                 column="product_name"
                 label="Product"
@@ -71,7 +71,7 @@ export const MyResultsTable = ({
                 onSort={handleSort}
               />
             </TableHead>
-            <TableHead className="font-semibold text-gray-700 text-left pl-4">
+            <TableHead className="font-semibold text-gray-700 text-left pl-4 w-[8%]">
               <SortableColumnHeader
                 column="rating"
                 label="Score"
@@ -79,7 +79,7 @@ export const MyResultsTable = ({
                 onSort={handleSort}
               />
             </TableHead>
-            <TableHead className="font-semibold text-gray-700 text-left pl-4">
+            <TableHead className="font-semibold text-gray-700 text-left pl-4 w-[8%]">
               <SortableColumnHeader
                 column="drink_preference"
                 label="Style"
@@ -87,15 +87,15 @@ export const MyResultsTable = ({
                 onSort={handleSort}
               />
             </TableHead>
-            <TableHead className="font-semibold text-gray-700 text-left pl-4">
+            <TableHead className="font-semibold text-gray-700 text-left pl-4 w-[10%]">
               <SortableColumnHeader
                 column="price_quality_ratio"
-                label="Price Quality"
+                label="Price"
                 sortConfig={sortConfig}
                 onSort={handleSort}
               />
             </TableHead>
-            <TableHead className="font-semibold text-gray-700 text-left pl-4">
+            <TableHead className="font-semibold text-gray-700 text-left pl-4 w-[15%]">
               <SortableColumnHeader
                 column="shop_name"
                 label="Shop"
@@ -103,29 +103,21 @@ export const MyResultsTable = ({
                 onSort={handleSort}
               />
             </TableHead>
-            <TableHead className="font-semibold text-gray-700 text-left pl-4">
-              <SortableColumnHeader
-                column="price"
-                label="Price"
-                sortConfig={sortConfig}
-                onSort={handleSort}
-              />
-            </TableHead>
-            <TableHead className="font-semibold text-gray-700 text-left pl-4">
+            <TableHead className="font-semibold text-gray-700 text-left pl-4 w-[8%]">
               <SortableColumnHeader
                 column="notes"
-                label="Notes"
+                label="Note"
                 sortConfig={sortConfig}
                 onSort={handleSort}
               />
             </TableHead>
-            <TableHead className="font-semibold text-gray-700 text-left pl-4">Actions</TableHead>
+            <TableHead className="font-semibold text-gray-700 text-left pl-4 w-[12%]">Actions</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {results.length === 0 ? (
             <TableRow>
-              <TableCell colSpan={10} className="text-center py-8">
+              <TableCell colSpan={9} className="text-center py-8">
                 No results found
               </TableCell>
             </TableRow>
@@ -186,14 +178,7 @@ export const MyResultsTable = ({
                     </span>
                   )}
                 </TableCell>
-                <TableCell>
-                  {result.price !== null && result.price !== undefined ? (
-                    <span>{Number(result.price).toFixed(2)} {result.currency_code || ''}</span>
-                  ) : (
-                    <span className="text-gray-400">-</span>
-                  )}
-                </TableCell>
-                <TableCell className="text-center">
+                <TableCell className="text-left">
                   <NotesPopover notes={result.notes || "-"} />
                 </TableCell>
                 <TableCell>
