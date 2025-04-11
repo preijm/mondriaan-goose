@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/table";
 import { SortableColumnHeader } from "./SortableColumnHeader";
 import { ProductPropertyBadges } from "./ProductPropertyBadges";
+import { MousePointerClick } from "lucide-react";
 
 type SortConfig = {
   column: string;
@@ -106,7 +107,7 @@ export const AggregatedResultsTable = ({
           results.map((result) => (
             <TableRow 
               key={result.product_id}
-              className="cursor-pointer hover:bg-gray-50"
+              className="cursor-pointer hover:bg-gray-50 group"
               onClick={() => onProductClick(result.product_id)}
             >
               <TableCell className="font-medium text-gray-900">{result.brand_name}</TableCell>
@@ -115,6 +116,7 @@ export const AggregatedResultsTable = ({
                   <div className="flex-grow">
                     <div className="flex items-center">
                       <span className="font-medium">{result.product_name}</span>
+                      <MousePointerClick className="w-4 h-4 text-blue-500 ml-2 opacity-0 group-hover:opacity-100 transition-opacity" />
                       {(result.is_barista || (result.property_names && result.property_names.length > 0) || (result.flavor_names && result.flavor_names.length > 0)) && (
                         <div className="inline-flex">
                           {result.is_barista && (
