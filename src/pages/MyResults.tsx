@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Navigation } from "@/components/Navigation";
 import { useToast } from "@/components/ui/use-toast";
@@ -43,6 +42,7 @@ const MyResults = () => {
       column,
       direction: current.column === column && current.direction === 'asc' ? 'desc' : 'asc'
     }));
+    // No view mode change here
   };
 
   const handleEdit = (test: MilkTestResult) => {

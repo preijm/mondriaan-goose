@@ -32,7 +32,6 @@ export const UserResultsContainer = ({
   // Create a wrapper for handleSort that doesn't change the view mode
   const handleSortWithoutViewChange = (column: string) => {
     handleSort(column);
-    // We don't change viewMode here, which ensures it stays on table view after sorting
   };
 
   return (
