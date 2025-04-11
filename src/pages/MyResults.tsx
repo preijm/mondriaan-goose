@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { Navigation } from "@/components/Navigation";
 import { useToast } from "@/components/ui/use-toast";
@@ -13,6 +14,7 @@ const MyResults = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [editingTest, setEditingTest] = useState<MilkTestResult | null>(null);
   const [sortConfig, setSortConfig] = useState<SortConfig>({ column: 'created_at', direction: 'desc' });
+  const [viewMode, setViewMode] = useState<'grid' | 'table'>('grid');
 
   const { data: results = [], isLoading, error, refetch } = useUserMilkTests(sortConfig);
 
@@ -42,7 +44,6 @@ const MyResults = () => {
       column,
       direction: current.column === column && current.direction === 'asc' ? 'desc' : 'asc'
     }));
-    // No view mode change here
   };
 
   const handleEdit = (test: MilkTestResult) => {
@@ -102,6 +103,8 @@ const MyResults = () => {
           onDelete={handleDelete}
           searchTerm={searchTerm}
           setSearchTerm={setSearchTerm}
+          viewMode={viewMode}
+          setViewMode={setViewMode}
         />
 
         {editingTest && (
