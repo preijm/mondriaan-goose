@@ -1,4 +1,3 @@
-
 import type { Config } from "tailwindcss";
 
 export default {
@@ -20,7 +19,6 @@ export default {
     },
     extend: {
       colors: {
-        // Soft blue and green color palette
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
@@ -46,6 +44,31 @@ export default {
           DEFAULT: "hsl(var(--accent))",
           foreground: "hsl(var(--accent-foreground))",
         },
+        popover: {
+          DEFAULT: "hsl(var(--popover))",
+          foreground: "hsl(var(--popover-foreground))",
+        },
+        card: {
+          DEFAULT: "hsl(var(--card))",
+          foreground: "hsl(var(--card-foreground))",
+        },
+        milk: {
+          50: "#fdfcfb",
+          100: "#f7f4f2",
+          200: "#e8e4e1",
+          300: "#d1ccc8",
+          400: "#b3aba5",
+          500: "#8c8580",
+        },
+        cream: {
+          100: "#fff9f0",
+          200: "#fff3e0",
+          300: "#ffe0b2",
+        },
+        "soft-blue": "#D3E4FD",
+        "soft-peach": "#FDE1D3",
+        "soft-brown": "#F5E6D3",
+        "soft-gray": "#E5E7EB",
       },
       borderRadius: {
         lg: "var(--radius)",
