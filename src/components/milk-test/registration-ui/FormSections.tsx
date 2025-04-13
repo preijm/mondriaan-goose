@@ -39,8 +39,8 @@ export const ProductForm: React.FC<ProductFormProps> = ({ onSubmit, onCancel }) 
             Brand <span className="text-red-500">*</span>
           </label>
           <BrandSelect
-            value={brandId}
-            onChange={setBrandId}
+            brandId={brandId}
+            setBrandId={setBrandId}
             className="w-full"
           />
         </div>
@@ -65,15 +65,15 @@ export const ProductForm: React.FC<ProductFormProps> = ({ onSubmit, onCancel }) 
         <div className="space-y-2">
           <div className="flex items-center space-x-2">
             <span className="font-medium">Barista</span>
-            <BaristaToggle checked={isBarista} onCheckedChange={setIsBarista} />
+            <BaristaToggle isBarista={isBarista} onToggle={setIsBarista} />
           </div>
         </div>
 
         <div className="space-y-2">
           <span className="block font-medium">Properties</span>
           <ProductOptions
-            selectedOptions={selectedProductTypes}
-            setSelectedOptions={setSelectedProductTypes}
+            selectedTypes={selectedProductTypes}
+            setSelectedTypes={setSelectedProductTypes}
           />
         </div>
 
@@ -84,7 +84,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({ onSubmit, onCancel }) 
           <FlavorSelector
             flavors={flavors}
             selectedFlavors={selectedFlavors}
-            onToggle={handleFlavorToggle}
+            onFlavorToggle={handleFlavorToggle}
           />
         </div>
       </div>
