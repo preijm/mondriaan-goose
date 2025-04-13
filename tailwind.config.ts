@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -20,37 +21,31 @@ export default {
     extend: {
       colors: {
         // Soft blue and green color palette
+        border: "hsl(var(--border))",
+        input: "hsl(var(--input))",
+        ring: "hsl(var(--ring))",
+        background: "hsl(var(--background))",
+        foreground: "hsl(var(--foreground))",
         primary: {
-          DEFAULT: "#1EAEDB", // Bright Blue
-          50: "#D3E4FD", // Soft Blue
-          100: "#33C3F0", // Sky Blue
-          200: "#0FA0CE", // Bright Blue
-          foreground: "#FFFFFF",
+          DEFAULT: "hsl(var(--primary))",
+          foreground: "hsl(var(--primary-foreground))",
         },
         secondary: {
-          DEFAULT: "#2ECC71", // Soft Green
-          50: "#F2FCE2", // Soft Green
-          100: "#58D68D", // Bright Green
-          200: "#45B39D", // Teal Green
-          foreground: "#FFFFFF",
-        },
-        background: {
-          DEFAULT: "#F0F4F8", // Light Blue-Gray
-          foreground: "#1A1A1A",
-        },
-        muted: {
-          DEFAULT: "#E6F2F0", // Very Light Mint Green
-          foreground: "#2C3E50",
-        },
-        accent: {
-          DEFAULT: "#48C774", // Vibrant Green
-          foreground: "#FFFFFF",
+          DEFAULT: "hsl(var(--secondary))",
+          foreground: "hsl(var(--secondary-foreground))",
         },
         destructive: {
-          DEFAULT: "#FF3860", // Bright Red (for contrast)
-          foreground: "#FFFFFF",
+          DEFAULT: "hsl(var(--destructive))",
+          foreground: "hsl(var(--destructive-foreground))",
         },
-        border: "#A0D8EF", // Light Blue Border
+        muted: {
+          DEFAULT: "hsl(var(--muted))",
+          foreground: "hsl(var(--muted-foreground))",
+        },
+        accent: {
+          DEFAULT: "hsl(var(--accent))",
+          foreground: "hsl(var(--accent-foreground))",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",
