@@ -53,22 +53,18 @@ export default {
           foreground: "hsl(var(--card-foreground))",
         },
         milk: {
-          50: "#fdfcfb",
-          100: "#f7f4f2",
-          200: "#e8e4e1",
-          300: "#d1ccc8",
-          400: "#b3aba5",
-          500: "#8c8580",
+          50: "#f2f2f2",   // Very light gray
+          100: "#e6e6e6",  // Light gray
+          200: "#cccccc",  // Medium gray
+          300: "#b3b3b3",  // Darker gray
+          400: "#999999",  // Dark gray
+          500: "#666666",  // Almost black
         },
         cream: {
           100: "#fff9f0",
           200: "#fff3e0",
           300: "#ffe0b2",
         },
-        "soft-blue": "#D3E4FD",
-        "soft-peach": "#FDE1D3",
-        "soft-brown": "#F5E6D3",
-        "soft-gray": "#E5E7EB",
       },
       borderRadius: {
         lg: "var(--radius)",

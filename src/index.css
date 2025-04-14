@@ -5,37 +5,37 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 224 71.4% 4.1%;
-    --card: 0 0% 100%;
-    --card-foreground: 224 71.4% 4.1%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 224 71.4% 4.1%;
+    --background: 40 100% 97%; /* Cream background */
+    --foreground: 0 0% 20%; /* Dark gray text */
+    --card: 40 100% 95%; /* Lighter cream for cards */
+    --card-foreground: 0 0% 20%;
+    --popover: 40 100% 95%;
+    --popover-foreground: 0 0% 20%;
     --primary: 142 69% 44%; /* Bright green from logo */
-    --primary-foreground: 210 20% 98%;
+    --primary-foreground: 0 0% 100%; /* White text on green */
     --secondary: 224 82% 45%; /* Bright blue from logo */
-    --secondary-foreground: 220.9 39.3% 11%;
-    --muted: 220 14.3% 95.9%;
-    --muted-foreground: 220 8.9% 46.1%;
-    --accent: 142 69% 44%; /* Green accent */
-    --accent-foreground: 220.9 39.3% 11%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 20% 98%;
-    --border: 220 13% 91%;
-    --input: 220 13% 91%;
-    --ring: 142 69% 44%; /* Green ring */
+    --secondary-foreground: 0 0% 100%; /* White text on blue */
+    --muted: 0 0% 90%; /* Light gray */
+    --muted-foreground: 0 0% 45%; /* Darker gray */
+    --accent: 40 100% 75%; /* Bright cream accent */
+    --accent-foreground: 0 0% 20%;
+    --destructive: 0 84.2% 60.2%; /* Bright red */
+    --destructive-foreground: 0 0% 100%;
+    --border: 0 0% 80%; /* Visible border */
+    --input: 0 0% 85%; /* Visible input borders */
+    --ring: 142 69% 44%; /* Green ring to match primary */
     --radius: 0.5rem;
     
     /* Custom colors for milk app */
-    --milk-100: 0 0% 96%; /* #F5F5F5 */
-    --milk-200: 0 0% 90%; /* #E5E5E5 */
-    --milk-300: 0 0% 80%; /* #CCCCCC */
-    --milk-400: 0 0% 70%; /* #B3B3B3 */
-    --milk-500: 0 0% 30%; /* #4D4D4D */
+    --milk-100: 0 0% 95%; /* Very light gray */
+    --milk-200: 0 0% 85%; /* Light gray */
+    --milk-300: 0 0% 70%; /* Medium gray */
+    --milk-400: 0 0% 50%; /* Dark gray */
+    --milk-500: 0 0% 20%; /* Almost black */
     
-    --cream-100: 40 100% 97%; /* #FFF9E5 */
-    --cream-200: 40 100% 94%; /* #FFF2CC */
-    --cream-300: 40 100% 91%; /* #FFEAB2 */
+    --cream-100: 40 100% 95%; /* Very light cream */
+    --cream-200: 40 100% 85%; /* Light cream */
+    --cream-300: 40 100% 75%; /* Bright cream */
   }
 
   .dark {
