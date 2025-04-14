@@ -36,28 +36,28 @@ export const Navigation = () => {
   const currentPage = links.find(link => link.to === location.pathname)?.label || "";
 
   const linkClasses = (isActive: boolean) => cn(`
-    flex items-center gap-2 px-4 py-2 rounded-md transition-colors 
-    text-white 
+    flex items-center gap-2 px-4 py-2 rounded-md transition-all duration-300 
+    hover:shadow-lg
     ${isActive 
-      ? "bg-green-400 hover:bg-green-500" 
-      : "bg-blue-400 hover:bg-blue-500"
+      ? "bg-green-400/80 text-white hover:bg-green-400/90" 
+      : "bg-white/80 text-gray-700 hover:bg-blue-50"
     }
   `);
 
   return (
-    <nav className="bg-gradient-to-r from-green-500 to-blue-500 rounded-lg shadow-md p-4 mb-8">
+    <nav className="bg-white/40 backdrop-blur-md rounded-lg shadow-lg p-4 mb-8 border border-white/20">
       {isMobile ? (
         <Collapsible open={isOpen} onOpenChange={setIsOpen}>
           <div className="flex items-center justify-between mb-2">
             <div className="flex items-center gap-1">
-              <CollapsibleTrigger className="p-2">
+              <CollapsibleTrigger className="p-2 hover:bg-gray-100/50 rounded-md transition-colors">
                 {isOpen ? (
-                  <X className="h-6 w-6 text-white" />
+                  <X className="h-6 w-6 text-gray-700" />
                 ) : (
-                  <Menu className="h-6 w-6 text-white" />
+                  <Menu className="h-6 w-6 text-gray-700" />
                 )}
               </CollapsibleTrigger>
-              <span className="text-white font-medium">{currentPage}</span>
+              <span className="text-gray-700 font-medium">{currentPage}</span>
             </div>
             <AuthButton />
           </div>
