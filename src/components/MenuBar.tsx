@@ -1,7 +1,12 @@
-import { Link } from "react-router-dom";
+
+import { Link, useLocation } from "react-router-dom";
 import { AuthButton } from "@/components/AuthButton";
+
 const MenuBar = () => {
-  return <nav className="bg-white/5 backdrop-blur-[2px] fixed w-full z-50 border-b border-white/10">
+  const location = useLocation();
+
+  return (
+    <nav className="bg-white/5 backdrop-blur-[2px] fixed w-full z-50 border-b border-white/10">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           <Link to="/" className="flex items-center gap-3">
@@ -10,16 +15,32 @@ const MenuBar = () => {
           </Link>
           
           <div className="flex items-center gap-6">
-            <Link to="/results" className="text-gray-700 hover:text-gray-900 transition-colors">
+            <Link 
+              to="/results" 
+              className={`transition-colors ${
+                location.pathname === '/results' 
+                  ? 'text-emerald-600 font-medium' 
+                  : 'text-gray-700 hover:text-gray-900'
+              }`}
+            >
               Results
             </Link>
-            <Link to="/about" className="text-gray-700 hover:text-gray-900 transition-colors">
+            <Link 
+              to="/about" 
+              className={`transition-colors ${
+                location.pathname === '/about' 
+                  ? 'text-emerald-600 font-medium' 
+                  : 'text-gray-700 hover:text-gray-900'
+              }`}
+            >
               About
             </Link>
             <AuthButton />
           </div>
         </div>
       </div>
-    </nav>;
+    </nav>
+  );
 };
+
 export default MenuBar;

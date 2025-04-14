@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { useAggregatedResults, SortConfig } from "@/hooks/useAggregatedResults";
 import { useNavigate } from "react-router-dom";
@@ -54,7 +53,7 @@ const Results = () => {
     return (
       <div className="min-h-screen">
         <MenuBar />
-        <div className="min-h-screen bg-gradient-to-br from-emerald-50/80 via-blue-50/80 to-emerald-50/80">
+        <div className="min-h-screen pt-16 bg-gradient-to-br from-emerald-50/80 via-blue-50/80 to-emerald-50/80">
           <div className="container max-w-5xl mx-auto px-4 py-8">
             <div className="text-center mt-8">Loading...</div>
           </div>
@@ -66,10 +65,9 @@ const Results = () => {
   return (
     <div className="min-h-screen">
       <MenuBar />
-      <div className="min-h-screen bg-gradient-to-br from-emerald-50/80 via-blue-50/80 to-emerald-50/80">
+      <div className="min-h-screen pt-16 bg-gradient-to-br from-emerald-50/80 via-blue-50/80 to-emerald-50/80">
         <div className="container max-w-6xl mx-auto px-4 py-8">
-          <div className="flex items-center justify-between mb-8">
-            <h1 className="text-3xl font-bold text-gray-900">Results Overview</h1>
+          <div className="flex justify-end mb-8">
             <Tabs value={view} onValueChange={(v: 'table' | 'charts') => setView(v)} className="w-auto">
               <TabsList className="grid w-[200px] grid-cols-2 bg-white/50 backdrop-blur-sm">
                 <TabsTrigger value="table" className="flex items-center gap-2">
