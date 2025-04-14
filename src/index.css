@@ -105,8 +105,8 @@
     height: 100%;
     background: linear-gradient(
       45deg,
-      rgba(51, 217, 127, 0.2),
-      rgba(51, 86, 255, 0.2)
+      rgba(51, 217, 127, 0.4),
+      rgba(51, 86, 255, 0.4)
     );
     filter: blur(100px);
     z-index: -1;
