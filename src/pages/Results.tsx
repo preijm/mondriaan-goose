@@ -7,6 +7,7 @@ import { ResultsContainer } from "@/components/milk-test/ResultsContainer";
 import { MilkCharts } from "@/components/MilkCharts";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ChartBar, Table2 } from "lucide-react";
+import { MilkTestResult } from "@/types/milk-test";
 
 const Results = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -34,6 +35,20 @@ const Results = () => {
       (result.product_name || "").toLowerCase().includes(searchString)
     );
   });
+
+  // Convert AggregatedResult[] to MilkTestResult[] for MilkCharts component
+  const chartsData: MilkTestResult[] = filteredResults.map(result => ({
+    id: result.product_id,
+    created_at: new Date().toISOString(), // Use current date as fallback
+    rating: result.avg_rating,
+    brand_name: result.brand_name,
+    product_name: result.product_name,
+    property_names: result.property_names,
+    flavor_names: result.flavor_names,
+    is_barista: result.is_barista,
+    product_id: result.product_id,
+    brand_id: result.brand_id
+  }));
 
   if (isLoading) {
     return (
@@ -79,7 +94,7 @@ const Results = () => {
               setSearchTerm={setSearchTerm}
             />
           ) : (
-            <MilkCharts results={filteredResults} />
+            <MilkCharts results={chartsData} />
           )}
         </div>
       </div>
