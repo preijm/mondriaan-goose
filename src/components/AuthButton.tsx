@@ -1,8 +1,9 @@
+
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
-import { LogIn, Settings, ChevronDown, Plus, TestTube } from "lucide-react";
+import { LogIn, Settings, ChevronDown, Plus } from "lucide-react";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { useToast } from "@/components/ui/use-toast";
 
@@ -61,7 +62,7 @@ export const AuthButton = () => {
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-40 bg-white/95 backdrop-blur-lg border-white/20 shadow-lg rounded-xl p-1">
         <DropdownMenuItem onClick={() => navigate('/add')} className="flex items-center gap-2 rounded-lg px-3 py-2.5 hover:bg-emerald-50 transition-colors cursor-pointer">
-          <TestTube className="w-4 h-4 opacity-70" />
+          <Plus className="w-4 h-4 opacity-70" />
           <span>Add Test</span>
         </DropdownMenuItem>
         <DropdownMenuItem onClick={() => navigate('/my-results')} className="flex items-center gap-2 rounded-lg px-3 py-2.5 hover:bg-emerald-50 transition-colors cursor-pointer">
@@ -92,3 +93,4 @@ export const AuthButton = () => {
 };
 
 export default AuthButton;
+
