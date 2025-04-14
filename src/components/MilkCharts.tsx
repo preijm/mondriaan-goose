@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, LineChart, Line, Legend, Area, AreaChart } from "recharts";
 import { ChartContainer, ChartTooltip } from "@/components/ui/chart";
@@ -180,7 +181,7 @@ export const MilkCharts = ({
           ))}
         </div>
 
-        <div className="h-[400px] p-6 pt-0">
+        <div className="h-[600px] p-6 pt-0"> {/* Increased height from 400px to 600px */}
           <ChartContainer config={chartConfig}>
             {renderChart()}
           </ChartContainer>
