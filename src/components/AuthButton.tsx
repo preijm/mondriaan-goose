@@ -57,7 +57,7 @@ export const AuthButton = () => {
           </div>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-24 bg-white/95 backdrop-blur-lg border-white/20 shadow-lg rounded-xl p-1">
+      <DropdownMenuContent align="end" className="w-40 bg-white/95 backdrop-blur-lg border-white/20 shadow-lg rounded-xl p-1">
         <DropdownMenuItem onClick={() => navigate('/')} className="flex items-center gap-2 rounded-lg px-3 py-2.5 hover:bg-emerald-50 transition-colors cursor-pointer">
           <Plus className="w-4 h-4 opacity-70" />
           <span>Add Results</span>
@@ -88,5 +88,4 @@ export const AuthButton = () => {
       </DropdownMenuContent>
     </DropdownMenu>;
 };
-
 export default AuthButton;
