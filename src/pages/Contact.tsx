@@ -1,7 +1,7 @@
 
 import React from "react";
 import MenuBar from "@/components/MenuBar";
-import { Zap, Pizza, BellRing } from "lucide-react";
+import { Phone, Mail, MessageSquare } from "lucide-react";
 
 const Contact = () => {
   return (
@@ -13,12 +13,11 @@ const Contact = () => {
             <div className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow">
               <div className="flex flex-col items-center text-center gap-4">
                 <div className="h-16 w-16 bg-emerald-100 rounded-full flex items-center justify-center">
-                  <Zap className="w-8 h-8 text-emerald-600 animate-bounce" />
+                  <Phone className="w-8 h-8 text-emerald-600 animate-bounce" />
                 </div>
-                <h2 className="text-xl font-semibold text-gray-800">Lightning Speed</h2>
+                <h2 className="text-xl font-semibold text-gray-800">Phone</h2>
                 <p className="text-gray-700">
-                  Our communication moves faster than a caffeinated squirrel! 
-                  We're currently setting world records for silence.
+                  Our phone is currently taking a well-deserved vacation in the Bermuda Triangle. It left no forwarding address.
                 </p>
               </div>
             </div>
@@ -26,12 +25,11 @@ const Contact = () => {
             <div className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow">
               <div className="flex flex-col items-center text-center gap-4">
                 <div className="h-16 w-16 bg-emerald-100 rounded-full flex items-center justify-center">
-                  <Pizza className="w-8 h-8 text-emerald-600 animate-pulse" />
+                  <Mail className="w-8 h-8 text-emerald-600 animate-pulse" />
                 </div>
-                <h2 className="text-xl font-semibold text-gray-800">Pizza Signals</h2>
+                <h2 className="text-xl font-semibold text-gray-800">Email</h2>
                 <p className="text-gray-700">
-                  Our contact method? Morse code via pizza toppings. 
-                  Pepperoni means yes, mushrooms mean no. Genius, right?
+                  Our email server is currently meditating in a remote monastery. It's finding inner peace, please do not disturb.
                 </p>
               </div>
             </div>
@@ -39,12 +37,11 @@ const Contact = () => {
             <div className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow">
               <div className="flex flex-col items-center text-center gap-4">
                 <div className="h-16 w-16 bg-emerald-100 rounded-full flex items-center justify-center">
-                  <BellRing className="w-8 h-8 text-emerald-600 animate-pulse" />
+                  <MessageSquare className="w-8 h-8 text-emerald-600 animate-pulse" />
                 </div>
-                <h2 className="text-xl font-semibold text-gray-800">Cosmic Notifications</h2>
+                <h2 className="text-xl font-semibold text-gray-800">Chat</h2>
                 <p className="text-gray-700">
-                  We've outsourced our communication to intergalactic 
-                  carrier pigeons. Response times may vary by light-years.
+                  Our chat bot decided to pursue its dream of becoming a stand-up comedian. We wish it the best of luck in its new career.
                 </p>
               </div>
             </div>
