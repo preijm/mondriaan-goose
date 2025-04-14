@@ -7,7 +7,6 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
-import { cn } from "@/lib/utils";
 
 export const Navigation = () => {
   const location = useLocation();
@@ -35,29 +34,25 @@ export const Navigation = () => {
 
   const currentPage = links.find(link => link.to === location.pathname)?.label || "";
 
-  const linkClasses = (isActive: boolean) => cn(`
-    flex items-center gap-2 px-4 py-2 rounded-md transition-all duration-300 
-    hover:shadow-lg
-    ${isActive 
-      ? "bg-green-400/80 text-white hover:bg-green-400/90" 
-      : "bg-white/80 text-gray-700 hover:bg-blue-50"
-    }
-  `);
+  const linkClasses = (isActive: boolean) => `
+    flex items-center gap-2 px-4 py-2 rounded-md transition-colors 
+    ${isActive ? "bg-cream-200 text-milk-500" : "hover:bg-cream-100 text-milk-400"}
+  `;
 
   return (
-    <nav className="bg-white/40 backdrop-blur-md rounded-lg shadow-lg p-4 mb-8 border border-white/20">
+    <nav className="bg-white rounded-lg shadow-md p-4 mb-8">
       {isMobile ? (
         <Collapsible open={isOpen} onOpenChange={setIsOpen}>
           <div className="flex items-center justify-between mb-2">
             <div className="flex items-center gap-1">
-              <CollapsibleTrigger className="p-2 hover:bg-gray-100/50 rounded-md transition-colors">
+              <CollapsibleTrigger className="p-2">
                 {isOpen ? (
-                  <X className="h-6 w-6 text-gray-700" />
+                  <X className="h-6 w-6 text-milk-500" />
                 ) : (
-                  <Menu className="h-6 w-6 text-gray-700" />
+                  <Menu className="h-6 w-6 text-milk-500" />
                 )}
               </CollapsibleTrigger>
-              <span className="text-gray-700 font-medium">{currentPage}</span>
+              <span className="text-milk-500 font-medium">{currentPage}</span>
             </div>
             <AuthButton />
           </div>

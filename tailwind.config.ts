@@ -24,7 +24,6 @@ export default {
         ring: "hsl(var(--ring))",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
-
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
@@ -53,36 +52,29 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-
         milk: {
-          100: "#f2f2f2",
-          200: "#d9d9d9",
-          300: "#bfbfbf",
-          400: "#999999",
-          500: "#333333",
+          50: "#fdfcfb",
+          100: "#f7f4f2",
+          200: "#e8e4e1",
+          300: "#d1ccc8",
+          400: "#b3aba5",
+          500: "#8c8580",
         },
-        green: {
-          100: "#ccf5df",
-          200: "#99ecbf",
-          300: "#66e29f",
-          400: "#33d97f",
-          500: "#00c266",
+        cream: {
+          100: "#fff9f0",
+          200: "#fff3e0",
+          300: "#ffe0b2",
         },
-        blue: {
-          100: "#ccd4ff",
-          200: "#99aaff",
-          300: "#6680ff",
-          400: "#3356ff",
-          500: "#254bff",
-        },
+        "soft-blue": "#D3E4FD",
+        "soft-peach": "#FDE1D3",
+        "soft-brown": "#F5E6D3",
+        "soft-gray": "#E5E7EB",
       },
-
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
       },
-
       keyframes: {
         "accordion-down": {
           from: { height: "0" },
@@ -103,7 +95,6 @@ export default {
           },
         },
       },
-
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",

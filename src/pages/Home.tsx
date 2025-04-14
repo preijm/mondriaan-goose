@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Link } from "react-router-dom";
 import { Milk, ChartPie, Table, Info } from "lucide-react";
@@ -11,16 +10,7 @@ const Home = () => {
         <div className="flex justify-end mb-4">
           <AuthButton />
         </div>
-        
-        <div className="flex flex-col items-center mb-8">
-          <img 
-            src="/lovable-uploads/95036bb2-337a-4ff4-8171-4996301814f6.png"
-            alt="Dairy Taste Trove Logo"
-            className="w-24 h-24 mb-4"
-          />
-          <h1 className="text-4xl font-bold text-gray-900 text-center">Dairy Taste Trove</h1>
-        </div>
-        
+        <h1 className="text-4xl font-bold text-gray-900 mb-8 text-center">Dairy Taste Trove</h1>
         <p className="text-lg text-milk-500 text-center mb-12">
           Your personal journey through the world of dairy, one taste test at a time.
         </p>

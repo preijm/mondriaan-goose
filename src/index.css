@@ -6,84 +6,59 @@
 
 @layer base {
   :root {
-    --background: 0 0% 98%; /* Light neutral */
-    --foreground: 0 0% 15%;
-
-    --card: 0 0% 96%;
-    --card-foreground: 0 0% 15%;
-
-    --popover: 0 0% 96%;
-    --popover-foreground: 0 0% 15%;
-
-    --primary: 142 69% 44%; /* Green from logo */
-    --primary-foreground: 0 0% 100%;
-
-    --secondary: 234 100% 60%; /* Blue from logo */
-    --secondary-foreground: 0 0% 100%;
-
-    --accent: 0 0% 90%;
-    --accent-foreground: 0 0% 20%;
-
-    --muted: 0 0% 92%;
-    --muted-foreground: 0 0% 45%;
-
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 0 0% 100%;
-
-    --border: 0 0% 85%;
-    --input: 0 0% 88%;
-    --ring: 142 69% 44%;
-
+    --background: 0 0% 100%;
+    --foreground: 224 71.4% 4.1%;
+    --card: 0 0% 100%;
+    --card-foreground: 224 71.4% 4.1%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 224 71.4% 4.1%;
+    --primary: 200 82% 45%; /* Changed from purple to a nice blue */
+    --primary-foreground: 210 20% 98%;
+    --secondary: 220 14.3% 95.9%;
+    --secondary-foreground: 220.9 39.3% 11%;
+    --muted: 220 14.3% 95.9%;
+    --muted-foreground: 220 8.9% 46.1%;
+    --accent: 220 14.3% 95.9%;
+    --accent-foreground: 220.9 39.3% 11%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 20% 98%;
+    --border: 220 13% 91%;
+    --input: 220 13% 91%;
+    --ring: 200 82% 45%; /* Changed from purple to match primary */
     --radius: 0.5rem;
-
-    /* Brand Scales */
-    --green-100: 142 69% 85%;
-    --green-200: 142 69% 70%;
-    --green-300: 142 69% 55%;
-    --green-400: 142 69% 44%;
-    --green-500: 142 69% 34%;
-
-    --blue-100: 234 100% 85%;
-    --blue-200: 234 100% 70%;
-    --blue-300: 234 100% 60%;
-    --blue-400: 234 100% 50%;
-    --blue-500: 234 100% 40%;
-
-    --milk-100: 0 0% 95%;
-    --milk-200: 0 0% 85%;
-    --milk-300: 0 0% 70%;
-    --milk-400: 0 0% 50%;
-    --milk-500: 0 0% 20%;
+    
+    /* Custom colors for milk app */
+    --milk-100: 0 0% 96%; /* #F5F5F5 */
+    --milk-200: 0 0% 90%; /* #E5E5E5 */
+    --milk-300: 0 0% 80%; /* #CCCCCC */
+    --milk-400: 0 0% 70%; /* #B3B3B3 */
+    --milk-500: 0 0% 30%; /* #4D4D4D */
+    
+    --cream-100: 40 100% 97%; /* #FFF9E5 */
+    --cream-200: 40 100% 94%; /* #FFF2CC */
+    --cream-300: 40 100% 91%; /* #FFEAB2 */
   }
 
   .dark {
     --background: 224 71.4% 4.1%;
     --foreground: 210 20% 98%;
-
-    --card: 224 71.4% 6%;
+    --card: 224 71.4% 4.1%;
     --card-foreground: 210 20% 98%;
-
-    --popover: 224 71.4% 6%;
+    --popover: 224 71.4% 4.1%;
     --popover-foreground: 210 20% 98%;
-
-    --primary: 142 69% 44%;
-    --primary-foreground: 0 0% 100%;
-
-    --secondary: 234 100% 60%;
-    --secondary-foreground: 0 0% 100%;
-
-    --accent: 0 0% 25%;
-    --accent-foreground: 0 0% 100%;
-
-    --muted: 215 28% 20%;
-    --muted-foreground: 217 10% 64%;
-
-    --destructive: 0 72% 42%;
+    --primary: 200 70% 40%; /* Changed from purple to a nice blue */
+    --primary-foreground: 210 20% 98%;
+    --secondary: 215 27.9% 16.9%;
+    --secondary-foreground: 210 20% 98%;
+    --muted: 215 27.9% 16.9%;
+    --muted-foreground: 217.9 10.6% 64.9%;
+    --accent: 215 27.9% 16.9%;
+    --accent-foreground: 210 20% 98%;
+    --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 210 20% 98%;
-
-    --border: 215 28% 20%;
-    --input: 215 28% 22%;
-    --ring: 142 69% 44%;
+    --border: 215 27.9% 16.9%;
+    --input: 215 27.9% 16.9%;
+    --ring: 200 70% 40%; /* Changed from purple to match primary */
   }
 }
 
@@ -93,37 +68,5 @@
   }
   body {
     @apply bg-background text-foreground;
-    position: relative;
-  }
-  
-  /* Add the blurred background */
-  body::before {
-    content: '';
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(
-      45deg,
-      rgba(51, 217, 127, 0.3),
-      rgba(51, 86, 255, 0.3)
-    );
-    filter: blur(120px);
-    z-index: -1;
-    animation: wave 20s ease-in-out infinite;
-    background-size: 200% 200%;
-  }
-  
-  @keyframes wave {
-    0% {
-      background-position: 0% 50%;
-    }
-    50% {
-      background-position: 100% 50%;
-    }
-    100% {
-      background-position: 0% 50%;
-    }
   }
 }
