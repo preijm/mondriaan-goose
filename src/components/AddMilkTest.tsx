@@ -16,20 +16,17 @@ export const AddMilkTest = () => {
     handleSubmit,
   } = useMilkTestForm();
 
-  // Form validation for the main submit button
   const isFormValid = formState.productId && formState.rating > 0;
 
   return (
     <form 
       onSubmit={(e) => {
-        // Prevent default here to ensure no unwanted submissions occur
         e.preventDefault();
-        // Only submit if the form is valid
         if (isFormValid) {
           handleSubmit(e);
         }
       }} 
-      className="space-y-8 bg-white rounded-lg shadow-md p-6 animate-fade-up"
+      className="space-y-8 bg-white/90 backdrop-blur-sm rounded-2xl shadow-lg p-6 md:p-8 animate-fade-up border border-white/20"
     >
       <ProductInformation
         brandId={formState.brandId}
@@ -82,7 +79,7 @@ export const AddMilkTest = () => {
 
       <Button 
         type="submit" 
-        className="w-full bg-cream-300 hover:bg-cream-200 text-milk-500"
+        className="w-full bg-gradient-to-r from-emerald-500 to-blue-500 text-white hover:from-emerald-600 hover:to-blue-600 transition-all duration-300 shadow-md"
         disabled={formState.isSubmitting || !isFormValid}
       >
         {formState.isSubmitting ? "Adding..." : "Add Result"}
