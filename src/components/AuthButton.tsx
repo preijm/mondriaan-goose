@@ -2,9 +2,10 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
-import { LogIn, Settings, ChevronDown, Plus } from "lucide-react";
+import { LogIn, Settings, ChevronDown, Plus, TestTube } from "lucide-react";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { useToast } from "@/components/ui/use-toast";
+
 export const AuthButton = () => {
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
@@ -39,6 +40,7 @@ export const AuthButton = () => {
       navigate("/auth");
     }
   };
+
   if (!user) {
     return <Button onClick={handleAuth} variant="outline" className="bg-gradient-to-r from-emerald-500/80 to-blue-500/80 text-white hover:from-emerald-600/80 hover:to-blue-600/80 border-white/20 backdrop-blur-sm transition-all duration-300">
         <LogIn className="w-4 h-4 mr-2" />
@@ -58,9 +60,9 @@ export const AuthButton = () => {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-40 bg-white/95 backdrop-blur-lg border-white/20 shadow-lg rounded-xl p-1">
-        <DropdownMenuItem onClick={() => navigate('/')} className="flex items-center gap-2 rounded-lg px-3 py-2.5 hover:bg-emerald-50 transition-colors cursor-pointer">
-          <Plus className="w-4 h-4 opacity-70" />
-          <span>Add Results</span>
+        <DropdownMenuItem onClick={() => navigate('/add')} className="flex items-center gap-2 rounded-lg px-3 py-2.5 hover:bg-emerald-50 transition-colors cursor-pointer">
+          <TestTube className="w-4 h-4 opacity-70" />
+          <span>Add Test</span>
         </DropdownMenuItem>
         <DropdownMenuItem onClick={() => navigate('/my-results')} className="flex items-center gap-2 rounded-lg px-3 py-2.5 hover:bg-emerald-50 transition-colors cursor-pointer">
           <svg className="w-4 h-4 opacity-70" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -88,4 +90,5 @@ export const AuthButton = () => {
       </DropdownMenuContent>
     </DropdownMenu>;
 };
+
 export default AuthButton;
