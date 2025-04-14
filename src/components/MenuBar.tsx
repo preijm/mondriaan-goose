@@ -17,8 +17,8 @@ const MenuBar = () => {
           </Link>
           
           <div className="flex items-center gap-6">
-            <Link to="/dashboard" className="text-gray-700 hover:text-gray-900 transition-colors">
-              Dashboard
+            <Link to="/results" className="text-gray-700 hover:text-gray-900 transition-colors">
+              Results
             </Link>
             <Link to="/about" className="text-gray-700 hover:text-gray-900 transition-colors">
               About

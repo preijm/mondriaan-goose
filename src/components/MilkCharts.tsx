@@ -197,7 +197,7 @@ export const MilkCharts = ({ results }: { results: MilkTestResult[] }) => {
   };
 
   return (
-    <div className="bg-white rounded-lg p-6 shadow-lg">
+    <div className="rounded-lg p-6">
       <h2 className="text-2xl font-semibold text-gray-900 mb-6">Milk Rating Analytics</h2>
       
       <div className="flex flex-wrap gap-2 mb-6">
