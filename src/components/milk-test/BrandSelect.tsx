@@ -1,18 +1,24 @@
-
 import React, { useState, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { Plus } from "lucide-react";
+import { cn } from "@/lib/utils"; // Import cn utility for conditional class merging
 
 interface BrandSelectProps {
   brandId: string;
   setBrandId: (id: string) => void;
   defaultBrand?: string;
+  className?: string; // Add optional className prop
 }
 
-export const BrandSelect = ({ brandId, setBrandId, defaultBrand }: BrandSelectProps) => {
+export const BrandSelect = ({ 
+  brandId, 
+  setBrandId, 
+  defaultBrand, 
+  className // Destructure className
+}: BrandSelectProps) => {
   const [suggestions, setSuggestions] = useState<Array<{ id: string; name: string }>>([]);
   const [inputValue, setInputValue] = useState(defaultBrand || "");
   const [showAddNew, setShowAddNew] = useState(false);
@@ -159,7 +165,7 @@ export const BrandSelect = ({ brandId, setBrandId, defaultBrand }: BrandSelectPr
   };
 
   return (
-    <div className="relative">
+    <div className={cn("relative", className)}> {/* Use cn utility to merge classes */}
       <Input
         placeholder="Enter brand name..."
         value={inputValue}
