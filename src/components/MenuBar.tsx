@@ -1,11 +1,10 @@
 
 import { Link } from "react-router-dom";
 import { AuthButton } from "@/components/AuthButton";
-import { Button } from "@/components/ui/button";
 
 const MenuBar = () => {
   return (
-    <nav className="bg-white/80 backdrop-blur-sm fixed w-full z-50 border-b">
+    <nav className="bg-white/5 backdrop-blur-[2px] fixed w-full z-50 border-b border-white/10">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           <Link to="/" className="flex items-center gap-3">
@@ -18,10 +17,10 @@ const MenuBar = () => {
           </Link>
           
           <div className="flex items-center gap-6">
-            <Link to="/dashboard" className="text-gray-600 hover:text-gray-900 transition-colors">
+            <Link to="/dashboard" className="text-gray-700 hover:text-gray-900 transition-colors">
               Dashboard
             </Link>
-            <Link to="/about" className="text-gray-600 hover:text-gray-900 transition-colors">
+            <Link to="/about" className="text-gray-700 hover:text-gray-900 transition-colors">
               About
             </Link>
             <AuthButton />
