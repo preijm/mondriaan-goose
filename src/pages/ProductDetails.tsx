@@ -1,6 +1,7 @@
+
 import React from "react";
 import { useParams, Link } from "react-router-dom";
-import { Navigation } from "@/components/Navigation";
+import MenuBar from "@/components/MenuBar";
 import { SortConfig, useProductTests } from "@/hooks/useProductTests";
 import { TestDetailsTable } from "@/components/milk-test/TestDetailsTable";
 import { ImageModal } from "@/components/milk-test/ImageModal";
@@ -105,17 +106,19 @@ const ProductDetails = () => {
 
   if (isLoadingProduct) {
     return (
-      <div className="min-h-screen bg-milk-100 py-8 px-4">
-        <div className="container max-w-5xl mx-auto">
-          <Navigation />
-          <div className="flex items-center mt-6 mb-6">
-            <Link to="/results">
-              <Button variant="outline" size="sm" className="gap-1">
-                <ArrowLeft className="h-4 w-4" /> Back to results
-              </Button>
-            </Link>
+      <div className="min-h-screen">
+        <MenuBar />
+        <div className="min-h-screen pt-16 bg-gradient-to-br from-emerald-50/80 via-blue-50/80 to-emerald-50/80">
+          <div className="container max-w-5xl mx-auto px-4 py-8">
+            <div className="flex items-center mt-6 mb-6">
+              <Link to="/results">
+                <Button variant="outline" size="sm" className="gap-1">
+                  <ArrowLeft className="h-4 w-4" /> Back to results
+                </Button>
+              </Link>
+            </div>
+            <div className="text-center py-12">Loading product details...</div>
           </div>
-          <div className="text-center py-12">Loading product details...</div>
         </div>
       </div>
     );
@@ -123,9 +126,29 @@ const ProductDetails = () => {
 
   if (!product) {
     return (
-      <div className="min-h-screen bg-milk-100 py-8 px-4">
-        <div className="container max-w-5xl mx-auto">
-          <Navigation />
+      <div className="min-h-screen">
+        <MenuBar />
+        <div className="min-h-screen pt-16 bg-gradient-to-br from-emerald-50/80 via-blue-50/80 to-emerald-50/80">
+          <div className="container max-w-5xl mx-auto px-4 py-8">
+            <div className="flex items-center mt-6 mb-6">
+              <Link to="/results">
+                <Button variant="outline" size="sm" className="gap-1">
+                  <ArrowLeft className="h-4 w-4" /> Back to results
+                </Button>
+              </Link>
+            </div>
+            <div className="text-center py-12">Product not found</div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen">
+      <MenuBar />
+      <div className="min-h-screen pt-16 bg-gradient-to-br from-emerald-50/80 via-blue-50/80 to-emerald-50/80">
+        <div className="container max-w-5xl mx-auto px-4 py-8">
           <div className="flex items-center mt-6 mb-6">
             <Link to="/results">
               <Button variant="outline" size="sm" className="gap-1">
@@ -133,102 +156,85 @@ const ProductDetails = () => {
               </Button>
             </Link>
           </div>
-          <div className="text-center py-12">Product not found</div>
-        </div>
-      </div>
-    );
-  }
 
-  return (
-    <div className="min-h-screen bg-milk-100 py-8 px-4">
-      <div className="container max-w-5xl mx-auto">
-        <Navigation />
-        
-        <div className="flex items-center mt-6 mb-6">
-          <Link to="/results">
-            <Button variant="outline" size="sm" className="gap-1">
-              <ArrowLeft className="h-4 w-4" /> Back to results
-            </Button>
-          </Link>
-        </div>
-
-        {/* Redesigned compact header */}
-        <Card className="bg-white rounded-lg shadow-md mb-6">
-          <CardContent className="p-4">
-            <div className="flex items-center justify-between">
-              <div className="flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-3">
-                <div>
-                  <div className="text-xs text-gray-500">Brand</div>
-                  <h2 className="text-xl font-bold text-gray-900">{product.brand_name}</h2>
-                </div>
-                <div>
-                  <div className="text-xs text-gray-500">Product</div>
-                  <div className="flex items-center">
-                    <h3 className="text-lg font-medium">{product.product_name}</h3>
-                    <div className="flex flex-wrap ml-2">
-                      {product.is_barista && (
+          {/* Redesigned compact header */}
+          <Card className="bg-white rounded-lg shadow-md mb-6">
+            <CardContent className="p-4">
+              <div className="flex items-center justify-between">
+                <div className="flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-3">
+                  <div>
+                    <div className="text-xs text-gray-500">Brand</div>
+                    <h2 className="text-xl font-bold text-gray-900">{product.brand_name}</h2>
+                  </div>
+                  <div>
+                    <div className="text-xs text-gray-500">Product</div>
+                    <div className="flex items-center">
+                      <h3 className="text-lg font-medium">{product.product_name}</h3>
+                      <div className="flex flex-wrap ml-2">
+                        {product.is_barista && (
+                          <ProductPropertyBadges 
+                            isBarista={product.is_barista}
+                            displayType="barista"
+                            inline={true}
+                            compact={true}
+                          />
+                        )}
+                        
                         <ProductPropertyBadges 
-                          isBarista={product.is_barista}
-                          displayType="barista"
+                          propertyNames={product.property_names}
+                          displayType="properties"
                           inline={true}
                           compact={true}
                         />
-                      )}
-                      
-                      <ProductPropertyBadges 
-                        propertyNames={product.property_names}
-                        displayType="properties"
-                        inline={true}
-                        compact={true}
-                      />
-                      
-                      <ProductPropertyBadges 
-                        flavorNames={product.flavor_names}
-                        displayType="flavors"
-                        inline={true}
-                        compact={true}
-                      />
+                        
+                        <ProductPropertyBadges 
+                          flavorNames={product.flavor_names}
+                          displayType="flavors"
+                          inline={true}
+                          compact={true}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="flex items-center gap-3">
+                  <div className="flex flex-col items-center">
+                    <div className="text-xs text-gray-500 mb-1">Score</div>
+                    <div className={`rounded-full h-10 w-10 flex items-center justify-center ${getRatingColorClass(product.avg_rating)}`}>
+                      <span className="font-semibold">{product.avg_rating.toFixed(1)}</span>
+                    </div>
+                  </div>
+                  
+                  <div className="flex flex-col items-center">
+                    <div className="text-xs text-gray-500 mb-1">Tests</div>
+                    <div className="inline-flex items-center justify-center rounded-full bg-gray-100 h-10 w-10">
+                      <span className="text-gray-700 font-medium">{product.count}</span>
                     </div>
                   </div>
                 </div>
               </div>
-              
-              <div className="flex items-center gap-3">
-                <div className="flex flex-col items-center">
-                  <div className="text-xs text-gray-500 mb-1">Score</div>
-                  <div className={`rounded-full h-10 w-10 flex items-center justify-center ${getRatingColorClass(product.avg_rating)}`}>
-                    <span className="font-semibold">{product.avg_rating.toFixed(1)}</span>
-                  </div>
-                </div>
-                
-                <div className="flex flex-col items-center">
-                  <div className="text-xs text-gray-500 mb-1">Tests</div>
-                  <div className="inline-flex items-center justify-center rounded-full bg-gray-100 h-10 w-10">
-                    <span className="text-gray-700 font-medium">{product.count}</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+            </CardContent>
+          </Card>
 
-        <Card className="bg-white rounded-lg shadow-md overflow-hidden">
-          <CardHeader className="bg-white pt-6 px-6">
-            <CardTitle className="text-xl">Individual Tests</CardTitle>
-          </CardHeader>
-          <CardContent className="p-0">
-            {isLoadingTests ? (
-              <div className="text-center py-8">Loading test results...</div>
-            ) : (
-              <TestDetailsTable 
-                productTests={productTests} 
-                handleImageClick={handleImageClick}
-                sortConfig={sortConfig}
-                handleSort={handleSort}
-              />
-            )}
-          </CardContent>
-        </Card>
+          <Card className="bg-white rounded-lg shadow-md overflow-hidden">
+            <CardHeader className="bg-white pt-6 px-6">
+              <CardTitle className="text-xl">Individual Tests</CardTitle>
+            </CardHeader>
+            <CardContent className="p-0">
+              {isLoadingTests ? (
+                <div className="text-center py-8">Loading test results...</div>
+              ) : (
+                <TestDetailsTable 
+                  productTests={productTests} 
+                  handleImageClick={handleImageClick}
+                  sortConfig={sortConfig}
+                  handleSort={handleSort}
+                />
+              )}
+            </CardContent>
+          </Card>
+        </div>
       </div>
 
       {/* Image modal */}
