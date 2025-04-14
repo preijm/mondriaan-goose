@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { useProductRegistration } from "./ProductRegistrationContext";
@@ -38,11 +37,12 @@ export const ProductForm: React.FC<ProductFormProps> = ({ onSubmit, onCancel }) 
           <label htmlFor="brand" className="block font-medium">
             Brand <span className="text-red-500">*</span>
           </label>
-          <BrandSelect
-            brandId={brandId}
-            setBrandId={setBrandId}
-            className="w-full"
-          />
+          <div className="w-full"> {/* Wrap BrandSelect in a div with width */}
+            <BrandSelect
+              brandId={brandId}
+              setBrandId={setBrandId}
+            />
+          </div>
         </div>
 
         <div className="space-y-2">
