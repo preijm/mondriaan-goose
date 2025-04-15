@@ -1,16 +1,21 @@
+
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
 import { supabase } from "@/integrations/supabase/client";
-import { Save } from "lucide-react";
+import { Save, Lock } from "lucide-react";
 import MenuBar from "@/components/MenuBar";
 
 const Account = () => {
   const [username, setUsername] = useState("");
   const [loading, setLoading] = useState(false);
   const [userId, setUserId] = useState<string | null>(null);
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [isChangingPassword, setIsChangingPassword] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
 
@@ -43,7 +48,6 @@ const Account = () => {
 
     setLoading(true);
     try {
-      // Check if username is already taken
       const { data: existingUser } = await supabase
         .from('profiles')
         .select('id')
@@ -82,6 +86,43 @@ const Account = () => {
     }
   };
 
+  const handleUpdatePassword = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (newPassword !== confirmPassword) {
+      toast({
+        title: "Error",
+        description: "New passwords do not match.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setIsChangingPassword(true);
+    try {
+      const { error } = await supabase.auth.updateUser({
+        password: newPassword
+      });
+
+      if (error) throw error;
+
+      toast({
+        title: "Success",
+        description: "Password updated successfully.",
+      });
+      setNewPassword("");
+      setConfirmPassword("");
+      setCurrentPassword("");
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: error.message,
+        variant: "destructive",
+      });
+    } finally {
+      setIsChangingPassword(false);
+    }
+  };
+
   return (
     <div className="min-h-screen">
       <MenuBar />
@@ -96,7 +137,7 @@ const Account = () => {
                 Account Settings
               </h1>
               
-              <form onSubmit={handleUpdateUsername} className="space-y-6">
+              <form onSubmit={handleUpdateUsername} className="space-y-6 mb-8">
                 <div>
                   <Input
                     type="text"
@@ -123,6 +164,41 @@ const Account = () => {
                 >
                   <Save className="w-4 h-4 mr-2" />
                   {loading ? "Saving..." : "Save Changes"}
+                </Button>
+              </form>
+
+              <div className="h-px bg-gray-200 my-8" />
+
+              <form onSubmit={handleUpdatePassword} className="space-y-6">
+                <Input
+                  type="password"
+                  placeholder="New Password"
+                  value={newPassword}
+                  onChange={(e) => setNewPassword(e.target.value)}
+                  required
+                  minLength={6}
+                  className="bg-white/80 border-black/20 backdrop-blur-sm rounded-sm"
+                />
+                <Input
+                  type="password"
+                  placeholder="Confirm New Password"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  required
+                  minLength={6}
+                  className="bg-white/80 border-black/20 backdrop-blur-sm rounded-sm"
+                />
+                <Button 
+                  type="submit" 
+                  className="w-full" 
+                  style={{
+                    backgroundColor: '#2144FF',
+                    color: 'white'
+                  }} 
+                  disabled={isChangingPassword}
+                >
+                  <Lock className="w-4 h-4 mr-2" />
+                  {isChangingPassword ? "Updating..." : "Update Password"}
                 </Button>
               </form>
             </div>
