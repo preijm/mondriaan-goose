@@ -1,11 +1,10 @@
-
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
 import { supabase } from "@/integrations/supabase/client";
-import { LogOut, Save } from "lucide-react";
+import { Save } from "lucide-react";
 import MenuBar from "@/components/MenuBar";
 
 const Account = () => {
@@ -83,19 +82,6 @@ const Account = () => {
     }
   };
 
-  const handleSignOut = async () => {
-    const { error } = await supabase.auth.signOut();
-    if (error) {
-      toast({
-        title: "Error",
-        description: "Failed to sign out.",
-        variant: "destructive",
-      });
-    } else {
-      navigate('/');
-    }
-  };
-
   return (
     <div className="min-h-screen">
       <MenuBar />
@@ -139,17 +125,6 @@ const Account = () => {
                   {loading ? "Saving..." : "Save Changes"}
                 </Button>
               </form>
-
-              <div className="mt-6 pt-6 border-t border-[#C8C8C9]">
-                <Button
-                  onClick={handleSignOut}
-                  variant="outline"
-                  className="w-full text-red-600 hover:bg-red-50 border-[#C8C8C9]"
-                >
-                  <LogOut className="w-4 h-4 mr-2" />
-                  Sign Out
-                </Button>
-              </div>
             </div>
           </div>
         </div>
