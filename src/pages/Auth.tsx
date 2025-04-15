@@ -100,7 +100,7 @@ const Auth = () => {
                 </div>
                 
                 <div>
-                  <Input type="password" placeholder="Password" value={password} onChange={e => setPassword(e.target.value)} required minLength={6} className="bg-white/80 border-white/20 backdrop-blur-sm" />
+                  <Input type="password" placeholder="Password" value={password} onChange={e => setPassword(e.target.value)} required minLength={6} className="bg-white/80 border-black/20 backdrop-blur-sm rounded-sm" />
                 </div>
 
                 <Button type="submit" className="w-full" style={{
