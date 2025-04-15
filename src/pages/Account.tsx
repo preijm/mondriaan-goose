@@ -163,7 +163,7 @@ const Account = () => {
                   disabled={loading}
                 >
                   <Save className="w-4 h-4 mr-2" />
-                  {loading ? "Saving..." : "Save Changes"}
+                  {loading ? "Saving..." : "Save Username"}
                 </Button>
               </form>
 
