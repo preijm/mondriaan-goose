@@ -5,6 +5,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { LogIn, Settings, ChevronDown, Plus } from "lucide-react";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { useToast } from "@/components/ui/use-toast";
+
 export const AuthButton = () => {
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
@@ -39,12 +40,17 @@ export const AuthButton = () => {
       navigate("/auth");
     }
   };
+  
   if (!user) {
-    return <Button onClick={handleAuth} variant="outline" className="w-full bg-[#2144ff] text-white font-normal">
-        <LogIn className="w-4 h-4 mr-2" />
-        Get started
-      </Button>;
+    return <Button onClick={handleAuth} className="w-full" style={{ 
+      backgroundColor: '#2144FF', 
+      color: 'white' 
+    }}>
+      <LogIn className="w-4 h-4 mr-2" />
+      Get started
+    </Button>;
   }
+  
   return <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="outline" className="bg-white/10 hover:bg-white/20 text-gray-800 border-white/20 backdrop-blur-sm transition-all duration-300 pl-2 pr-3">
@@ -88,4 +94,5 @@ export const AuthButton = () => {
       </DropdownMenuContent>
     </DropdownMenu>;
 };
+
 export default AuthButton;
