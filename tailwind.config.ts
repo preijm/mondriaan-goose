@@ -1,9 +1,14 @@
-import { type Config } from "tailwindcss";
-import animate from "tailwindcss-animate";
+import type { Config } from "tailwindcss";
 
 export default {
   darkMode: ["class"],
-  content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
+  content: [
+    "./pages/**/*.{ts,tsx}",
+    "./components/**/*.{ts,tsx}",
+    "./app/**/*.{ts,tsx}",
+    "./src/**/*.{ts,tsx}",
+  ],
+  prefix: "",
   theme: {
     container: {
       center: true,
@@ -13,6 +18,63 @@ export default {
       },
     },
     extend: {
+      colors: {
+        border: "hsl(var(--border))",
+        input: "hsl(var(--input))",
+        ring: "hsl(var(--ring))",
+        background: "hsl(var(--background))",
+        foreground: "hsl(var(--foreground))",
+        primary: {
+          DEFAULT: "hsl(var(--primary))",
+          foreground: "hsl(var(--primary-foreground))",
+        },
+        secondary: {
+          DEFAULT: "hsl(var(--secondary))",
+          foreground: "hsl(var(--secondary-foreground))",
+        },
+        destructive: {
+          DEFAULT: "hsl(var(--destructive))",
+          foreground: "hsl(var(--destructive-foreground))",
+        },
+        muted: {
+          DEFAULT: "hsl(var(--muted))",
+          foreground: "hsl(var(--muted-foreground))",
+        },
+        accent: {
+          DEFAULT: "hsl(var(--accent))",
+          foreground: "hsl(var(--accent-foreground))",
+        },
+        popover: {
+          DEFAULT: "hsl(var(--popover))",
+          foreground: "hsl(var(--popover-foreground))",
+        },
+        card: {
+          DEFAULT: "hsl(var(--card))",
+          foreground: "hsl(var(--card-foreground))",
+        },
+        milk: {
+          50: "#fdfcfb",
+          100: "#f7f4f2",
+          200: "#e8e4e1",
+          300: "#d1ccc8",
+          400: "#b3aba5",
+          500: "#8c8580",
+        },
+        cream: {
+          100: "#fff9f0",
+          200: "#fff3e0",
+          300: "#ffe0b2",
+        },
+        "soft-blue": "#D3E4FD",
+        "soft-peach": "#FDE1D3",
+        "soft-brown": "#F5E6D3",
+        "soft-gray": "#E5E7EB",
+      },
+      borderRadius: {
+        lg: "var(--radius)",
+        md: "calc(var(--radius) - 2px)",
+        sm: "calc(var(--radius) - 4px)",
+      },
       keyframes: {
         "accordion-down": {
           from: { height: "0" },
@@ -22,96 +84,23 @@ export default {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: "0" },
         },
-        float: {
-          '0%, 100%': { transform: 'translateY(0) scale(1)' },
-          '50%': { transform: 'translateY(-20px) scale(1.05)' }
-        }
+        "fade-up": {
+          "0%": {
+            opacity: "0",
+            transform: "translateY(10px)",
+          },
+          "100%": {
+            opacity: "1",
+            transform: "translateY(0)",
+          },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
-        float: 'float 3s ease-in-out infinite',
-      },
-      borderRadius: {
-        lg: "var(--radius)",
-        md: "calc(var(--radius) - 2px)",
-        sm: "calc(var(--radius) - 4px)",
-      },
-      colors: {
-        accent: {
-          DEFAULT: "hsl(var(--accent))",
-          foreground: "hsl(var(--accent-foreground))",
-        },
-        background: "hsl(var(--background))",
-        border: "hsl(var(--border))",
-        card: {
-          DEFAULT: "hsl(var(--card))",
-          foreground: "hsl(var(--card-foreground))",
-        },
-        destructive: {
-          DEFAULT: "hsl(var(--destructive))",
-          foreground: "hsl(var(--destructive-foreground))",
-        },
-        foreground: "hsl(var(--foreground))",
-        input: "hsl(var(--input))",
-        muted: {
-          DEFAULT: "hsl(var(--muted))",
-          foreground: "hsl(var(--muted-foreground))",
-        },
-        popover: {
-          DEFAULT: "hsl(var(--popover))",
-          foreground: "hsl(var(--popover-foreground))",
-        },
-        primary: {
-          DEFAULT: "hsl(var(--primary))",
-          foreground: "hsl(var(--primary-foreground))",
-        },
-        ring: "hsl(var(--ring))",
-        secondary: {
-          DEFAULT: "hsl(var(--secondary))",
-          foreground: "hsl(var(--secondary-foreground))",
-        },
-      },
-      fontFamily: {
-        sans: ["var(--font-sans)", "system-ui", "sans-serif"],
-      },
-      keyframes: {
-        "fade-in": {
-          "0%": { opacity: "0" },
-          "100%": { opacity: "1" },
-        },
-        "slide-in-from-bottom": {
-          "0%": { transform: "translateY(20px)", opacity: "0" },
-          "100%": { transform: "translateY(0)", opacity: "1" },
-        },
-        "slide-in-from-left": {
-          "0%": { transform: "translateX(-20px)", opacity: "0" },
-          "100%": { transform: "translateX(0)", opacity: "1" },
-        },
-        "slide-in-from-right": {
-          "0%": { transform: "translateX(20px)", opacity: "0" },
-          "100%": { transform: "translateX(0)", opacity: "1" },
-        },
-        wave: {
-          "0%": { transform: "translateY(0)" },
-          "50%": { transform: "translateY(-5px)" },
-          "100%": { transform: "translateY(0)" },
-        },
-      },
-      animation: {
-        "fade-in": "fade-in 0.5s ease-out forwards",
-        "slide-in-bottom": "slide-in-from-bottom 0.5s ease-out forwards",
-        "slide-in-left": "slide-in-from-left 0.5s ease-out forwards",
-        "slide-in-right": "slide-in-from-right 0.5s ease-out forwards",
-        wave: "wave 1s ease-in-out infinite",
-      },
-      boxShadow: {
-        glow: "0 0 4px rgb(0, 191, 99, 0.5)",
-      },
-      dropShadow: {
-        glow: "0 0 4px rgb(0, 191, 99, 0.5)",
+        "fade-up": "fade-up 0.5s ease-out",
       },
     },
   },
-  plugins: [animate],
+  plugins: [require("tailwindcss-animate")],
 } satisfies Config;
