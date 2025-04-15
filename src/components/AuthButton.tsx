@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -6,7 +5,6 @@ import { supabase } from "@/integrations/supabase/client";
 import { LogIn, Settings, ChevronDown, Plus } from "lucide-react";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { useToast } from "@/components/ui/use-toast";
-
 export const AuthButton = () => {
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
@@ -41,9 +39,8 @@ export const AuthButton = () => {
       navigate("/auth");
     }
   };
-
   if (!user) {
-    return <Button onClick={handleAuth} variant="outline" className="bg-gradient-to-r from-emerald-500/80 to-blue-500/80 text-white hover:from-emerald-600/80 hover:to-blue-600/80 border-white/20 backdrop-blur-sm transition-all duration-300">
+    return <Button onClick={handleAuth} variant="outline" className="w-full bg-[#2144ff]">
         <LogIn className="w-4 h-4 mr-2" />
         Get started
       </Button>;
@@ -91,6 +88,4 @@ export const AuthButton = () => {
       </DropdownMenuContent>
     </DropdownMenu>;
 };
-
 export default AuthButton;
-
