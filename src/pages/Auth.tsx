@@ -85,7 +85,7 @@ const Auth = () => {
       <BackgroundPatternWithOverlay>
         <div className="flex items-center justify-center min-h-screen">
           <div className="container max-w-md mx-auto px-4 relative z-10">
-            <div className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-lg p-8 border border-white/20 animate-fade-up">
+            <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg p-8 border border-white/20 animate-fade-up">
               <h1 className="text-3xl font-bold text-center mb-8 text-[#00BF63]">
                 {isLogin ? "Welcome Back" : "Create Account"}
               </h1>

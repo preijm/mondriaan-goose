@@ -9,7 +9,7 @@ interface BackgroundPatternWithOverlayProps {
 const BackgroundPatternWithOverlay = ({ children }: BackgroundPatternWithOverlayProps) => {
   return (
     <BackgroundPattern>
-      <div className="absolute inset-0 bg-white/40 backdrop-blur-sm" />
+      <div className="absolute inset-0 bg-white/30 backdrop-blur-md" />
       {children}
     </BackgroundPattern>
   );
