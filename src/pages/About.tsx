@@ -1,12 +1,9 @@
-
 import React from "react";
 import MenuBar from "@/components/MenuBar";
 import { Smile, Rocket, Heart } from "lucide-react";
 import BackgroundPatternWithOverlay from "@/components/BackgroundPatternWithOverlay";
-
 const About = () => {
-  return (
-    <div className="min-h-screen">
+  return <div className="min-h-screen">
       <MenuBar />
       <BackgroundPatternWithOverlay>
         <div className="flex items-center justify-center min-h-screen">
@@ -14,7 +11,7 @@ const About = () => {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <div className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow">
                 <div className="flex flex-col items-center text-center gap-4">
-                  <div className="h-16 w-16 bg-[#F2FCE2] rounded-full flex items-center justify-center">
+                  <div className="h-16 w-16 rounded-full flex items-center justify-center bg-[#2144ff]">
                     <Rocket className="w-8 h-8 text-[#00BF63] animate-bounce" />
                   </div>
                   <h2 className="text-xl font-semibold text-gray-800">Our Crazy Mission</h2>
@@ -57,8 +54,6 @@ const About = () => {
           </div>
         </div>
       </BackgroundPatternWithOverlay>
-    </div>
-  );
+    </div>;
 };
-
 export default About;
