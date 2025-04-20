@@ -42,7 +42,7 @@ export const useProductTests = (productId: string | null, sortConfig: SortConfig
         ...item,
         // Display "Anonymous" when username is not available
         username: item.username || "Anonymous",
-        // Ensure brand and product names are always populated
+        // Always ensure brand and product names are populated
         brand_name: item.brand_name || "Unknown Brand",
         product_name: item.product_name || "Unknown Product"
       }));

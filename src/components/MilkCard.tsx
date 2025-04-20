@@ -23,7 +23,7 @@ interface MilkCardProps {
 }
 
 export const MilkCard = ({ result, showUsername = false }: MilkCardProps) => {
-  // Ensure brand_name and product_name are always defined with fallbacks
+  // Always ensure brand_name and product_name are defined
   const brandName = result.brand_name || "Unknown Brand";
   const productName = result.product_name || "Unknown Product";
   

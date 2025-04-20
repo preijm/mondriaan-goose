@@ -110,12 +110,12 @@ export const AggregatedResultsTable = ({
               className="cursor-pointer hover:bg-gray-50 group"
               onClick={() => onProductClick(result.product_id)}
             >
-              <TableCell className="font-medium text-gray-900">{result.brand_name || "Unknown Brand"}</TableCell>
+              <TableCell className="font-medium text-gray-900">{result.brand_name}</TableCell>
               <TableCell className="pr-0">
                 <div className="flex items-center">
                   <div className="flex-grow">
                     <div className="flex items-center gap-1">
-                      <span className="font-medium text-gray-800">{result.product_name || "Unknown Product"}</span>
+                      <span className="font-medium text-gray-800">{result.product_name}</span>
                       {(result.is_barista || (result.property_names && result.property_names.length > 0) || (result.flavor_names && result.flavor_names.length > 0)) && (
                         <div className="inline-flex gap-1 ml-1">
                           {result.is_barista && (

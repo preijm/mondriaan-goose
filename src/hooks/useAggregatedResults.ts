@@ -29,10 +29,7 @@ export const useAggregatedResults = (sortConfig: SortConfig) => {
       // Get all milk test data first - no auth check needed for public data
       const { data, error } = await supabase
         .from('milk_tests_view')
-        .select('brand_id, brand_name, product_id, product_name, property_names, is_barista, flavor_names, rating, price_quality_ratio') as unknown as {
-          data: MilkTestResult[] | null,
-          error: Error | null
-        };
+        .select('brand_id, brand_name, product_id, product_name, property_names, is_barista, flavor_names, rating, price_quality_ratio');
       
       if (error) {
         console.error("Supabase query error:", error);
@@ -51,12 +48,12 @@ export const useAggregatedResults = (sortConfig: SortConfig) => {
         if (!productMap.has(key)) {
           productMap.set(key, {
             brand_id: item.brand_id || '',
-            brand_name: item.brand_name || 'Unknown Brand', // Ensure we have a fallback
+            brand_name: item.brand_name || 'Unknown Brand', // Ensure fallback for missing brand name
             product_id: item.product_id,
-            product_name: item.product_name || 'Unknown Product', // Ensure we have a fallback
-            property_names: item.property_names || null,
+            product_name: item.product_name || 'Unknown Product', // Ensure fallback for missing product name
+            property_names: item.property_names || [],
             is_barista: item.is_barista || false,
-            flavor_names: item.flavor_names || null,
+            flavor_names: item.flavor_names || [],
             avg_rating: 0,
             count: 0
           });
@@ -75,9 +72,9 @@ export const useAggregatedResults = (sortConfig: SortConfig) => {
         let comparison = 0;
         
         if (sortConfig.column === 'brand_name') {
-          comparison = (a.brand_name || '').localeCompare(b.brand_name || '');
+          comparison = a.brand_name.localeCompare(b.brand_name);
         } else if (sortConfig.column === 'product_name') {
-          comparison = (a.product_name || '').localeCompare(b.product_name || '');
+          comparison = a.product_name.localeCompare(b.product_name);
         } else if (sortConfig.column === 'avg_rating') {
           comparison = a.avg_rating - b.avg_rating;
         } else if (sortConfig.column === 'count') {
