@@ -51,9 +51,9 @@ export const useAggregatedResults = (sortConfig: SortConfig) => {
         if (!productMap.has(key)) {
           productMap.set(key, {
             brand_id: item.brand_id || '',
-            brand_name: item.brand_name || '',
+            brand_name: item.brand_name || 'Unknown Brand', // Ensure we have a fallback
             product_id: item.product_id,
-            product_name: item.product_name || '',
+            product_name: item.product_name || 'Unknown Product', // Ensure we have a fallback
             property_names: item.property_names || null,
             is_barista: item.is_barista || false,
             flavor_names: item.flavor_names || null,

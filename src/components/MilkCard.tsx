@@ -23,12 +23,16 @@ interface MilkCardProps {
 }
 
 export const MilkCard = ({ result, showUsername = false }: MilkCardProps) => {
+  // Ensure brand_name and product_name are always defined with fallbacks
+  const brandName = result.brand_name || "Unknown Brand";
+  const productName = result.product_name || "Unknown Product";
+  
   return (
     <div className="rounded-lg shadow-md p-6 animate-fade-up hover:shadow-lg transition-shadow relative h-[200px] flex flex-col border border-gray-100" style={{ backgroundColor: '#fff9f0' }}>
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2">
           <Milk className="w-6 h-6 text-milk-400" />
-          <h3 className="text-lg font-semibold text-gray-900">{result.brand_name || "Unknown Brand"}</h3>
+          <h3 className="text-lg font-semibold text-gray-900">{brandName}</h3>
         </div>
         <span className="text-sm text-milk-500">
           {new Date(result.created_at).toLocaleDateString()}
@@ -36,7 +40,7 @@ export const MilkCard = ({ result, showUsername = false }: MilkCardProps) => {
       </div>
       
       <div className="mb-3">
-        <p className="text-sm text-gray-700 font-medium">{result.product_name || "Unknown Product"}</p>
+        <p className="text-sm text-gray-700 font-medium">{productName}</p>
       </div>
       
       <div className="mb-3 flex flex-wrap gap-2">

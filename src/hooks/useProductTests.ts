@@ -37,11 +37,14 @@ export const useProductTests = (productId: string | null, sortConfig: SortConfig
         throw error;
       }
       
-      // Process results to handle anonymous users
+      // Process results to handle anonymous users and ensure brand/product names
       const processedData = (data || []).map(item => ({
         ...item,
         // Display "Anonymous" when username is not available
-        username: item.username || "Anonymous"
+        username: item.username || "Anonymous",
+        // Ensure brand and product names are always populated
+        brand_name: item.brand_name || "Unknown Brand",
+        product_name: item.product_name || "Unknown Product"
       }));
       
       return processedData as MilkTestResult[];
