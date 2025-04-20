@@ -28,11 +28,15 @@ export const MilkCard = ({ result, showUsername = false }: MilkCardProps) => {
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2">
           <Milk className="w-6 h-6 text-milk-400" />
-          <h3 className="text-lg font-semibold text-gray-900">{result.brand_name}</h3>
+          <h3 className="text-lg font-semibold text-gray-900">{result.brand_name || "Unknown Brand"}</h3>
         </div>
         <span className="text-sm text-milk-500">
           {new Date(result.created_at).toLocaleDateString()}
         </span>
+      </div>
+      
+      <div className="mb-3">
+        <p className="text-sm text-gray-700 font-medium">{result.product_name || "Unknown Product"}</p>
       </div>
       
       <div className="mb-3 flex flex-wrap gap-2">
