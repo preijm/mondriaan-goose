@@ -12,6 +12,8 @@ export const useProductTests = (productId: string | null, sortConfig: SortConfig
     queryFn: async () => {
       if (!productId) return [];
       
+      console.log(`Fetching tests for product ID: ${productId}`);
+      
       let query = supabase
         .from('milk_tests_view')
         .select('id, created_at, brand_name, product_name, rating, username, notes, shop_name, picture_path, drink_preference, property_names, is_barista, flavor_names, price_quality_ratio, shop_country_code')
@@ -37,15 +39,25 @@ export const useProductTests = (productId: string | null, sortConfig: SortConfig
         throw error;
       }
       
+      console.log(`Retrieved ${data?.length || 0} test results`);
+      if (data && data.length > 0) {
+        console.log("Sample test data:", data[0]);
+      }
+      
       // Process results to handle anonymous users and ensure brand/product names
-      const processedData = (data || []).map(item => ({
-        ...item,
-        // Display "Anonymous" when username is not available
-        username: item.username || "Anonymous",
-        // Always ensure brand and product names are populated
-        brand_name: item.brand_name || "Unknown Brand",
-        product_name: item.product_name || "Unknown Product"
-      }));
+      const processedData = (data || []).map(item => {
+        const brandName = item.brand_name || "Unknown Brand";
+        const productName = item.product_name || "Unknown Product";
+        
+        return {
+          ...item,
+          // Display "Anonymous" when username is not available
+          username: item.username || "Anonymous",
+          // Always ensure brand and product names are populated
+          brand_name: brandName,
+          product_name: productName
+        };
+      });
       
       return processedData as MilkTestResult[];
     },

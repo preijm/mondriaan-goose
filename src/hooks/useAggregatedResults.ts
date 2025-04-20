@@ -37,6 +37,7 @@ export const useAggregatedResults = (sortConfig: SortConfig) => {
       }
 
       console.log("Raw data length:", data?.length);
+      console.log("Sample raw data:", data && data.length > 0 ? data[0] : 'No data');
       
       // Group by product and calculate average
       const productMap = new Map<string, AggregatedResult>();
@@ -46,11 +47,17 @@ export const useAggregatedResults = (sortConfig: SortConfig) => {
         
         const key = item.product_id;
         if (!productMap.has(key)) {
+          // Make sure we always have valid brand and product names
+          const brandName = item.brand_name || 'Unknown Brand';
+          const productName = item.product_name || 'Unknown Product';
+          
+          console.log(`Creating product entry: ${brandName} - ${productName}`);
+          
           productMap.set(key, {
             brand_id: item.brand_id || '',
-            brand_name: item.brand_name || 'Unknown Brand', // Ensure fallback for missing brand name
+            brand_name: brandName,
             product_id: item.product_id,
-            product_name: item.product_name || 'Unknown Product', // Ensure fallback for missing product name
+            product_name: productName,
             property_names: item.property_names || [],
             is_barista: item.is_barista || false,
             flavor_names: item.flavor_names || [],
@@ -71,10 +78,16 @@ export const useAggregatedResults = (sortConfig: SortConfig) => {
       results.sort((a, b) => {
         let comparison = 0;
         
+        // Ensure we have strings to compare to avoid null reference errors
+        const aBrandName = a.brand_name || '';
+        const bBrandName = b.brand_name || '';
+        const aProductName = a.product_name || '';
+        const bProductName = b.product_name || '';
+        
         if (sortConfig.column === 'brand_name') {
-          comparison = a.brand_name.localeCompare(b.brand_name);
+          comparison = aBrandName.localeCompare(bBrandName);
         } else if (sortConfig.column === 'product_name') {
-          comparison = a.product_name.localeCompare(b.product_name);
+          comparison = aProductName.localeCompare(bProductName);
         } else if (sortConfig.column === 'avg_rating') {
           comparison = a.avg_rating - b.avg_rating;
         } else if (sortConfig.column === 'count') {
@@ -85,6 +98,7 @@ export const useAggregatedResults = (sortConfig: SortConfig) => {
       });
       
       console.log("Sorted results:", results.length);
+      console.log("Sample processed result:", results.length > 0 ? results[0] : 'No results');
       return results;
     },
   });
