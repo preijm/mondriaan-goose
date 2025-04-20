@@ -7,6 +7,7 @@ import { DrinkPreference } from "./milk-test/DrinkPreference";
 import { PriceInput } from "./milk-test/PriceInput";
 import { ResponsiveNotesArea } from "./milk-test/ResponsiveNotesArea";
 import { useMilkTestForm } from "@/hooks/useMilkTestForm";
+
 export const AddMilkTest = () => {
   const {
     formState,
@@ -34,7 +35,7 @@ export const AddMilkTest = () => {
       </div>
 
       <div className="space-y-4">
-        <h2 className="text-xl font-semibold text-gray-900">Buying Information</h2>
+        <h2 className="text-xl font-semibold text-gray-900">Buying Location</h2>
         <ShopSelect shop={formState.shop} setShop={formSetters.setShop} />
       </div>
 
