@@ -73,7 +73,6 @@ const Auth = () => {
 
       // Clear the hash from URL and navigate to login page
       window.history.replaceState(null, '', window.location.pathname);
-      navigate('/auth');
       setIsPasswordReset(false);
     } catch (error: any) {
       toast({
