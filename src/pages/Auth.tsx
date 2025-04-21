@@ -27,6 +27,7 @@ const Auth = () => {
     const hash = window.location.hash || location.hash;
     if (hash && hash.includes('#access_token=')) {
       setIsPasswordReset(true);
+      console.log("Password reset mode detected");
     }
   }, [location]);
 
@@ -71,9 +72,17 @@ const Auth = () => {
         description: "You can now log in with your new password"
       });
 
-      // Clear the hash from URL and navigate to login page
+      // Clear the hash from URL
       window.history.replaceState(null, '', window.location.pathname);
+      
+      // Show login form after successful password reset
       setIsPasswordReset(false);
+      
+      toast({
+        title: "Please log in",
+        description: "Use your new password to log in",
+      });
+      
     } catch (error: any) {
       toast({
         title: "Error updating password",
