@@ -456,7 +456,7 @@ export type Database = {
     }
     Functions: {
       search_product_types: {
-        Args: { search_term: string }
+        Args: Record<PropertyKey, never> | { search_term: string }
         Returns: {
           id: string
           brand_id: string

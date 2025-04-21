@@ -30,7 +30,8 @@ const ResetPasswordDialog = ({ open, onOpenChange }: ResetPasswordDialogProps) =
     try {
       // Get the current origin for proper redirect - ensure we use window.location.origin
       const origin = window.location.origin;
-      const redirectUrl = `${origin}/auth`;
+      // Use a specific path for password reset to ensure proper routing
+      const redirectUrl = `${origin}/auth/reset-password`;
       
       const { error } = await supabase.auth.resetPasswordForEmail(resetEmail, {
         redirectTo: redirectUrl,
