@@ -1,11 +1,10 @@
-
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { LogIn, UserPlus } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 interface AuthFormProps {
   onForgotPassword: () => void;
@@ -19,6 +18,9 @@ const AuthForm = ({ onForgotPassword }: AuthFormProps) => {
   const [isLogin, setIsLogin] = useState(true);
   const navigate = useNavigate();
   const { toast } = useToast();
+
+  const location = useLocation();
+  const fromAdd = location.state?.from === '/add';
 
   const handleAuth = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -51,7 +53,9 @@ const AuthForm = ({ onForgotPassword }: AuthFormProps) => {
           title: "Welcome back!",
           description: "You've been successfully logged in.",
         });
-        navigate("/dashboard");
+
+        // Redirect to /add if coming from that route, otherwise to /my-results
+        navigate(fromAdd ? "/add" : "/my-results");
       } else {
         // Check if username is available before signup
         const { data: existingUser } = await supabase

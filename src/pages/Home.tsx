@@ -1,12 +1,23 @@
-
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Milk } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import MenuBar from "@/components/MenuBar";
 import BackgroundPattern from "@/components/BackgroundPattern";
+import { supabase } from "@/integrations/supabase/client";
 
 const Home = () => {
+  const navigate = useNavigate();
+
+  const handleStartJourney = async () => {
+    const { data: { session } } = await supabase.auth.getSession();
+    if (!session) {
+      navigate('/auth', { state: { from: '/add' } });
+    } else {
+      navigate('/add');
+    }
+  };
+
   return (
     <div className="min-h-screen">
       <MenuBar />
@@ -23,19 +34,18 @@ const Home = () => {
               Tired of tasteless plant milks? Rate, discover, and share your faves with a community that's just as obsessed. Whether it's for coffee, cereal, or cooking—find the dairy-free match that actually delivers.
             </p>
 
-            <Link to="/add">
-              <Button 
-                size="lg" 
-                className="text-lg px-8 animate-fade-in hover:bg-blue-700"
-                style={{ 
-                  backgroundColor: '#2144FF', 
-                  color: 'white'
-                }}
-              >
-                <Milk className="mr-2 h-6 w-6" />
-                Start Your Taste Journey
-              </Button>
-            </Link>
+            <Button 
+              onClick={handleStartJourney}
+              size="lg" 
+              className="text-lg px-8 animate-fade-in hover:bg-blue-700"
+              style={{ 
+                backgroundColor: '#2144FF', 
+                color: 'white'
+              }}
+            >
+              <Milk className="mr-2 h-6 w-6" />
+              Start Your Taste Journey
+            </Button>
           </div>
         </div>
       </BackgroundPattern>
