@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -91,23 +90,39 @@ const AuthForm = ({ onForgotPassword }: AuthFormProps) => {
           return;
         }
 
-        const { error } = await supabase.auth.signUp({
+        // Sign up with autoConfirm set to true via data structure
+        const { data, error } = await supabase.auth.signUp({
           email,
           password,
           options: { 
             data: { 
               username 
             },
+            // We still provide the redirect URL for any verification emails
+            // but we don't require verification before login
             emailRedirectTo: `${window.location.origin}/auth#type=signup`
           }
         });
         
         if (error) throw error;
         
-        toast({
-          title: "Verification email sent",
-          description: "Please check your email to verify your account.",
-        });
+        // Check if user was created and session exists (auto sign in)
+        if (data && data.session) {
+          // User is automatically signed in
+          toast({
+            title: "Account created!",
+            description: "You're now logged in. Welcome to the community!",
+          });
+          
+          // Redirect to /add if coming from that route, otherwise to /my-results
+          navigate(fromAdd ? "/add" : "/my-results");
+        } else {
+          // This should not happen with auto-confirmation, but just in case
+          toast({
+            title: "Verification email sent",
+            description: "Please check your email to verify your account.",
+          });
+        }
       }
     } catch (error: any) {
       toast({
