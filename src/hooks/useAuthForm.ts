@@ -20,11 +20,11 @@ export const useAuthForm = () => {
   const handleLogin = async (email: string, password: string) => {
     setLoading(true);
     try {
-      // First, check if the email exists in the system
-      const { data: userData } = await supabase
+      // Check if the email exists by querying the profiles table
+      const { data: existingProfiles } = await supabase
         .from('profiles')
         .select('id')
-        .eq('id', (await supabase.auth.getUser({ email })).data.user?.id || '')
+        .ilike('username', `%${email}%`)
         .maybeSingle();
       
       // Try to sign in
@@ -34,8 +34,8 @@ export const useAuthForm = () => {
       });
       
       if (error) {
-        // If the email doesn't exist in our system, it's likely an email issue
-        if (!userData && error.message.includes('Invalid login credentials')) {
+        // If there's no matching email in profiles table, it's likely an email issue
+        if (!existingProfiles && error.message.includes('Invalid login credentials')) {
           toast({
             title: "Email not found",
             description: "No account exists with this email address. Please check your email or sign up.",
@@ -45,7 +45,7 @@ export const useAuthForm = () => {
         }
         
         // If email exists but login failed, it's likely a password issue
-        if (userData && error.message.includes('Invalid login credentials')) {
+        if (existingProfiles && error.message.includes('Invalid login credentials')) {
           toast({
             title: "Incorrect password",
             description: "The password you entered is incorrect. Please try again.",
