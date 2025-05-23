@@ -20,15 +20,42 @@ export const useAuthForm = () => {
   const handleLogin = async (email: string, password: string) => {
     setLoading(true);
     try {
+      // First, check if the email exists in the system
+      const { data: userData } = await supabase
+        .from('profiles')
+        .select('id')
+        .eq('id', (await supabase.auth.getUser({ email })).data.user?.id || '')
+        .maybeSingle();
+      
+      // Try to sign in
       const { error } = await supabase.auth.signInWithPassword({
         email,
         password,
       });
       
       if (error) {
-        const errorMessage = error.message.includes('Invalid login credentials') 
-          ? 'Incorrect email or password. Please try again.' 
-          : error.message;
+        // If the email doesn't exist in our system, it's likely an email issue
+        if (!userData && error.message.includes('Invalid login credentials')) {
+          toast({
+            title: "Email not found",
+            description: "No account exists with this email address. Please check your email or sign up.",
+            variant: "destructive",
+          });
+          return;
+        }
+        
+        // If email exists but login failed, it's likely a password issue
+        if (userData && error.message.includes('Invalid login credentials')) {
+          toast({
+            title: "Incorrect password",
+            description: "The password you entered is incorrect. Please try again.",
+            variant: "destructive",
+          });
+          return;
+        }
+        
+        // For other errors, show the generic message
+        const errorMessage = error.message || 'Something went wrong. Please try again.';
         
         toast({
           title: "Login Failed",

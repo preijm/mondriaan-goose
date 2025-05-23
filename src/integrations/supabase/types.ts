@@ -452,14 +452,11 @@ export type Database = {
       search_product_types: {
         Args: Record<PropertyKey, never> | { search_term: string }
         Returns: {
-          id: string
           brand_id: string
-          brand_name: string
-          product_name: string
-          ingredients: string[]
-          product_types: string[]
-          flavor_names: string[]
-          product_name_id: string
+          created_at: string
+          id: string
+          is_barista: boolean
+          name_id: string | null
         }[]
       }
     }
