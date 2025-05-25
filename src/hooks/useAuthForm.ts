@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
@@ -20,13 +19,18 @@ export const useAuthForm = () => {
   const handleLogin = async (email: string, password: string) => {
     setLoading(true);
     try {
-      // Check if the email exists by querying the profiles table
-      const { data: existingProfiles } = await supabase
-        .from('profiles')
-        .select('id')
-        .ilike('username', `%${email}%`)
-        .maybeSingle();
-      
+      // First validate email format
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email)) {
+        toast({
+          title: "Invalid email format",
+          description: "Please enter a valid email address.",
+          variant: "destructive",
+        });
+        setLoading(false);
+        return;
+      }
+
       // Try to sign in
       const { error } = await supabase.auth.signInWithPassword({
         email,
@@ -34,34 +38,34 @@ export const useAuthForm = () => {
       });
       
       if (error) {
-        // If there's no matching email in profiles table, it's likely an email issue
-        if (!existingProfiles && error.message.includes('Invalid login credentials')) {
+        // Check if it's an invalid credentials error
+        if (error.message.includes('Invalid login credentials')) {
+          // Try to determine if it's email or password issue by checking if email exists
+          const { data: userData } = await supabase.auth.admin.listUsers();
+          const userExists = userData.users?.some(user => user.email === email);
+          
+          if (!userExists) {
+            toast({
+              title: "Email not found",
+              description: "No account exists with this email address. Please check your email or sign up.",
+              variant: "destructive",
+            });
+          } else {
+            toast({
+              title: "Incorrect password",
+              description: "The password you entered is incorrect. Please try again.",
+              variant: "destructive",
+            });
+          }
+        } else {
+          // For other errors, show the generic message
           toast({
-            title: "Email not found",
-            description: "No account exists with this email address. Please check your email or sign up.",
+            title: "Login Failed",
+            description: error.message || 'Something went wrong. Please try again.',
             variant: "destructive",
           });
-          return;
         }
-        
-        // If email exists but login failed, it's likely a password issue
-        if (existingProfiles && error.message.includes('Invalid login credentials')) {
-          toast({
-            title: "Incorrect password",
-            description: "The password you entered is incorrect. Please try again.",
-            variant: "destructive",
-          });
-          return;
-        }
-        
-        // For other errors, show the generic message
-        const errorMessage = error.message || 'Something went wrong. Please try again.';
-        
-        toast({
-          title: "Login Failed",
-          description: errorMessage,
-          variant: "destructive",
-        });
+        setLoading(false);
         return;
       }
       
@@ -77,6 +81,7 @@ export const useAuthForm = () => {
         description: error.message,
         variant: "destructive",
       });
+      setLoading(false);
     } finally {
       setLoading(false);
     }
