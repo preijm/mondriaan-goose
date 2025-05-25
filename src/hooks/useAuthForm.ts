@@ -38,27 +38,15 @@ export const useAuthForm = () => {
       });
       
       if (error) {
-        // Check if it's an invalid credentials error
+        // Show a generic error message for invalid credentials
         if (error.message.includes('Invalid login credentials')) {
-          // Try to determine if it's email or password issue by checking if email exists
-          const { data: userData } = await supabase.auth.admin.listUsers();
-          const userExists = userData.users?.some(user => user.email === email);
-          
-          if (!userExists) {
-            toast({
-              title: "Email not found",
-              description: "No account exists with this email address. Please check your email or sign up.",
-              variant: "destructive",
-            });
-          } else {
-            toast({
-              title: "Incorrect password",
-              description: "The password you entered is incorrect. Please try again.",
-              variant: "destructive",
-            });
-          }
+          toast({
+            title: "Invalid credentials",
+            description: "Please check your email and password and try again.",
+            variant: "destructive",
+          });
         } else {
-          // For other errors, show the generic message
+          // For other errors, show the specific message
           toast({
             title: "Login Failed",
             description: error.message || 'Something went wrong. Please try again.',
