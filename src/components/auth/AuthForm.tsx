@@ -15,6 +15,8 @@ const AuthForm = ({ onForgotPassword }: AuthFormProps) => {
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
   const [isLogin, setIsLogin] = useState(true);
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
   const { loading, handleLogin, handleSignUp } = useAuthForm();
   const { toast } = useToast();
   const location = useLocation();
@@ -34,8 +36,55 @@ const AuthForm = ({ onForgotPassword }: AuthFormProps) => {
     }
   }, [toast]);
 
+  const validateEmail = (email: string) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!email) {
+      return "Email is required";
+    }
+    if (!emailRegex.test(email)) {
+      return "Please enter a valid email address";
+    }
+    return "";
+  };
+
+  const validatePassword = (password: string) => {
+    if (!password) {
+      return "Password is required";
+    }
+    if (!isLogin && password.length < 6) {
+      return "Password must be at least 6 characters";
+    }
+    return "";
+  };
+
   const handleAuth = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Clear previous errors
+    setEmailError("");
+    setPasswordError("");
+    
+    // Validate inputs
+    const emailValidation = validateEmail(email);
+    const passwordValidation = validatePassword(password);
+    
+    if (emailValidation) {
+      setEmailError(emailValidation);
+    }
+    if (passwordValidation) {
+      setPasswordError(passwordValidation);
+    }
+    
+    // Show validation errors as toast
+    if (emailValidation || passwordValidation) {
+      toast({
+        title: "Please check your input",
+        description: emailValidation || passwordValidation,
+        variant: "destructive"
+      });
+      return;
+    }
+    
     console.log("Form submitted:", isLogin ? "login" : "signup");
     
     if (isLogin) {
@@ -51,11 +100,19 @@ const AuthForm = ({ onForgotPassword }: AuthFormProps) => {
       <AuthFormInputs
         isLogin={isLogin}
         email={email}
-        setEmail={setEmail}
+        setEmail={(value) => {
+          setEmail(value);
+          if (emailError) setEmailError("");
+        }}
         password={password}
-        setPassword={setPassword}
+        setPassword={(value) => {
+          setPassword(value);
+          if (passwordError) setPasswordError("");
+        }}
         username={username}
         setUsername={setUsername}
+        emailError={emailError}
+        passwordError={passwordError}
       />
 
       <AuthFormButtons
@@ -65,6 +122,8 @@ const AuthForm = ({ onForgotPassword }: AuthFormProps) => {
         onToggleMode={() => {
           setIsLogin(!isLogin);
           setUsername("");
+          setEmailError("");
+          setPasswordError("");
         }}
       />
     </form>

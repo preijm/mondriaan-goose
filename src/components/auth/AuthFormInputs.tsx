@@ -10,6 +10,8 @@ interface AuthFormInputsProps {
   setPassword: (value: string) => void;
   username: string;
   setUsername: (value: string) => void;
+  emailError?: string;
+  passwordError?: string;
 }
 
 const AuthFormInputs = ({
@@ -19,7 +21,9 @@ const AuthFormInputs = ({
   password,
   setPassword,
   username,
-  setUsername
+  setUsername,
+  emailError,
+  passwordError
 }: AuthFormInputsProps) => {
   return (
     <>
@@ -38,25 +42,39 @@ const AuthFormInputs = ({
         />
       )}
 
-      <Input
-        type="email"
-        placeholder="Email"
-        value={email}
-        onChange={e => setEmail(e.target.value)}
-        required
-        className="bg-white/80 border-black/20 backdrop-blur-sm rounded-sm"
-      />
+      <div className="space-y-1">
+        <Input
+          type="email"
+          placeholder="Email"
+          value={email}
+          onChange={e => setEmail(e.target.value)}
+          required
+          className={`bg-white/80 border-black/20 backdrop-blur-sm rounded-sm ${
+            emailError ? 'border-red-500 focus:border-red-500' : ''
+          }`}
+        />
+        {emailError && (
+          <p className="text-sm text-red-600 px-1">{emailError}</p>
+        )}
+      </div>
 
-      <Input
-        type="password"
-        placeholder="Password"
-        value={password}
-        onChange={e => setPassword(e.target.value)}
-        required
-        minLength={6}
-        showPasswordToggle
-        className="bg-white/80 border-black/20 backdrop-blur-sm rounded-sm"
-      />
+      <div className="space-y-1">
+        <Input
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={e => setPassword(e.target.value)}
+          required
+          minLength={6}
+          showPasswordToggle
+          className={`bg-white/80 border-black/20 backdrop-blur-sm rounded-sm ${
+            passwordError ? 'border-red-500 focus:border-red-500' : ''
+          }`}
+        />
+        {passwordError && (
+          <p className="text-sm text-red-600 px-1">{passwordError}</p>
+        )}
+      </div>
     </>
   );
 };
