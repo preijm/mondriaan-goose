@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
@@ -6,17 +5,19 @@ import { Input } from "@/components/ui/input";
 import { Lock } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
-
 interface ResetPasswordDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }
-
-const ResetPasswordDialog = ({ open, onOpenChange }: ResetPasswordDialogProps) => {
+const ResetPasswordDialog = ({
+  open,
+  onOpenChange
+}: ResetPasswordDialogProps) => {
   const [resetEmail, setResetEmail] = useState("");
   const [resetInProgress, setResetInProgress] = useState(false);
-  const { toast } = useToast();
-
+  const {
+    toast
+  } = useToast();
   const handleForgotPassword = async () => {
     if (!resetEmail) {
       toast({
@@ -26,45 +27,43 @@ const ResetPasswordDialog = ({ open, onOpenChange }: ResetPasswordDialogProps) =
       });
       return;
     }
-    
+
     // Validate email format
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(resetEmail)) {
       toast({
         title: "Invalid email format",
         description: "Please enter a valid email address.",
-        variant: "destructive",
+        variant: "destructive"
       });
       return;
     }
-    
     setResetInProgress(true);
     console.log("Starting password reset for email:", resetEmail);
-    
     try {
       // Get the current origin for proper redirect - ensure we use window.location.origin
       const origin = window.location.origin;
       // Use the auth page for password reset to ensure proper routing
       const redirectUrl = `${origin}/auth`;
-      
       console.log("Redirect URL:", redirectUrl);
-      
-      const { data, error } = await supabase.auth.resetPasswordForEmail(resetEmail, {
-        redirectTo: redirectUrl,
+      const {
+        data,
+        error
+      } = await supabase.auth.resetPasswordForEmail(resetEmail, {
+        redirectTo: redirectUrl
       });
-
-      console.log("Reset password response:", { data, error });
-
+      console.log("Reset password response:", {
+        data,
+        error
+      });
       if (error) {
         console.error("Reset password error:", error);
         throw error;
       }
-
       console.log("Password reset email sent successfully");
-      
       toast({
         title: "Reset instructions sent",
-        description: "If an account exists with this email, you'll receive password reset instructions. Check your email and spam folder.",
+        description: "If an account exists with this email, you'll receive password reset instructions. Check your email and spam folder."
       });
       onOpenChange(false);
       setResetEmail("");
@@ -79,48 +78,28 @@ const ResetPasswordDialog = ({ open, onOpenChange }: ResetPasswordDialogProps) =
       setResetInProgress(false);
     }
   };
-
-  return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
+  return <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle>Reset Password</DialogTitle>
-          <DialogDescription>
-            Enter your email address and we'll send you instructions to reset your password.
-          </DialogDescription>
+          
         </DialogHeader>
         <div className="space-y-4 py-4">
-          <Input
-            type="email"
-            placeholder="Enter your email"
-            value={resetEmail}
-            onChange={(e) => setResetEmail(e.target.value)}
-            className="bg-white/80 border-black/20 backdrop-blur-sm rounded-sm"
-          />
+          <Input type="email" placeholder="Enter your email" value={resetEmail} onChange={e => setResetEmail(e.target.value)} className="bg-white/80 border-black/20 backdrop-blur-sm rounded-sm" />
           <div className="flex justify-end space-x-2">
-            <Button
-              variant="outline"
-              onClick={() => onOpenChange(false)}
-              disabled={resetInProgress}
-            >
+            <Button variant="outline" onClick={() => onOpenChange(false)} disabled={resetInProgress}>
               Cancel
             </Button>
-            <Button
-              onClick={handleForgotPassword}
-              disabled={resetInProgress}
-              style={{
-                backgroundColor: '#2144FF',
-                color: 'white'
-              }}
-            >
+            <Button onClick={handleForgotPassword} disabled={resetInProgress} style={{
+            backgroundColor: '#2144FF',
+            color: 'white'
+          }}>
               <Lock className="w-4 h-4 mr-2" />
               {resetInProgress ? "Sending..." : "Send Instructions"}
             </Button>
           </div>
         </div>
       </DialogContent>
-    </Dialog>
-  );
+    </Dialog>;
 };
-
 export default ResetPasswordDialog;
