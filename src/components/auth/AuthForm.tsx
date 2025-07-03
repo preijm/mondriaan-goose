@@ -96,7 +96,11 @@ const AuthForm = ({ onForgotPassword }: AuthFormProps) => {
   };
 
   return (
-    <form onSubmit={handleAuth} className="space-y-6">
+    <>
+      <h1 className="text-3xl font-bold text-center mb-8 text-[#00BF63]">
+        {isLogin ? "Welcome Back" : "Join Our Community"}
+      </h1>
+      <form onSubmit={handleAuth} className="space-y-6">
       <AuthFormInputs
         isLogin={isLogin}
         email={email}
@@ -126,7 +130,8 @@ const AuthForm = ({ onForgotPassword }: AuthFormProps) => {
           setPasswordError("");
         }}
       />
-    </form>
+      </form>
+    </>
   );
 };
 
