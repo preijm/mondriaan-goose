@@ -23,33 +23,47 @@ const Auth = () => {
 
   // Check if we're in password reset mode
   useEffect(() => {
-    // Look for the access token in the URL hash or path
-    const hash = window.location.hash || location.hash;
-    const path = location.pathname;
+    const checkResetMode = () => {
+      // Look for the access token in the URL hash or path
+      const hash = window.location.hash || location.hash;
+      const path = location.pathname;
+      
+      console.log("Checking for reset mode, hash:", hash, "path:", path);
+      
+      // Extract access token from URL hash if present
+      if (hash && (hash.includes('#access_token=') || hash.includes('type=recovery'))) {
+        console.log("Found recovery token in hash");
+        const tokenMatch = hash.match(/access_token=([^&]*)/);
+        const typeMatch = hash.match(/type=([^&]*)/);
+        
+        if (tokenMatch && tokenMatch[1] && typeMatch && typeMatch[1] === 'recovery') {
+          setAccessToken(tokenMatch[1]);
+          setIsPasswordReset(true);
+          console.log("Password reset mode detected from hash with token");
+          
+          // Clean up the URL hash to avoid issues
+          window.history.replaceState(null, '', '/auth');
+          return;
+        }
+      } 
+      // For paths like /auth/reset-password
+      else if (path.includes('/auth/reset-password')) {
+        console.log("Found reset password path");
+        // The URL might have been redirected without hash
+        // Look for the token in the URL query params as well
+        const urlParams = new URLSearchParams(window.location.search);
+        const tokenFromQuery = urlParams.get('access_token');
+        
+        if (tokenFromQuery) {
+          setAccessToken(tokenFromQuery);
+        }
+        
+        setIsPasswordReset(true);
+        console.log("Password reset mode detected from path");
+      }
+    };
     
-    // Extract access token from URL hash if present
-    if (hash && hash.includes('#access_token=')) {
-      const tokenMatch = hash.match(/access_token=([^&]*)/);
-      if (tokenMatch && tokenMatch[1]) {
-        setAccessToken(tokenMatch[1]);
-      }
-      setIsPasswordReset(true);
-      console.log("Password reset mode detected from hash with token");
-    } 
-    // For paths like /auth/reset-password
-    else if (path.includes('/auth/reset-password')) {
-      // The URL might have been redirected without hash
-      // Look for the token in the URL query params as well
-      const urlParams = new URLSearchParams(window.location.search);
-      const tokenFromQuery = urlParams.get('access_token');
-      
-      if (tokenFromQuery) {
-        setAccessToken(tokenFromQuery);
-      }
-      
-      setIsPasswordReset(true);
-      console.log("Password reset mode detected from path");
-    }
+    checkResetMode();
   }, [location]);
 
   const handlePasswordUpdate = async () => {
