@@ -71,15 +71,6 @@ const Results = () => {
       <MenuBar />
       <BackgroundPattern>
         <div className="container max-w-6xl mx-auto px-4 py-8 pt-32 relative z-10">
-          <div className="text-center mb-12">
-            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4" style={{ color: '#00BF63' }}>
-              Community Results
-            </h1>
-            <p className="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto">
-              Discover what the community thinks about different plant milks. Find your next favorite!
-            </p>
-          </div>
-
           <div className="flex justify-end mb-8">
             <Tabs value={view} onValueChange={(v: 'table' | 'charts') => setView(v)} className="w-auto">
               <TabsList className="grid w-[200px] grid-cols-2 bg-white/80 backdrop-blur-sm border border-white/20 shadow-lg">

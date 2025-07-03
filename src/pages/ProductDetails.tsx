@@ -2,6 +2,7 @@
 import React from "react";
 import { useParams, Link } from "react-router-dom";
 import MenuBar from "@/components/MenuBar";
+import BackgroundPattern from "@/components/BackgroundPattern";
 import { SortConfig, useProductTests } from "@/hooks/useProductTests";
 import { TestDetailsTable } from "@/components/milk-test/TestDetailsTable";
 import { ImageModal } from "@/components/milk-test/ImageModal";
@@ -108,9 +109,9 @@ const ProductDetails = () => {
     return (
       <div className="min-h-screen">
         <MenuBar />
-        <div className="min-h-screen pt-16 bg-gradient-to-br from-emerald-50/80 via-blue-50/80 to-emerald-50/80">
-          <div className="container max-w-5xl mx-auto px-4 py-8">
-            <div className="flex items-center mt-6 mb-6">
+        <BackgroundPattern>
+          <div className="container max-w-5xl mx-auto px-4 py-8 pt-32 relative z-10">
+            <div className="flex items-center mb-6">
               <Link to="/results">
                 <Button variant="outline" size="sm" className="gap-1">
                   <ArrowLeft className="h-4 w-4" /> Back to results
@@ -119,7 +120,7 @@ const ProductDetails = () => {
             </div>
             <div className="text-center py-12">Loading product details...</div>
           </div>
-        </div>
+        </BackgroundPattern>
       </div>
     );
   }
@@ -128,9 +129,9 @@ const ProductDetails = () => {
     return (
       <div className="min-h-screen">
         <MenuBar />
-        <div className="min-h-screen pt-16 bg-gradient-to-br from-emerald-50/80 via-blue-50/80 to-emerald-50/80">
-          <div className="container max-w-5xl mx-auto px-4 py-8">
-            <div className="flex items-center mt-6 mb-6">
+        <BackgroundPattern>
+          <div className="container max-w-5xl mx-auto px-4 py-8 pt-32 relative z-10">
+            <div className="flex items-center mb-6">
               <Link to="/results">
                 <Button variant="outline" size="sm" className="gap-1">
                   <ArrowLeft className="h-4 w-4" /> Back to results
@@ -139,7 +140,7 @@ const ProductDetails = () => {
             </div>
             <div className="text-center py-12">Product not found</div>
           </div>
-        </div>
+        </BackgroundPattern>
       </div>
     );
   }
@@ -147,9 +148,9 @@ const ProductDetails = () => {
   return (
     <div className="min-h-screen">
       <MenuBar />
-      <div className="min-h-screen pt-16 bg-gradient-to-br from-emerald-50/80 via-blue-50/80 to-emerald-50/80">
-        <div className="container max-w-5xl mx-auto px-4 py-8">
-          <div className="flex items-center mt-6 mb-6">
+      <BackgroundPattern>
+        <div className="container max-w-5xl mx-auto px-4 py-8 pt-32 relative z-10">
+          <div className="flex items-center mb-6">
             <Link to="/results">
               <Button variant="outline" size="sm" className="gap-1">
                 <ArrowLeft className="h-4 w-4" /> Back to results
@@ -158,7 +159,7 @@ const ProductDetails = () => {
           </div>
 
           {/* Redesigned compact header */}
-          <Card className="bg-white rounded-lg shadow-md mb-6">
+          <Card className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg border border-white/20 mb-6 animate-fade-in">
             <CardContent className="p-4">
               <div className="flex items-center justify-between">
                 <div className="flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-3">
@@ -217,8 +218,8 @@ const ProductDetails = () => {
             </CardContent>
           </Card>
 
-          <Card className="bg-white rounded-lg shadow-md overflow-hidden">
-            <CardHeader className="bg-white pt-6 px-6">
+          <Card className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg border border-white/20 overflow-hidden animate-fade-in">
+            <CardHeader className="bg-white/50 backdrop-blur-sm pt-6 px-6">
               <CardTitle className="text-xl">Individual Tests</CardTitle>
             </CardHeader>
             <CardContent className="p-0">
@@ -235,7 +236,7 @@ const ProductDetails = () => {
             </CardContent>
           </Card>
         </div>
-      </div>
+      </BackgroundPattern>
 
       {/* Image modal */}
       {selectedImage && (
