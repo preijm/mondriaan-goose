@@ -23,12 +23,12 @@ export const ResultsContainer = ({
   setSearchTerm
 }: ResultsContainerProps) => {
   return (
-    <Card className="bg-white rounded-lg shadow-md overflow-hidden">
-      <CardHeader className="bg-white pb-0 pt-6 px-6">
+    <Card className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg border border-white/20 overflow-hidden animate-fade-in">
+      <CardHeader className="bg-white/50 backdrop-blur-sm pb-4 pt-6 px-6">
         <SearchBar
           searchTerm={searchTerm}
           setSearchTerm={setSearchTerm}
-          className="mb-4"
+          className="mb-0"
           placeholder="Search by brand or product..."
         />
       </CardHeader>

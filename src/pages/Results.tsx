@@ -1,7 +1,9 @@
+
 import React, { useState } from "react";
 import { useAggregatedResults, SortConfig } from "@/hooks/useAggregatedResults";
 import { useNavigate } from "react-router-dom";
 import MenuBar from "@/components/MenuBar";
+import BackgroundPattern from "@/components/BackgroundPattern";
 import { ResultsContainer } from "@/components/milk-test/ResultsContainer";
 import { MilkCharts } from "@/components/MilkCharts";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -53,11 +55,13 @@ const Results = () => {
     return (
       <div className="min-h-screen">
         <MenuBar />
-        <div className="min-h-screen pt-16 bg-gradient-to-br from-emerald-50/80 via-blue-50/80 to-emerald-50/80">
-          <div className="container max-w-5xl mx-auto px-4 py-8">
-            <div className="text-center mt-8">Loading...</div>
+        <BackgroundPattern>
+          <div className="container max-w-5xl mx-auto px-4 py-8 pt-32">
+            <div className="text-center mt-8">
+              <div className="text-xl text-gray-600">Loading...</div>
+            </div>
           </div>
-        </div>
+        </BackgroundPattern>
       </div>
     );
   }
@@ -65,11 +69,20 @@ const Results = () => {
   return (
     <div className="min-h-screen">
       <MenuBar />
-      <div className="min-h-screen pt-16 bg-gradient-to-br from-emerald-50/80 via-blue-50/80 to-emerald-50/80">
-        <div className="container max-w-6xl mx-auto px-4 py-8">
+      <BackgroundPattern>
+        <div className="container max-w-6xl mx-auto px-4 py-8 pt-32 relative z-10">
+          <div className="text-center mb-12">
+            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4" style={{ color: '#00BF63' }}>
+              Community Results
+            </h1>
+            <p className="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto">
+              Discover what the community thinks about different plant milks. Find your next favorite!
+            </p>
+          </div>
+
           <div className="flex justify-end mb-8">
             <Tabs value={view} onValueChange={(v: 'table' | 'charts') => setView(v)} className="w-auto">
-              <TabsList className="grid w-[200px] grid-cols-2 bg-white/50 backdrop-blur-sm">
+              <TabsList className="grid w-[200px] grid-cols-2 bg-white/80 backdrop-blur-sm border border-white/20 shadow-lg">
                 <TabsTrigger value="table" className="flex items-center gap-2">
                   <Table2 className="w-4 h-4" />
                   <span>Table</span>
@@ -95,7 +108,7 @@ const Results = () => {
             <MilkCharts results={chartsData} />
           )}
         </div>
-      </div>
+      </BackgroundPattern>
     </div>
   );
 };
