@@ -1,7 +1,7 @@
 
 import React from "react";
 import { Button } from "@/components/ui/button";
-import { Pencil, Trash2 } from "lucide-react";
+import { Pencil, Trash2, MoreHorizontal } from "lucide-react";
 import { MilkTestResult } from "@/types/milk-test";
 import { PriceQualityBadge } from "@/components/milk-test/PriceQualityBadge";
 import { SortableColumnHeader } from "@/components/milk-test/SortableColumnHeader";
@@ -15,6 +15,12 @@ import { formatScore } from "@/lib/scoreFormatter";
 import { ImageIcon } from "lucide-react";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { supabase } from "@/integrations/supabase/client";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import {
   Table,
   TableBody,
@@ -127,12 +133,15 @@ export const MyResultsTable = ({
                 onSort={handleSort}
               />
             </TableHead>
+            <TableHead className="font-semibold text-gray-700 text-center w-[5%]">
+              Actions
+            </TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {results.length === 0 ? (
             <TableRow>
-              <TableCell colSpan={9} className="text-center py-8">
+              <TableCell colSpan={10} className="text-center py-8">
                 No results found
               </TableCell>
             </TableRow>
@@ -227,6 +236,32 @@ export const MyResultsTable = ({
                       <ImageIcon className="w-5 h-5 text-gray-400" />
                     </div>
                   )}
+                </TableCell>
+                <TableCell className="text-center">
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button variant="ghost" className="h-8 w-8 p-0">
+                        <MoreHorizontal className="h-4 w-4" />
+                        <span className="sr-only">Open menu</span>
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end" className="w-40 bg-white/95 backdrop-blur-sm border border-white/20 shadow-xl">
+                      <DropdownMenuItem
+                        onClick={() => onEdit(result)}
+                        className="cursor-pointer"
+                      >
+                        <Pencil className="mr-2 h-4 w-4" />
+                        Edit
+                      </DropdownMenuItem>
+                      <DropdownMenuItem
+                        onClick={() => onDelete(result.id)}
+                        className="cursor-pointer text-red-600 focus:text-red-600"
+                      >
+                        <Trash2 className="mr-2 h-4 w-4" />
+                        Delete
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
                 </TableCell>
               </TableRow>
             ))
