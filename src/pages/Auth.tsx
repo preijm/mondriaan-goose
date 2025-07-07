@@ -23,18 +23,24 @@ const Auth = () => {
   // Check if we're in password reset mode
   useEffect(() => {
     const checkResetMode = async () => {
-      const urlParams = new URLSearchParams(window.location.search);
-      const code = urlParams.get('code');
+      // Check for tokens in hash fragment (Supabase reset links use hash)
+      const hashParams = new URLSearchParams(window.location.hash.substring(1));
+      const accessToken = hashParams.get('access_token');
+      const refreshToken = hashParams.get('refresh_token');
+      const type = hashParams.get('type');
       
-      console.log("Checking for reset mode, code:", code);
+      console.log("Checking for reset mode, type:", type, "has tokens:", !!accessToken);
       
-      if (code) {
-        console.log("Found reset code, exchanging for session");
+      if (type === 'recovery' && accessToken && refreshToken) {
+        console.log("Found reset tokens, setting session");
         try {
-          const { data, error } = await supabase.auth.exchangeCodeForSession(code);
+          const { data, error } = await supabase.auth.setSession({
+            access_token: accessToken,
+            refresh_token: refreshToken
+          });
           
           if (error) {
-            console.error("Error exchanging code for session:", error);
+            console.error("Error setting session:", error);
             toast({
               title: "Invalid reset link",
               description: "Please request a new password reset",
@@ -48,10 +54,10 @@ const Auth = () => {
             setIsPasswordReset(true);
             
             // Clean up the URL to avoid issues
-            window.history.replaceState(null, '', '/auth');
+            window.history.replaceState(null, '', '/auth/reset-password');
           }
         } catch (error) {
-          console.error("Session exchange error:", error);
+          console.error("Session setup error:", error);
           toast({
             title: "Error processing reset link",
             description: "Please request a new password reset",
