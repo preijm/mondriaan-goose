@@ -95,6 +95,37 @@ export const useAuthForm = () => {
         return;
       }
 
+      // Check if email already exists by attempting to send a reset password email
+      // This is a safe way to check if an email exists without exposing user data
+      console.log("Checking if email exists:", email);
+      
+      const { error: resetError } = await supabase.auth.resetPasswordForEmail(email, {
+        redirectTo: `${window.location.origin}/auth/reset-password`
+      });
+
+      // If no error from reset password, it means the email exists
+      if (!resetError) {
+        console.log("Email exists - reset password succeeded");
+        toast({
+          title: "Email already registered",
+          description: "An account with this email already exists. Please log in instead or use the 'Forgot Password' option.",
+          variant: "destructive"
+        });
+        setLoading(false);
+        return;
+      }
+
+      // If we get a specific error about user not found, proceed with signup
+      if (resetError.message.includes('User not found') || 
+          resetError.message.includes('not found') ||
+          resetError.message.includes('No user found')) {
+        console.log("Email is available - proceeding with signup");
+        // Continue with signup below
+      } else {
+        // Some other error occurred during the check
+        console.warn("Unexpected error during email check:", resetError);
+        // Still proceed with signup as the check might have failed for other reasons
+      }
 
       console.log("Starting sign up process with:", { email, username });
       
