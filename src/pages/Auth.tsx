@@ -23,7 +23,7 @@ const Auth = () => {
 
   // Check if we're in password reset mode
   useEffect(() => {
-    const checkResetMode = () => {
+    const checkResetMode = async () => {
       // Look for the access token in the URL hash or path
       const hash = window.location.hash || location.hash;
       const path = location.pathname;
@@ -35,14 +35,46 @@ const Auth = () => {
         console.log("Found recovery token in hash");
         const tokenMatch = hash.match(/access_token=([^&]*)/);
         const typeMatch = hash.match(/type=([^&]*)/);
+        const refreshTokenMatch = hash.match(/refresh_token=([^&]*)/);
         
         if (tokenMatch && tokenMatch[1] && typeMatch && typeMatch[1] === 'recovery') {
-          setAccessToken(tokenMatch[1]);
-          setIsPasswordReset(true);
-          console.log("Password reset mode detected from hash with token");
+          const accessToken = tokenMatch[1];
+          const refreshToken = refreshTokenMatch ? refreshTokenMatch[1] : null;
           
-          // Clean up the URL hash to avoid issues
-          window.history.replaceState(null, '', '/auth');
+          setAccessToken(accessToken);
+          
+          // Establish session using the tokens from the reset URL
+          try {
+            if (refreshToken) {
+              const { error } = await supabase.auth.setSession({
+                access_token: accessToken,
+                refresh_token: refreshToken
+              });
+              
+              if (error) {
+                console.error("Error setting session:", error);
+                toast({
+                  title: "Invalid reset link",
+                  description: "Please request a new password reset",
+                  variant: "destructive"
+                });
+                return;
+              }
+            }
+            
+            setIsPasswordReset(true);
+            console.log("Password reset mode activated with session");
+            
+            // Clean up the URL hash to avoid issues
+            window.history.replaceState(null, '', '/auth');
+          } catch (error) {
+            console.error("Session setup error:", error);
+            toast({
+              title: "Error processing reset link",
+              description: "Please request a new password reset",
+              variant: "destructive"
+            });
+          }
           return;
         }
       } 
@@ -53,9 +85,32 @@ const Auth = () => {
         // Look for the token in the URL query params as well
         const urlParams = new URLSearchParams(window.location.search);
         const tokenFromQuery = urlParams.get('access_token');
+        const refreshTokenFromQuery = urlParams.get('refresh_token');
         
         if (tokenFromQuery) {
           setAccessToken(tokenFromQuery);
+          
+          // Try to establish session with query params
+          try {
+            if (refreshTokenFromQuery) {
+              const { error } = await supabase.auth.setSession({
+                access_token: tokenFromQuery,
+                refresh_token: refreshTokenFromQuery
+              });
+              
+              if (error) {
+                console.error("Error setting session from query:", error);
+                toast({
+                  title: "Invalid reset link",
+                  description: "Please request a new password reset",
+                  variant: "destructive"
+                });
+                return;
+              }
+            }
+          } catch (error) {
+            console.error("Session setup error from query:", error);
+          }
         }
         
         setIsPasswordReset(true);
