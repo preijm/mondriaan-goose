@@ -53,7 +53,7 @@ export const MyResultsGrid = ({ results, onEdit, onDelete }: MyResultsGridProps)
         const ratingColorClass = getRatingColorClass(Number(result.rating));
         
         return (
-          <Card key={result.id} className="overflow-hidden hover:shadow-md transition-shadow">
+          <Card key={result.id} className="overflow-hidden hover:shadow-md transition-shadow relative">
             <div className="relative">
               <AspectRatio ratio={1} className="bg-gray-100">
                 {imageUrl ? (
@@ -90,8 +90,8 @@ export const MyResultsGrid = ({ results, onEdit, onDelete }: MyResultsGridProps)
               </AspectRatio>
             </div>
             
-            <CardContent className="p-3 relative">
-              <div className="space-y-2 pb-8">
+            <CardContent className="p-3 pb-12">
+              <div className="space-y-2">
                 {/* Date */}
                 <div className="flex items-center text-xs text-gray-500">
                   <Calendar className="h-3 w-3 mr-1" />
@@ -123,27 +123,27 @@ export const MyResultsGrid = ({ results, onEdit, onDelete }: MyResultsGridProps)
                   />
                 </div>
               </div>
-              
-              {/* Actions - Always in bottom right corner */}
-              <div className="absolute bottom-3 right-3 flex gap-1">
-                <Button 
-                  variant="ghost" 
-                  size="sm" 
-                  className="h-7 w-7 p-0" 
-                  onClick={() => onEdit(result)}
-                >
-                  <Edit2 className="h-3.5 w-3.5" />
-                </Button>
-                <Button 
-                  variant="ghost" 
-                  size="sm" 
-                  className="h-7 w-7 p-0 text-red-500 hover:text-red-700" 
-                  onClick={() => onDelete(result.id)}
-                >
-                  <Trash2 className="h-3.5 w-3.5" />
-                </Button>
-              </div>
             </CardContent>
+            
+            {/* Actions - Always in bottom right corner */}
+            <div className="absolute bottom-3 right-3 flex gap-1">
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                className="h-7 w-7 p-0" 
+                onClick={() => onEdit(result)}
+              >
+                <Edit2 className="h-3.5 w-3.5" />
+              </Button>
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                className="h-7 w-7 p-0 text-red-500 hover:text-red-700" 
+                onClick={() => onDelete(result.id)}
+              >
+                <Trash2 className="h-3.5 w-3.5" />
+              </Button>
+            </div>
           </Card>
         );
       })}
