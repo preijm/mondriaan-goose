@@ -10,10 +10,21 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ChartBar, Table2 } from "lucide-react";
 import { MilkTestResult } from "@/types/milk-test";
 
+interface FilterOptions {
+  barista: boolean;
+  properties: string[];
+  flavors: string[];
+}
+
 const Results = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [sortConfig, setSortConfig] = useState<SortConfig>({ column: 'created_at', direction: 'desc' });
   const [view, setView] = useState<'table' | 'charts'>('table');
+  const [filters, setFilters] = useState<FilterOptions>({
+    barista: false,
+    properties: [],
+    flavors: []
+  });
 
   const { data: aggregatedResults = [], isLoading } = useAggregatedResults(sortConfig);
   const navigate = useNavigate();
@@ -31,10 +42,37 @@ const Results = () => {
 
   const filteredResults = aggregatedResults.filter((result) => {
     const searchString = searchTerm.toLowerCase();
-    return (
+    const matchesSearch = (
       (result.brand_name || "").toLowerCase().includes(searchString) ||
       (result.product_name || "").toLowerCase().includes(searchString)
     );
+
+    // Filter by Barista
+    if (filters.barista && !result.is_barista) {
+      return false;
+    }
+
+    // Filter by Properties
+    if (filters.properties.length > 0) {
+      const hasMatchingProperty = filters.properties.some(filterProp => 
+        result.property_names?.includes(filterProp)
+      );
+      if (!hasMatchingProperty) {
+        return false;
+      }
+    }
+
+    // Filter by Flavors
+    if (filters.flavors.length > 0) {
+      const hasMatchingFlavor = filters.flavors.some(filterFlavor => 
+        result.flavor_names?.includes(filterFlavor)
+      );
+      if (!hasMatchingFlavor) {
+        return false;
+      }
+    }
+
+    return matchesSearch;
   });
 
   // Convert AggregatedResult[] to MilkTestResult[] for MilkCharts component
@@ -94,6 +132,8 @@ const Results = () => {
               onProductClick={navigateToProduct}
               searchTerm={searchTerm}
               setSearchTerm={setSearchTerm}
+              filters={filters}
+              onFiltersChange={setFilters}
             />
           ) : (
             <MilkCharts results={chartsData} />
