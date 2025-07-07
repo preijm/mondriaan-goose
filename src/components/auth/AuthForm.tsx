@@ -22,34 +22,15 @@ const AuthForm = ({ onForgotPassword }: AuthFormProps) => {
   const { toast } = useToast();
   const location = useLocation();
 
-  // Check for confirmation success in URL or signup success state
+  // Check for signup success state
   useEffect(() => {
-    const handleEmailConfirmation = async () => {
-      const params = new URLSearchParams(window.location.hash.substring(1));
-      const type = params.get('type');
-      
-      if (type === 'signup') {
-        // User confirmed email - sign them out and show login form
-        await supabase.auth.signOut();
-        toast({
-          title: "Email confirmed!",
-          description: "Your account has been verified. Please log in with your credentials.",
-        });
-        // Clear the hash without causing a page reload
-        window.history.replaceState(null, '', window.location.pathname);
-        setIsLogin(true); // Ensure we're in login mode
-      }
-    };
-    
-    handleEmailConfirmation();
-    
     // Check if user was redirected from successful signup
     if (location.state?.signupSuccess) {
       setIsLogin(true); // Switch to login mode
       // Clear the state to prevent showing the message again on refresh
       window.history.replaceState(null, '', window.location.pathname);
     }
-  }, [toast, location.state]);
+  }, [location.state]);
 
   const validateEmail = (email: string) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;

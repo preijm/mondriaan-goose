@@ -13,6 +13,7 @@ import { Input } from "@/components/ui/input";
 const Auth = () => {
   const [showResetDialog, setShowResetDialog] = useState(false);
   const [isPasswordReset, setIsPasswordReset] = useState(false);
+  const [isEmailConfirmed, setIsEmailConfirmed] = useState(false);
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [isResetting, setIsResetting] = useState(false);
@@ -20,13 +21,25 @@ const Auth = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Check for password reset code and exchange it for session
+  // Check for password reset code and email confirmation
   useEffect(() => {
-    const handlePasswordReset = async () => {
+    const handleAuthFlow = async () => {
       // Check for code parameter in URL (from password reset email)
       const urlParams = new URLSearchParams(window.location.search);
       const hashParams = new URLSearchParams(window.location.hash.substring(1));
       const code = urlParams.get('code') || hashParams.get('code');
+      const type = hashParams.get('type');
+      
+      // Handle email confirmation
+      if (type === 'signup') {
+        console.log("Email confirmation detected");
+        // Sign out the user (Supabase auto-logs them in after confirmation)
+        await supabase.auth.signOut();
+        setIsEmailConfirmed(true);
+        // Clear the hash
+        window.history.replaceState(null, '', window.location.pathname);
+        return;
+      }
       
       console.log("Checking for reset code:", { code: !!code });
       
@@ -99,7 +112,7 @@ const Auth = () => {
       }
     };
     
-    handlePasswordReset();
+    handleAuthFlow();
   }, [location, toast]);
 
   const handlePasswordUpdate = async () => {
@@ -188,7 +201,38 @@ const Auth = () => {
         <div className="flex items-center justify-center min-h-screen">
           <div className="container max-w-md mx-auto px-4 relative z-10">
             <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg p-8 border border-white/20 animate-fade-up">
-              {isPasswordReset ? (
+              {isEmailConfirmed ? (
+                <>
+                  <h1 className="text-3xl font-bold text-center mb-8 text-[#00BF63]">
+                    Email Verified Successfully!
+                  </h1>
+                  <div className="space-y-6 text-center">
+                    <div className="bg-emerald-50 border border-emerald-200 rounded-lg p-6">
+                      <div className="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <svg className="w-8 h-8 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
+                        </svg>
+                      </div>
+                      <h2 className="text-xl font-semibold text-emerald-800 mb-2">
+                        Your email has been validated correctly!
+                      </h2>
+                      <p className="text-emerald-700 mb-4">
+                        Your account is now active and ready to use.
+                      </p>
+                    </div>
+                    <Button
+                      className="w-full"
+                      style={{
+                        backgroundColor: '#2144FF',
+                        color: 'white'
+                      }}
+                      onClick={() => setIsEmailConfirmed(false)}
+                    >
+                      Click here to login
+                    </Button>
+                  </div>
+                </>
+              ) : isPasswordReset ? (
                 <>
                   <h1 className="text-3xl font-bold text-center mb-8 text-[#00BF63]">
                     Reset Your Password
