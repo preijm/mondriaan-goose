@@ -90,8 +90,8 @@ export const MyResultsGrid = ({ results, onEdit, onDelete }: MyResultsGridProps)
               </AspectRatio>
             </div>
             
-            <CardContent className="p-3">
-              <div className="space-y-2">
+            <CardContent className="p-3 relative">
+              <div className="space-y-2 pb-8">
                 {/* Date */}
                 <div className="flex items-center text-xs text-gray-500">
                   <Calendar className="h-3 w-3 mr-1" />
@@ -122,26 +122,26 @@ export const MyResultsGrid = ({ results, onEdit, onDelete }: MyResultsGridProps)
                     compact={true}
                   />
                 </div>
-                
-                {/* Actions */}
-                <div className="flex justify-end gap-1 mt-2">
-                  <Button 
-                    variant="ghost" 
-                    size="sm" 
-                    className="h-7 w-7 p-0" 
-                    onClick={() => onEdit(result)}
-                  >
-                    <Edit2 className="h-3.5 w-3.5" />
-                  </Button>
-                  <Button 
-                    variant="ghost" 
-                    size="sm" 
-                    className="h-7 w-7 p-0 text-red-500 hover:text-red-700" 
-                    onClick={() => onDelete(result.id)}
-                  >
-                    <Trash2 className="h-3.5 w-3.5" />
-                  </Button>
-                </div>
+              </div>
+              
+              {/* Actions - Always in bottom right corner */}
+              <div className="absolute bottom-3 right-3 flex gap-1">
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  className="h-7 w-7 p-0" 
+                  onClick={() => onEdit(result)}
+                >
+                  <Edit2 className="h-3.5 w-3.5" />
+                </Button>
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  className="h-7 w-7 p-0 text-red-500 hover:text-red-700" 
+                  onClick={() => onDelete(result.id)}
+                >
+                  <Trash2 className="h-3.5 w-3.5" />
+                </Button>
               </div>
             </CardContent>
           </Card>
