@@ -72,7 +72,7 @@ export const AddMilkTest = () => {
           <Button 
             type="submit" 
             disabled={formState.isSubmitting || !isFormValid} 
-            className="w-full"
+            className="w-full bg-blue-600 hover:bg-blue-700 text-white"
           >
             {formState.isSubmitting ? "Adding..." : "Add Result"}
           </Button>
