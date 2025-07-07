@@ -109,19 +109,37 @@ const Auth = () => {
 
     setIsResetting(true);
     try {
-      // Verify we have a session by getting the current session
-      const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+      console.log("Attempting to update password...");
       
-      if (sessionError || !session) {
-        throw new Error("No authentication session found. Please click the reset link from your email again.");
+      // Check for tokens in hash and set session if needed
+      const hashParams = new URLSearchParams(window.location.hash.substring(1));
+      const accessToken = hashParams.get('access_token');
+      const refreshToken = hashParams.get('refresh_token');
+      
+      if (accessToken && refreshToken) {
+        console.log("Setting session from hash tokens before password update");
+        const { error: sessionError } = await supabase.auth.setSession({
+          access_token: accessToken,
+          refresh_token: refreshToken
+        });
+        
+        if (sessionError) {
+          console.error("Session error:", sessionError);
+          throw new Error("Failed to establish session. Please click the reset link from your email again.");
+        }
       }
 
+      // Now update the password
       const { error } = await supabase.auth.updateUser({
         password: newPassword
       });
 
-      if (error) throw error;
+      if (error) {
+        console.error("Password update error:", error);
+        throw error;
+      }
 
+      console.log("Password updated successfully");
       toast({
         title: "Password updated successfully",
         description: "You can now log in with your new password"
@@ -139,12 +157,12 @@ const Auth = () => {
       });
       
     } catch (error: any) {
+      console.error("Password update failed:", error);
       toast({
         title: "Error updating password",
         description: error.message || "Please click the reset link from your email again",
         variant: "destructive"
       });
-      console.error("Password update error:", error);
     } finally {
       setIsResetting(false);
     }
