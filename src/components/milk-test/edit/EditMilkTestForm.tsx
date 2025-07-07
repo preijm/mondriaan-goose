@@ -1,7 +1,7 @@
 
 import React from "react";
 import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { RatingSelect } from "../RatingSelect";
 import { ResponsiveNotesArea } from "../ResponsiveNotesArea";
 import { PriceInput } from "../PriceInput";
@@ -47,53 +47,77 @@ export const EditMilkTestForm = ({
 }: EditMilkTestFormProps) => {
   return (
     <form onSubmit={onSubmit} className="space-y-6">
-      <ProductInfo brand={brand} productName={productName} />
+      {/* Product Information Card */}
+      <Card className="bg-white/60 backdrop-blur-sm border border-white/20 shadow-sm">
+        <CardContent className="p-6">
+          <ProductInfo brand={brand} productName={productName} />
+        </CardContent>
+      </Card>
 
-      <Separator />
+      {/* Rating and Notes Card */}
+      <Card className="bg-white/60 backdrop-blur-sm border border-white/20 shadow-sm">
+        <CardHeader className="pb-4">
+          <h2 className="text-lg font-semibold text-gray-900">Rating & Notes</h2>
+        </CardHeader>
+        <CardContent className="pt-0 space-y-4">
+          <RatingSelect 
+            rating={formState.rating} 
+            setRating={formSetters.setRating} 
+          />
+          <ResponsiveNotesArea
+            notes={formState.notes}
+            setNotes={formSetters.setNotes}
+            picture={formState.picture}
+            picturePreview={formState.picturePreview}
+            setPicture={formSetters.setPicture}
+            setPicturePreview={formSetters.setPicturePreview}
+          />
+        </CardContent>
+      </Card>
 
-      <div className="space-y-4">
-        <h2 className="text-lg font-semibold text-gray-900">Rating</h2>
-        <RatingSelect 
-          rating={formState.rating} 
-          setRating={formSetters.setRating} 
-        />
-        <ResponsiveNotesArea
-          notes={formState.notes}
-          setNotes={formSetters.setNotes}
-          picture={formState.picture}
-          picturePreview={formState.picturePreview}
-          setPicture={formSetters.setPicture}
-          setPicturePreview={formSetters.setPicturePreview}
-        />
-      </div>
+      {/* Price-to-Quality Card */}
+      <Card className="bg-white/60 backdrop-blur-sm border border-white/20 shadow-sm">
+        <CardHeader className="pb-4">
+          <h2 className="text-lg font-semibold text-gray-900">Price-to-Quality Ratio</h2>
+        </CardHeader>
+        <CardContent className="pt-0">
+          <PriceInput 
+            price={formState.priceQualityRatio} 
+            setPrice={formSetters.setPriceQualityRatio}
+            hasChanged={formState.priceHasChanged}
+            setHasChanged={formSetters.setPriceHasChanged}
+          />
+        </CardContent>
+      </Card>
 
-      <div className="space-y-4">
-        <h2 className="text-lg font-semibold text-gray-900">Price-to-Quality Ratio</h2>
-        <PriceInput 
-          price={formState.priceQualityRatio} 
-          setPrice={formSetters.setPriceQualityRatio}
-          hasChanged={formState.priceHasChanged}
-          setHasChanged={formSetters.setPriceHasChanged}
-        />
-      </div>
+      {/* Shop Information Card */}
+      <Card className="bg-white/60 backdrop-blur-sm border border-white/20 shadow-sm">
+        <CardHeader className="pb-4">
+          <h2 className="text-lg font-semibold text-gray-900">Buying Information</h2>
+        </CardHeader>
+        <CardContent className="pt-0">
+          <ShopSelect
+            shop={formState.shop}
+            setShop={formSetters.setShop}
+          />
+        </CardContent>
+      </Card>
 
-      <div className="space-y-4">
-        <h2 className="text-lg font-semibold text-gray-900">Buying Information</h2>
-        <ShopSelect
-          shop={formState.shop}
-          setShop={formSetters.setShop}
-        />
-      </div>
+      {/* Drinking Style Card */}
+      <Card className="bg-white/60 backdrop-blur-sm border border-white/20 shadow-sm">
+        <CardHeader className="pb-4">
+          <h2 className="text-lg font-semibold text-gray-900">Drinking Style</h2>
+        </CardHeader>
+        <CardContent className="pt-0">
+          <DrinkPreference
+            preference={formState.drinkPreference}
+            setPreference={formSetters.setDrinkPreference}
+          />
+        </CardContent>
+      </Card>
 
-      <div className="space-y-4">
-        <h2 className="text-lg font-semibold text-gray-900">Drinking Style</h2>
-        <DrinkPreference
-          preference={formState.drinkPreference}
-          setPreference={formSetters.setDrinkPreference}
-        />
-      </div>
-
-      <div className="flex justify-end space-x-2">
+      {/* Action Buttons */}
+      <div className="flex justify-end space-x-2 pt-4">
         <Button
           type="button"
           variant="outline"
@@ -104,7 +128,7 @@ export const EditMilkTestForm = ({
         </Button>
         <Button 
           type="submit" 
-          className="bg-cream-300 hover:bg-cream-200 text-milk-500"
+          variant="brand"
           disabled={formState.isSubmitting}
         >
           {formState.isSubmitting ? "Updating..." : "Update"}

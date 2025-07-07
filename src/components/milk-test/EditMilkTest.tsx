@@ -28,10 +28,10 @@ export const EditMilkTest = ({ test, open, onOpenChange, onSuccess }: EditMilkTe
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
-        <DialogHeader>
-          <DialogTitle>Edit Milk Test</DialogTitle>
-          <DialogDescription>
+      <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto bg-white/95 backdrop-blur-sm border border-white/20 shadow-xl">
+        <DialogHeader className="bg-white/50 backdrop-blur-sm -m-6 px-6 py-4 mb-6 rounded-t-lg">
+          <DialogTitle className="text-xl font-semibold text-gray-900">Edit Milk Test</DialogTitle>
+          <DialogDescription className="text-gray-600">
             Make changes to your milk test record
           </DialogDescription>
         </DialogHeader>
