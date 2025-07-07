@@ -174,58 +174,6 @@ export const ResultsFilter = ({ filters, onFiltersChange }: ResultsFilterProps) 
           </div>
         </PopoverContent>
       </Popover>
-
-      {/* Active Filters Display */}
-      {hasActiveFilters && (
-        <div className="flex items-center gap-1 flex-wrap">
-          {filters.barista && (
-            <Badge 
-              variant="barista" 
-              className="bg-amber-600 text-white border-amber-600 flex items-center gap-1"
-            >
-              Barista
-              <X 
-                className="h-3 w-3 cursor-pointer" 
-                onClick={handleBaristaToggle}
-              />
-            </Badge>
-          )}
-          
-          {filters.properties.map((propKey) => {
-            const property = properties.find(p => p.key === propKey);
-            return property ? (
-              <Badge 
-                key={propKey}
-                variant="category" 
-                className="bg-slate-600 text-white border-slate-600 flex items-center gap-1"
-              >
-                {property.name}
-                <X 
-                  className="h-3 w-3 cursor-pointer" 
-                  onClick={() => handlePropertyToggle(propKey)}
-                />
-              </Badge>
-            ) : null;
-          })}
-          
-          {filters.flavors.map((flavorKey) => {
-            const flavor = flavors.find(f => f.key === flavorKey);
-            return flavor ? (
-              <Badge 
-                key={flavorKey}
-                variant="flavor" 
-                className="bg-purple-600 text-white border-purple-600 flex items-center gap-1"
-              >
-                {flavor.name}
-                <X 
-                  className="h-3 w-3 cursor-pointer" 
-                  onClick={() => handleFlavorToggle(flavorKey)}
-                />
-              </Badge>
-            ) : null;
-          })}
-        </div>
-      )}
     </div>
   );
 };
