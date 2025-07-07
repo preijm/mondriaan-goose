@@ -54,6 +54,7 @@ export const AddShopForm = ({
         onClick={onAdd}
         className="w-full"
         variant="brand"
+        disabled={!newShopName.trim() || !selectedCountryCode}
       >
         Add Shop
       </Button>
