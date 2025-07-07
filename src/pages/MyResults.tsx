@@ -8,6 +8,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useUserMilkTests, SortConfig } from "@/hooks/useUserMilkTests";
 import MenuBar from "@/components/MenuBar";
 import BackgroundPattern from "@/components/BackgroundPattern";
+import { Card, CardHeader, CardContent } from "@/components/ui/card";
 
 const MyResults = () => {
   const { toast } = useToast();
@@ -87,21 +88,29 @@ const MyResults = () => {
       <MenuBar />
       <BackgroundPattern>
         <div className="container max-w-6xl mx-auto px-4 py-8 pt-32 relative z-10">
-          <h1 className="text-3xl font-bold text-gray-900 mb-8">My Results</h1>
-          
-          <UserStatsOverview results={results} />
-          
-          <UserResultsContainer 
-            filteredResults={filteredResults}
-            sortConfig={sortConfig}
-            handleSort={handleSort}
-            onEdit={handleEdit}
-            onDelete={handleDelete}
-            searchTerm={searchTerm}
-            setSearchTerm={setSearchTerm}
-            viewMode={viewMode}
-            setViewMode={setViewMode}
-          />
+          <Card className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg border border-white/20 overflow-hidden animate-fade-in">
+            <CardHeader className="bg-white/50 backdrop-blur-sm pb-4 pt-6 px-6">
+              <div className="flex flex-col gap-4">
+                <h1 className="text-3xl font-bold text-gray-900">My Results</h1>
+                <UserStatsOverview results={results} />
+              </div>
+            </CardHeader>
+            <CardContent className="p-0">
+              <div className="p-6 pt-0">
+                <UserResultsContainer 
+                  filteredResults={filteredResults}
+                  sortConfig={sortConfig}
+                  handleSort={handleSort}
+                  onEdit={handleEdit}
+                  onDelete={handleDelete}
+                  searchTerm={searchTerm}
+                  setSearchTerm={setSearchTerm}
+                  viewMode={viewMode}
+                  setViewMode={setViewMode}
+                />
+              </div>
+            </CardContent>
+          </Card>
 
           {editingTest && (
             <EditMilkTest
