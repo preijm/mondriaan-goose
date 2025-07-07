@@ -41,8 +41,8 @@ const ResetPasswordDialog = ({
     setResetInProgress(true);
     console.log("Starting password reset for email:", resetEmail);
     try {
-      // Use the deployed domain for password reset emails to avoid localhost issues
-      const redirectUrl = "https://534a6b8e-9504-4d1c-9f7f-e02ff5b37b5b.lovableproject.com/auth";
+      // Use the production domain for password reset emails
+      const redirectUrl = "https://milkmenot.com/auth";
       console.log("Redirect URL:", redirectUrl);
       const {
         data,
