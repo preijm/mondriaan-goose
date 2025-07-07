@@ -115,22 +115,16 @@ export const useAuthForm = () => {
       
       console.log("Signup response:", data);
       
-      // Check if user was immediately signed in (no email confirmation needed)
-      if (data && data.session) {
-        console.log("User signed in successfully with session");
+      // Always redirect to login page after successful signup
+      if (data && (data.session || data.user)) {
+        console.log("User signup successful");
         toast({
-          title: "Account created!",
-          description: "You're now logged in. Welcome to the community!",
+          title: "Account created successfully!",
+          description: "Please log in with your new credentials.",
         });
         
-        navigate(fromAdd ? "/add" : "/my-results");
-      } else if (data && data.user && !data.session) {
-        // This can happen if email confirmation is required despite settings
-        console.log("User created but no session - email confirmation may be required");
-        toast({
-          title: "Account created",
-          description: "Please check your email to complete registration.",
-        });
+        // Redirect to auth page and indicate successful signup
+        navigate("/auth", { state: { signupSuccess: true } });
       } else {
         // Fallback for unexpected scenarios
         console.log("Unexpected signup response:", data);

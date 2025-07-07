@@ -21,7 +21,7 @@ const AuthForm = ({ onForgotPassword }: AuthFormProps) => {
   const { toast } = useToast();
   const location = useLocation();
 
-  // Check for confirmation success in URL
+  // Check for confirmation success in URL or signup success state
   useEffect(() => {
     const params = new URLSearchParams(window.location.hash.substring(1));
     const type = params.get('type');
@@ -34,7 +34,14 @@ const AuthForm = ({ onForgotPassword }: AuthFormProps) => {
       // Clear the hash without causing a page reload
       window.history.replaceState(null, '', window.location.pathname);
     }
-  }, [toast]);
+    
+    // Check if user was redirected from successful signup
+    if (location.state?.signupSuccess) {
+      setIsLogin(true); // Switch to login mode
+      // Clear the state to prevent showing the message again on refresh
+      window.history.replaceState(null, '', window.location.pathname);
+    }
+  }, [toast, location.state]);
 
   const validateEmail = (email: string) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
