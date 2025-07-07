@@ -20,44 +20,59 @@ const Auth = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Check if we're in password reset mode
+  // Check for password reset code and exchange it for session
   useEffect(() => {
-    const checkResetMode = () => {
-      // Check if we're on the reset password route
-      const isResetRoute = location.pathname === '/auth/reset-password';
+    const handlePasswordReset = async () => {
+      // Check for code parameter in URL (from password reset email)
+      const urlParams = new URLSearchParams(window.location.search);
+      const hashParams = new URLSearchParams(window.location.hash.substring(1));
+      const code = urlParams.get('code') || hashParams.get('code');
       
-      // Check for tokens in hash fragment (Supabase reset links use hash)
-      const hash = window.location.hash;
-      console.log("Full hash:", hash);
+      console.log("Checking for reset code:", { code: !!code });
       
-      if (hash && hash.length > 1) {
-        // Remove the # and parse parameters
-        const hashParams = new URLSearchParams(hash.substring(1));
-        const accessToken = hashParams.get('access_token');
-        const refreshToken = hashParams.get('refresh_token');
-        const type = hashParams.get('type');
-        
-        console.log("Hash parsing results:", { type, hasAccessToken: !!accessToken, hasRefreshToken: !!refreshToken });
-        
-        // Show reset form if we have recovery tokens OR if we're on the reset route
-        if (type === 'recovery' && accessToken && refreshToken) {
-          console.log("Found valid recovery tokens, showing reset form");
+      if (code) {
+        try {
+          console.log("Found reset code, exchanging for session");
+          setIsResetting(true);
+          
+          // Exchange the code for a session
+          const { data, error } = await supabase.auth.exchangeCodeForSession(code);
+          
+          if (error) {
+            console.error("Code exchange error:", error);
+            toast({
+              title: "Invalid reset link",
+              description: "This password reset link is invalid or has expired. Please request a new one.",
+              variant: "destructive"
+            });
+            return;
+          }
+          
+          console.log("Code exchange successful, session established");
           setIsPasswordReset(true);
           
-          // Clean up the URL but preserve the hash for password update
-          // Don't replace state here, we need the tokens for the password update
-        } else if (isResetRoute) {
-          console.log("On reset route without tokens, showing reset form");
-          setIsPasswordReset(true);
+          // Clean up URL
+          window.history.replaceState(null, '', '/auth/reset-password');
+          
+        } catch (error: any) {
+          console.error("Code exchange failed:", error);
+          toast({
+            title: "Error",
+            description: "Failed to process reset link. Please try again.",
+            variant: "destructive"
+          });
+        } finally {
+          setIsResetting(false);
         }
-      } else if (isResetRoute) {
-        console.log("On reset route without hash, showing reset form");
+      } else if (location.pathname === '/auth/reset-password') {
+        // If on reset route without code, show form anyway (fallback)
+        console.log("On reset route without code");
         setIsPasswordReset(true);
       }
     };
     
-    checkResetMode();
-  }, [location]);
+    handlePasswordReset();
+  }, [location, toast]);
 
   const handlePasswordUpdate = async () => {
     if (!newPassword) {
@@ -91,26 +106,6 @@ const Auth = () => {
     try {
       console.log("Attempting to update password...");
       
-      // Check for tokens in hash and set session if needed
-      const hashParams = new URLSearchParams(window.location.hash.substring(1));
-      const accessToken = hashParams.get('access_token');
-      const refreshToken = hashParams.get('refresh_token');
-      
-      if (accessToken && refreshToken) {
-        console.log("Setting session from hash tokens before password update");
-        const { data, error: sessionError } = await supabase.auth.setSession({
-          access_token: accessToken,
-          refresh_token: refreshToken
-        });
-        
-        if (sessionError) {
-          console.error("Session error:", sessionError);
-          throw new Error("Failed to establish session. Please click the reset link from your email again.");
-        }
-        
-        console.log("Session set successfully:", !!data.session);
-      }
-
       // Verify we have a valid session before proceeding
       const { data: { session }, error: getSessionError } = await supabase.auth.getSession();
       
@@ -121,7 +116,7 @@ const Auth = () => {
       
       console.log("Valid session confirmed, proceeding with password update");
 
-      // Now update the password
+      // Update the password
       const { error } = await supabase.auth.updateUser({
         password: newPassword
       });
@@ -137,10 +132,8 @@ const Auth = () => {
         description: "You can now log in with your new password"
       });
 
-      // Clear the hash from URL
+      // Clear the URL and show login form
       window.history.replaceState(null, '', '/auth');
-      
-      // Show login form after successful password reset
       setIsPasswordReset(false);
       
       toast({
@@ -152,7 +145,7 @@ const Auth = () => {
       console.error("Password update failed:", error);
       toast({
         title: "Error updating password",
-        description: error.message || "Please click the reset link from your email again",
+        description: error.message || "Please request a new password reset link",
         variant: "destructive"
       });
     } finally {
@@ -173,25 +166,16 @@ const Auth = () => {
                     Reset Your Password
                   </h1>
                   <div className="space-y-6">
-                    <div className="text-center space-y-4">
-                      <p className="text-gray-600 mb-6">
-                        Click the button below to proceed with your password reset. This will ensure your session is properly loaded.
-                      </p>
-                      <Button
-                        className="w-full"
-                        style={{
-                          backgroundColor: '#2144FF',
-                          color: 'white'
-                        }}
-                        onClick={() => {
-                          // Redirect to the same URL to refresh the session
-                          window.location.href = window.location.href;
-                        }}
-                      >
-                        Proceed to Reset Password
-                      </Button>
-                      <div className="mt-8 pt-6 border-t border-gray-200">
-                        <h2 className="text-lg font-semibold mb-4 text-gray-800">Set New Password</h2>
+                    {isResetting && (
+                      <div className="text-center">
+                        <p className="text-gray-600">Setting up your password reset...</p>
+                      </div>
+                    )}
+                    {!isResetting && (
+                      <>
+                        <p className="text-center text-gray-600 mb-6">
+                          Enter your new password below.
+                        </p>
                         <div className="space-y-4">
                           <Input
                             type="password"
@@ -225,8 +209,8 @@ const Auth = () => {
                             {isResetting ? "Updating..." : "Update Password"}
                           </Button>
                         </div>
-                      </div>
-                    </div>
+                      </>
+                    )}
                   </div>
                 </>
               ) : (
