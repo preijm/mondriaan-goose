@@ -92,6 +92,11 @@ export const ResultsFilter = ({ filters, onFiltersChange }: ResultsFilterProps) 
           >
             <Filter className="h-4 w-4" />
             <span>Filter</span>
+            {activeFilterCount > 0 && (
+              <span className="ml-1 bg-primary text-primary-foreground rounded-full px-1.5 py-0.5 text-xs font-medium">
+                {activeFilterCount}
+              </span>
+            )}
           </Button>
         </PopoverTrigger>
         <PopoverContent className="w-80 p-4" align="start">
