@@ -111,6 +111,18 @@ export const useAuthForm = () => {
       
       if (error) {
         console.error("Signup error:", error);
+        
+        // Handle duplicate email error specifically
+        if (error.message.includes('User already registered')) {
+          toast({
+            title: "Email already registered",
+            description: "An account with this email already exists. Please log in instead.",
+            variant: "destructive"
+          });
+          setLoading(false);
+          return;
+        }
+        
         throw error;
       }
       
