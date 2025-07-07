@@ -160,9 +160,9 @@ export const AggregatedResultsTable = ({
               </TableCell>
               <TableCell className="relative">
                 <div className="flex items-center justify-between">
-                  <div className="inline-flex items-center justify-center rounded-full bg-gray-100 h-7 w-7">
-                    <span className="text-gray-700 font-medium">{result.count}</span>
-                  </div>
+                  <Badge variant="testCount">
+                    {result.count}
+                  </Badge>
                   <ChevronRight className="opacity-0 group-hover:opacity-100 text-black transition-opacity" size={24} />
                 </div>
               </TableCell>
