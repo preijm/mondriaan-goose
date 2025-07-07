@@ -1,6 +1,6 @@
 
 import { useQuery } from "@tanstack/react-query";
-import { Checkbox } from "@/components/ui/checkbox";
+import { Badge } from "@/components/ui/badge";
 import { supabase } from "@/integrations/supabase/client";
 
 interface ProductOptionsProps {
@@ -24,33 +24,30 @@ export const ProductOptions = ({
     },
   });
 
-  const handleTypeChange = (type: string, checked: boolean) => {
-    if (checked) {
-      setSelectedTypes([...selectedTypes, type]);
+  const handleTypeToggle = (typeKey: string) => {
+    if (selectedTypes.includes(typeKey)) {
+      setSelectedTypes(selectedTypes.filter(t => t !== typeKey));
     } else {
-      setSelectedTypes(selectedTypes.filter(t => t !== type));
+      setSelectedTypes([...selectedTypes, typeKey]);
     }
   };
 
   return (
-    <div className="space-y-4">
-      <div className="flex flex-wrap gap-6">
-        {productProperties.map((property) => (
-          <div key={property.key} className="flex items-center space-x-2">
-            <Checkbox
-              id={property.key}
-              checked={selectedTypes.includes(property.key)}
-              onCheckedChange={(checked) => handleTypeChange(property.key, checked as boolean)}
-            />
-            <label
-              htmlFor={property.key}
-              className="text-sm leading-none text-gray-600"
-            >
-              {property.name}
-            </label>
-          </div>
-        ))}
-      </div>
+    <div className="flex flex-wrap gap-2">
+      {productProperties.map((property) => (
+        <Badge
+          key={property.key}
+          variant="category"
+          className={`cursor-pointer transition-all ${
+            selectedTypes.includes(property.key)
+              ? 'bg-slate-600 text-white border-slate-600'
+              : 'hover:bg-slate-50'
+          }`}
+          onClick={() => handleTypeToggle(property.key)}
+        >
+          {property.name}
+        </Badge>
+      ))}
     </div>
   );
 };

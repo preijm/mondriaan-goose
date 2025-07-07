@@ -124,13 +124,12 @@ export const FlavorSelector = ({
         {flavors.map(flavor => (
           <Badge 
             key={flavor.id} 
-            variant="outline" 
-            className={`
-              rounded-full px-4 py-1 cursor-pointer transition-all 
-              ${selectedFlavors.includes(flavor.key) 
-                ? 'bg-primary text-white border-primary font-medium shadow-sm hover:bg-primary/90' 
-                : 'bg-gray-100 hover:bg-gray-200 border-gray-200 text-gray-700'}
-            `} 
+            variant="flavor" 
+            className={`cursor-pointer transition-all ${
+              selectedFlavors.includes(flavor.key) 
+                ? 'bg-purple-600 text-white border-purple-600' 
+                : 'hover:bg-purple-50'
+            }`} 
             onClick={() => onFlavorToggle(flavor.key)}
           >
             {/* Use the flavor name from the API or format the key as a fallback */}
@@ -142,7 +141,7 @@ export const FlavorSelector = ({
           <Button
             variant="outline"
             size="sm"
-            className="rounded-full bg-gray-100 hover:bg-gray-200 border-gray-200 text-gray-700 h-8 w-8 p-0"
+            className="rounded bg-gray-100 hover:bg-gray-200 border-gray-200 text-gray-700 h-7 w-7 p-0"
             onClick={() => setIsAddingFlavor(true)}
             aria-label="Add new flavor"
           >
