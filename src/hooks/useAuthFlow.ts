@@ -6,22 +6,34 @@ import { useToast } from "@/hooks/use-toast";
 export const useAuthFlow = () => {
   const [isPasswordReset, setIsPasswordReset] = useState(false);
   const [isEmailConfirmed, setIsEmailConfirmed] = useState(false);
+  const [isEmailPending, setIsEmailPending] = useState(false);
+  const [userEmail, setUserEmail] = useState("");
   const [isResetting, setIsResetting] = useState(false);
   const { toast } = useToast();
   const location = useLocation();
 
   useEffect(() => {
     const handleAuthFlow = async () => {
+      // Check if user was redirected from signup with pending email confirmation
+      if (location.state?.emailPending && location.state?.email) {
+        setIsEmailPending(true);
+        setUserEmail(location.state.email);
+        // Clear the state to prevent showing the message again on refresh
+        window.history.replaceState(null, '', window.location.pathname);
+        return;
+      }
+
       const urlParams = new URLSearchParams(window.location.search);
       const hashParams = new URLSearchParams(window.location.hash.substring(1));
       const code = urlParams.get('code') || hashParams.get('code');
       const type = hashParams.get('type');
       
-      // Handle email confirmation
+      // Handle email confirmation - keep user logged in
       if (type === 'signup') {
         console.log("Email confirmation detected");
-        await supabase.auth.signOut();
+        // Don't sign out the user - let them stay logged in
         setIsEmailConfirmed(true);
+        setIsEmailPending(false); // Clear pending state
         window.history.replaceState(null, '', window.location.pathname);
         return;
       }
@@ -172,8 +184,11 @@ export const useAuthFlow = () => {
   return {
     isPasswordReset,
     isEmailConfirmed,
+    isEmailPending,
+    userEmail,
     isResetting,
     setIsEmailConfirmed,
+    setIsEmailPending,
     handlePasswordUpdate
   };
 };

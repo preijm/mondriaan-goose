@@ -1,6 +1,5 @@
 
-import React, { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import React, { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import AuthFormInputs from "./AuthFormInputs";
@@ -20,17 +19,6 @@ const AuthForm = ({ onForgotPassword }: AuthFormProps) => {
   const [passwordError, setPasswordError] = useState("");
   const { loading, handleLogin, handleSignUp } = useAuthForm();
   const { toast } = useToast();
-  const location = useLocation();
-
-  // Check for signup success state
-  useEffect(() => {
-    // Check if user was redirected from successful signup
-    if (location.state?.signupSuccess) {
-      setIsLogin(true); // Switch to login mode
-      // Clear the state to prevent showing the message again on refresh
-      window.history.replaceState(null, '', window.location.pathname);
-    }
-  }, [location.state]);
 
   const validateEmail = (email: string) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;

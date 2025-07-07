@@ -115,16 +115,16 @@ export const useAuthForm = () => {
       
       console.log("Signup response:", data);
       
-      // Always redirect to login page after successful signup
+      // Always redirect to pending confirmation page after successful signup
       if (data && (data.session || data.user)) {
         console.log("User signup successful");
         toast({
           title: "Account created successfully!",
-          description: "Please log in with your new credentials.",
+          description: "Please check your email to confirm your account.",
         });
         
-        // Redirect to auth page and indicate successful signup
-        navigate("/auth", { state: { signupSuccess: true } });
+        // Redirect to auth page and indicate pending email confirmation
+        navigate("/auth", { state: { emailPending: true, email } });
       } else {
         // Fallback for unexpected scenarios
         console.log("Unexpected signup response:", data);

@@ -18,10 +18,10 @@ const EmailConfirmationSuccess = ({ onProceedToLogin }: EmailConfirmationSuccess
             </svg>
           </div>
           <h2 className="text-xl font-semibold text-emerald-800 mb-2">
-            Your email has been validated correctly!
+            Your email has been successfully verified!
           </h2>
           <p className="text-emerald-700 mb-4">
-            Your account is now active and ready to use.
+            You are now logged in and can start using your account.
           </p>
         </div>
         <Button
@@ -32,7 +32,7 @@ const EmailConfirmationSuccess = ({ onProceedToLogin }: EmailConfirmationSuccess
           }}
           onClick={onProceedToLogin}
         >
-          Click here to login
+          Continue to App
         </Button>
       </div>
     </>
