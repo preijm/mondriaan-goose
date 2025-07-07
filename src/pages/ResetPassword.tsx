@@ -2,6 +2,7 @@ import MenuBar from "@/components/MenuBar";
 import BackgroundPatternWithOverlay from "@/components/BackgroundPatternWithOverlay";
 import PasswordResetForm from "@/components/auth/PasswordResetForm";
 import { useAuthFlow } from "@/hooks/useAuthFlow";
+import { Button } from "@/components/ui/button";
 
 const ResetPassword = () => {
   const { 
@@ -31,12 +32,15 @@ const ResetPassword = () => {
                     This password reset link is invalid or has expired. Please request a new one.
                   </p>
                   <div className="text-center">
-                    <a
-                      href="/auth"
-                      className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground shadow hover:bg-primary/90 h-9 px-4 py-2"
+                    <Button
+                      asChild
+                      style={{
+                        backgroundColor: '#2144FF',
+                        color: 'white'
+                      }}
                     >
-                      Go to Login
-                    </a>
+                      <a href="/auth">Go to Login</a>
+                    </Button>
                   </div>
                 </>
               )}
