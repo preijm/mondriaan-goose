@@ -21,7 +21,7 @@ export const SearchBar = ({
         placeholder={placeholder}
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
-        className="max-w-sm focus-visible:ring-primary/70"
+        className="max-w-sm"
       />
     </div>
   );

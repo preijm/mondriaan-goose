@@ -52,7 +52,8 @@ export const AddShopForm = ({
       </Select>
       <Button
         onClick={onAdd}
-        className="w-full bg-blue-600 hover:bg-blue-700 text-white"
+        className="w-full"
+        variant="brand"
       >
         Add Shop
       </Button>

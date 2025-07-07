@@ -76,7 +76,7 @@ export const PriceInput = ({
       value: "great_value",
       emoji: "💎",
       label: "Great value for money",
-      activeClass: "bg-white text-blue-500 border-blue-500",
+      activeClass: "bg-white text-primary border-primary",
     },
   ];
 

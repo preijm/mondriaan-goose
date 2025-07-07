@@ -128,7 +128,7 @@ export const FlavorSelector = ({
             className={`
               rounded-full px-4 py-1 cursor-pointer transition-all 
               ${selectedFlavors.includes(flavor.key) 
-                ? 'bg-blue-500 text-white border-blue-600 font-medium shadow-sm hover:bg-blue-600' 
+                ? 'bg-primary text-white border-primary font-medium shadow-sm hover:bg-primary/90' 
                 : 'bg-gray-100 hover:bg-gray-200 border-gray-200 text-gray-700'}
             `} 
             onClick={() => onFlavorToggle(flavor.key)}

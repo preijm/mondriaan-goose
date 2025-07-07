@@ -54,7 +54,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({ onSubmit, onCancel }) 
             id="product"
             value={productName}
             onChange={(e) => setProductName(e.target.value)}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="w-full px-3 py-2 border border-input rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
             placeholder="Enter product name..."
             required
           />
@@ -100,8 +100,9 @@ export const ProductForm: React.FC<ProductFormProps> = ({ onSubmit, onCancel }) 
         </Button>
         <Button
           type="submit"
+          variant="brand"
           disabled={!isFormValid || isSubmitting}
-          className="px-4 bg-blue-600 hover:bg-blue-700 text-white"
+          className="px-4"
         >
           {isSubmitting ? "Registering..." : "Register Product"}
         </Button>

@@ -80,7 +80,7 @@ export const CountrySelect = ({ country, setCountry }: CountrySelectProps) => {
         placeholder="Enter country name..."
         value={inputValue}
         onChange={handleInputChange}
-        className="w-full focus-visible:ring-primary/70"
+        className="w-full"
       />
       {suggestions.length > 0 && (
         <div className="absolute z-10 w-full mt-1 bg-white border rounded-md shadow-lg">
