@@ -173,37 +173,60 @@ const Auth = () => {
                     Reset Your Password
                   </h1>
                   <div className="space-y-6">
-                    <Input
-                      type="password"
-                      placeholder="New Password"
-                      value={newPassword}
-                      onChange={e => setNewPassword(e.target.value)}
-                      required
-                      minLength={6}
-                      showPasswordToggle
-                      className="bg-white/80 border-black/20 backdrop-blur-sm rounded-sm"
-                    />
-                    <Input
-                      type="password"
-                      placeholder="Confirm Password"
-                      value={confirmPassword}
-                      onChange={e => setConfirmPassword(e.target.value)}
-                      required
-                      minLength={6}
-                      showPasswordToggle
-                      className="bg-white/80 border-black/20 backdrop-blur-sm rounded-sm"
-                    />
-                    <Button
-                      className="w-full"
-                      style={{
-                        backgroundColor: '#2144FF',
-                        color: 'white'
-                      }}
-                      disabled={isResetting}
-                      onClick={handlePasswordUpdate}
-                    >
-                      {isResetting ? "Updating..." : "Update Password"}
-                    </Button>
+                    <div className="text-center space-y-4">
+                      <p className="text-gray-600 mb-6">
+                        Click the button below to proceed with your password reset. This will ensure your session is properly loaded.
+                      </p>
+                      <Button
+                        className="w-full"
+                        style={{
+                          backgroundColor: '#2144FF',
+                          color: 'white'
+                        }}
+                        onClick={() => {
+                          // Redirect to the same URL to refresh the session
+                          window.location.href = window.location.href;
+                        }}
+                      >
+                        Proceed to Reset Password
+                      </Button>
+                      <div className="mt-8 pt-6 border-t border-gray-200">
+                        <h2 className="text-lg font-semibold mb-4 text-gray-800">Set New Password</h2>
+                        <div className="space-y-4">
+                          <Input
+                            type="password"
+                            placeholder="New Password"
+                            value={newPassword}
+                            onChange={e => setNewPassword(e.target.value)}
+                            required
+                            minLength={6}
+                            showPasswordToggle
+                            className="bg-white/80 border-black/20 backdrop-blur-sm rounded-sm"
+                          />
+                          <Input
+                            type="password"
+                            placeholder="Confirm Password"
+                            value={confirmPassword}
+                            onChange={e => setConfirmPassword(e.target.value)}
+                            required
+                            minLength={6}
+                            showPasswordToggle
+                            className="bg-white/80 border-black/20 backdrop-blur-sm rounded-sm"
+                          />
+                          <Button
+                            className="w-full"
+                            style={{
+                              backgroundColor: '#2144FF',
+                              color: 'white'
+                            }}
+                            disabled={isResetting}
+                            onClick={handlePasswordUpdate}
+                          >
+                            {isResetting ? "Updating..." : "Update Password"}
+                          </Button>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </>
               ) : (
