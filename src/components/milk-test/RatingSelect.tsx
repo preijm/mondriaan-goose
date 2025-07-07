@@ -21,7 +21,7 @@ export const RatingSelect = ({ rating, setRating }: RatingSelectProps) => {
           className="relative flex w-full touch-none select-none items-center"
         >
           <SliderPrimitive.Track className="relative h-1.5 w-full grow overflow-hidden rounded-full bg-secondary">
-            <SliderPrimitive.Range className="absolute h-full bg-cream-300" />
+            <SliderPrimitive.Range className="absolute h-full bg-[hsl(var(--rating-bg))]" />
           </SliderPrimitive.Track>
           <SliderPrimitive.Thumb className="block cursor-pointer select-none touch-none">
             <span className="text-lg">🥛</span>
