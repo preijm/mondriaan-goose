@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import { supabase } from "@/integrations/supabase/client";
 import { LogIn, Settings, ChevronDown, Plus } from "lucide-react";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
@@ -55,9 +56,12 @@ export const AuthButton = () => {
       <DropdownMenuTrigger asChild>
         <Button variant="outline" className="bg-white/10 hover:bg-white/20 text-gray-800 border-white/20 backdrop-blur-sm transition-all duration-300 pl-2 pr-3">
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-emerald-500/90 to-blue-500/90 flex items-center justify-center text-white font-medium shadow-sm">
+            <Badge 
+              variant="category" 
+              className="w-8 h-8 rounded-full flex items-center justify-center p-0 font-medium text-sm"
+            >
               {user.email?.[0].toUpperCase()}
-            </div>
+            </Badge>
             <span>Account</span>
             <ChevronDown className="w-4 h-4 ml-1 opacity-70" />
           </div>
