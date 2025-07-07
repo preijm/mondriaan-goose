@@ -133,9 +133,7 @@ export const MyResultsTable = ({
                 onSort={handleSort}
               />
             </TableHead>
-            <TableHead className="font-semibold text-gray-700 text-center w-[5%]">
-              Actions
-            </TableHead>
+            <TableHead className="w-[3%]"></TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -147,7 +145,7 @@ export const MyResultsTable = ({
             </TableRow>
           ) : (
             results.map((result) => (
-              <TableRow key={result.id}>
+              <TableRow key={result.id} className="group">
                 <TableCell>{new Date(result.created_at).toLocaleDateString()}</TableCell>
                 <TableCell className="font-medium">{result.brand_name}</TableCell>
                 <TableCell>
@@ -240,7 +238,7 @@ export const MyResultsTable = ({
                 <TableCell className="text-center">
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                      <Button variant="ghost" className="h-8 w-8 p-0">
+                      <Button variant="ghost" className="h-8 w-8 p-0 opacity-0 group-hover:opacity-100 transition-opacity">
                         <MoreHorizontal className="h-4 w-4" />
                         <span className="sr-only">Open menu</span>
                       </Button>
