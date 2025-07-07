@@ -8,9 +8,11 @@ import { useAuthForm } from "@/hooks/useAuthForm";
 
 interface AuthFormProps {
   onForgotPassword: () => void;
+  isEmailConfirmed?: boolean;
+  onEmailConfirmedDismiss?: () => void;
 }
 
-const AuthForm = ({ onForgotPassword }: AuthFormProps) => {
+const AuthForm = ({ onForgotPassword, isEmailConfirmed, onEmailConfirmedDismiss }: AuthFormProps) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
@@ -81,6 +83,30 @@ const AuthForm = ({ onForgotPassword }: AuthFormProps) => {
 
   return (
     <>
+      {isEmailConfirmed && (
+        <div className="bg-emerald-50 border border-emerald-200 rounded-lg p-4 mb-6">
+          <div className="flex items-center">
+            <div className="w-6 h-6 bg-emerald-100 rounded-full flex items-center justify-center mr-3">
+              <svg className="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
+              </svg>
+            </div>
+            <div className="flex-1">
+              <p className="text-emerald-800 font-medium">Email verified successfully!</p>
+              <p className="text-emerald-700 text-sm">You can now log in with your credentials.</p>
+            </div>
+            <button
+              type="button"
+              onClick={onEmailConfirmedDismiss}
+              className="text-emerald-500 hover:text-emerald-700"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      )}
       <h1 className="text-3xl font-bold text-center mb-8 text-[#00BF63]">
         {isLogin ? "Welcome Back" : "Join Our Community"}
       </h1>

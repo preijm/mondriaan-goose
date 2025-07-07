@@ -3,7 +3,7 @@ import MenuBar from "@/components/MenuBar";
 import BackgroundPatternWithOverlay from "@/components/BackgroundPatternWithOverlay";
 import AuthForm from "@/components/auth/AuthForm";
 import ResetPasswordDialog from "@/components/auth/ResetPasswordDialog";
-import EmailConfirmationSuccess from "@/components/auth/EmailConfirmationSuccess";
+
 import EmailConfirmationPending from "@/components/auth/EmailConfirmationPending";
 import PasswordResetForm from "@/components/auth/PasswordResetForm";
 import { useAuthFlow } from "@/hooks/useAuthFlow";
@@ -33,19 +33,17 @@ const Auth = () => {
                   email={userEmail}
                   onBackToLogin={() => setIsEmailPending(false)} 
                 />
-              ) : isEmailConfirmed ? (
-        <EmailConfirmationSuccess onProceedToLogin={() => {
-          setIsEmailConfirmed(false);
-          // Since user is already logged in after email confirmation, redirect to main app
-          window.location.href = "/my-results";
-        }} />
               ) : isPasswordReset ? (
                 <PasswordResetForm 
                   isResetting={isResetting}
                   onPasswordUpdate={handlePasswordUpdate}
                 />
               ) : (
-                <AuthForm onForgotPassword={() => setShowResetDialog(true)} />
+                <AuthForm 
+                  onForgotPassword={() => setShowResetDialog(true)} 
+                  isEmailConfirmed={isEmailConfirmed}
+                  onEmailConfirmedDismiss={() => setIsEmailConfirmed(false)}
+                />
               )}
             </div>
           </div>

@@ -28,10 +28,11 @@ export const useAuthFlow = () => {
       const code = urlParams.get('code') || hashParams.get('code');
       const type = hashParams.get('type');
       
-      // Handle email confirmation - keep user logged in
+      // Handle email confirmation - sign out user and show success message
       if (type === 'signup') {
         console.log("Email confirmation detected");
-        // Don't sign out the user - let them stay logged in
+        // Sign out the user so they can log in fresh
+        await supabase.auth.signOut();
         setIsEmailConfirmed(true);
         setIsEmailPending(false); // Clear pending state
         window.history.replaceState(null, '', window.location.pathname);
