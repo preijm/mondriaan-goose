@@ -13,7 +13,7 @@ export const BaristaToggle = ({ isBarista, onToggle, disabled = false }: Barista
     <div className="flex flex-wrap gap-2">
       <Badge
         variant="barista"
-        className={`cursor-pointer transition-all ${
+        className={`cursor-pointer transition-all px-2 py-1 text-[11px] font-medium ${
           isBarista
             ? 'bg-amber-600 text-white border-amber-600'
             : 'hover:bg-amber-50'
