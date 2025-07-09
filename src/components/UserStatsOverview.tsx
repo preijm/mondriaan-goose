@@ -22,9 +22,20 @@ export const UserStatsOverview = ({
     return countDiff !== 0 ? countDiff : a[0].localeCompare(b[0]);
   })[0]?.[0] : "None";
 
-  // Calculate highest rated product
-  const highestRatedProduct = results.length ? [...results].sort((a, b) => b.rating - a.rating)[0] : null;
-  const highestRatedText = highestRatedProduct ? `${highestRatedProduct.brand_name || 'Unknown'} ${highestRatedProduct.product_name || ''}`.trim() : "None";
+  // Calculate most tested product
+  const productCounts = results.reduce((acc: Record<string, { count: number, result: MilkTestResult }>, curr) => {
+    const productKey = `${curr.brand_name || 'Unknown'}_${curr.product_name || ''}`;
+    if (!acc[productKey]) {
+      acc[productKey] = { count: 0, result: curr };
+    }
+    acc[productKey].count++;
+    return acc;
+  }, {});
+  const mostTestedProduct = results.length ? Object.entries(productCounts).sort((a, b) => {
+    const countDiff = b[1].count - a[1].count;
+    return countDiff !== 0 ? countDiff : a[0].localeCompare(b[0]);
+  })[0]?.[1].result : null;
+  const mostTestedProductText = mostTestedProduct ? `${mostTestedProduct.brand_name || 'Unknown'} ${mostTestedProduct.product_name || ''}`.trim() : "None";
 
   // Format date for latest test
   const formatDate = (dateString: string) => {
@@ -64,8 +75,8 @@ export const UserStatsOverview = ({
       </div>
       
       <div className="bg-white border border-pink-200 rounded-lg p-2 sm:p-4 transition-all duration-200 hover:shadow-sm">
-        <p className="text-xs sm:text-sm text-gray-600 mb-1">Highest Rated</p>
-        <p className="text-sm sm:text-lg font-semibold text-gray-900 truncate">{highestRatedText}</p>
+        <p className="text-xs sm:text-sm text-gray-600 mb-1">Most Tested Product</p>
+        <p className="text-sm sm:text-lg font-semibold text-gray-900 truncate">{mostTestedProductText}</p>
       </div>
     </div>;
 };
