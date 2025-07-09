@@ -33,7 +33,7 @@ export const ProductOptions = ({
   };
 
   return (
-    <div className="flex flex-wrap gap-2">
+    <div className="flex flex-wrap gap-3.5">
       {productProperties.map((property) => (
         <Badge
           key={property.key}

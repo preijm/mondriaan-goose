@@ -121,7 +121,7 @@ export const FlavorSelector = ({
   return (
     <div>
       {/* Flavors list with plus button inline */}
-      <div className="flex flex-wrap gap-2 mb-3">
+      <div className="flex flex-wrap gap-3.5 mb-3">
         {flavors.map(flavor => (
           <Badge 
             key={flavor.id} 
