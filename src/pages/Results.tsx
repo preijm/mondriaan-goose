@@ -9,6 +9,7 @@ import { MilkCharts } from "@/components/MilkCharts";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ChartBar, Table2 } from "lucide-react";
 import { MilkTestResult } from "@/types/milk-test";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface FilterOptions {
   barista: boolean;
@@ -28,6 +29,7 @@ const Results = () => {
 
   const { data: aggregatedResults = [], isLoading } = useAggregatedResults(sortConfig);
   const navigate = useNavigate();
+  const isMobile = useIsMobile();
 
   const handleSort = (column: string) => {
     setSortConfig(current => ({
@@ -109,22 +111,26 @@ const Results = () => {
       <MenuBar />
       <BackgroundPattern>
         <div className="container max-w-6xl mx-auto px-4 py-8 pt-32 relative z-10">
-          <div className="flex justify-end mb-8">
-            <Tabs value={view} onValueChange={(v: 'table' | 'charts') => setView(v)} className="w-auto">
-              <TabsList className="grid w-[200px] grid-cols-2 bg-white/80 backdrop-blur-sm border border-white/20 shadow-lg">
-                <TabsTrigger value="table" className="flex items-center gap-2">
-                  <Table2 className="w-4 h-4" />
-                  <span>Table</span>
-                </TabsTrigger>
-                <TabsTrigger value="charts" className="flex items-center gap-2">
-                  <ChartBar className="w-4 h-4" />
-                  <span>Charts</span>
-                </TabsTrigger>
-              </TabsList>
-            </Tabs>
-          </div>
+          {/* Desktop only: View switcher */}
+          {!isMobile && (
+            <div className="flex justify-end mb-8">
+              <Tabs value={view} onValueChange={(v: 'table' | 'charts') => setView(v)} className="w-auto">
+                <TabsList className="grid w-[200px] grid-cols-2 bg-white/80 backdrop-blur-sm border border-white/20 shadow-lg">
+                  <TabsTrigger value="table" className="flex items-center gap-2">
+                    <Table2 className="w-4 h-4" />
+                    <span>Table</span>
+                  </TabsTrigger>
+                  <TabsTrigger value="charts" className="flex items-center gap-2">
+                    <ChartBar className="w-4 h-4" />
+                    <span>Charts</span>
+                  </TabsTrigger>
+                </TabsList>
+              </Tabs>
+            </div>
+          )}
 
-          {view === 'table' ? (
+          {/* Mobile: Always table view, Desktop: conditional view */}
+          {isMobile || view === 'table' ? (
             <ResultsContainer 
               filteredResults={filteredResults}
               sortConfig={sortConfig}
