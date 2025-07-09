@@ -3,6 +3,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Plus, X, Check } from "lucide-react";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { supabase } from "@/integrations/supabase/client";
 
 interface FlavorSelectorProps {
@@ -43,9 +44,9 @@ export const FlavorSelector = ({
   onFlavorToggle,
   onAddNewFlavor 
 }: FlavorSelectorProps) => {
-  const [isAddingFlavor, setIsAddingFlavor] = useState(false);
   const [newFlavorName, setNewFlavorName] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isPopoverOpen, setIsPopoverOpen] = useState(false);
 
   const createFlavorKey = (name: string): string => {
     return name
@@ -100,10 +101,10 @@ export const FlavorSelector = ({
       } else {
         console.log('New flavor added successfully');
         setNewFlavorName("");
+        setIsPopoverOpen(false);
         if (onAddNewFlavor) {
           onAddNewFlavor();
         }
-        setIsAddingFlavor(false);
       }
     } catch (error) {
       console.error('Error adding flavor:', error);
@@ -113,7 +114,7 @@ export const FlavorSelector = ({
   };
 
   const handleCancel = () => {
-    setIsAddingFlavor(false);
+    setIsPopoverOpen(false);
     setNewFlavorName("");
   };
 
@@ -137,63 +138,66 @@ export const FlavorSelector = ({
           </Badge>
         ))}
         
-        {!isAddingFlavor && (
-          <Button
-            variant="outline"
-            size="sm"
-            className="rounded bg-gray-100 hover:bg-gray-200 border-gray-200 text-gray-700 h-7 w-7 p-0"
-            onClick={() => setIsAddingFlavor(true)}
-            aria-label="Add new flavor"
+        <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
+          <PopoverTrigger asChild>
+            <Button
+              variant="outline"
+              size="sm"
+              className="rounded bg-gray-100 hover:bg-gray-200 border-gray-200 text-gray-700 h-7 w-7 p-0"
+              aria-label="Add new flavor"
+            >
+              <Plus size={16} />
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent 
+            className="p-0 w-64 bg-white/95 backdrop-blur-sm border border-white/20 shadow-xl" 
+            align="end"
+            side="bottom"
+            sideOffset={8}
           >
-            <Plus size={16} />
-          </Button>
-        )}
-      </div>
-      
-      {/* Add flavor section */}
-      {isAddingFlavor && (
-        <div className="p-4 bg-white/90 backdrop-blur-sm rounded-xl border border-purple-200 shadow-lg mb-3 animate-fade-in">
-          <div className="flex gap-3 items-center">
-            <Input
-              value={newFlavorName}
-              onChange={(e) => setNewFlavorName(e.target.value)}
-              placeholder="Enter new flavor name..."
-              className="h-10 border-2 border-purple-200 rounded-lg text-sm flex-1 focus:border-purple-400 focus:ring-purple-400"
-              autoFocus
-              disabled={isSubmitting}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter') {
-                  e.preventDefault();
-                  handleAddFlavor();
-                } else if (e.key === 'Escape') {
-                  handleCancel();
-                }
-              }}
-            />
-            <div className="flex gap-2">
-              <Button
-                type="button"
-                variant="outline"
-                size="sm"
-                className="h-10 px-4 border-gray-300 text-gray-600 hover:bg-gray-50"
-                onClick={handleCancel}
+            <div className="p-4 space-y-4">
+              <Input
+                value={newFlavorName}
+                onChange={(e) => setNewFlavorName(e.target.value)}
+                placeholder="Flavor name"
+                className="w-full"
+                autoFocus
                 disabled={isSubmitting}
-              >
-                Cancel
-              </Button>
-              <Button
-                type="button"
-                size="sm"
-                className="h-10 px-4 bg-purple-600 hover:bg-purple-700 text-white border-purple-600"
-                onClick={handleAddFlavor}
-                disabled={isSubmitting || !newFlavorName.trim()}
-              >
-                {isSubmitting ? "Adding..." : "Add Flavor"}
-              </Button>
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    e.preventDefault();
+                    handleAddFlavor();
+                  } else if (e.key === 'Escape') {
+                    handleCancel();
+                  }
+                }}
+              />
+              <div className="flex gap-2">
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  className="flex-1"
+                  onClick={handleCancel}
+                  disabled={isSubmitting}
+                >
+                  Cancel
+                </Button>
+                <Button
+                  type="button"
+                  size="sm"
+                  variant="brand"
+                  className="flex-1"
+                  onClick={handleAddFlavor}
+                  disabled={isSubmitting || !newFlavorName.trim()}
+                >
+                  {isSubmitting ? "Adding..." : "Add"}
+                </Button>
+              </div>
             </div>
-          </div>
-        </div>
-      )}
+          </PopoverContent>
+        </Popover>
+      </div>
     </div>
   );
 };
