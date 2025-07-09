@@ -90,25 +90,25 @@ export const DrinkPreference = ({ preference, setPreference }: DrinkPreferencePr
       value: "cold",
       icon: ColdIcon,
       label: "Cold",
-      activeClass: "bg-soft-blue text-blue-600",
+      activeClass: "bg-white text-[#2144ff] border-[#2144ff]",
     },
     {
       value: "hot",
       icon: HotIcon,
       label: "Hot",
-      activeClass: "bg-soft-peach text-orange-600",
+      activeClass: "bg-white text-[#f59e0b] border-[#f59e0b]",
     },
     {
       value: "coffee",
       icon: CoffeeIcon,
       label: "Coffee",
-      activeClass: "bg-soft-brown text-amber-800",
+      activeClass: "bg-white text-[#92400e] border-[#92400e]",
     },
     {
       value: "tea",
       icon: TeaCup,
       label: "Tea",
-      activeClass: "bg-soft-gray text-gray-900",
+      activeClass: "bg-white text-[#00bf63] border-[#00bf63]",
     },
   ];
 
@@ -119,10 +119,10 @@ export const DrinkPreference = ({ preference, setPreference }: DrinkPreferencePr
           key={value}
           type="button"
           onClick={() => setPreference(value)}
-          className={`flex flex-col items-center p-3 rounded-lg transition-all ${
+          className={`flex flex-col items-center p-3 rounded-lg border transition-all ${
             preference === value
-              ? activeClass
-              : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+              ? `${activeClass} shadow-sm`
+              : "bg-white border-gray-200 text-gray-600 hover:border-gray-300"
           }`}
         >
           <Icon className="w-8 h-8 mb-1" />
