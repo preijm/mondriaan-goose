@@ -37,7 +37,7 @@ export const RatingSelect = ({ rating, setRating }: RatingSelectProps) => {
           </SliderPrimitive.Thumb>
         </SliderPrimitive.Root>
         <Badge variant={getScoreBadgeVariant(rating)}>
-          {rating.toFixed(1)}
+          {rating % 1 === 0 ? rating.toString() : rating.toFixed(1)}
         </Badge>
       </div>
     </div>
