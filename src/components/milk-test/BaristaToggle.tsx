@@ -13,10 +13,10 @@ export const BaristaToggle = ({ isBarista, onToggle, disabled = false }: Barista
     <div className="flex flex-wrap gap-2">
       <Badge
         variant="barista"
-        className={`cursor-pointer transition-all px-2 py-1 text-[11px] font-medium ${
+        className={`cursor-pointer transition-all ${
           isBarista
             ? 'bg-amber-600 text-white border-amber-600'
-            : 'hover:bg-amber-50'
+            : ''
         } ${disabled ? 'opacity-50 cursor-not-allowed' : ''}`}
         onClick={() => !disabled && onToggle(!isBarista)}
       >

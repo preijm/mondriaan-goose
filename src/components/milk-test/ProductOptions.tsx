@@ -38,10 +38,10 @@ export const ProductOptions = ({
         <Badge
           key={property.key}
           variant="category"
-          className={`cursor-pointer transition-all px-2 py-1 text-[11px] font-medium ${
+          className={`cursor-pointer transition-all ${
             selectedTypes.includes(property.key)
               ? 'bg-slate-600 text-white border-slate-600'
-              : 'hover:bg-slate-50'
+              : ''
           }`}
           onClick={() => handleTypeToggle(property.key)}
         >

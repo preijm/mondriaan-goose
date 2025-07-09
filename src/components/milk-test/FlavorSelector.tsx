@@ -132,11 +132,11 @@ export const FlavorSelector = ({
           <Badge 
             key={flavor.id} 
             variant="flavor" 
-            className={`cursor-pointer transition-all px-2 py-1 text-[11px] font-medium ${
+            className={`cursor-pointer transition-all ${
               selectedFlavors.includes(flavor.key) 
                 ? 'bg-purple-600 text-white border-purple-600' 
-                : 'hover:bg-purple-50'
-            }`} 
+                : ''
+            }`}
             onClick={() => onFlavorToggle(flavor.key)}
           >
             {/* Use the flavor name from the API or format the key as a fallback */}
