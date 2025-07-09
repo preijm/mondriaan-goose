@@ -149,7 +149,7 @@ export const MyResultsTable = ({
                 <TableCell>{new Date(result.created_at).toLocaleDateString()}</TableCell>
                 <TableCell className="font-medium">{result.brand_name}</TableCell>
                 <TableCell>
-                  <div className="flex flex-col gap-1">
+                  <div className="flex items-center gap-2">
                     <span className="font-medium">{result.product_name}</span>
                     <div className="flex flex-wrap gap-1">
                       {result.is_barista && (
