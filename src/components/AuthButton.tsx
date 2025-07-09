@@ -52,14 +52,14 @@ export const AuthButton = () => {
   return <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="outline" className="bg-white/10 hover:bg-white/20 text-gray-800 border-white/20 backdrop-blur-sm transition-all duration-300 pl-2 pr-3">
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1">
             <Badge 
               variant="category" 
               className="w-8 h-8 rounded-full flex items-center justify-center p-0 font-medium text-sm"
             >
               {user.email?.[0].toUpperCase()}
             </Badge>
-            <span className="hidden md:inline">Account</span>
+            <ChevronDown className="w-3 h-3 opacity-70" />
           </div>
         </Button>
       </DropdownMenuTrigger>
