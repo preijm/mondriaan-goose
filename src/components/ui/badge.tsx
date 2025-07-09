@@ -25,10 +25,10 @@ const badgeVariants = cva(
         scoreFair: "bg-transparent text-[#f59e0b] border-[#f59e0b] rounded px-2 py-1 text-[11px] font-medium hover:shadow-md",
         scorePoor: "bg-transparent text-[#ff4b51] border-[#ff4b51] rounded px-2 py-1 text-[11px] font-medium hover:shadow-md",
         // Score badge variants
-        scoreBadgeExcellent: "bg-white/80 backdrop-blur-sm text-[#00bf63] border border-[#00bf63] rounded-lg px-2.5 py-1.5 text-sm font-bold min-w-[50px] justify-center hover:shadow-lg",
-        scoreBadgeGood: "bg-white/80 backdrop-blur-sm text-[#2144ff] border border-[#2144ff] rounded-lg px-2.5 py-1.5 text-sm font-bold min-w-[50px] justify-center hover:shadow-lg",
-        scoreBadgeFair: "bg-white/80 backdrop-blur-sm text-[#f59e0b] border border-[#f59e0b] rounded-lg px-2.5 py-1.5 text-sm font-bold min-w-[50px] justify-center hover:shadow-lg",
-        scoreBadgePoor: "bg-white/80 backdrop-blur-sm text-[#ff4b51] border border-[#ff4b51] rounded-lg px-2.5 py-1.5 text-sm font-bold min-w-[50px] justify-center hover:shadow-lg",
+        scoreBadgeExcellent: "bg-white/80 backdrop-blur-sm text-[#00bf63] border border-[#00bf63] rounded-xl px-2.5 py-1.5 text-sm font-bold min-w-[50px] justify-center hover:shadow-lg",
+        scoreBadgeGood: "bg-white/80 backdrop-blur-sm text-[#2144ff] border border-[#2144ff] rounded-xl px-2.5 py-1.5 text-sm font-bold min-w-[50px] justify-center hover:shadow-lg",
+        scoreBadgeFair: "bg-white/80 backdrop-blur-sm text-[#f59e0b] border border-[#f59e0b] rounded-xl px-2.5 py-1.5 text-sm font-bold min-w-[50px] justify-center hover:shadow-lg",
+        scoreBadgePoor: "bg-white/80 backdrop-blur-sm text-[#ff4b51] border border-[#ff4b51] rounded-xl px-2.5 py-1.5 text-sm font-bold min-w-[50px] justify-center hover:shadow-lg",
         // Test count badge
         testCount: "bg-transparent text-slate-600 border-slate-600 rounded-md px-2.5 py-1.5 text-sm font-medium min-w-[40px] justify-center hover:shadow-md",
         // Circular score badges
