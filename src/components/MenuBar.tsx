@@ -38,6 +38,15 @@ const MenuBar = () => {
               <AuthButton />
             </div>
 
+            {/* Mobile Hamburger Button */}
+            <button 
+              onClick={toggleMenu}
+              className="md:hidden p-2 text-gray-700 hover:text-gray-900 transition-colors flex items-center justify-center"
+              aria-label="Toggle menu"
+            >
+              {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+
             {/* Mobile AuthButton - positioned on the right */}
             <div className="md:hidden">
               <AuthButton />
@@ -45,29 +54,34 @@ const MenuBar = () => {
           </div>
         </div>
 
-        {/* Mobile Navigation - Always visible below header */}
-        <div className="md:hidden bg-white/95 backdrop-blur-sm border-t border-white/20 py-3">
-          <div className="flex justify-center gap-6">
-            <Link 
-              to="/results" 
-              className={`px-3 py-2 text-sm font-medium transition-colors ${location.pathname === '/results' ? 'text-[#00bf63]' : 'text-gray-700 hover:text-gray-900'}`}
-            >
-              Results
-            </Link>
-            <Link 
-              to="/about" 
-              className={`px-3 py-2 text-sm font-medium transition-colors ${location.pathname === '/about' ? 'text-[#00bf63]' : 'text-gray-700 hover:text-gray-900'}`}
-            >
-              About
-            </Link>
-            <Link 
-              to="/contact" 
-              className={`px-3 py-2 text-sm font-medium transition-colors ${location.pathname === '/contact' ? 'text-[#00bf63]' : 'text-gray-700 hover:text-gray-900'}`}
-            >
-              Contact
-            </Link>
+        {/* Mobile Menu */}
+        {isMenuOpen && (
+          <div className="md:hidden bg-white/95 backdrop-blur-sm border-t border-white/20 py-4 animate-fade-in">
+            <div className="flex flex-col gap-4">
+              <Link 
+                to="/results" 
+                onClick={toggleMenu}
+                className={`px-4 py-2 transition-colors ${location.pathname === '/results' ? 'text-[#00bf63] font-medium' : 'text-gray-700 hover:text-gray-900'}`}
+              >
+                Results
+              </Link>
+              <Link 
+                to="/about" 
+                onClick={toggleMenu}
+                className={`px-4 py-2 transition-colors ${location.pathname === '/about' ? 'text-[#00bf63] font-medium' : 'text-gray-700 hover:text-gray-900'}`}
+              >
+                About
+              </Link>
+              <Link 
+                to="/contact" 
+                onClick={toggleMenu}
+                className={`px-4 py-2 transition-colors ${location.pathname === '/contact' ? 'text-[#00bf63] font-medium' : 'text-gray-700 hover:text-gray-900'}`}
+              >
+                Contact
+              </Link>
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </nav>
   );
