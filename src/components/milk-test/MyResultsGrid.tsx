@@ -97,10 +97,12 @@ export const MyResultsGrid = ({
                   </div>
                   
                   {/* Badges */}
-                  <div className="flex flex-wrap gap-1">
-                    {result.is_barista && <ProductPropertyBadges isBarista={result.is_barista} compact={true} displayType="barista" />}
-                    <ProductPropertyBadges propertyNames={result.property_names} flavorNames={result.flavor_names} compact={true} />
-                  </div>
+                  {(result.is_barista || (result.property_names && result.property_names.length > 0) || (result.flavor_names && result.flavor_names.length > 0)) && (
+                    <div className="flex flex-wrap gap-1">
+                      {result.is_barista && <ProductPropertyBadges isBarista={result.is_barista} compact={true} displayType="barista" />}
+                      <ProductPropertyBadges propertyNames={result.property_names} flavorNames={result.flavor_names} compact={true} />
+                    </div>
+                  )}
                 </div>
               </div>
             </CardContent>
