@@ -101,8 +101,8 @@ export const MyResultsGrid = ({ results, onEdit, onDelete }: MyResultsGridProps)
                 {/* Brand & Product */}
                 <div>
                   <h3 className="font-medium text-sm truncate">{result.brand_name}</h3>
-                  <p className="text-xs text-gray-700 truncate">{result.product_name}</p>
-                  <div className="flex items-center justify-between mt-1">
+                  <p className="text-sm text-gray-700 truncate mb-1">{result.product_name}</p>
+                  <div className="flex items-center justify-between">
                     <div className="flex flex-wrap gap-1">
                       {result.is_barista && (
                         <ProductPropertyBadges 
