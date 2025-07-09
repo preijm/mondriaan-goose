@@ -41,7 +41,7 @@ export const MyResultsGrid = ({
       {results.map(result => {
       const imageUrl = getPictureUrl(result.picture_path);
       const ratingColorClass = getRatingColorClass(Number(result.rating));
-      return <Card key={result.id} className="overflow-hidden hover:shadow-md transition-shadow relative">
+      return <Card key={result.id} className="overflow-hidden hover:shadow-md transition-shadow relative group">
             <div className="relative">
               <AspectRatio ratio={1} className="bg-gray-100">
                 {imageUrl ? <img src={imageUrl} alt={`${result.brand_name} ${result.product_name}`} className="object-cover w-full h-full" onError={e => {
@@ -79,23 +79,27 @@ export const MyResultsGrid = ({
                 
                 {/* Brand & Product */}
                 <div>
-                  <h3 className="font-medium text-sm truncate">{result.brand_name}</h3>
-                  <p className="text-gray-700 truncate mb-1" style={{fontSize: '14px'}}>{result.product_name}</p>
-                  
-                  {/* Badges */}
-                  <div className="flex flex-wrap gap-1 mb-2">
-                    {result.is_barista && <ProductPropertyBadges isBarista={result.is_barista} compact={true} displayType="barista" />}
-                    <ProductPropertyBadges propertyNames={result.property_names} flavorNames={result.flavor_names} compact={true} />
+                  <div className="flex items-center justify-between mb-1">
+                    <div className="flex-1 min-w-0">
+                      <h3 className="font-medium text-sm truncate">{result.brand_name}</h3>
+                      <p className="text-gray-700 truncate" style={{fontSize: '14px'}}>{result.product_name}</p>
+                    </div>
+                    
+                    {/* Actions - visible on hover */}
+                    <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity ml-2">
+                      <Button variant="ghost" size="sm" className="h-6 w-6 p-0" onClick={() => onEdit(result)}>
+                        <Edit2 className="h-3 w-3" />
+                      </Button>
+                      <Button variant="ghost" size="sm" className="h-6 w-6 p-0 text-red-500 hover:text-red-700" onClick={() => onDelete(result.id)}>
+                        <Trash2 className="h-3 w-3" />
+                      </Button>
+                    </div>
                   </div>
                   
-                  {/* Actions */}
-                  <div className="flex justify-end gap-1">
-                    <Button variant="ghost" size="sm" className="h-6 w-6 p-0" onClick={() => onEdit(result)}>
-                      <Edit2 className="h-3 w-3" />
-                    </Button>
-                    <Button variant="ghost" size="sm" className="h-6 w-6 p-0 text-red-500 hover:text-red-700" onClick={() => onDelete(result.id)}>
-                      <Trash2 className="h-3 w-3" />
-                    </Button>
+                  {/* Badges */}
+                  <div className="flex flex-wrap gap-1">
+                    {result.is_barista && <ProductPropertyBadges isBarista={result.is_barista} compact={true} displayType="barista" />}
+                    <ProductPropertyBadges propertyNames={result.property_names} flavorNames={result.flavor_names} compact={true} />
                   </div>
                 </div>
               </div>
