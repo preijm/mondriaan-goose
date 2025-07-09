@@ -31,32 +31,32 @@ export const UserStatsOverview = ({
   };
   
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
-      <div className="bg-white border border-blue-200 rounded-lg p-4 transition-all duration-200 hover:shadow-sm">
-        <p className="text-sm text-gray-600 mb-1">Average Rating</p>
-        <p className="text-2xl font-semibold text-gray-900">{avgRating}/10</p>
+    <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-5 gap-2 sm:gap-4">
+      <div className="bg-white border border-blue-200 rounded-lg p-2 sm:p-4 transition-all duration-200 hover:shadow-sm">
+        <p className="text-xs sm:text-sm text-gray-600 mb-1">Average Rating</p>
+        <p className="text-lg sm:text-2xl font-semibold text-gray-900">{avgRating}/10</p>
       </div>
       
-      <div className="bg-white border border-green-200 rounded-lg p-4 transition-all duration-200 hover:shadow-sm">
-        <p className="text-sm text-gray-600 mb-1">Total Tests</p>
-        <p className="text-2xl font-semibold text-gray-900">{results.length}</p>
+      <div className="bg-white border border-green-200 rounded-lg p-2 sm:p-4 transition-all duration-200 hover:shadow-sm">
+        <p className="text-xs sm:text-sm text-gray-600 mb-1">Total Tests</p>
+        <p className="text-lg sm:text-2xl font-semibold text-gray-900">{results.length}</p>
       </div>
       
-      <div className="bg-white border border-purple-200 rounded-lg p-4 transition-all duration-200 hover:shadow-sm">
-        <p className="text-sm text-gray-600 mb-1">Unique Brands</p>
-        <p className="text-2xl font-semibold text-gray-900">{uniqueBrands.length}</p>
+      <div className="bg-white border border-purple-200 rounded-lg p-2 sm:p-4 transition-all duration-200 hover:shadow-sm">
+        <p className="text-xs sm:text-sm text-gray-600 mb-1">Unique Brands</p>
+        <p className="text-lg sm:text-2xl font-semibold text-gray-900">{uniqueBrands.length}</p>
       </div>
       
-      <div className="bg-white border border-orange-200 rounded-lg p-4 transition-all duration-200 hover:shadow-sm">
-        <p className="text-sm text-gray-600 mb-1">Latest Test</p>
-        <p className="text-lg font-semibold text-gray-900 leading-tight">
+      <div className="bg-white border border-orange-200 rounded-lg p-2 sm:p-4 transition-all duration-200 hover:shadow-sm">
+        <p className="text-xs sm:text-sm text-gray-600 mb-1">Latest Test</p>
+        <p className="text-sm sm:text-lg font-semibold text-gray-900 leading-tight">
           {latestTest ? formatDate(latestTest.created_at) : 'None'}
         </p>
       </div>
       
-      <div className="bg-white border border-indigo-200 rounded-lg p-4 transition-all duration-200 hover:shadow-sm">
-        <p className="text-sm text-gray-600 mb-1">Most Tested</p>
-        <p className="text-lg font-semibold text-gray-900 truncate">{mostTestedBrand}</p>
+      <div className="bg-white border border-indigo-200 rounded-lg p-2 sm:p-4 transition-all duration-200 hover:shadow-sm col-span-2 sm:col-span-1">
+        <p className="text-xs sm:text-sm text-gray-600 mb-1">Most Tested</p>
+        <p className="text-sm sm:text-lg font-semibold text-gray-900 truncate">{mostTestedBrand}</p>
       </div>
     </div>
   );
