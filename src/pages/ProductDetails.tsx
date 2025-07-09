@@ -162,7 +162,7 @@ const ProductDetails = () => {
                   <div>
                     <div className="text-xs text-gray-500">Product</div>
                     <div className="flex items-center">
-                      <h3 className="text-lg font-medium">{product.product_name}</h3>
+                      <h3 className="" style={{fontSize: '20px'}}>{product.product_name}</h3>
                       <div className="flex flex-wrap gap-1 ml-2">
                         {product.is_barista && (
                           <ProductPropertyBadges 
