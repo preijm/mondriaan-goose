@@ -124,13 +124,12 @@ export const AggregatedResultsTable = ({
                         {result.product_name || "Unknown Product"}
                       </span>
                       {(result.is_barista || (result.property_names && result.property_names.length > 0) || (result.flavor_names && result.flavor_names.length > 0)) && (
-                        <div className="inline-flex gap-1 ml-1">
+                        <div className="flex flex-wrap gap-1 ml-1">
                           {result.is_barista && (
                             <ProductPropertyBadges 
                               isBarista={result.is_barista}
                               compact={true}
                               displayType="barista"
-                              inline={true}
                             />
                           )}
                           
@@ -138,14 +137,12 @@ export const AggregatedResultsTable = ({
                             propertyNames={result.property_names}
                             compact={true}
                             displayType="properties"
-                            inline={true}
                           />
                           
                           <ProductPropertyBadges 
                             flavorNames={result.flavor_names}
                             compact={true}
                             displayType="flavors"
-                            inline={true}
                           />
                         </div>
                       )}
