@@ -44,7 +44,7 @@ const Index = () => {
       <MenuBar />
       <BackgroundPattern>
         <div className="container max-w-3xl mx-auto px-4 py-8 pt-32 relative z-10">
-          <h1 className="text-3xl font-bold text-gray-900 mb-8">Add New Milk Test</h1>
+          <h1 className="text-3xl font-bold text-gray-900 mb-8 text-center md:text-left">Add New Milk Test</h1>
           <AddMilkTest />
         </div>
       </BackgroundPattern>
