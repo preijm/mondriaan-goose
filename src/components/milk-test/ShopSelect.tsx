@@ -137,7 +137,7 @@ export const ShopSelect = ({ shop, setShop }: ShopSelectProps) => {
 
   return (
     <div className="space-y-4">
-      <div className="flex gap-2">
+      <div className={`${isMobile ? 'space-y-2' : 'flex gap-2'}`}>
         <div className="relative flex-1">
           <ShopSearchInput
             value={inputValue}
@@ -152,7 +152,7 @@ export const ShopSelect = ({ shop, setShop }: ShopSelectProps) => {
           <PopoverTrigger asChild>
             <Button 
               variant="brand"
-              className="whitespace-nowrap"
+              className={`whitespace-nowrap ${isMobile ? 'w-full' : ''}`}
               size="default"
             >
               <Plus className="h-4 w-4 mr-2" />
