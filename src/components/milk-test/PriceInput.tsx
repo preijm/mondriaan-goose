@@ -58,7 +58,7 @@ export const PriceInput = ({
       value: "not_worth_it",
       emoji: "⚠️",
       label: "Not worth it",
-      activeClass: "bg-white text-amber-500 border-amber-500",
+      activeClass: "bg-white text-[#f59e0b] border-[#f59e0b]",
     },
     {
       value: "fair_price",
@@ -70,13 +70,13 @@ export const PriceInput = ({
       value: "good_deal",
       emoji: "🏆",
       label: "Good deal",
-      activeClass: "bg-white text-amber-500 border-amber-500",
+      activeClass: "bg-white text-[#92400e] border-[#92400e]",
     },
     {
       value: "great_value",
       emoji: "💎",
       label: "Great value for money",
-      activeClass: "bg-white text-primary border-primary",
+      activeClass: "bg-white text-[#0ea5e9] border-[#0ea5e9]",
     },
   ];
 
