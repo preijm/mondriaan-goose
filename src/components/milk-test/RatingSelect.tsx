@@ -8,6 +8,13 @@ interface RatingSelectProps {
   setRating: (rating: number) => void;
 }
 
+const getRatingColor = (rating: number) => {
+  if (rating >= 8.5) return "bg-emerald-600";
+  if (rating >= 7.5) return "bg-sky-700"; 
+  if (rating >= 5.5) return "bg-orange-600";
+  return "bg-red-600";
+};
+
 export const RatingSelect = ({ rating, setRating }: RatingSelectProps) => {
   return (
     <div className="space-y-2 w-full">
@@ -21,13 +28,13 @@ export const RatingSelect = ({ rating, setRating }: RatingSelectProps) => {
           className="relative flex w-full touch-none select-none items-center"
         >
           <SliderPrimitive.Track className="relative h-1.5 w-full grow overflow-hidden rounded-full bg-secondary">
-            <SliderPrimitive.Range className="absolute h-full bg-[hsl(var(--rating-bg))]" />
+            <SliderPrimitive.Range className={`absolute h-full ${getRatingColor(rating)}`} />
           </SliderPrimitive.Track>
           <SliderPrimitive.Thumb className="block cursor-pointer select-none touch-none">
             <span className="text-lg">🥛</span>
           </SliderPrimitive.Thumb>
         </SliderPrimitive.Root>
-        <span className="min-w-[4ch] text-right flex items-center justify-center bg-[hsl(var(--rating-bg))] text-gray-700 rounded-full h-8 w-8 font-semibold">
+        <span className={`min-w-[4ch] text-right flex items-center justify-center ${getRatingColor(rating)} text-white rounded-full h-8 w-8 font-semibold`}>
           {rating.toFixed(1)}
         </span>
       </div>
