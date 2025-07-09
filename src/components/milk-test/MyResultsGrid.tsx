@@ -1,6 +1,7 @@
 import React from "react";
 import { MilkTestResult } from "@/types/milk-test";
 import { Card, CardContent } from "@/components/ui/card";
+import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { supabase } from "@/integrations/supabase/client";
 import { Calendar, Edit2, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -8,6 +9,7 @@ import { ProductPropertyBadges } from "@/components/milk-test/ProductPropertyBad
 import { Badge } from "@/components/ui/badge";
 import { getScoreBadgeVariant } from "@/lib/scoreUtils";
 import { formatScore } from "@/lib/scoreFormatter";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 interface MyResultsGridProps {
   results: MilkTestResult[];
   onEdit: (result: MilkTestResult) => void;
@@ -41,21 +43,30 @@ export const MyResultsGrid = ({
       const ratingColorClass = getRatingColorClass(Number(result.rating));
       return <Card key={result.id} className="overflow-hidden hover:shadow-md transition-shadow relative group">
             <div className="relative">
-              <div className="bg-gray-100 min-h-[200px]">
-                {imageUrl ? <img src={imageUrl} alt={`${result.brand_name} ${result.product_name}`} className="object-cover w-full h-48" onError={e => {
+              <AspectRatio ratio={1} className="bg-gray-100">
+                {imageUrl ? <img src={imageUrl} alt={`${result.brand_name} ${result.product_name}`} className="object-cover w-full h-full" onError={e => {
               const target = e.target as HTMLImageElement;
               target.src = '/placeholder.svg';
-            }} /> : <div className="flex items-center justify-center w-full h-48 bg-gray-100">
+            }} /> : <div className="flex items-center justify-center w-full h-full bg-gray-100">
                     <span className="text-gray-400 text-xs">No image</span>
                   </div>}
                 
                 {/* Rating badge */}
                 <div className="absolute top-1.5 right-1.5 shadow-md rounded-lg">
-                  <Badge variant={getScoreBadgeVariant(Number(result.rating))}>
-                    {formatScore(Number(result.rating))}
-                  </Badge>
+                  <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Badge variant={getScoreBadgeVariant(Number(result.rating))}>
+                          {formatScore(Number(result.rating))}
+                        </Badge>
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p>Score: {formatScore(Number(result.rating))}</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
                 </div>
-              </div>
+              </AspectRatio>
             </div>
             
             <CardContent className="p-2">
