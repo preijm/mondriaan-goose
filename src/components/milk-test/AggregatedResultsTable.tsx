@@ -55,118 +55,194 @@ export const AggregatedResultsTable = ({
   };
 
   return (
-    <Table>
-      <TableHeader>
-        <TableRow className="bg-gray-50 border-b border-gray-200">
-          <TableHead className="font-semibold text-gray-700 text-left pl-4 w-[25%]">
-            <SortableColumnHeader 
-              column="brand_name" 
-              label="Brand" 
-              sortConfig={sortConfig} 
-              onSort={handleSort} 
-              width="100%"
-            />
-          </TableHead>
-          <TableHead className="font-semibold text-gray-700 text-left pl-4 pr-0 w-[45%]">
-            <SortableColumnHeader 
-              column="product_name" 
-              label="Product" 
-              sortConfig={sortConfig} 
-              onSort={handleSort}
-              width="100%" 
-            />
-          </TableHead>
-          <TableHead className="font-semibold text-gray-700 text-left pl-4 w-[15%]">
-            <SortableColumnHeader 
-              column="avg_rating" 
-              label="Score" 
-              sortConfig={sortConfig} 
-              onSort={handleSort}
-              width="100%" 
-            />
-          </TableHead>
-          <TableHead className="font-semibold text-gray-700 text-left pl-4 w-[15%]">
-            <SortableColumnHeader 
-              column="count" 
-              label="Tests" 
-              sortConfig={sortConfig} 
-              onSort={handleSort}
-              width="100%" 
-            />
-          </TableHead>
-        </TableRow>
-      </TableHeader>
-      <TableBody>
+    <>
+      {/* Desktop Table View */}
+      <div className="hidden md:block">
+        <Table>
+          <TableHeader>
+            <TableRow className="bg-gray-50 border-b border-gray-200">
+              <TableHead className="font-semibold text-gray-700 text-left pl-4 w-[25%]">
+                <SortableColumnHeader 
+                  column="brand_name" 
+                  label="Brand" 
+                  sortConfig={sortConfig} 
+                  onSort={handleSort} 
+                  width="100%"
+                />
+              </TableHead>
+              <TableHead className="font-semibold text-gray-700 text-left pl-4 pr-0 w-[45%]">
+                <SortableColumnHeader 
+                  column="product_name" 
+                  label="Product" 
+                  sortConfig={sortConfig} 
+                  onSort={handleSort}
+                  width="100%" 
+                />
+              </TableHead>
+              <TableHead className="font-semibold text-gray-700 text-left pl-4 w-[15%]">
+                <SortableColumnHeader 
+                  column="avg_rating" 
+                  label="Score" 
+                  sortConfig={sortConfig} 
+                  onSort={handleSort}
+                  width="100%" 
+                />
+              </TableHead>
+              <TableHead className="font-semibold text-gray-700 text-left pl-4 w-[15%]">
+                <SortableColumnHeader 
+                  column="count" 
+                  label="Tests" 
+                  sortConfig={sortConfig} 
+                  onSort={handleSort}
+                  width="100%" 
+                />
+              </TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {results.length === 0 ? (
+              <TableRow>
+                <TableCell colSpan={4} className="text-center py-12 text-gray-500">
+                  <div className="flex flex-col items-center justify-center">
+                    <p className="text-lg mb-2">No results found</p>
+                    <p className="text-sm">Try adjusting your search criteria</p>
+                  </div>
+                </TableCell>
+              </TableRow>
+            ) : (
+              results.map((result) => (
+                <TableRow 
+                  key={result.product_id}
+                  className="cursor-pointer hover:bg-gray-50 group"
+                  onClick={() => onProductClick(result.product_id)}
+                >
+                  <TableCell className="font-medium text-gray-900">
+                    {result.brand_name || "Unknown Brand"}
+                  </TableCell>
+                  <TableCell className="pr-0">
+                    <div className="flex items-center">
+                      <div className="flex-grow">
+                        <div className="flex items-center gap-2.5">
+                           <span className="font-medium text-gray-800">
+                             {result.product_name || "Unknown Product"}
+                           </span>
+                           {(result.is_barista || (result.property_names && result.property_names.length > 0) || (result.flavor_names && result.flavor_names.length > 0)) && (
+                            <div className="flex flex-wrap gap-1">
+                              {result.is_barista && (
+                                <ProductPropertyBadges 
+                                  isBarista={result.is_barista}
+                                  compact={true}
+                                  displayType="barista"
+                                />
+                              )}
+                              
+                              <ProductPropertyBadges 
+                                propertyNames={result.property_names}
+                                compact={true}
+                                displayType="properties"
+                              />
+                              
+                              <ProductPropertyBadges 
+                                flavorNames={result.flavor_names}
+                                compact={true}
+                                displayType="flavors"
+                              />
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  </TableCell>
+                  <TableCell>
+                    <Badge variant={getScoreBadgeVariant(result.avg_rating)}>
+                      {formatScore(result.avg_rating)}
+                    </Badge>
+                  </TableCell>
+                  <TableCell className="relative">
+                    <div className="flex items-center justify-between">
+                      <Badge variant="testCount">
+                        {result.count}
+                      </Badge>
+                      <ChevronRight className="opacity-0 group-hover:opacity-100 text-black transition-opacity" size={24} />
+                    </div>
+                  </TableCell>
+                </TableRow>
+              ))
+            )}
+          </TableBody>
+        </Table>
+      </div>
+
+      {/* Mobile Card View */}
+      <div className="md:hidden space-y-3">
         {results.length === 0 ? (
-          <TableRow>
-            <TableCell colSpan={4} className="text-center py-12 text-gray-500">
-              <div className="flex flex-col items-center justify-center">
-                <p className="text-lg mb-2">No results found</p>
-                <p className="text-sm">Try adjusting your search criteria</p>
-              </div>
-            </TableCell>
-          </TableRow>
+          <div className="text-center py-12 text-gray-500">
+            <div className="flex flex-col items-center justify-center">
+              <p className="text-lg mb-2">No results found</p>
+              <p className="text-sm">Try adjusting your search criteria</p>
+            </div>
+          </div>
         ) : (
           results.map((result) => (
-            <TableRow 
+            <div
               key={result.product_id}
-              className="cursor-pointer hover:bg-gray-50 group"
+              className="bg-white border border-gray-200 rounded-lg p-4 cursor-pointer hover:shadow-md transition-shadow"
               onClick={() => onProductClick(result.product_id)}
             >
-              <TableCell className="font-medium text-gray-900">
-                {result.brand_name || "Unknown Brand"}
-              </TableCell>
-              <TableCell className="pr-0">
-                <div className="flex items-center">
-                  <div className="flex-grow">
-                    <div className="flex items-center gap-2.5">
-                       <span className="font-medium text-gray-800">
-                         {result.product_name || "Unknown Product"}
-                       </span>
-                       {(result.is_barista || (result.property_names && result.property_names.length > 0) || (result.flavor_names && result.flavor_names.length > 0)) && (
-                        <div className="flex flex-wrap gap-1">
-                          {result.is_barista && (
-                            <ProductPropertyBadges 
-                              isBarista={result.is_barista}
-                              compact={true}
-                              displayType="barista"
-                            />
-                          )}
-                          
-                          <ProductPropertyBadges 
-                            propertyNames={result.property_names}
-                            compact={true}
-                            displayType="properties"
-                          />
-                          
-                          <ProductPropertyBadges 
-                            flavorNames={result.flavor_names}
-                            compact={true}
-                            displayType="flavors"
-                          />
-                        </div>
-                      )}
-                    </div>
-                  </div>
+              <div className="flex justify-between items-start mb-2">
+                <div className="flex-1 min-w-0">
+                  <h3 className="font-semibold text-gray-900 text-sm truncate">
+                    {result.brand_name || "Unknown Brand"}
+                  </h3>
+                  <p className="text-gray-700 text-sm mt-1 font-medium">
+                    {result.product_name || "Unknown Product"}
+                  </p>
                 </div>
-              </TableCell>
-              <TableCell>
-                <Badge variant={getScoreBadgeVariant(result.avg_rating)}>
-                  {formatScore(result.avg_rating)}
-                </Badge>
-              </TableCell>
-              <TableCell className="relative">
-                <div className="flex items-center justify-between">
+                <ChevronRight className="text-gray-400 ml-2 flex-shrink-0" size={20} />
+              </div>
+              
+              {(result.is_barista || (result.property_names && result.property_names.length > 0) || (result.flavor_names && result.flavor_names.length > 0)) && (
+                <div className="flex flex-wrap gap-1 mb-3">
+                  {result.is_barista && (
+                    <ProductPropertyBadges 
+                      isBarista={result.is_barista}
+                      compact={true}
+                      displayType="barista"
+                    />
+                  )}
+                  
+                  <ProductPropertyBadges 
+                    propertyNames={result.property_names}
+                    compact={true}
+                    displayType="properties"
+                  />
+                  
+                  <ProductPropertyBadges 
+                    flavorNames={result.flavor_names}
+                    compact={true}
+                    displayType="flavors"
+                  />
+                </div>
+              )}
+              
+              <div className="flex justify-between items-center">
+                <div className="flex items-center gap-2">
+                  <span className="text-xs text-gray-500 font-medium">Score:</span>
+                  <Badge variant={getScoreBadgeVariant(result.avg_rating)}>
+                    {formatScore(result.avg_rating)}
+                  </Badge>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="text-xs text-gray-500 font-medium">Tests:</span>
                   <Badge variant="testCount">
                     {result.count}
                   </Badge>
-                  <ChevronRight className="opacity-0 group-hover:opacity-100 text-black transition-opacity" size={24} />
                 </div>
-              </TableCell>
-            </TableRow>
+              </div>
+            </div>
           ))
         )}
-      </TableBody>
-    </Table>
+      </div>
+    </>
   );
 };
