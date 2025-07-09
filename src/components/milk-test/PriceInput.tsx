@@ -64,19 +64,19 @@ export const PriceInput = ({
       value: "fair_price",
       emoji: "✅",
       label: "Fair price",
-      activeClass: "bg-white text-[#2144ff] border-[#2144ff]",
+      activeClass: "bg-white text-[#00bf63] border-[#00bf63]",
     },
     {
       value: "good_deal",
       emoji: "🏆",
       label: "Good deal",
-      activeClass: "bg-white text-[#00bf63] border-[#00bf63]",
+      activeClass: "bg-white text-[#f59e0b] border-[#f59e0b]",
     },
     {
       value: "great_value",
       emoji: "💎",
       label: "Great value for money",
-      activeClass: "bg-white text-[#00bf63] border-[#00bf63]",
+      activeClass: "bg-white text-[#2144ff] border-[#2144ff]",
     },
   ];
 
