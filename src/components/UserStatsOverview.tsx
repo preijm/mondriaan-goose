@@ -17,7 +17,10 @@ export const UserStatsOverview = ({
     acc[brand] = (acc[brand] || 0) + 1;
     return acc;
   }, {});
-  const mostTestedBrand = results.length ? Object.entries(brandCounts).sort((a, b) => b[1] - a[1])[0]?.[0] : "None";
+  const mostTestedBrand = results.length ? Object.entries(brandCounts).sort((a, b) => {
+    const countDiff = b[1] - a[1];
+    return countDiff !== 0 ? countDiff : a[0].localeCompare(b[0]);
+  })[0]?.[0] : "None";
 
   // Calculate highest rated product
   const highestRatedProduct = results.length ? [...results].sort((a, b) => b.rating - a.rating)[0] : null;
