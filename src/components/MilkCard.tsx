@@ -43,7 +43,7 @@ export const MilkCard = ({ result, showUsername = false }: MilkCardProps) => {
         <p className="text-sm text-gray-700 font-medium">{productName}</p>
       </div>
       
-      <div className="mb-3 flex flex-wrap gap-2.5">
+      <div className="mb-3 flex flex-wrap gap-3">
         {/* Barista badge */}
         {result.is_barista && (
           <ProductPropertyBadges
