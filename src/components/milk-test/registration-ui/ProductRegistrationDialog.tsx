@@ -1,24 +1,11 @@
-
 import React, { useState, useEffect } from "react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { ProductRegistrationHeader } from "../ProductRegistrationHeader";
 import { DialogDescription } from "@/components/ui/dialog";
-import { 
-  ProductRegistrationProvider,
-  useProductRegistration
-} from "./ProductRegistrationContext";
+import { ProductRegistrationProvider, useProductRegistration } from "./ProductRegistrationContext";
 import { ProductForm } from "./FormSections";
 import { useToast } from "@/hooks/use-toast";
-import { 
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle 
-} from "@/components/ui/alert-dialog";
-
+import { AlertDialog, AlertDialogAction, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
 interface ProductRegistrationDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
@@ -39,9 +26,8 @@ const ProductRegistrationContainer: React.FC<ProductRegistrationDialogProps> = (
     isSubmitting,
     toast
   } = useProductRegistration();
-  
   const [duplicateDialogOpen, setDuplicateDialogOpen] = useState(false);
-  
+
   // Reset isSubmitting state when the dialog is closed
   useEffect(() => {
     if (!open) {
@@ -49,7 +35,7 @@ const ProductRegistrationContainer: React.FC<ProductRegistrationDialogProps> = (
       console.log("Dialog closed, isSubmitting reset to false");
     }
   }, [open, setIsSubmitting]);
-  
+
   // Also reset isSubmitting when duplicate dialog opens
   useEffect(() => {
     if (duplicateDialogOpen) {
@@ -57,11 +43,10 @@ const ProductRegistrationContainer: React.FC<ProductRegistrationDialogProps> = (
       console.log("Duplicate dialog opened, isSubmitting reset to false");
     }
   }, [duplicateDialogOpen, setIsSubmitting]);
-  
+
   // Handle dialog close to ensure isSubmitting is reset and prevent default navigation
   const handleOpenChange = (newOpen: boolean) => {
     console.log("handleOpenChange called with:", newOpen, "current isSubmitting:", isSubmitting);
-    
     if (!newOpen) {
       // Reset the isSubmitting state when the dialog is closed
       setIsSubmitting(false);
@@ -69,26 +54,25 @@ const ProductRegistrationContainer: React.FC<ProductRegistrationDialogProps> = (
     }
     onOpenChange(newOpen);
   };
-  
+
   // Handle form submission
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     e.stopPropagation(); // Prevent the event from bubbling up to parent forms
-    
+
     console.log("Product Registration Form - submitting:", {
-      brandId, 
+      brandId,
       productName
     });
-    
+
     // No need for validation here - the submit button is disabled if form is invalid
-    
+
     setIsSubmitting(true);
     console.log("Form submission started, isSubmitting set to true");
-    
     try {
       // Submit the form and check if we got a duplicate product
       const result = await originalHandleSubmit(e, true); // Skip auto-success handling
-      
+
       if (result?.isDuplicate) {
         // Show simple duplicate product dialog
         setDuplicateDialogOpen(true);
@@ -114,24 +98,22 @@ const ProductRegistrationContainer: React.FC<ProductRegistrationDialogProps> = (
       });
     }
   };
-  
+
   // Handle the duplicate dialog close
   const handleDuplicateDialogAction = () => {
     setDuplicateDialogOpen(false);
     setIsSubmitting(false); // Ensure isSubmitting is reset
   };
-  
+
   // Handle cancel button click - just close the dialog without navigation
   const handleCancel = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
     handleOpenChange(false);
   };
-  
-  return (
-    <>
+  return <>
       <Dialog open={open} onOpenChange={handleOpenChange}>
-        <DialogContent className="max-w-2xl max-h-[85vh] overflow-y-auto bg-white/95 backdrop-blur-sm border border-white/20 shadow-xl">
+        <DialogContent className="max-w-2xl max-h-[85vh] overflow-y-auto backdrop-blur-sm border border-white/20 shadow-xl bg-white">
           <ProductRegistrationHeader />
           <DialogDescription className="sr-only">
             Register a new milk product with brand, product details, properties, and flavors
@@ -152,24 +134,18 @@ const ProductRegistrationContainer: React.FC<ProductRegistrationDialogProps> = (
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogAction 
-              onClick={handleDuplicateDialogAction}
-              className="bg-blue-600 hover:bg-blue-700 text-white"
-            >
+            <AlertDialogAction onClick={handleDuplicateDialogAction} className="bg-blue-600 hover:bg-blue-700 text-white">
               OK
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
-    </>
-  );
+    </>;
 };
 
 // Wrapper component that provides the context
-export const ProductRegistrationDialog: React.FC<ProductRegistrationDialogProps> = (props) => {
-  return (
-    <ProductRegistrationProvider formProps={props}>
+export const ProductRegistrationDialog: React.FC<ProductRegistrationDialogProps> = props => {
+  return <ProductRegistrationProvider formProps={props}>
       <ProductRegistrationContainer {...props} />
-    </ProductRegistrationProvider>
-  );
+    </ProductRegistrationProvider>;
 };
