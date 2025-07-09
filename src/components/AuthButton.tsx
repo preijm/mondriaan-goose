@@ -59,7 +59,7 @@ export const AuthButton = () => {
             >
               {user.email?.[0].toUpperCase()}
             </Badge>
-            <span>Account</span>
+            <span className="hidden md:inline">Account</span>
             <ChevronDown className="w-4 h-4 ml-1 opacity-70" />
           </div>
         </Button>
