@@ -100,14 +100,13 @@ export const MyResultsGrid = ({ results, onEdit, onDelete }: MyResultsGridProps)
                 
                 {/* Brand & Product combined */}
                 <div>
-                  <h3 className="font-medium text-sm truncate">{result.brand_name} - {result.product_name}</h3>
-                  <div className="flex items-center flex-wrap gap-1">
+                  <div className="flex items-center gap-2">
+                    <p className="text-sm text-gray-900 truncate">{result.brand_name} - {result.product_name}</p>
                     {result.is_barista && (
                       <ProductPropertyBadges 
                         isBarista={result.is_barista}
                         compact={true}
                         displayType="barista"
-                        inline={true}
                       />
                     )}
                   </div>
