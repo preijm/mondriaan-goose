@@ -123,7 +123,7 @@ export const AggregatedResultsTable = ({
                     <div className="flex items-center">
                       <div className="flex-grow">
                         <div className="flex items-center gap-2.5">
-                           <span className="font-medium text-gray-800">
+                           <span className="text-gray-800">
                              {result.product_name || "Unknown Product"}
                            </span>
                            {(result.is_barista || (result.property_names && result.property_names.length > 0) || (result.flavor_names && result.flavor_names.length > 0)) && (
