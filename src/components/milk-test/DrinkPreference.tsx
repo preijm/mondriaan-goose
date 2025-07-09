@@ -96,7 +96,7 @@ export const DrinkPreference = ({ preference, setPreference }: DrinkPreferencePr
       value: "hot",
       icon: HotIcon,
       label: "Hot",
-      activeClass: "bg-white text-[#f59e0b] border-[#f59e0b]",
+      activeClass: "bg-white text-[#ff4b51] border-[#ff4b51]",
     },
     {
       value: "coffee",
@@ -108,7 +108,7 @@ export const DrinkPreference = ({ preference, setPreference }: DrinkPreferencePr
       value: "tea",
       icon: TeaCup,
       label: "Tea",
-      activeClass: "bg-white text-[#00bf63] border-[#00bf63]",
+      activeClass: "bg-white text-[#f59e0b] border-[#f59e0b]",
     },
   ];
 
