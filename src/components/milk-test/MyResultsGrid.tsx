@@ -2,14 +2,12 @@ import React from "react";
 import { MilkTestResult } from "@/types/milk-test";
 import { Card, CardContent } from "@/components/ui/card";
 import { supabase } from "@/integrations/supabase/client";
-import { Calendar, Edit2, Trash2 } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Calendar } from "lucide-react";
 import { ProductPropertyBadges } from "@/components/milk-test/ProductPropertyBadges";
 import { Badge } from "@/components/ui/badge";
 import { getScoreBadgeVariant } from "@/lib/scoreUtils";
 import { formatScore } from "@/lib/scoreFormatter";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import { useIsMobile } from "@/hooks/use-mobile";
 
 interface MyResultsGridProps {
   results: MilkTestResult[];
@@ -22,7 +20,7 @@ export const MyResultsGrid = ({
   onEdit,
   onDelete
 }: MyResultsGridProps) => {
-  const isMobile = useIsMobile();
+  
   
   const getPictureUrl = (picturePath: string | null | undefined) => {
     if (!picturePath) return null;
@@ -48,8 +46,8 @@ export const MyResultsGrid = ({
         return (
           <Card 
             key={result.id} 
-            className={`overflow-hidden hover:shadow-md transition-shadow relative group ${isMobile ? 'cursor-pointer' : ''}`}
-            onClick={isMobile ? () => onEdit(result) : undefined}
+            className="overflow-hidden hover:shadow-md transition-shadow relative group cursor-pointer"
+            onClick={() => onEdit(result)}
           >
             <div className="relative">
               <div className="bg-gray-100 aspect-square">
@@ -102,25 +100,11 @@ export const MyResultsGrid = ({
                     <p className="text-gray-700 truncate" style={{fontSize: '14px'}}>{result.product_name}</p>
                   </div>
                   
-                  {/* Badges and Actions Row */}
-                  <div className="flex flex-wrap items-center justify-between gap-1 mt-2">
-                    <div className="flex flex-wrap gap-1">
-                      {result.is_barista && <ProductPropertyBadges isBarista={result.is_barista} compact={true} displayType="barista" />}
-                      <ProductPropertyBadges propertyNames={result.property_names} flavorNames={result.flavor_names} compact={true} />
-                    </div>
-                    
-                    {/* Actions - Only show on desktop hover */}
-                    {!isMobile && (
-                      <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                        <Button variant="ghost" size="sm" className="h-6 w-6 p-0" onClick={() => onEdit(result)}>
-                          <Edit2 className="h-3 w-3" />
-                        </Button>
-                        <Button variant="ghost" size="sm" className="h-6 w-6 p-0 text-red-500 hover:text-red-700" onClick={() => onDelete(result.id)}>
-                          <Trash2 className="h-3 w-3" />
-                        </Button>
-                      </div>
-                    )}
-                  </div>
+                   {/* Badges Row */}
+                   <div className="flex flex-wrap gap-1 mt-2">
+                     {result.is_barista && <ProductPropertyBadges isBarista={result.is_barista} compact={true} displayType="barista" />}
+                     <ProductPropertyBadges propertyNames={result.property_names} flavorNames={result.flavor_names} compact={true} />
+                   </div>
                 </div>
               </div>
             </CardContent>
