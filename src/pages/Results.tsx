@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { useAggregatedResults, SortConfig } from "@/hooks/useAggregatedResults";
 import { useNavigate } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
 import MenuBar from "@/components/MenuBar";
 import BackgroundPattern from "@/components/BackgroundPattern";
 import { ResultsContainer } from "@/components/milk-test/ResultsContainer";
@@ -10,6 +11,7 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ChartBar, Table2 } from "lucide-react";
 import { MilkTestResult } from "@/types/milk-test";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { supabase } from "@/integrations/supabase/client";
 
 interface FilterOptions {
   barista: boolean;
@@ -30,6 +32,27 @@ const Results = () => {
   const { data: aggregatedResults = [], isLoading } = useAggregatedResults(sortConfig);
   const navigate = useNavigate();
   const isMobile = useIsMobile();
+
+  // Fetch properties and flavors to create key-to-name mapping
+  const { data: properties = [] } = useQuery({
+    queryKey: ['properties'],
+    queryFn: async () => {
+      const { data } = await supabase.from('properties').select('*').order('ordering', { ascending: true });
+      return data || [];
+    }
+  });
+
+  const { data: flavors = [] } = useQuery({
+    queryKey: ['flavors'],
+    queryFn: async () => {
+      const { data } = await supabase.from('flavors').select('*').order('ordering', { ascending: true });
+      return data || [];
+    }
+  });
+
+  // Create mappings from keys to names
+  const propertyKeyToName = new Map(properties.map(p => [p.key, p.name]));
+  const flavorKeyToName = new Map(flavors.map(f => [f.key, f.name]));
 
   const handleSort = (column: string) => {
     setSortConfig(current => ({
@@ -58,20 +81,22 @@ const Results = () => {
       return false;
     }
 
-    // Filter by Properties
+    // Filter by Properties - convert keys to names for comparison
     if (filters.properties.length > 0) {
-      const hasMatchingProperty = filters.properties.some(filterProp => 
-        result.property_names?.includes(filterProp)
+      const filterPropertyNames = filters.properties.map(key => propertyKeyToName.get(key)).filter(Boolean);
+      const hasMatchingProperty = filterPropertyNames.some(filterPropName => 
+        result.property_names?.includes(filterPropName)
       );
       if (!hasMatchingProperty) {
         return false;
       }
     }
 
-    // Filter by Flavors
+    // Filter by Flavors - convert keys to names for comparison
     if (filters.flavors.length > 0) {
-      const hasMatchingFlavor = filters.flavors.some(filterFlavor => 
-        result.flavor_names?.includes(filterFlavor)
+      const filterFlavorNames = filters.flavors.map(key => flavorKeyToName.get(key)).filter(Boolean);
+      const hasMatchingFlavor = filterFlavorNames.some(filterFlavorName => 
+        result.flavor_names?.includes(filterFlavorName)
       );
       if (!hasMatchingFlavor) {
         return false;
