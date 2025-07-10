@@ -27,48 +27,19 @@ const ProductRegistrationContainer: React.FC<ProductRegistrationDialogProps> = (
     toast
   } = useProductRegistration();
   const [duplicateDialogOpen, setDuplicateDialogOpen] = useState(false);
-  const [brandInput, setBrandInput] = useState<HTMLInputElement | null>(null);
-  const [hasInitialFocus, setHasInitialFocus] = useState(false);
 
   // Reset state when dialog is closed
   useEffect(() => {
     if (!open) {
       setIsSubmitting(false);
-      setHasInitialFocus(false);
       console.log("Dialog closed, resetting states");
     }
   }, [open, setIsSubmitting]);
 
-  // Focus the brand input when dialog opens and input is ready (only once)
-  useEffect(() => {
-    if (open && brandInput && !hasInitialFocus) {
-      console.log('Dialog opened, attempting initial focus on brand input', brandInput);
-      setHasInitialFocus(true);
-      
-      // Try immediate focus first
-      brandInput.focus();
-      
-      // Also set a longer delay as backup
-      const timeoutId = setTimeout(() => {
-        console.log('Timeout focus attempt', brandInput);
-        brandInput?.focus();
-      }, 100);
-      
-      return () => clearTimeout(timeoutId);
-    }
-  }, [open, brandInput, hasInitialFocus]);
-
-  // Handle brand input ready callback - focus on first time if dialog is open
+  // Simple brand input ready callback
   const handleBrandInputReady = (input: HTMLInputElement | null) => {
     console.log('Brand input ready:', input);
-    setBrandInput(input);
-    
-    // Focus immediately if dialog is open and we haven't focused yet
-    if (open && input && !hasInitialFocus) {
-      console.log('Focusing brand input on ready since dialog is open and no initial focus yet');
-      setHasInitialFocus(true);
-      setTimeout(() => input.focus(), 0);
-    }
+    // Brand input now has autoFocus, so no need for manual focus logic
   };
 
   // Also reset isSubmitting when duplicate dialog opens

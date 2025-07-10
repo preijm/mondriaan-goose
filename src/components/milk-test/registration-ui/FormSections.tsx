@@ -62,7 +62,6 @@ export const ProductForm = forwardRef<HTMLInputElement, ProductFormProps>(({ onS
             className="w-full px-3 py-2 border border-input rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
             placeholder="Enter product name..."
             required
-            tabIndex={1}
           />
         </div>
 
