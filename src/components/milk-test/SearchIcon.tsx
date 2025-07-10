@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { Search, X } from "lucide-react";
+import { Search } from "lucide-react";
 
 interface SearchIconProps {
   searchTerm: string;
@@ -15,11 +15,6 @@ export const SearchIcon = ({ searchTerm, setSearchTerm, placeholder = "Search...
   const [isOpen, setIsOpen] = useState(false);
   const [localSearchTerm, setLocalSearchTerm] = useState(searchTerm);
 
-  const handleApplySearch = () => {
-    setSearchTerm(localSearchTerm);
-    setIsOpen(false);
-  };
-
   const handleClearSearch = () => {
     setLocalSearchTerm("");
     setSearchTerm("");
@@ -28,7 +23,8 @@ export const SearchIcon = ({ searchTerm, setSearchTerm, placeholder = "Search...
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {
-      handleApplySearch();
+      setSearchTerm(localSearchTerm);
+      setIsOpen(false);
     }
   };
 
@@ -50,14 +46,16 @@ export const SearchIcon = ({ searchTerm, setSearchTerm, placeholder = "Search...
         <div className="space-y-3">
           <div className="flex items-center justify-between">
             <h3 className="font-medium">Search</h3>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={handleClearSearch}
-              className="h-6 w-6 p-0"
-            >
-              <X className="h-4 w-4" />
-            </Button>
+            {searchTerm && (
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={handleClearSearch}
+                className="text-xs"
+              >
+                Clear
+              </Button>
+            )}
           </div>
           <div className="space-y-3">
             <Input
