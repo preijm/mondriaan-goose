@@ -36,10 +36,10 @@ export const SearchIcon = ({ searchTerm, setSearchTerm, placeholder = "Search...
       <PopoverTrigger asChild>
         <Button 
           variant="outline" 
-          size="icon"
-          className="bg-white/80 backdrop-blur-sm border border-white/20 shadow-lg relative"
+          className="flex items-center gap-2 bg-white/80 backdrop-blur-sm border border-white/20 shadow-lg relative"
         >
           <Search className="h-4 w-4" />
+          <span>Search</span>
           {searchTerm && (
             <div className="absolute -top-1 -right-1 w-2 h-2 bg-primary rounded-full" />
           )}
