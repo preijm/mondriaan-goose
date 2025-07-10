@@ -39,12 +39,20 @@ const ProductRegistrationContainer: React.FC<ProductRegistrationDialogProps> = (
 
   // Focus the brand input when dialog opens
   useEffect(() => {
-    if (open && brandInputRef.current) {
-      // Longer delay to ensure the dialog is fully rendered and any default focus is overridden
-      const timeoutId = setTimeout(() => {
-        brandInputRef.current?.focus();
-      }, 300);
-      return () => clearTimeout(timeoutId);
+    if (open) {
+      console.log('Dialog opened, attempting to focus brand input', brandInputRef.current);
+      if (brandInputRef.current) {
+        // Try immediate focus first
+        brandInputRef.current.focus();
+        
+        // Also set a longer delay as backup
+        const timeoutId = setTimeout(() => {
+          console.log('Timeout focus attempt', brandInputRef.current);
+          brandInputRef.current?.focus();
+        }, 500);
+        
+        return () => clearTimeout(timeoutId);
+      }
     }
   }, [open]);
 

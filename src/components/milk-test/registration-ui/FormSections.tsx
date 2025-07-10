@@ -56,6 +56,7 @@ export const ProductForm = forwardRef<HTMLInputElement, ProductFormProps>(({ onS
             id="product"
             value={productName}
             onChange={(e) => setProductName(e.target.value)}
+            onFocus={() => console.log('Product name input focused')}
             className="w-full px-3 py-2 border border-input rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
             placeholder="Enter product name..."
             required

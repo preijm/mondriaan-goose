@@ -70,11 +70,23 @@ export const BrandSelect = forwardRef<HTMLInputElement, BrandSelectProps>(({
   return (
     <div className={cn("relative", className)}>
       <Input
-        ref={ref}
+        ref={(el) => {
+          if (ref) {
+            if (typeof ref === 'function') {
+              ref(el);
+            } else {
+              ref.current = el;
+            }
+          }
+          console.log('BrandSelect Input ref set:', el);
+        }}
         placeholder="Enter brand name..."
         value={inputValue}
         onChange={handleInputChange}
-        onFocus={() => setIsDropdownVisible(true)}
+        onFocus={() => {
+          console.log('BrandSelect input focused');
+          setIsDropdownVisible(true);
+        }}
         onBlur={() => setTimeout(() => setIsDropdownVisible(false), 200)}
         className="w-full pr-10"
         disabled={isLoading}
