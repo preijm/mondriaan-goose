@@ -174,7 +174,7 @@ export const AggregatedResultsTable = ({
       </div>
 
       {/* Mobile Card View */}
-      <div className="md:hidden space-y-3">
+      <div className="md:hidden p-4 space-y-3">
         {results.length === 0 ? (
           <div className="text-center py-12 text-gray-500">
             <div className="flex flex-col items-center justify-center">
@@ -186,57 +186,67 @@ export const AggregatedResultsTable = ({
           results.map((result) => (
             <div
               key={result.product_id}
-              className="bg-white border border-gray-200 rounded-lg p-4 cursor-pointer hover:shadow-md transition-shadow"
+              className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg border border-white/20 p-4 cursor-pointer hover:shadow-xl transition-shadow animate-fade-in"
               onClick={() => onProductClick(result.product_id)}
             >
-              <div className="flex justify-between items-start mb-2">
-                <div className="flex-1 min-w-0">
-                  <h3 className="font-semibold text-gray-900 text-sm truncate">
-                    {result.brand_name || "Unknown Brand"}
-                  </h3>
-                  <p className="text-gray-700 text-sm mt-1 font-medium">
-                    {result.product_name || "Unknown Product"}
-                  </p>
+              <div className="flex items-center justify-between">
+                <div className="flex flex-col gap-1 flex-1">
+                  <div>
+                    <div className="text-xs text-gray-500">Brand</div>
+                    <h2 className="text-xl font-bold text-gray-900">{result.brand_name || "Unknown Brand"}</h2>
+                  </div>
+                  <div>
+                    <div className="text-xs text-gray-500">Product</div>
+                    <div className="flex items-center">
+                      <h3 className="text-lg">{result.product_name || "Unknown Product"}</h3>
+                      {(result.is_barista || (result.property_names && result.property_names.length > 0) || (result.flavor_names && result.flavor_names.length > 0)) && (
+                        <div className="flex flex-wrap gap-1 ml-2">
+                          {result.is_barista && (
+                            <ProductPropertyBadges 
+                              isBarista={result.is_barista}
+                              displayType="barista"
+                              inline={true}
+                              compact={true}
+                            />
+                          )}
+                          
+                          <ProductPropertyBadges 
+                            propertyNames={result.property_names}
+                            displayType="properties"
+                            inline={true}
+                            compact={true}
+                          />
+                          
+                          <ProductPropertyBadges 
+                            flavorNames={result.flavor_names}
+                            displayType="flavors"
+                            inline={true}
+                            compact={true}
+                          />
+                        </div>
+                      )}
+                    </div>
+                  </div>
                 </div>
-                <ChevronRight className="text-gray-400 ml-2 flex-shrink-0" size={20} />
-              </div>
-              
-              {(result.is_barista || (result.property_names && result.property_names.length > 0) || (result.flavor_names && result.flavor_names.length > 0)) && (
-                <div className="flex flex-wrap gap-1 mb-3">
-                  {result.is_barista && (
-                    <ProductPropertyBadges 
-                      isBarista={result.is_barista}
-                      compact={true}
-                      displayType="barista"
-                    />
-                  )}
-                  
-                  <ProductPropertyBadges 
-                    propertyNames={result.property_names}
-                    compact={true}
-                    displayType="properties"
-                  />
-                  
-                  <ProductPropertyBadges 
-                    flavorNames={result.flavor_names}
-                    compact={true}
-                    displayType="flavors"
-                  />
-                </div>
-              )}
-              
-              <div className="flex justify-between items-center">
-                <div className="flex items-center gap-2">
-                  <span className="text-xs text-gray-500 font-medium">Score:</span>
-                  <Badge variant={getScoreBadgeVariant(result.avg_rating)}>
-                    {formatScore(result.avg_rating)}
-                  </Badge>
-                </div>
-                <div className="flex items-center gap-2">
-                  <span className="text-xs text-gray-500 font-medium">Tests:</span>
-                  <Badge variant="testCount">
-                    {result.count}
-                  </Badge>
+                
+                <div className="flex flex-col items-center gap-2 ml-4">
+                  <div className="text-center">
+                    <div className="text-xs text-gray-500">Score</div>
+                    <div className="w-16 h-16 rounded-full border-2 border-red-500 flex items-center justify-center bg-white">
+                      <span className="text-lg font-bold text-gray-900">
+                        {formatScore(result.avg_rating)}
+                      </span>
+                    </div>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-xs text-gray-500">Tests</div>
+                    <div className="w-16 h-8 rounded-full border border-gray-300 flex items-center justify-center bg-white">
+                      <span className="text-sm font-medium text-gray-700">
+                        {result.count}
+                      </span>
+                    </div>
+                  </div>
+                  <ChevronRight className="text-gray-400 mt-1" size={20} />
                 </div>
               </div>
             </div>
