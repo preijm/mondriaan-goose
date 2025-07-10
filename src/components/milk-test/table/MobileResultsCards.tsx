@@ -9,7 +9,7 @@ export const MobileResultsCards = ({
   onFiltersChange
 }: Omit<BaseResultsProps, 'sortConfig' | 'handleSort'>) => {
   return (
-    <div className="md:hidden p-4 space-y-3">
+    <div className="md:hidden p-4 space-y-2">
       {results.length === 0 ? (
         <div className="text-center py-12 text-gray-500">
           <div className="flex flex-col items-center justify-center">
