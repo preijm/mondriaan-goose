@@ -47,7 +47,7 @@ export const ResultCard = ({
         <div className="flex items-center gap-4 text-sm">
           <div className="flex items-center gap-1">
             <span className="text-gray-500">Score:</span>
-            <Badge variant={getScoreBadgeVariant(result.avg_rating)} className="px-2 py-0.5 text-xs font-bold">
+            <Badge variant={getScoreBadgeVariant(result.avg_rating)} className="px-2 py-1 sm:px-2 sm:py-0.5 text-xs font-bold min-w-[2.5rem] flex items-center justify-center">
               {formatScore(result.avg_rating)}
             </Badge>
           </div>
