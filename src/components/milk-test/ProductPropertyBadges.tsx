@@ -116,7 +116,9 @@ export const ProductPropertyBadges: React.FC<ProductPropertyBadgesProps> = ({
       {shouldRenderBarista && isBarista && (
         <Badge 
           variant="barista"
-          className={`${filters && onFiltersChange ? 'cursor-pointer hover:shadow-md transition-shadow' : ''}`}
+          className={`${filters && onFiltersChange ? 'cursor-pointer hover:shadow-md transition-shadow' : ''} ${
+            filters?.barista ? 'bg-amber-600 text-white border-amber-600 shadow-md' : ''
+          }`}
           onClick={filters && onFiltersChange ? handleBaristaClick : undefined}
         >
           Barista
@@ -128,7 +130,9 @@ export const ProductPropertyBadges: React.FC<ProductPropertyBadgesProps> = ({
         <Badge 
           key={`property-${index}`} 
           variant="category"
-          className={`${filters && onFiltersChange ? 'cursor-pointer hover:shadow-md transition-shadow' : ''}`}
+          className={`${filters && onFiltersChange ? 'cursor-pointer hover:shadow-md transition-shadow' : ''} ${
+            filters?.properties.includes(property) ? 'bg-slate-600 text-white border-slate-600 shadow-md' : ''
+          }`}
           onClick={filters && onFiltersChange ? handlePropertyClick(property) : undefined}
         >
           {formatDisplayName(property)}
@@ -140,7 +144,9 @@ export const ProductPropertyBadges: React.FC<ProductPropertyBadgesProps> = ({
         <Badge 
           key={`flavor-${index}`} 
           variant="flavor"
-          className={`${filters && onFiltersChange ? 'cursor-pointer hover:shadow-md transition-shadow' : ''}`}
+          className={`${filters && onFiltersChange ? 'cursor-pointer hover:shadow-md transition-shadow' : ''} ${
+            filters?.flavors.includes(flavor) ? 'bg-purple-600 text-white border-purple-600 shadow-md' : ''
+          }`}
           onClick={filters && onFiltersChange ? handleFlavorClick(flavor) : undefined}
         >
           {formatDisplayName(flavor)}
