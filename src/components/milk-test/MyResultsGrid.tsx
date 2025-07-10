@@ -80,7 +80,7 @@ export const MyResultsGrid = ({
               </div>
             </div>
             
-            <CardContent className="p-2 pb-8 relative">
+            <CardContent className="p-2 relative">
               <div className="space-y-1.5">
                 {/* Date */}
                 <div className="flex items-center text-xs text-gray-500">
@@ -95,24 +95,24 @@ export const MyResultsGrid = ({
                     <p className="text-gray-700 truncate" style={{fontSize: '14px'}}>{result.product_name}</p>
                   </div>
                   
-                  {/* Badges - only render if they exist */}
-                  {hasBadges && (
-                    <div className="flex flex-wrap gap-1 mt-2">
+                  {/* Badges and Actions Row */}
+                  <div className="flex flex-wrap items-center justify-between gap-1 mt-2">
+                    <div className="flex flex-wrap gap-1">
                       {result.is_barista && <ProductPropertyBadges isBarista={result.is_barista} compact={true} displayType="barista" />}
                       <ProductPropertyBadges propertyNames={result.property_names} flavorNames={result.flavor_names} compact={true} />
                     </div>
-                  )}
+                    
+                    {/* Actions */}
+                    <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                      <Button variant="ghost" size="sm" className="h-6 w-6 p-0" onClick={() => onEdit(result)}>
+                        <Edit2 className="h-3 w-3" />
+                      </Button>
+                      <Button variant="ghost" size="sm" className="h-6 w-6 p-0 text-red-500 hover:text-red-700" onClick={() => onDelete(result.id)}>
+                        <Trash2 className="h-3 w-3" />
+                      </Button>
+                    </div>
+                  </div>
                 </div>
-              </div>
-              
-              {/* Actions - positioned at bottom right */}
-              <div className="absolute bottom-2 right-2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                <Button variant="ghost" size="sm" className="h-6 w-6 p-0" onClick={() => onEdit(result)}>
-                  <Edit2 className="h-3 w-3" />
-                </Button>
-                <Button variant="ghost" size="sm" className="h-6 w-6 p-0 text-red-500 hover:text-red-700" onClick={() => onDelete(result.id)}>
-                  <Trash2 className="h-3 w-3" />
-                </Button>
               </div>
             </CardContent>
           </Card>
