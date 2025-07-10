@@ -95,11 +95,13 @@ export const MyResultsGrid = ({
                 
                 {/* Brand & Product */}
                 <div>
-                  <div className="mb-1 space-y-1">
-                    <div className="flex items-center gap-2 flex-wrap">
+                  <div className="mb-1">
+                    <div className="flex items-start gap-2 flex-wrap mb-1">
                       <h3 className="font-medium text-sm leading-tight">{result.brand_name}</h3>
-                      {result.is_barista && <ProductPropertyBadges isBarista={result.is_barista} compact={true} displayType="barista" />}
-                      <ProductPropertyBadges propertyNames={result.property_names} flavorNames={result.flavor_names} compact={true} />
+                      <div className="flex gap-1 flex-wrap">
+                        {result.is_barista && <ProductPropertyBadges isBarista={result.is_barista} compact={true} displayType="barista" />}
+                        <ProductPropertyBadges propertyNames={result.property_names} flavorNames={result.flavor_names} compact={true} />
+                      </div>
                     </div>
                     <p className="text-gray-700 line-clamp-2 leading-tight" style={{fontSize: '14px'}}>{result.product_name}</p>
                   </div>
