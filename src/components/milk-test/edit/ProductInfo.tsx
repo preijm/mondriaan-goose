@@ -33,11 +33,11 @@ export const ProductInfo = ({ brand, productName }: ProductInfoProps) => {
           .select('*')
           .eq('brand_name', brand)
           .eq('product_name', productName)
-          .single();
+          .maybeSingle();
 
         if (error) {
           console.error('Error fetching product details:', error);
-        } else {
+        } else if (data) {
           setProductDetails(data);
         }
       } catch (error) {
@@ -54,8 +54,20 @@ export const ProductInfo = ({ brand, productName }: ProductInfoProps) => {
     return (
       <div className="space-y-4">
         <h2 className="text-xl font-semibold text-gray-900">Product Information</h2>
-        <div className="p-4 bg-gray-100 rounded-md">
-          <p className="text-sm text-gray-500">Loading...</p>
+        <div className="mt-2 p-3 bg-gray-50 border rounded-md">
+          <div className="text-sm text-gray-500">Loading...</div>
+        </div>
+      </div>
+    );
+  }
+
+  // If no product details are found, show basic info
+  if (!productDetails) {
+    return (
+      <div className="space-y-4">
+        <h2 className="text-xl font-semibold text-gray-900">Product Information</h2>
+        <div className="mt-2 p-3 bg-gray-50 border rounded-md">
+          <div className="font-medium">{brand} - {productName}</div>
         </div>
       </div>
     );
@@ -64,28 +76,25 @@ export const ProductInfo = ({ brand, productName }: ProductInfoProps) => {
   return (
     <div className="space-y-4">
       <h2 className="text-xl font-semibold text-gray-900">Product Information</h2>
-      <div className="p-4 bg-gray-100 rounded-md">
-        <div className="font-medium">{brand}</div>
-        <div className="text-sm text-gray-500">{productName}</div>
+      <div className="mt-2 p-3 bg-gray-50 border rounded-md">
+        <div className="font-medium">{productDetails.brand_name} - {productDetails.product_name}</div>
         
-        {productDetails && (
-          <div className="mt-3 flex flex-wrap gap-2">
-            {/* Barista status */}
-            {productDetails.is_barista && (
-              <ProductPropertyBadges isBarista={productDetails.is_barista} displayType="barista" />
-            )}
-            
-            {/* Properties badges */}
-            {productDetails.property_names && productDetails.property_names.length > 0 && (
-              <ProductPropertyBadges propertyNames={productDetails.property_names} displayType="properties" />
-            )}
-            
-            {/* Flavor badges */}
-            {productDetails.flavor_names && productDetails.flavor_names.length > 0 && (
-              <ProductPropertyBadges flavorNames={productDetails.flavor_names} displayType="flavors" />
-            )}
-          </div>
-        )}
+        <div className="mt-2 flex flex-wrap gap-2.5">
+          {/* Barista status */}
+          {productDetails.is_barista && (
+            <ProductPropertyBadges isBarista={productDetails.is_barista} displayType="barista" />
+          )}
+          
+          {/* Properties badges */}
+          {productDetails.property_names && productDetails.property_names.length > 0 && (
+            <ProductPropertyBadges propertyNames={productDetails.property_names} displayType="properties" />
+          )}
+          
+          {/* Flavor badges */}
+          {productDetails.flavor_names && productDetails.flavor_names.length > 0 && (
+            <ProductPropertyBadges flavorNames={productDetails.flavor_names} displayType="flavors" />
+          )}
+        </div>
       </div>
     </div>
   );
