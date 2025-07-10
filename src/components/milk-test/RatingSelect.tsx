@@ -4,6 +4,7 @@ import * as SliderPrimitive from "@radix-ui/react-slider";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { getScoreBadgeVariant } from "@/lib/scoreUtils";
+import { formatScore } from "@/lib/scoreFormatter";
 
 interface RatingSelectProps {
   rating: number;
@@ -37,7 +38,7 @@ export const RatingSelect = ({ rating, setRating }: RatingSelectProps) => {
           </SliderPrimitive.Thumb>
         </SliderPrimitive.Root>
         <Badge variant={getScoreBadgeVariant(rating)}>
-          {rating % 1 === 0 ? rating.toString() : rating.toFixed(1)}
+          {formatScore(rating)}
         </Badge>
       </div>
     </div>
