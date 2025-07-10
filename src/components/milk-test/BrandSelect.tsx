@@ -78,6 +78,7 @@ export const BrandSelect = forwardRef<HTMLInputElement, BrandSelectProps>(({
         onBlur={() => setTimeout(() => setIsDropdownVisible(false), 200)}
         className="w-full pr-10"
         disabled={isLoading}
+        tabIndex={0}
       />
       <BrandSuggestions
         suggestions={suggestions}
