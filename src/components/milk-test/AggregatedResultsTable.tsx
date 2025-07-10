@@ -190,7 +190,7 @@ export const AggregatedResultsTable = ({
               onClick={() => onProductClick(result.product_id)}
             >
               <div className="flex items-center justify-between">
-                <div className="flex flex-col gap-1 flex-1">
+                <div className="flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-3">
                   <div>
                     <div className="text-xs text-gray-500">Brand</div>
                     <h2 className="text-xl font-bold text-gray-900">{result.brand_name || "Unknown Brand"}</h2>
@@ -198,7 +198,7 @@ export const AggregatedResultsTable = ({
                   <div>
                     <div className="text-xs text-gray-500">Product</div>
                     <div className="flex items-center">
-                      <h3 className="text-xl">{result.product_name || "Unknown Product"}</h3>
+                      <h3 className="" style={{fontSize: '20px'}}>{result.product_name || "Unknown Product"}</h3>
                       {(result.is_barista || (result.property_names && result.property_names.length > 0) || (result.flavor_names && result.flavor_names.length > 0)) && (
                         <div className="flex flex-wrap gap-1 ml-2">
                           {result.is_barista && (
@@ -229,24 +229,19 @@ export const AggregatedResultsTable = ({
                   </div>
                 </div>
                 
-                <div className="flex items-start gap-4 ml-4">
-                  <div className="flex flex-col items-center gap-1">
-                    <div className="text-xs text-gray-500">Score</div>
-                    <div className="w-12 h-8 rounded border-2 border-red-500 flex items-center justify-center bg-white">
-                      <span className="text-sm font-bold text-gray-900">
-                        {formatScore(result.avg_rating)}
-                      </span>
-                    </div>
+                <div className="flex items-center gap-6">
+                  <div className="flex flex-col items-center">
+                    <div className="text-xs text-gray-500 mb-2 font-medium">Score</div>
+                    <Badge variant={getScoreBadgeVariant(result.avg_rating)} className="px-2.5 py-1.5 text-sm font-bold min-w-[50px] justify-center">
+                      {formatScore(result.avg_rating)}
+                    </Badge>
                   </div>
-                  <div className="flex flex-col items-center gap-1">
-                    <div className="text-xs text-gray-500">Tests</div>
-                    <div className="w-12 h-8 rounded border border-gray-300 flex items-center justify-center bg-white">
-                      <span className="text-sm font-medium text-gray-700">
-                        {result.count}
-                      </span>
-                    </div>
+                  <div className="flex flex-col items-center">
+                    <div className="text-xs text-gray-500 mb-2 font-medium">Tests</div>
+                    <Badge variant="testCount" className="px-2.5 py-1.5 text-sm font-medium min-w-[40px] justify-center">
+                      {result.count}
+                    </Badge>
                   </div>
-                  <ChevronRight className="text-gray-400 mt-6" size={20} />
                 </div>
               </div>
             </div>
