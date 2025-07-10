@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Filter, X } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import { useIsMobile } from "@/hooks/use-mobile";
 interface FilterOptions {
   barista: boolean;
   properties: string[];
@@ -19,6 +20,7 @@ export const ResultsFilter = ({
   onFiltersChange
 }: ResultsFilterProps) => {
   const [isOpen, setIsOpen] = useState(false);
+  const isMobile = useIsMobile();
   const {
     data: properties = []
   } = useQuery({
@@ -85,7 +87,7 @@ export const ResultsFilter = ({
             )}
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="w-80 p-4" align="center">
+        <PopoverContent className="w-80 p-4" align={isMobile ? "center" : "end"}>
           <div className="space-y-4">
             <div className="flex items-center justify-between">
               <h3 className="font-medium">Show Me Only...</h3>
