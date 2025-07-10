@@ -26,7 +26,7 @@ export const ResultCard = ({
       <div className="space-y-2">
         {/* Brand - Product with inline badges */}
         <div className="flex items-center gap-2 flex-wrap">
-          <h2 className="text-base font-semibold text-gray-900">
+          <h2 className="text-sm font-semibold text-gray-900">
             {result.brand_name || "Unknown Brand"} - {result.product_name || "Unknown Product"}
           </h2>
           {(result.is_barista || (result.property_names && result.property_names.length > 0) || (result.flavor_names && result.flavor_names.length > 0)) && (
