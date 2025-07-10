@@ -49,6 +49,7 @@ export const SearchIcon = ({ searchTerm, setSearchTerm, placeholder = "Search...
         align={isMobile ? "center" : "center"}
         side={isMobile ? "bottom" : "bottom"}
         sideOffset={isMobile ? 8 : 8}
+        style={isMobile ? { left: '50%', transform: 'translateX(-50%)' } : undefined}
       >
         <div className="space-y-3">
           <div className="flex items-center justify-between">
