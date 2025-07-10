@@ -68,7 +68,9 @@ export const ProductPropertyBadges: React.FC<ProductPropertyBadgesProps> = ({
   const shouldRenderProperties = displayType === 'all' || displayType === 'properties';
   const shouldRenderFlavors = displayType === 'all' || displayType === 'flavors';
 
-  const handleBaristaClick = () => {
+  const handleBaristaClick = (e: React.MouseEvent) => {
+    e.stopPropagation(); // Prevent row click
+    console.log('Barista badge clicked, current filter:', filters?.barista);
     if (filters && onFiltersChange) {
       onFiltersChange({
         ...filters,
@@ -77,7 +79,9 @@ export const ProductPropertyBadges: React.FC<ProductPropertyBadgesProps> = ({
     }
   };
 
-  const handlePropertyClick = (propertyKey: string) => {
+  const handlePropertyClick = (propertyKey: string) => (e: React.MouseEvent) => {
+    e.stopPropagation(); // Prevent row click
+    console.log('Property badge clicked:', propertyKey, 'current filters:', filters?.properties);
     if (filters && onFiltersChange) {
       const newProperties = filters.properties.includes(propertyKey)
         ? filters.properties.filter(p => p !== propertyKey)
@@ -90,7 +94,9 @@ export const ProductPropertyBadges: React.FC<ProductPropertyBadgesProps> = ({
     }
   };
 
-  const handleFlavorClick = (flavorKey: string) => {
+  const handleFlavorClick = (flavorKey: string) => (e: React.MouseEvent) => {
+    e.stopPropagation(); // Prevent row click
+    console.log('Flavor badge clicked:', flavorKey, 'current filters:', filters?.flavors);
     if (filters && onFiltersChange) {
       const newFlavors = filters.flavors.includes(flavorKey)
         ? filters.flavors.filter(f => f !== flavorKey)
@@ -123,7 +129,7 @@ export const ProductPropertyBadges: React.FC<ProductPropertyBadgesProps> = ({
           key={`property-${index}`} 
           variant="category"
           className={`${filters && onFiltersChange ? 'cursor-pointer hover:shadow-md transition-shadow' : ''}`}
-          onClick={filters && onFiltersChange ? () => handlePropertyClick(property) : undefined}
+          onClick={filters && onFiltersChange ? handlePropertyClick(property) : undefined}
         >
           {formatDisplayName(property)}
         </Badge>
@@ -135,7 +141,7 @@ export const ProductPropertyBadges: React.FC<ProductPropertyBadgesProps> = ({
           key={`flavor-${index}`} 
           variant="flavor"
           className={`${filters && onFiltersChange ? 'cursor-pointer hover:shadow-md transition-shadow' : ''}`}
-          onClick={filters && onFiltersChange ? () => handleFlavorClick(flavor) : undefined}
+          onClick={filters && onFiltersChange ? handleFlavorClick(flavor) : undefined}
         >
           {formatDisplayName(flavor)}
         </Badge>
