@@ -96,8 +96,8 @@ export const MyResultsGrid = ({
                 {/* Brand & Product */}
                 <div>
                   <div className="mb-1">
-                    <h3 className="font-medium text-sm truncate">{result.brand_name}</h3>
-                    <p className="text-gray-700 truncate" style={{fontSize: '14px'}}>{result.product_name}</p>
+                    <h3 className="font-medium text-sm line-clamp-2 leading-tight">{result.brand_name}</h3>
+                    <p className="text-gray-700 line-clamp-2 leading-tight" style={{fontSize: '14px'}}>{result.product_name}</p>
                   </div>
                   
                    {/* Badges Row */}
