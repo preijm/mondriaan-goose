@@ -103,57 +103,53 @@ export const EditMilkTestForm = ({
       </div>
 
       {/* Action Buttons */}
-      <div className="space-y-4">
-        <div className="flex justify-end space-x-2">
-          <Button
-            type="button"
-            variant="outline"
-            onClick={onCancel}
-            disabled={formState.isSubmitting}
-            className="px-4 py-2"
-          >
-            Cancel
-          </Button>
-          <Button 
-            type="submit" 
-            variant="brand"
-            disabled={formState.isSubmitting}
-            className="px-4 py-2"
-          >
-            {formState.isSubmitting ? "Updating..." : "Update"}
-          </Button>
-        </div>
+      <div className="flex justify-end space-x-2 pt-2">
+        <Button
+          type="button"
+          variant="outline"
+          onClick={onCancel}
+          disabled={formState.isSubmitting}
+          className="px-4 py-2"
+        >
+          Cancel
+        </Button>
+        <Button 
+          type="submit" 
+          variant="brand"
+          disabled={formState.isSubmitting}
+          className="px-4 py-2"
+        >
+          {formState.isSubmitting ? "Updating..." : "Update"}
+        </Button>
         
         {/* Delete Button with Confirmation */}
-        <div className="flex justify-center">
-          <AlertDialog>
-            <AlertDialogTrigger asChild>
-              <Button
-                type="button"
-                variant="destructive"
-                disabled={formState.isSubmitting}
-                className="px-4 py-2"
-              >
-                <Trash2 className="mr-2 h-4 w-4" />
-                Delete Record
-              </Button>
-            </AlertDialogTrigger>
-            <AlertDialogContent>
-              <AlertDialogHeader>
-                <AlertDialogTitle>Delete Test Record</AlertDialogTitle>
-                <AlertDialogDescription>
-                  Are you sure you want to delete this milk test record? This action cannot be undone.
-                </AlertDialogDescription>
-              </AlertDialogHeader>
-              <AlertDialogFooter>
-                <AlertDialogCancel>Cancel</AlertDialogCancel>
-                <AlertDialogAction onClick={onDelete} className="bg-red-600 hover:bg-red-700">
-                  Delete
-                </AlertDialogAction>
-              </AlertDialogFooter>
-            </AlertDialogContent>
-          </AlertDialog>
-        </div>
+        <AlertDialog>
+          <AlertDialogTrigger asChild>
+            <Button
+              type="button"
+              variant="destructive"
+              disabled={formState.isSubmitting}
+              className="px-4 py-2"
+            >
+              <Trash2 className="mr-2 h-4 w-4" />
+              Delete
+            </Button>
+          </AlertDialogTrigger>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>Delete Test Record</AlertDialogTitle>
+              <AlertDialogDescription>
+                Are you sure you want to delete this milk test record? This action cannot be undone.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>Cancel</AlertDialogCancel>
+              <AlertDialogAction onClick={onDelete} className="bg-red-600 hover:bg-red-700">
+                Delete
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
       </div>
     </form>
   );
