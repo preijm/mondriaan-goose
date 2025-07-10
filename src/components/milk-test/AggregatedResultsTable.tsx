@@ -198,7 +198,7 @@ export const AggregatedResultsTable = ({
                   <div>
                     <div className="text-xs text-gray-500">Product</div>
                     <div className="flex items-center">
-                      <h3 className="text-lg">{result.product_name || "Unknown Product"}</h3>
+                      <h3 className="text-xl">{result.product_name || "Unknown Product"}</h3>
                       {(result.is_barista || (result.property_names && result.property_names.length > 0) || (result.flavor_names && result.flavor_names.length > 0)) && (
                         <div className="flex flex-wrap gap-1 ml-2">
                           {result.is_barista && (
@@ -229,24 +229,24 @@ export const AggregatedResultsTable = ({
                   </div>
                 </div>
                 
-                <div className="flex flex-col items-center gap-2 ml-4">
-                  <div className="text-center">
+                <div className="flex items-start gap-4 ml-4">
+                  <div className="flex flex-col items-center gap-1">
                     <div className="text-xs text-gray-500">Score</div>
-                    <div className="w-16 h-16 rounded-full border-2 border-red-500 flex items-center justify-center bg-white">
-                      <span className="text-lg font-bold text-gray-900">
+                    <div className="w-12 h-8 rounded border-2 border-red-500 flex items-center justify-center bg-white">
+                      <span className="text-sm font-bold text-gray-900">
                         {formatScore(result.avg_rating)}
                       </span>
                     </div>
                   </div>
-                  <div className="text-center">
+                  <div className="flex flex-col items-center gap-1">
                     <div className="text-xs text-gray-500">Tests</div>
-                    <div className="w-16 h-8 rounded-full border border-gray-300 flex items-center justify-center bg-white">
+                    <div className="w-12 h-8 rounded border border-gray-300 flex items-center justify-center bg-white">
                       <span className="text-sm font-medium text-gray-700">
                         {result.count}
                       </span>
                     </div>
                   </div>
-                  <ChevronRight className="text-gray-400 mt-1" size={20} />
+                  <ChevronRight className="text-gray-400 mt-6" size={20} />
                 </div>
               </div>
             </div>
