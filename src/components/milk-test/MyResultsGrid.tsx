@@ -2,14 +2,13 @@ import React from "react";
 import { MilkTestResult } from "@/types/milk-test";
 import { Card, CardContent } from "@/components/ui/card";
 import { supabase } from "@/integrations/supabase/client";
-import { Calendar, Edit2, Trash2, MoreVertical } from "lucide-react";
+import { Calendar, Edit2, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ProductPropertyBadges } from "@/components/milk-test/ProductPropertyBadges";
 import { Badge } from "@/components/ui/badge";
 import { getScoreBadgeVariant } from "@/lib/scoreUtils";
 import { formatScore } from "@/lib/scoreFormatter";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 interface MyResultsGridProps {
@@ -47,7 +46,11 @@ export const MyResultsGrid = ({
           (result.flavor_names && result.flavor_names.length > 0);
 
         return (
-          <Card key={result.id} className="overflow-hidden hover:shadow-md transition-shadow relative group">
+          <Card 
+            key={result.id} 
+            className={`overflow-hidden hover:shadow-md transition-shadow relative group ${isMobile ? 'cursor-pointer' : ''}`}
+            onClick={isMobile ? () => onEdit(result) : undefined}
+          >
             <div className="relative">
               <div className="bg-gray-100 aspect-square">
                 {imageUrl ? (
@@ -106,26 +109,8 @@ export const MyResultsGrid = ({
                       <ProductPropertyBadges propertyNames={result.property_names} flavorNames={result.flavor_names} compact={true} />
                     </div>
                     
-                    {/* Actions */}
-                    {isMobile ? (
-                      <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                          <Button variant="ghost" size="sm" className="h-6 w-6 p-0">
-                            <MoreVertical className="h-3 w-3" />
-                          </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end">
-                          <DropdownMenuItem onClick={() => onEdit(result)}>
-                            <Edit2 className="mr-2 h-4 w-4" />
-                            Edit
-                          </DropdownMenuItem>
-                          <DropdownMenuItem onClick={() => onDelete(result.id)} className="text-red-600">
-                            <Trash2 className="mr-2 h-4 w-4" />
-                            Delete
-                          </DropdownMenuItem>
-                        </DropdownMenuContent>
-                      </DropdownMenu>
-                    ) : (
+                    {/* Actions - Only show on desktop hover */}
+                    {!isMobile && (
                       <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                         <Button variant="ghost" size="sm" className="h-6 w-6 p-0" onClick={() => onEdit(result)}>
                           <Edit2 className="h-3 w-3" />
