@@ -85,6 +85,8 @@ export const ResultsContainer = ({
           sortConfig={sortConfig}
           handleSort={handleSort}
           onProductClick={onProductClick}
+          filters={filters}
+          onFiltersChange={onFiltersChange}
         />
       </CardContent>
     </Card>

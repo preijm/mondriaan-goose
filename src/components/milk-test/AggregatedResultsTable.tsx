@@ -32,18 +32,28 @@ type AggregatedResult = {
   count: number;
 };
 
+interface FilterOptions {
+  barista: boolean;
+  properties: string[];
+  flavors: string[];
+}
+
 interface AggregatedResultsTableProps {
   results: AggregatedResult[];
   sortConfig: SortConfig;
   handleSort: (column: string) => void;
   onProductClick: (productId: string) => void;
+  filters?: FilterOptions;
+  onFiltersChange?: (filters: FilterOptions) => void;
 }
 
 export const AggregatedResultsTable = ({
   results,
   sortConfig,
   handleSort,
-  onProductClick
+  onProductClick,
+  filters,
+  onFiltersChange
 }: AggregatedResultsTableProps) => {
   const getRatingColorClass = (rating: number) => {
     if (rating >= 8.5) return "bg-green-500 text-white";
@@ -133,6 +143,8 @@ export const AggregatedResultsTable = ({
                                flavorNames={result.flavor_names}
                                compact={true}
                                displayType="all"
+                               filters={filters}
+                               onFiltersChange={onFiltersChange}
                              />
                           )}
                         </div>
@@ -193,6 +205,8 @@ export const AggregatedResultsTable = ({
                            compact={true}
                            displayType="all"
                            inline={true}
+                           filters={filters}
+                           onFiltersChange={onFiltersChange}
                          />
                        )}
                     </div>

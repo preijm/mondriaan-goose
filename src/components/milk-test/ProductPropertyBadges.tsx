@@ -27,6 +27,12 @@ const formatDisplayName = (key: string): string => {
     .join(' ');
 };
 
+interface FilterOptions {
+  barista: boolean;
+  properties: string[];
+  flavors: string[];
+}
+
 interface ProductPropertyBadgesProps {
   propertyNames?: string[] | null;
   isBarista?: boolean;
@@ -35,6 +41,8 @@ interface ProductPropertyBadgesProps {
   compact?: boolean;
   displayType?: 'all' | 'barista' | 'properties' | 'flavors';
   inline?: boolean; // Prop to enable inline display
+  filters?: FilterOptions;
+  onFiltersChange?: (filters: FilterOptions) => void;
 }
 
 export const ProductPropertyBadges: React.FC<ProductPropertyBadgesProps> = ({ 
@@ -44,7 +52,9 @@ export const ProductPropertyBadges: React.FC<ProductPropertyBadgesProps> = ({
   className = "",
   compact = false,
   displayType = 'all',
-  inline = false // Default to false for backward compatibility
+  inline = false, // Default to false for backward compatibility
+  filters,
+  onFiltersChange
 }) => {
   // Safety check
   if (!propertyNames && !isBarista && !flavorNames) {
@@ -58,12 +68,51 @@ export const ProductPropertyBadges: React.FC<ProductPropertyBadgesProps> = ({
   const shouldRenderProperties = displayType === 'all' || displayType === 'properties';
   const shouldRenderFlavors = displayType === 'all' || displayType === 'flavors';
 
+  const handleBaristaClick = () => {
+    if (filters && onFiltersChange) {
+      onFiltersChange({
+        ...filters,
+        barista: !filters.barista
+      });
+    }
+  };
+
+  const handlePropertyClick = (propertyKey: string) => {
+    if (filters && onFiltersChange) {
+      const newProperties = filters.properties.includes(propertyKey)
+        ? filters.properties.filter(p => p !== propertyKey)
+        : [...filters.properties, propertyKey];
+      
+      onFiltersChange({
+        ...filters,
+        properties: newProperties
+      });
+    }
+  };
+
+  const handleFlavorClick = (flavorKey: string) => {
+    if (filters && onFiltersChange) {
+      const newFlavors = filters.flavors.includes(flavorKey)
+        ? filters.flavors.filter(f => f !== flavorKey)
+        : [...filters.flavors, flavorKey];
+      
+      onFiltersChange({
+        ...filters,
+        flavors: newFlavors
+      });
+    }
+  };
+
   // Updated to ensure consistent spacing with a fixed gap value
   return (
     <div className={`flex flex-wrap gap-2 ${inline ? "inline-flex" : ""} ${compact ? "inline-flex" : ""} ${className}`}>
       {/* Barista badge with priority styling */}
       {shouldRenderBarista && isBarista && (
-        <Badge variant="barista">
+        <Badge 
+          variant="barista"
+          className={`${filters && onFiltersChange ? 'cursor-pointer hover:shadow-md transition-shadow' : ''}`}
+          onClick={filters && onFiltersChange ? handleBaristaClick : undefined}
+        >
           Barista
         </Badge>
       )}
@@ -73,6 +122,8 @@ export const ProductPropertyBadges: React.FC<ProductPropertyBadgesProps> = ({
         <Badge 
           key={`property-${index}`} 
           variant="category"
+          className={`${filters && onFiltersChange ? 'cursor-pointer hover:shadow-md transition-shadow' : ''}`}
+          onClick={filters && onFiltersChange ? () => handlePropertyClick(property) : undefined}
         >
           {formatDisplayName(property)}
         </Badge>
@@ -83,6 +134,8 @@ export const ProductPropertyBadges: React.FC<ProductPropertyBadgesProps> = ({
         <Badge 
           key={`flavor-${index}`} 
           variant="flavor"
+          className={`${filters && onFiltersChange ? 'cursor-pointer hover:shadow-md transition-shadow' : ''}`}
+          onClick={filters && onFiltersChange ? () => handleFlavorClick(flavor) : undefined}
         >
           {formatDisplayName(flavor)}
         </Badge>
