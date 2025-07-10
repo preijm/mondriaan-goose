@@ -99,7 +99,7 @@ export const ResultsFilter = ({
             {/* Barista Filter */}
             <div>
               <h4 className="text-sm font-medium mb-2">Type</h4>
-              <Badge variant="barista" className={`cursor-pointer transition-all ${filters.barista ? 'bg-amber-600 text-white border-amber-600' : 'hover:bg-amber-50'}`} onClick={handleBaristaToggle}>
+              <Badge variant="barista" className={`cursor-pointer transition-all ${filters.barista ? 'bg-amber-600 text-white border-amber-600 shadow-md' : 'hover:bg-amber-50'}`} onClick={handleBaristaToggle}>
                 Barista
               </Badge>
             </div>
@@ -108,7 +108,7 @@ export const ResultsFilter = ({
             {properties.length > 0 && <div>
                 <h4 className="text-sm font-medium mb-2">Properties</h4>
                 <div className="flex flex-wrap gap-2">
-                  {properties.map(property => <Badge key={property.id} variant="category" className={`cursor-pointer transition-all ${filters.properties.includes(property.key) ? 'bg-slate-600 text-white border-slate-600' : 'hover:bg-slate-50'}`} onClick={() => handlePropertyToggle(property.key)}>
+                  {properties.map(property => <Badge key={property.id} variant="category" className={`cursor-pointer transition-all ${filters.properties.includes(property.key) ? 'bg-slate-600 text-white border-slate-600 shadow-md' : 'hover:bg-slate-50'}`} onClick={() => handlePropertyToggle(property.key)}>
                       {property.name}
                     </Badge>)}
                 </div>
@@ -118,7 +118,7 @@ export const ResultsFilter = ({
             {flavors.length > 0 && <div>
                 <h4 className="text-sm font-medium mb-2">Flavors</h4>
                 <div className="flex flex-wrap gap-2">
-                  {flavors.map(flavor => <Badge key={flavor.id} variant="flavor" className={`cursor-pointer transition-all ${filters.flavors.includes(flavor.key) ? 'bg-purple-600 text-white border-purple-600' : 'hover:bg-purple-50'}`} onClick={() => handleFlavorToggle(flavor.key)}>
+                  {flavors.map(flavor => <Badge key={flavor.id} variant="flavor" className={`cursor-pointer transition-all ${filters.flavors.includes(flavor.key) ? 'bg-purple-600 text-white border-purple-600 shadow-md' : 'hover:bg-purple-50'}`} onClick={() => handleFlavorToggle(flavor.key)}>
                       {flavor.name}
                     </Badge>)}
                 </div>
