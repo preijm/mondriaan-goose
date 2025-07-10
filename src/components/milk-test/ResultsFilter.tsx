@@ -82,18 +82,16 @@ export const ResultsFilter = ({
           <Button variant="outline" className="flex items-center gap-2 bg-white/80 backdrop-blur-sm border border-white/20 shadow-lg h-10">
             <Filter className="h-4 w-4" />
             <span>Filter</span>
-            {hasActiveFilters && (
-              <div className="absolute -top-1 -right-1 w-2 h-2 rounded-full" style={{ backgroundColor: '#2144ff' }} />
-            )}
+            {hasActiveFilters && <div className="absolute -top-1 -right-1 w-2 h-2 rounded-full" style={{
+            backgroundColor: '#2144ff'
+          }} />}
           </Button>
         </PopoverTrigger>
         <PopoverContent className="w-80 p-4" align={isMobile ? "center" : "end"}>
           <div className="space-y-4">
             <div className="flex items-center justify-between">
               <h3 className="font-medium">Show Me Only...</h3>
-              {hasActiveFilters && <Button variant="ghost" size="sm" onClick={clearAllFilters} className="text-xs">
-                  Clear All
-                </Button>}
+              {hasActiveFilters && <Button variant="ghost" size="sm" onClick={clearAllFilters} className="text-xs">Clear</Button>}
             </div>
 
             {/* Barista Filter */}
