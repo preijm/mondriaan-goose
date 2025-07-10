@@ -19,6 +19,7 @@ interface ResultsContainerProps {
   filteredResults: AggregatedResult[];
   sortConfig: SortConfig;
   handleSort: (column: string) => void;
+  onClearSort?: () => void;
   onProductClick: (productId: string) => void;
   searchTerm: string;
   setSearchTerm: (term: string) => void;
@@ -30,6 +31,7 @@ export const ResultsContainer = ({
   filteredResults,
   sortConfig,
   handleSort,
+  onClearSort,
   onProductClick,
   searchTerm,
   setSearchTerm,
@@ -56,6 +58,7 @@ export const ResultsContainer = ({
               <SortButton 
                 sortConfig={sortConfig}
                 onSort={handleSort}
+                onClearSort={onClearSort}
               />
             </div>
           ) : (

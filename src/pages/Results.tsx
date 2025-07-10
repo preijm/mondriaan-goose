@@ -38,6 +38,10 @@ const Results = () => {
     }));
   };
 
+  const handleClearSort = () => {
+    setSortConfig({ column: 'created_at', direction: 'desc' });
+  };
+
   const navigateToProduct = (productId: string) => {
     navigate(`/product/${productId}`);
   };
@@ -135,6 +139,7 @@ const Results = () => {
               filteredResults={filteredResults}
               sortConfig={sortConfig}
               handleSort={handleSort}
+              onClearSort={handleClearSort}
               onProductClick={navigateToProduct}
               searchTerm={searchTerm}
               setSearchTerm={setSearchTerm}

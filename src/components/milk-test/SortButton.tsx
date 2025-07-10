@@ -7,9 +7,10 @@ import { SortConfig } from "@/hooks/useAggregatedResults";
 interface SortButtonProps {
   sortConfig: SortConfig;
   onSort: (column: string) => void;
+  onClearSort?: () => void;
 }
 
-export const SortButton = ({ sortConfig, onSort }: SortButtonProps) => {
+export const SortButton = ({ sortConfig, onSort, onClearSort }: SortButtonProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const sortOptions = [
@@ -44,7 +45,22 @@ export const SortButton = ({ sortConfig, onSort }: SortButtonProps) => {
       </PopoverTrigger>
       <PopoverContent className="w-64 p-4" align="end">
         <div className="space-y-2">
-          <h3 className="font-medium mb-3">Sort by</h3>
+          <div className="flex items-center justify-between mb-3">
+            <h3 className="font-medium">Sort by</h3>
+            {currentSort && onClearSort && (
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => {
+                  onClearSort();
+                  setIsOpen(false);
+                }}
+                className="text-xs"
+              >
+                Clear
+              </Button>
+            )}
+          </div>
           {sortOptions.map((option) => (
             <button
               key={option.key}
