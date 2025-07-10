@@ -79,7 +79,7 @@ export const ResultsFilter = ({
   return <div className="flex items-center gap-2">
       <Popover open={isOpen} onOpenChange={setIsOpen}>
         <PopoverTrigger asChild>
-          <Button variant="outline" className="flex items-center gap-2 bg-white/80 backdrop-blur-sm border border-white/20 shadow-lg h-10">
+          <Button variant="outline" className="flex items-center gap-2 bg-white/80 backdrop-blur-sm border border-white/20 shadow-lg h-10 w-full justify-center">
             <Filter className="h-4 w-4" />
             <span>Filter</span>
             {hasActiveFilters && <div className="absolute -top-1 -right-1 w-2 h-2 rounded-full" style={{
