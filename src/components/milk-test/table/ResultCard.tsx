@@ -53,7 +53,7 @@ export const ResultCard = ({
           </div>
           <div className="flex items-center gap-1">
             <span className="text-gray-500">Tests:</span>
-            <Badge variant="testCount" className="px-2 py-0.5 text-xs font-medium">
+            <Badge variant="testCount" className="px-1.5 py-1 sm:px-2 sm:py-0.5 text-xs font-medium min-w-[2rem] flex items-center justify-center">
               {result.count}
             </Badge>
           </div>
