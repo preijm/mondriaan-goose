@@ -40,7 +40,7 @@ export const ImageModal = ({ imageUrl, isOpen, onClose }: ImageModalProps) => {
                   svg.setAttribute('stroke-width', '2');
                   svg.setAttribute('stroke-linecap', 'round');
                   svg.setAttribute('stroke-linejoin', 'round');
-                  svg.className = 'w-10 h-10 text-gray-400';
+                  svg.setAttribute('class', 'w-10 h-10 text-gray-400');
                   
                   const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
                   rect.setAttribute('width', '18');
