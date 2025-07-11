@@ -108,7 +108,7 @@ export const ResultsFilter = ({
           </Button>
         </PopoverTrigger>
         <PopoverContent 
-          className={`${isMobile ? 'w-[calc(100vw-3rem)]' : 'w-80'} p-4`} 
+          className={`${isMobile ? 'w-60' : 'w-64'} p-4`} 
           align={isMobile ? "center" : "end"}
         >
           <div className="space-y-4">
