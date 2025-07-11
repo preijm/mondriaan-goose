@@ -1,5 +1,5 @@
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
@@ -15,7 +15,24 @@ interface SearchIconProps {
 export const SearchIcon = ({ searchTerm, setSearchTerm, placeholder = "Search..." }: SearchIconProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [localSearchTerm, setLocalSearchTerm] = useState(searchTerm);
+  const [currentPlaceholder, setCurrentPlaceholder] = useState(0);
   const isMobile = useIsMobile();
+
+  const placeholders = [
+    "Search brands...",
+    "Search products...", 
+    "Find by properties...",
+    "Search flavors...",
+    "Search anything..."
+  ];
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentPlaceholder((prev) => (prev + 1) % placeholders.length);
+    }, 2000);
+
+    return () => clearInterval(interval);
+  }, [placeholders.length]);
 
   const handleClearSearch = () => {
     setLocalSearchTerm("");
@@ -69,10 +86,10 @@ export const SearchIcon = ({ searchTerm, setSearchTerm, placeholder = "Search...
               <Input
                 value={localSearchTerm}
                 onChange={(e) => setLocalSearchTerm(e.target.value)}
-                placeholder={placeholder}
+                placeholder={placeholders[currentPlaceholder]}
                 onKeyDown={handleKeyDown}
                 autoFocus
-                className="pr-10"
+                className="pr-10 transition-all duration-300"
               />
               <button
                 onClick={() => {
