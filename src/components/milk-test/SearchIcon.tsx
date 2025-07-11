@@ -15,24 +15,7 @@ interface SearchIconProps {
 export const SearchIcon = ({ searchTerm, setSearchTerm, placeholder = "Search..." }: SearchIconProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [localSearchTerm, setLocalSearchTerm] = useState(searchTerm);
-  const [currentPlaceholder, setCurrentPlaceholder] = useState(0);
   const isMobile = useIsMobile();
-
-  const placeholders = [
-    "Search brands...",
-    "Search products...", 
-    "Find by properties...",
-    "Search flavors...",
-    "Search anything..."
-  ];
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentPlaceholder((prev) => (prev + 1) % placeholders.length);
-    }, 2000);
-
-    return () => clearInterval(interval);
-  }, [placeholders.length]);
 
   const handleClearSearch = () => {
     setLocalSearchTerm("");
@@ -83,13 +66,20 @@ export const SearchIcon = ({ searchTerm, setSearchTerm, placeholder = "Search...
           </div>
           <div className="space-y-3">
             <div className="relative">
+              {!localSearchTerm && (
+                <div className="absolute left-3 top-1/2 transform -translate-y-1/2 pointer-events-none text-muted-foreground overflow-hidden whitespace-nowrap z-10">
+                  <div className="animate-[scroll_8s_linear_infinite]">
+                    {placeholder}
+                  </div>
+                </div>
+              )}
               <Input
                 value={localSearchTerm}
                 onChange={(e) => setLocalSearchTerm(e.target.value)}
-                placeholder={placeholders[currentPlaceholder]}
+                placeholder=""
                 onKeyDown={handleKeyDown}
                 autoFocus
-                className="pr-10 transition-all duration-300"
+                className="pr-10"
               />
               <button
                 onClick={() => {
