@@ -15,15 +15,15 @@ const MenuBar = () => {
           </Link>
           
           <div className="flex items-center gap-4">
-            {/* Desktop Menu */}
-            <div className="hidden md:flex items-center gap-6">
-              <Link to="/results" className={`transition-colors ${location.pathname === '/results' ? 'text-[#00bf63] font-medium' : 'text-gray-700 hover:text-gray-900'}`}>
+            {/* Navigation Menu - responsive */}
+            <div className="flex items-center gap-3 md:gap-6">
+              <Link to="/results" className={`transition-colors text-sm md:text-base ${location.pathname === '/results' ? 'text-[#00bf63] font-medium' : 'text-gray-700 hover:text-gray-900'}`}>
                 Results
               </Link>
-              <Link to="/about" className={`transition-colors ${location.pathname === '/about' ? 'text-[#00bf63] font-medium' : 'text-gray-700 hover:text-gray-900'}`}>
+              <Link to="/about" className={`transition-colors text-sm md:text-base ${location.pathname === '/about' ? 'text-[#00bf63] font-medium' : 'text-gray-700 hover:text-gray-900'}`}>
                 About
               </Link>
-              <Link to="/contact" className={`transition-colors ${location.pathname === '/contact' ? 'text-[#00bf63] font-medium' : 'text-gray-700 hover:text-gray-900'}`}>
+              <Link to="/contact" className={`transition-colors text-sm md:text-base ${location.pathname === '/contact' ? 'text-[#00bf63] font-medium' : 'text-gray-700 hover:text-gray-900'}`}>
                 Contact
               </Link>
             </div>
