@@ -69,7 +69,7 @@ export const SearchIcon = ({ searchTerm, setSearchTerm, placeholder = "Search...
               <Input
                 value={localSearchTerm}
                 onChange={(e) => setLocalSearchTerm(e.target.value)}
-                placeholder="Search anything"
+                placeholder=""
                 onKeyDown={handleKeyDown}
                 autoFocus
                 className="pr-10"
