@@ -1,5 +1,6 @@
 import React from "react";
 import MenuBar from "@/components/MenuBar";
+import MobileFooter from "@/components/MobileFooter";
 import { Phone, Mail, MessageSquare } from "lucide-react";
 import BackgroundPatternWithOverlay from "@/components/BackgroundPatternWithOverlay";
 const Contact = () => {
@@ -48,6 +49,8 @@ const Contact = () => {
           </div>
         </div>
       </BackgroundPatternWithOverlay>
+      
+      <MobileFooter />
     </div>;
 };
 export default Contact;

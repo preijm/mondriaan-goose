@@ -1,5 +1,6 @@
 import React from "react";
 import MenuBar from "@/components/MenuBar";
+import MobileFooter from "@/components/MobileFooter";
 import { Smile, Rocket, Heart } from "lucide-react";
 import BackgroundPatternWithOverlay from "@/components/BackgroundPatternWithOverlay";
 const About = () => {
@@ -54,6 +55,8 @@ const About = () => {
           </div>
         </div>
       </BackgroundPatternWithOverlay>
+      
+      <MobileFooter />
     </div>;
 };
 export default About;

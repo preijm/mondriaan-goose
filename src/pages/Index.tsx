@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { AddMilkTest } from "@/components/AddMilkTest";
 import MenuBar from "@/components/MenuBar";
+import MobileFooter from "@/components/MobileFooter";
 import BackgroundPattern from "@/components/BackgroundPattern";
 
 // Note: This page is now protected by ProtectedRoute in App.tsx
@@ -14,6 +15,8 @@ const Index = () => {
           <AddMilkTest />
         </div>
       </BackgroundPattern>
+      
+      <MobileFooter />
     </div>
   );
 };

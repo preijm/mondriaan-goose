@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import MenuBar from "@/components/MenuBar";
 import BackgroundPattern from "@/components/BackgroundPattern";
+import MobileFooter from "@/components/MobileFooter";
 import { ResultsContainer } from "@/components/milk-test/ResultsContainer";
 import { MilkCharts } from "@/components/MilkCharts";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -176,6 +177,8 @@ const Results = () => {
           )}
         </div>
       </BackgroundPattern>
+      
+      <MobileFooter />
     </div>
   );
 };

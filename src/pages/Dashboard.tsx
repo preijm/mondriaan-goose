@@ -5,6 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { MilkTestResult } from "@/types/milk-test";
 import MenuBar from "@/components/MenuBar";
+import MobileFooter from "@/components/MobileFooter";
 
 const Dashboard = () => {
   const { data: results = [], isLoading, error } = useQuery({
@@ -80,6 +81,8 @@ const Dashboard = () => {
           </div>
         </div>
       </div>
+      
+      <MobileFooter />
     </div>
   );
 };
