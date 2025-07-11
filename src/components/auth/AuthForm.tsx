@@ -5,6 +5,7 @@ import { supabase } from "@/integrations/supabase/client";
 import AuthFormInputs from "./AuthFormInputs";
 import AuthFormButtons from "./AuthFormButtons";
 import { useAuthForm } from "@/hooks/useAuthForm";
+import { sanitizeInput, validateEmail, validatePassword, validateUsername, loginRateLimit, signupRateLimit } from "@/lib/security";
 
 interface AuthFormProps {
   onForgotPassword: () => void;
@@ -22,37 +23,56 @@ const AuthForm = ({ onForgotPassword, isEmailConfirmed, onEmailConfirmedDismiss 
   const { loading, handleLogin, handleSignUp } = useAuthForm();
   const { toast } = useToast();
 
-  const validateEmail = (email: string) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const validateEmailInput = (email: string) => {
     if (!email) {
       return "Email is required";
     }
-    if (!emailRegex.test(email)) {
+    if (!validateEmail(email) || email.length > 254) {
       return "Please enter a valid email address";
     }
     return "";
   };
 
-  const validatePassword = (password: string) => {
-    if (!password) {
-      return "Password is required";
-    }
-    if (!isLogin && password.length < 6) {
-      return "Password must be at least 6 characters";
-    }
-    return "";
+  const validatePasswordInput = (password: string) => {
+    const validation = validatePassword(password, !isLogin);
+    return validation.isValid ? "" : validation.message;
+  };
+
+  const validateUsernameInput = (username: string) => {
+    if (isLogin) return ""; // No username validation for login
+    const validation = validateUsername(username);
+    return validation.isValid ? "" : validation.message;
   };
 
   const handleAuth = async (e: React.FormEvent) => {
     e.preventDefault();
     
+    // Check rate limiting
+    const rateLimitKey = `auth_${sanitizeInput(email)}`;
+    const rateLimit = isLogin ? loginRateLimit : signupRateLimit;
+    
+    if (!rateLimit.canAttempt(rateLimitKey)) {
+      const remainingTime = Math.ceil(rateLimit.getRemainingTime(rateLimitKey) / 60000);
+      toast({
+        title: "Too many attempts",
+        description: `Please wait ${remainingTime} minutes before trying again.`,
+        variant: "destructive"
+      });
+      return;
+    }
+    
     // Clear previous errors
     setEmailError("");
     setPasswordError("");
     
+    // Sanitize inputs
+    const sanitizedEmail = sanitizeInput(email).toLowerCase();
+    const sanitizedUsername = sanitizeInput(username);
+    
     // Validate inputs
-    const emailValidation = validateEmail(email);
-    const passwordValidation = validatePassword(password);
+    const emailValidation = validateEmailInput(sanitizedEmail);
+    const passwordValidation = validatePasswordInput(password);
+    const usernameValidation = validateUsernameInput(sanitizedUsername);
     
     if (emailValidation) {
       setEmailError(emailValidation);
@@ -62,22 +82,25 @@ const AuthForm = ({ onForgotPassword, isEmailConfirmed, onEmailConfirmedDismiss 
     }
     
     // Show validation errors as toast
-    if (emailValidation || passwordValidation) {
+    if (emailValidation || passwordValidation || usernameValidation) {
       toast({
         title: "Please check your input",
-        description: emailValidation || passwordValidation,
+        description: emailValidation || passwordValidation || usernameValidation,
         variant: "destructive"
       });
       return;
     }
     
+    // Record the attempt
+    rateLimit.recordAttempt(rateLimitKey);
+    
     console.log("Form submitted:", isLogin ? "login" : "signup");
     
     if (isLogin) {
-      await handleLogin(email, password);
+      await handleLogin(sanitizedEmail, password);
     } else {
-      console.log("Calling handleSignUp with:", { email, password, username });
-      await handleSignUp({ email, password, username });
+      console.log("Calling handleSignUp with:", { email: sanitizedEmail, password, username: sanitizedUsername });
+      await handleSignUp({ email: sanitizedEmail, password, username: sanitizedUsername });
     }
   };
 

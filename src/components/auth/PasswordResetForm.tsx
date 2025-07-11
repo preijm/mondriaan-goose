@@ -37,7 +37,7 @@ const PasswordResetForm = ({ isResetting, onPasswordUpdate }: PasswordResetFormP
                 value={newPassword}
                 onChange={e => setNewPassword(e.target.value)}
                 required
-                minLength={6}
+                minLength={8}
                 showPasswordToggle
                 className="bg-white/80 border-black/20 backdrop-blur-sm rounded-sm"
               />
@@ -47,7 +47,7 @@ const PasswordResetForm = ({ isResetting, onPasswordUpdate }: PasswordResetFormP
                 value={confirmPassword}
                 onChange={e => setConfirmPassword(e.target.value)}
                 required
-                minLength={6}
+                minLength={8}
                 showPasswordToggle
                 className="bg-white/80 border-black/20 backdrop-blur-sm rounded-sm"
               />

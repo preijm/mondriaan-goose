@@ -143,10 +143,38 @@ export const useAuthFlow = () => {
       return;
     }
 
-    if (newPassword.length < 6) {
+    if (newPassword.length < 8) {
       toast({
         title: "Password too short",
-        description: "Password must be at least 6 characters long",
+        description: "Password must be at least 8 characters with uppercase, lowercase, and number",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    // Enhanced password validation for reset
+    if (!/(?=.*[a-z])/.test(newPassword)) {
+      toast({
+        title: "Password requirements not met",
+        description: "Password must contain at least one lowercase letter",
+        variant: "destructive"
+      });
+      return;
+    }
+    
+    if (!/(?=.*[A-Z])/.test(newPassword)) {
+      toast({
+        title: "Password requirements not met", 
+        description: "Password must contain at least one uppercase letter",
+        variant: "destructive"
+      });
+      return;
+    }
+    
+    if (!/(?=.*\d)/.test(newPassword)) {
+      toast({
+        title: "Password requirements not met",
+        description: "Password must contain at least one number", 
         variant: "destructive"
       });
       return;

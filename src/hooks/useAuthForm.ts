@@ -141,15 +141,15 @@ export const useAuthForm = () => {
         console.error("Error message:", error.message);
         console.error("Error code:", error.status);
         
-        // Handle various duplicate email error messages
+        // Handle various duplicate email error messages - use generic message for security
         if (error.message.includes('User already registered') || 
             error.message.includes('already registered') ||
             error.message.includes('already been registered') ||
             error.message.includes('email address is already registered') ||
             error.status === 422) {
           toast({
-            title: "Email already registered",
-            description: "An account with this email already exists. Please log in instead.",
+            title: "Registration failed",
+            description: "Please check your information and try again, or use the login form if you already have an account.",
             variant: "destructive"
           });
           setLoading(false);
@@ -167,11 +167,11 @@ export const useAuthForm = () => {
           return;
         }
         
-        // Handle weak password
+        // Handle weak password - use our own validation message
         if (error.message.includes('Password should be at least')) {
           toast({
-            title: "Weak password",
-            description: error.message,
+            title: "Password requirements not met",
+            description: "Password must be at least 8 characters with uppercase, lowercase, and number.",
             variant: "destructive"
           });
           setLoading(false);

@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Lock } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import { sanitizeInput, validateEmail, passwordResetRateLimit } from "@/lib/security";
 interface ResetPasswordDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
@@ -19,7 +20,9 @@ const ResetPasswordDialog = ({
     toast
   } = useToast();
   const handleForgotPassword = async () => {
-    if (!resetEmail) {
+    const sanitizedEmail = sanitizeInput(resetEmail).toLowerCase();
+    
+    if (!sanitizedEmail) {
       toast({
         title: "Email required",
         description: "Please enter your email address",
@@ -29,8 +32,7 @@ const ResetPasswordDialog = ({
     }
 
     // Validate email format
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(resetEmail)) {
+    if (!validateEmail(sanitizedEmail)) {
       toast({
         title: "Invalid email format",
         description: "Please enter a valid email address.",
@@ -38,8 +40,23 @@ const ResetPasswordDialog = ({
       });
       return;
     }
+    
+    // Check rate limiting
+    const rateLimitKey = `reset_${sanitizedEmail}`;
+    if (!passwordResetRateLimit.canAttempt(rateLimitKey)) {
+      const remainingTime = Math.ceil(passwordResetRateLimit.getRemainingTime(rateLimitKey) / 60000);
+      toast({
+        title: "Too many attempts",
+        description: `Please wait ${remainingTime} minutes before trying again.`,
+        variant: "destructive"
+      });
+      return;
+    }
+    
+    passwordResetRateLimit.recordAttempt(rateLimitKey);
+    
     setResetInProgress(true);
-    console.log("Starting password reset for email:", resetEmail);
+    console.log("Starting password reset for email:", sanitizedEmail);
     try {
       // Use the production domain for password reset emails
       const redirectUrl = "https://milkmenot.com/auth/reset-password";
@@ -47,7 +64,7 @@ const ResetPasswordDialog = ({
       const {
         data,
         error
-      } = await supabase.auth.resetPasswordForEmail(resetEmail, {
+      } = await supabase.auth.resetPasswordForEmail(sanitizedEmail, {
         redirectTo: redirectUrl
       });
       console.log("Reset password response:", {
@@ -69,7 +86,7 @@ const ResetPasswordDialog = ({
       console.error("Password reset error:", error);
       toast({
         title: "Reset password failed",
-        description: error.message || "Please check your email address and try again.",
+        description: "Please check your email address and try again.",
         variant: "destructive"
       });
     } finally {
