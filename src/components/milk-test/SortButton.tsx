@@ -47,8 +47,8 @@ export const SortButton = ({ sortConfig, onSort, onClearSort }: SortButtonProps)
         </Button>
       </PopoverTrigger>
       <PopoverContent 
-        className={`${isMobile ? 'w-[calc(100vw-3rem)]' : 'w-64'} p-4`} 
-        align="center"
+        className={`${isMobile ? 'w-48' : 'w-48'} p-4`} 
+        align="end"
         side="bottom"
         sideOffset={8}
         alignOffset={0}
