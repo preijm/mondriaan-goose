@@ -3,13 +3,14 @@ import MenuBar from "@/components/MenuBar";
 import BackgroundPatternWithOverlay from "@/components/BackgroundPatternWithOverlay";
 import AuthForm from "@/components/auth/AuthForm";
 import ResetPasswordDialog from "@/components/auth/ResetPasswordDialog";
-
 import EmailConfirmationPending from "@/components/auth/EmailConfirmationPending";
 import PasswordResetForm from "@/components/auth/PasswordResetForm";
 import { useAuthFlow } from "@/hooks/useAuthFlow";
 
 const Auth = () => {
   const [showResetDialog, setShowResetDialog] = useState(false);
+  const [emailPending, setEmailPending] = useState<string | null>(null);
+  
   const { 
     isPasswordReset, 
     isEmailConfirmed, 
@@ -21,6 +22,9 @@ const Auth = () => {
     handlePasswordUpdate 
   } = useAuthFlow();
 
+  const shouldShowEmailPending = emailPending || isEmailPending;
+  const pendingEmail = emailPending || userEmail;
+
   return (
     <div className="min-h-screen">
       <MenuBar />
@@ -28,10 +32,13 @@ const Auth = () => {
         <div className="flex items-center justify-center min-h-screen">
           <div className="container max-w-md mx-auto px-4 relative z-10">
             <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg p-8 border border-white/20 animate-fade-up">
-              {isEmailPending ? (
+              {shouldShowEmailPending ? (
                 <EmailConfirmationPending 
-                  email={userEmail}
-                  onBackToLogin={() => setIsEmailPending(false)} 
+                  email={pendingEmail}
+                  onBackToLogin={() => {
+                    setEmailPending(null);
+                    setIsEmailPending(false);
+                  }} 
                 />
               ) : isPasswordReset ? (
                 <PasswordResetForm 
@@ -43,6 +50,7 @@ const Auth = () => {
                   onForgotPassword={() => setShowResetDialog(true)} 
                   isEmailConfirmed={isEmailConfirmed}
                   onEmailConfirmedDismiss={() => setIsEmailConfirmed(false)}
+                  onEmailPending={setEmailPending}
                 />
               )}
             </div>

@@ -1,106 +1,66 @@
 
 import React, { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
-import { supabase } from "@/integrations/supabase/client";
 import AuthFormInputs from "./AuthFormInputs";
 import AuthFormButtons from "./AuthFormButtons";
-import { useAuthForm } from "@/hooks/useAuthForm";
-import { sanitizeInput, validateEmail, validatePassword, validateUsername, loginRateLimit, signupRateLimit } from "@/lib/security";
+import { useAuthOperations } from "@/hooks/auth/useAuthOperations";
+import { sanitizeInput } from "@/lib/security";
 
 interface AuthFormProps {
   onForgotPassword: () => void;
   isEmailConfirmed?: boolean;
   onEmailConfirmedDismiss?: () => void;
+  onEmailPending?: (email: string) => void;
 }
 
-const AuthForm = ({ onForgotPassword, isEmailConfirmed, onEmailConfirmedDismiss }: AuthFormProps) => {
+const AuthForm = ({ 
+  onForgotPassword, 
+  isEmailConfirmed, 
+  onEmailConfirmedDismiss,
+  onEmailPending 
+}: AuthFormProps) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
   const [isLogin, setIsLogin] = useState(true);
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
-  const { loading, handleLogin, handleSignUp } = useAuthForm();
+  const [usernameError, setUsernameError] = useState("");
+  
+  const { loading, signIn, signUp } = useAuthOperations();
   const { toast } = useToast();
 
-  const validateEmailInput = (email: string) => {
-    if (!email) {
-      return "Email is required";
-    }
-    if (!validateEmail(email) || email.length > 254) {
-      return "Please enter a valid email address";
-    }
-    return "";
-  };
-
-  const validatePasswordInput = (password: string) => {
-    const validation = validatePassword(password, !isLogin);
-    return validation.isValid ? "" : validation.message;
-  };
-
-  const validateUsernameInput = (username: string) => {
-    if (isLogin) return ""; // No username validation for login
-    const validation = validateUsername(username);
-    return validation.isValid ? "" : validation.message;
+  const clearErrors = () => {
+    setEmailError("");
+    setPasswordError("");
+    setUsernameError("");
   };
 
   const handleAuth = async (e: React.FormEvent) => {
     e.preventDefault();
+    clearErrors();
     
-    // Check rate limiting
-    const rateLimitKey = `auth_${sanitizeInput(email)}`;
-    const rateLimit = isLogin ? loginRateLimit : signupRateLimit;
-    
-    if (!rateLimit.canAttempt(rateLimitKey)) {
-      const remainingTime = Math.ceil(rateLimit.getRemainingTime(rateLimitKey) / 60000);
-      toast({
-        title: "Too many attempts",
-        description: `Please wait ${remainingTime} minutes before trying again.`,
-        variant: "destructive"
-      });
-      return;
-    }
-    
-    // Clear previous errors
-    setEmailError("");
-    setPasswordError("");
-    
-    // Sanitize inputs
     const sanitizedEmail = sanitizeInput(email).toLowerCase();
     const sanitizedUsername = sanitizeInput(username);
     
-    // Validate inputs
-    const emailValidation = validateEmailInput(sanitizedEmail);
-    const passwordValidation = validatePasswordInput(password);
-    const usernameValidation = validateUsernameInput(sanitizedUsername);
-    
-    if (emailValidation) {
-      setEmailError(emailValidation);
-    }
-    if (passwordValidation) {
-      setPasswordError(passwordValidation);
-    }
-    
-    // Show validation errors as toast
-    if (emailValidation || passwordValidation || usernameValidation) {
-      toast({
-        title: "Please check your input",
-        description: emailValidation || passwordValidation || usernameValidation,
-        variant: "destructive"
-      });
-      return;
-    }
-    
-    // Record the attempt
-    rateLimit.recordAttempt(rateLimitKey);
-    
-    console.log("Form submitted:", isLogin ? "login" : "signup");
-    
     if (isLogin) {
-      await handleLogin(sanitizedEmail, password);
+      const result = await signIn(sanitizedEmail, password);
+      if (!result.success) {
+        setEmailError("Please check your credentials");
+      }
     } else {
-      console.log("Calling handleSignUp with:", { email: sanitizedEmail, password, username: sanitizedUsername });
-      await handleSignUp({ email: sanitizedEmail, password, username: sanitizedUsername });
+      const result = await signUp({ 
+        email: sanitizedEmail, 
+        password, 
+        username: sanitizedUsername 
+      });
+      
+      if (result.success && result.requiresEmailConfirmation && onEmailPending) {
+        onEmailPending(result.email);
+      } else if (!result.success) {
+        // Set appropriate field errors based on the failure
+        setEmailError("Please check your information");
+      }
     }
   };
 
@@ -134,35 +94,38 @@ const AuthForm = ({ onForgotPassword, isEmailConfirmed, onEmailConfirmedDismiss 
         {isLogin ? "Welcome Back" : "Join Our Community"}
       </h1>
       <form onSubmit={handleAuth} className="space-y-6">
-      <AuthFormInputs
-        isLogin={isLogin}
-        email={email}
-        setEmail={(value) => {
-          setEmail(value);
-          if (emailError) setEmailError("");
-        }}
-        password={password}
-        setPassword={(value) => {
-          setPassword(value);
-          if (passwordError) setPasswordError("");
-        }}
-        username={username}
-        setUsername={setUsername}
-        emailError={emailError}
-        passwordError={passwordError}
-      />
+        <AuthFormInputs
+          isLogin={isLogin}
+          email={email}
+          setEmail={(value) => {
+            setEmail(value);
+            if (emailError) setEmailError("");
+          }}
+          password={password}
+          setPassword={(value) => {
+            setPassword(value);
+            if (passwordError) setPasswordError("");
+          }}
+          username={username}
+          setUsername={(value) => {
+            setUsername(value);
+            if (usernameError) setUsernameError("");
+          }}
+          emailError={emailError}
+          passwordError={passwordError}
+          usernameError={usernameError}
+        />
 
-      <AuthFormButtons
-        isLogin={isLogin}
-        loading={loading}
-        onForgotPassword={onForgotPassword}
-        onToggleMode={() => {
-          setIsLogin(!isLogin);
-          setUsername("");
-          setEmailError("");
-          setPasswordError("");
-        }}
-      />
+        <AuthFormButtons
+          isLogin={isLogin}
+          loading={loading}
+          onForgotPassword={onForgotPassword}
+          onToggleMode={() => {
+            setIsLogin(!isLogin);
+            setUsername("");
+            clearErrors();
+          }}
+        />
       </form>
     </>
   );

@@ -12,6 +12,7 @@ interface AuthFormInputsProps {
   setUsername: (value: string) => void;
   emailError?: string;
   passwordError?: string;
+  usernameError?: string;
 }
 
 const AuthFormInputs = ({
@@ -23,23 +24,31 @@ const AuthFormInputs = ({
   username,
   setUsername,
   emailError,
-  passwordError
+  passwordError,
+  usernameError
 }: AuthFormInputsProps) => {
   return (
     <>
       {!isLogin && (
-        <Input
-          type="text"
-          placeholder="Username"
-          value={username}
-          onChange={e => setUsername(e.target.value)}
-          required={!isLogin}
-          minLength={3}
-          maxLength={30}
-          pattern="^[a-zA-Z0-9_-]+$"
-          title="Username can only contain letters, numbers, underscores, and hyphens"
-          className="bg-white/80 border-black/20 backdrop-blur-sm rounded-sm"
-        />
+        <div className="space-y-1">
+          <Input
+            type="text"
+            placeholder="Username"
+            value={username}
+            onChange={e => setUsername(e.target.value)}
+            required={!isLogin}
+            minLength={3}
+            maxLength={30}
+            pattern="^[a-zA-Z0-9_-]+$"
+            title="Username can only contain letters, numbers, underscores, and hyphens"
+            className={`bg-white/80 border-black/20 backdrop-blur-sm rounded-sm ${
+              usernameError ? 'border-red-500 focus:border-red-500' : ''
+            }`}
+          />
+          {usernameError && (
+            <p className="text-sm text-red-600 px-1">{usernameError}</p>
+          )}
+        </div>
       )}
 
       <div className="space-y-1">
