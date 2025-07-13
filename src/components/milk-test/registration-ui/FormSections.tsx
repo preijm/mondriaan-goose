@@ -5,6 +5,7 @@ import { BrandSelect } from "../BrandSelect";
 import { FlavorSelector } from "../FlavorSelector";
 import { BaristaToggle } from "../BaristaToggle";
 import { ProductOptions } from "../ProductOptions";
+import { NameSelect } from "../NameSelect";
 
 interface ProductFormProps {
   onSubmit: (e: React.FormEvent) => Promise<void>;
@@ -18,6 +19,8 @@ export const ProductForm = forwardRef<HTMLInputElement, ProductFormProps>(({ onS
     setBrandId,
     productName,
     setProductName,
+    nameId,
+    setNameId,
     selectedProductTypes,
     setSelectedProductTypes,
     isBarista,
@@ -53,15 +56,10 @@ export const ProductForm = forwardRef<HTMLInputElement, ProductFormProps>(({ onS
           <label htmlFor="product" className="block font-medium text-gray-900">
             Product <span className="text-red-500">*</span>
           </label>
-          <input
-            type="text"
-            id="product"
-            value={productName}
-            onChange={(e) => setProductName(e.target.value)}
-            onFocus={() => console.log('Product name input focused')}
-            className="w-full px-3 py-2 border border-input rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-            placeholder="Enter product name..."
-            required
+          <NameSelect
+            productName={productName}
+            setProductName={setProductName}
+            onNameIdChange={setNameId}
           />
         </div>
 
