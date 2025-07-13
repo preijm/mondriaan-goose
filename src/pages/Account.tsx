@@ -7,6 +7,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { Save, Lock } from "lucide-react";
 import MenuBar from "@/components/MenuBar";
+import MobileFooter from "@/components/MobileFooter";
 import BackgroundPatternWithOverlay from "@/components/BackgroundPatternWithOverlay";
 
 const Account = () => {
@@ -199,6 +200,7 @@ const Account = () => {
           </div>
         </div>
       </BackgroundPatternWithOverlay>
+      <MobileFooter />
     </div>
   );
 };

@@ -1,4 +1,5 @@
 import MenuBar from "@/components/MenuBar";
+import MobileFooter from "@/components/MobileFooter";
 import BackgroundPatternWithOverlay from "@/components/BackgroundPatternWithOverlay";
 import PasswordResetForm from "@/components/auth/PasswordResetForm";
 import { useAuthFlow } from "@/hooks/useAuthFlow";
@@ -45,6 +46,7 @@ const ResetPassword = () => {
           </div>
         </div>
       </BackgroundPatternWithOverlay>
+      <MobileFooter />
     </div>
   );
 };

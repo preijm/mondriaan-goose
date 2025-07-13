@@ -2,6 +2,7 @@
 import React from "react";
 import { useParams, Link } from "react-router-dom";
 import MenuBar from "@/components/MenuBar";
+import MobileFooter from "@/components/MobileFooter";
 import BackgroundPattern from "@/components/BackgroundPattern";
 import { SortConfig, useProductTests } from "@/hooks/useProductTests";
 import { TestDetailsTable } from "@/components/milk-test/TestDetailsTable";
@@ -218,6 +219,8 @@ const ProductDetails = () => {
           </Card>
         </div>
       </BackgroundPattern>
+
+      <MobileFooter />
 
       {/* Image modal */}
       {selectedImage && (

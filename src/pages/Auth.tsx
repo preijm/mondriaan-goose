@@ -1,5 +1,6 @@
 import { useState } from "react";
 import MenuBar from "@/components/MenuBar";
+import MobileFooter from "@/components/MobileFooter";
 import BackgroundPatternWithOverlay from "@/components/BackgroundPatternWithOverlay";
 import AuthForm from "@/components/auth/AuthForm";
 import ResetPasswordDialog from "@/components/auth/ResetPasswordDialog";
@@ -59,6 +60,7 @@ const Auth = () => {
         </div>
         <AuthFooter />
       </BackgroundPatternWithOverlay>
+      <MobileFooter />
       <ResetPasswordDialog open={showResetDialog} onOpenChange={setShowResetDialog} />
     </div>
   );
