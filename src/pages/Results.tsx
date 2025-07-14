@@ -121,6 +121,10 @@ const Results = () => {
     brand_id: result.brand_id
   }));
 
+  console.log("Charts data length:", chartsData.length);
+  console.log("Sample charts data:", chartsData.length > 0 ? chartsData[0] : 'No data');
+  console.log("Filtered results length:", filteredResults.length);
+
   if (isLoading) {
     return (
       <div className="min-h-screen">
