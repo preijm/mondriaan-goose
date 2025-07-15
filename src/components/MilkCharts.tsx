@@ -131,8 +131,7 @@ export const MilkCharts = ({
       avgRating: Number((data.total / data.count).toFixed(1)),
       count: data.count
     }))
-    .sort((a, b) => b.avgRating - a.avgRating)
-    .slice(0, 30); // Show top 30 brands
+    .sort((a, b) => b.avgRating - a.avgRating); // Show all brands, no limit
 
   // Prepare data for individual test results chart
   const testResultsData = results
