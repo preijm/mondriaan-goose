@@ -4,6 +4,7 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContaine
 import { ChartContainer, ChartTooltip } from "@/components/ui/chart";
 import { Card, CardContent } from "@/components/ui/card";
 import { MilkTestResult } from "@/types/milk-test";
+import { ProductPropertyBadges } from "@/components/milk-test/ProductPropertyBadges";
 
 const COLORS = [
   "hsl(var(--primary))", 
@@ -19,6 +20,31 @@ const chartConfig = {
   count: {
     color: "hsl(var(--brand-blue))"
   }
+};
+
+// Custom tooltip component for products chart
+const ProductChartTooltip = ({ active, payload, label }: any) => {
+  if (active && payload && payload.length) {
+    const data = payload[0].payload;
+    return (
+      <div className="bg-white p-3 border border-gray-200 rounded-lg shadow-lg">
+        <p className="font-semibold text-gray-800">{label}</p>
+        <p className="text-sm text-gray-600">
+          Average Rating: <span className="font-medium">{data.avgRating}/10</span>
+        </p>
+        <p className="text-sm text-gray-600 mb-2">
+          Tests: <span className="font-medium">{data.count}</span>
+        </p>
+        <ProductPropertyBadges 
+          propertyNames={data.propertyNames}
+          flavorNames={data.flavorNames}
+          isBarista={data.isBarista}
+          compact={true}
+        />
+      </div>
+    );
+  }
+  return null;
 };
 
 export const MilkCharts = ({
@@ -104,6 +130,9 @@ export const MilkCharts = ({
       total: number;
       brandName: string;
       productName: string;
+      propertyNames?: string[];
+      flavorNames?: string[];
+      isBarista?: boolean;
     };
   }, curr) => {
     if (!curr.product_id) return acc;
@@ -114,7 +143,10 @@ export const MilkCharts = ({
         count: 0,
         total: 0,
         brandName: curr.brand_name || 'Unknown',
-        productName: curr.product_name || 'Unknown Product'
+        productName: curr.product_name || 'Unknown Product',
+        propertyNames: curr.property_names || [],
+        flavorNames: curr.flavor_names || [],
+        isBarista: curr.is_barista || false
       };
     }
     acc[key].count += 1;
@@ -126,7 +158,10 @@ export const MilkCharts = ({
       productId,
       productName: `${data.brandName} - ${data.productName}`,
       avgRating: Number((data.total / data.count).toFixed(1)),
-      count: data.count
+      count: data.count,
+      propertyNames: data.propertyNames,
+      flavorNames: data.flavorNames,
+      isBarista: data.isBarista
     }))
     .sort((a, b) => b.avgRating - a.avgRating)
     .slice(0, 10); // Show top 10 products
@@ -221,8 +256,8 @@ export const MilkCharts = ({
             tick={{ fontSize: 10 }}
           />
           <YAxis domain={[0, 10]} />
-          <Tooltip />
-          <Bar dataKey="avgRating" name="Average Rating" fill="hsl(var(--primary))" />
+          <Tooltip content={<ProductChartTooltip />} />
+          <Bar dataKey="avgRating" name="Average Rating" fill="#07c167" />
         </BarChart>;
       case 'ratings':
         return <BarChart data={barChartData} margin={{
