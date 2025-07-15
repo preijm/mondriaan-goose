@@ -1,6 +1,6 @@
 
 import React, { useState } from "react";
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, LineChart, Line, Legend, Area, AreaChart, Brush } from "recharts";
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, LineChart, Line, Legend, Area, AreaChart, Brush, LabelList } from "recharts";
 import { ChartContainer, ChartTooltip } from "@/components/ui/chart";
 import { Card, CardContent } from "@/components/ui/card";
 import { MilkTestResult } from "@/types/milk-test";
@@ -187,7 +187,7 @@ export const MilkCharts = ({
     label: 'All Test Results'
   }, {
     id: 'ratings' as const,
-    label: 'Ratings by Type'
+    label: 'Rating per Brand'
   }, {
     id: 'types' as const,
     label: 'Type Distribution'
@@ -245,19 +245,20 @@ export const MilkCharts = ({
           <Brush dataKey="index" height={30} stroke="#07c167" />
         </BarChart>;
       case 'ratings':
-        return <BarChart data={barChartData} margin={{
+        return <BarChart data={brandChartData} margin={{
           top: 20,
           right: 30,
           left: 20,
           bottom: 60
         }}>
             <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="type" angle={-45} textAnchor="end" height={60} />
-            <YAxis domain={[0, 5]} />
+            <XAxis dataKey="brand" angle={-45} textAnchor="end" height={60} />
+            <YAxis domain={[0, 10]} />
             <Tooltip />
             <Legend />
-            <Bar dataKey="avgRating" name="Average Rating" fill="hsl(var(--primary))" />
-            <Bar dataKey="count" name="Number of Tests" fill="hsl(var(--brand-blue))" />
+            <Bar dataKey="avgRating" name="Average Rating" fill="hsl(var(--primary))">
+              <LabelList dataKey="count" position="top" fontSize={12} />
+            </Bar>
           </BarChart>;
       case 'types':
         return <PieChart>
