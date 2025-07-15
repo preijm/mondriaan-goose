@@ -28,6 +28,13 @@ const TestResultTooltip = ({ active, payload, label }: any) => {
     const data = payload[0].payload;
     return (
       <div className="bg-white p-3 border border-gray-200 rounded-lg shadow-lg">
+        <ProductPropertyBadges 
+          propertyNames={data.propertyNames}
+          flavorNames={data.flavorNames}
+          isBarista={data.isBarista}
+          compact={true}
+          className="mb-2"
+        />
         <p className="font-semibold text-gray-800">{data.productName}</p>
         <p className="text-sm text-gray-600">
           Rating: <span className="font-medium">{data.rating}/10</span>
@@ -41,16 +48,10 @@ const TestResultTooltip = ({ active, payload, label }: any) => {
           </p>
         )}
         {data.shopName && (
-          <p className="text-sm text-gray-600 mb-2">
+          <p className="text-sm text-gray-600">
             Shop: <span className="font-medium">{data.shopName}</span>
           </p>
         )}
-        <ProductPropertyBadges 
-          propertyNames={data.propertyNames}
-          flavorNames={data.flavorNames}
-          isBarista={data.isBarista}
-          compact={true}
-        />
       </div>
     );
   }
@@ -136,7 +137,7 @@ export const MilkCharts = ({
   // Prepare data for individual test results chart
   const testResultsData = results
     .filter(result => result.product_id) // Only include tests with valid products
-    .sort((a, b) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime())
+    .sort((a, b) => b.rating - a.rating) // Sort by rating from high to low
     .map((result, index) => ({
       id: result.id,
       index: index + 1,
