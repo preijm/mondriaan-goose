@@ -17,6 +17,9 @@ const MenuBar = () => {
           <div className="flex items-center gap-4">
             {/* Desktop Menu */}
             <div className="hidden md:flex items-center gap-6">
+              <Link to="/" className={`transition-colors ${location.pathname === '/' ? 'text-[#00bf63] font-medium' : 'text-gray-700 hover:text-gray-900'}`}>
+                Home
+              </Link>
               <Link to="/results" className={`transition-colors ${location.pathname === '/results' ? 'text-[#00bf63] font-medium' : 'text-gray-700 hover:text-gray-900'}`}>
                 Results
               </Link>
