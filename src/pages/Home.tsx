@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import MenuBar from "@/components/MenuBar";
 import BackgroundPattern from "@/components/BackgroundPattern";
 import MobileFooter from "@/components/MobileFooter";
+import { HomeStatsOverview } from "@/components/UserStatsOverview";
 import { supabase } from "@/integrations/supabase/client";
 
 const Home = () => {
@@ -34,49 +35,25 @@ const Home = () => {
             <p className="text-xl md:text-2xl text-gray-600 mb-12 max-w-2xl animate-fade-in">
               Tired of tasteless plant milks? Rate, discover, and share your faves with a community that's just as obsessed. Whether it's for coffee, cereal, or cooking—find the dairy-free match that actually delivers.
             </p>
-
-            <Button 
-              onClick={handleStartJourney}
-              size="lg" 
-              variant="brand"
-              className="text-lg px-8 animate-fade-in mb-20 sm:mb-0"
-            >
-              <Milk className="mr-2 h-6 w-6" />
-              Start Your Taste Journey
-            </Button>
           </div>
         </div>
       </BackgroundPattern>
       
       {/* Statistics Section */}
-      <div className="bg-white py-20">
-        <div className="container max-w-6xl mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
-            <div className="animate-fade-in">
-              <div className="text-4xl md:text-5xl font-bold mb-4" style={{ color: '#00BF63' }}>
-                15K+
-              </div>
-              <div className="text-lg text-gray-600">
-                Active Members
-              </div>
-            </div>
-            <div className="animate-fade-in">
-              <div className="text-4xl md:text-5xl font-bold mb-4" style={{ color: '#00BF63' }}>
-                8,500+
-              </div>
-              <div className="text-lg text-gray-600">
-                Products Reviewed
-              </div>
-            </div>
-            <div className="animate-fade-in">
-              <div className="text-4xl md:text-5xl font-bold mb-4" style={{ color: '#00BF63' }}>
-                250+
-              </div>
-              <div className="text-lg text-gray-600">
-                Brands Covered
-              </div>
-            </div>
-          </div>
+      <HomeStatsOverview />
+      
+      {/* CTA Section */}
+      <div className="bg-gray-50 py-20">
+        <div className="container max-w-6xl mx-auto px-4 text-center">
+          <Button 
+            onClick={handleStartJourney}
+            size="lg" 
+            variant="brand"
+            className="text-lg px-8 animate-fade-in"
+          >
+            <Milk className="mr-2 h-6 w-6" />
+            Start Your Taste Journey
+          </Button>
         </div>
       </div>
       

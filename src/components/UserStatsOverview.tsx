@@ -1,5 +1,13 @@
-import React from "react";
+import { useEffect, useState } from 'react';
+import { supabase } from '@/integrations/supabase/client';
 import { MilkTestResult } from "@/types/milk-test";
+
+interface Stats {
+  activeMembers: number;
+  productsReviewed: number;
+  brandsCovered: number;
+}
+
 export const UserStatsOverview = ({
   results
 }: {
@@ -76,4 +84,104 @@ export const UserStatsOverview = ({
         <p className="text-sm sm:text-lg font-semibold text-gray-900 truncate">{mostTestedProductType}</p>
       </div>
     </div>;
+};
+
+// New component for home page stats
+export const HomeStatsOverview = () => {
+  const [stats, setStats] = useState<Stats>({
+    activeMembers: 0,
+    productsReviewed: 0,
+    brandsCovered: 0
+  });
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchStats = async () => {
+      try {
+        // Get active members count
+        const { count: membersCount } = await supabase
+          .from('profiles')
+          .select('*', { count: 'exact', head: true });
+
+        // Get products reviewed count
+        const { count: reviewsCount } = await supabase
+          .from('milk_tests')
+          .select('*', { count: 'exact', head: true });
+
+        // Get brands covered count
+        const { count: brandsCount } = await supabase
+          .from('brands')
+          .select('*', { count: 'exact', head: true });
+
+        setStats({
+          activeMembers: membersCount || 0,
+          productsReviewed: reviewsCount || 0,
+          brandsCovered: brandsCount || 0
+        });
+      } catch (error) {
+        console.error('Error fetching stats:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchStats();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="bg-white py-16">
+        <div className="container max-w-6xl mx-auto px-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+            {[1, 2, 3].map((i) => (
+              <div key={i} className="animate-pulse">
+                <div className="h-12 bg-gray-200 rounded mb-4"></div>
+                <div className="h-6 bg-gray-200 rounded w-32 mx-auto"></div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  const formatNumber = (num: number): string => {
+    if (num >= 1000) {
+      return (num / 1000).toFixed(1).replace(/\.0$/, '') + 'K+';
+    }
+    return num.toString() + '+';
+  };
+
+  return (
+    <div className="bg-white py-16">
+      <div className="container max-w-6xl mx-auto px-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+          <div className="animate-fade-in">
+            <div className="text-4xl md:text-5xl font-bold mb-4" style={{ color: '#00BF63' }}>
+              {formatNumber(stats.activeMembers)}
+            </div>
+            <div className="text-lg text-gray-600">
+              Active Members
+            </div>
+          </div>
+          <div className="animate-fade-in">
+            <div className="text-4xl md:text-5xl font-bold mb-4" style={{ color: '#00BF63' }}>
+              {formatNumber(stats.productsReviewed)}
+            </div>
+            <div className="text-lg text-gray-600">
+              Products Reviewed
+            </div>
+          </div>
+          <div className="animate-fade-in">
+            <div className="text-4xl md:text-5xl font-bold mb-4" style={{ color: '#00BF63' }}>
+              {formatNumber(stats.brandsCovered)}
+            </div>
+            <div className="text-lg text-gray-600">
+              Brands Covered
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 };
