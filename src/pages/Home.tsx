@@ -48,6 +48,38 @@ const Home = () => {
         </div>
       </BackgroundPattern>
       
+      {/* Statistics Section */}
+      <div className="bg-white py-20">
+        <div className="container max-w-6xl mx-auto px-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+            <div className="animate-fade-in">
+              <div className="text-4xl md:text-5xl font-bold mb-4" style={{ color: '#00BF63' }}>
+                15K+
+              </div>
+              <div className="text-lg text-gray-600">
+                Active Members
+              </div>
+            </div>
+            <div className="animate-fade-in">
+              <div className="text-4xl md:text-5xl font-bold mb-4" style={{ color: '#00BF63' }}>
+                8,500+
+              </div>
+              <div className="text-lg text-gray-600">
+                Products Reviewed
+              </div>
+            </div>
+            <div className="animate-fade-in">
+              <div className="text-4xl md:text-5xl font-bold mb-4" style={{ color: '#00BF63' }}>
+                250+
+              </div>
+              <div className="text-lg text-gray-600">
+                Brands Covered
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
       <MobileFooter />
     </div>
   );
