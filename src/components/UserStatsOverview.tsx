@@ -157,7 +157,7 @@ export const HomeStatsOverview = () => {
   };
 
   return (
-    <div className="bg-white py-16">
+    <div className="bg-white py-8">
       <div className="container max-w-6xl mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
           <div className="animate-fade-in">
