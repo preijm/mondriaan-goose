@@ -25,7 +25,7 @@ const Home = () => {
       <MenuBar />
       
       <BackgroundPattern>
-        <div className="container max-w-6xl mx-auto px-4 pt-0">
+        <div className="container max-w-6xl mx-auto px-4 pt-24">
           <div className="flex flex-col items-center justify-center text-center relative z-10">
             <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-4 max-w-4xl animate-fade-in" style={{ color: '#00BF63' }}>
               Ditch the Moo. <br />
