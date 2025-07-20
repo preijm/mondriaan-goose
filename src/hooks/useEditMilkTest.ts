@@ -30,11 +30,31 @@ export const useEditMilkTest = ({ test, onSuccess, onClose }: UseEditMilkTestPro
     const loadExistingPicture = async () => {
       if (test.picture_path) {
         try {
-          const { data } = await supabase.storage
-            .from('Milk Product Pictures')
+          console.log('Loading picture from path:', test.picture_path);
+          
+          // First check if the file exists
+          const { data: fileData, error: fileError } = await supabase.storage
+            .from('milk-pictures')
+            .list(test.picture_path.split('/').slice(0, -1).join('/') || '', {
+              search: test.picture_path.split('/').pop()
+            });
+            
+          if (fileError) {
+            console.error('Error checking file existence:', fileError);
+            return;
+          }
+          
+          if (!fileData || fileData.length === 0) {
+            console.log('File not found in storage:', test.picture_path);
+            return;
+          }
+          
+          const { data } = supabase.storage
+            .from('milk-pictures')
             .getPublicUrl(test.picture_path);
             
           if (data) {
+            console.log('Setting picture preview URL:', data.publicUrl);
             setPicturePreview(data.publicUrl);
           }
         } catch (error) {
@@ -85,7 +105,7 @@ export const useEditMilkTest = ({ test, onSuccess, onClose }: UseEditMilkTestPro
         const filePath = `${userData.user.id}/${Date.now()}_${sanitizedName}.${fileExt}`;
         
         const { error: uploadError } = await supabase.storage
-          .from('Milk Product Pictures')
+          .from('milk-pictures')
           .upload(filePath, picture);
           
         if (uploadError) {
@@ -158,7 +178,7 @@ export const useEditMilkTest = ({ test, onSuccess, onClose }: UseEditMilkTestPro
       // Delete the picture from storage if it exists
       if (test.picture_path) {
         await supabase.storage
-          .from('Milk Product Pictures')
+          .from('milk-pictures')
           .remove([test.picture_path]);
       }
 
