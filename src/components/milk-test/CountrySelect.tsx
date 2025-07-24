@@ -12,6 +12,7 @@ interface CountrySelectProps {
 export const CountrySelect = ({ country, setCountry }: CountrySelectProps) => {
   const [suggestions, setSuggestions] = useState<{ code: string; name: string }[]>([]);
   const [inputValue, setInputValue] = useState("");
+  const [isUserTyping, setIsUserTyping] = useState(false);
 
   const { data: countries = [] } = useQuery({
     queryKey: ['countries'],
@@ -56,12 +57,14 @@ export const CountrySelect = ({ country, setCountry }: CountrySelectProps) => {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
+    setIsUserTyping(true);
   };
 
   const handleSelectCountry = (selectedCountry: { code: string; name: string }) => {
     setInputValue(selectedCountry.name);
     setCountry(selectedCountry.code);
     setSuggestions([]);
+    setIsUserTyping(false);
   };
 
   // Find the selected country to display its name in the input
@@ -82,7 +85,7 @@ export const CountrySelect = ({ country, setCountry }: CountrySelectProps) => {
         onChange={handleInputChange}
         className="w-full"
       />
-      {suggestions.length > 0 && (
+      {suggestions.length > 0 && isUserTyping && (
         <div className="absolute z-10 w-full mt-1 bg-white border rounded-md shadow-lg">
           {suggestions.map((suggestion) => (
             <div
