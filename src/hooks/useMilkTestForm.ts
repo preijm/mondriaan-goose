@@ -99,17 +99,7 @@ export const useMilkTestForm = () => {
         }
       }
 
-      // Get shop data if provided
-      let shopData = null;
-      if (shop && country) {
-        const { data } = await supabase
-          .from('shops')
-          .select('id')
-          .eq('name', shop)
-          .eq('country_code', country)
-          .maybeSingle();
-        shopData = data;
-      }
+      // Remove shop lookup since we're storing shop_name directly now
 
       // Upload picture if available
       let picturePath = null;
@@ -141,7 +131,8 @@ export const useMilkTestForm = () => {
       // Base milk test data
       const milkTestData: any = {
         product_id: productId,
-        shop_id: shopData?.id || null,
+        country_code: country,
+        shop_name: shop || null,
         rating,
         notes,
         drink_preference: drinkPreference,

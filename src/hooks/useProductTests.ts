@@ -16,7 +16,7 @@ export const useProductTests = (productId: string | null, sortConfig: SortConfig
       
       let query = supabase
         .from('milk_tests_view')
-        .select('id, created_at, brand_name, product_name, rating, username, notes, shop_name, picture_path, drink_preference, property_names, is_barista, flavor_names, price_quality_ratio, shop_country_code')
+        .select('id, created_at, brand_name, product_name, rating, username, notes, shop_name, picture_path, drink_preference, property_names, is_barista, flavor_names, price_quality_ratio, country_code')
         .eq('product_id', productId);
       
       // Add sorting based on sortConfig for all possible columns in the detail view
