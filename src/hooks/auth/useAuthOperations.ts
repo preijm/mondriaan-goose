@@ -10,7 +10,8 @@ import {
   validateUsername,
   loginRateLimit,
   signupRateLimit,
-  passwordResetRateLimit
+  passwordResetRateLimit,
+  logSecurityEvent
 } from '@/lib/security';
 
 export interface AuthFormData {
@@ -62,6 +63,12 @@ export const useAuthOperations = () => {
       });
       
       if (error) {
+        // Log failed login attempt for security monitoring
+        await logSecurityEvent('login_failed', { 
+          email: sanitizedEmail, 
+          error: error.message 
+        });
+
         if (error.message.includes('Invalid login credentials')) {
           toast({
             title: "Invalid credentials",
@@ -134,6 +141,9 @@ export const useAuthOperations = () => {
         .maybeSingle();
 
       if (existingUser) {
+        await logSecurityEvent('username_conflict', { 
+          attempted_username: sanitizedUsername 
+        });
         toast({
           title: "Username taken",
           description: "Please choose a different username.",
@@ -152,6 +162,12 @@ export const useAuthOperations = () => {
       });
       
       if (error) {
+        // Log failed signup attempt for security monitoring
+        await logSecurityEvent('signup_failed', { 
+          email: sanitizedEmail, 
+          error: error.message 
+        });
+
         if (error.message.includes('User already registered') || 
             error.message.includes('already registered') ||
             error.status === 422) {

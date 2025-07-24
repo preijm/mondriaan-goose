@@ -89,7 +89,7 @@ export type Database = {
           product_id: string | null
           rating: number
           shop_name: string | null
-          user_id: string | null
+          user_id: string
         }
         Insert: {
           country_code?: string | null
@@ -102,7 +102,7 @@ export type Database = {
           product_id?: string | null
           rating: number
           shop_name?: string | null
-          user_id?: string | null
+          user_id: string
         }
         Update: {
           country_code?: string | null
@@ -115,7 +115,7 @@ export type Database = {
           product_id?: string | null
           rating?: number
           shop_name?: string | null
-          user_id?: string | null
+          user_id?: string
         }
         Relationships: [
           {
@@ -348,6 +348,36 @@ export type Database = {
         }
         Relationships: []
       }
+      security_log: {
+        Row: {
+          created_at: string | null
+          event_data: Json | null
+          event_type: string
+          id: string
+          ip_address: unknown | null
+          user_agent: string | null
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          event_data?: Json | null
+          event_type: string
+          id?: string
+          ip_address?: unknown | null
+          user_agent?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          event_data?: Json | null
+          event_type?: string
+          id?: string
+          ip_address?: unknown | null
+          user_agent?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       shops: {
         Row: {
           country_code: string | null
@@ -485,6 +515,10 @@ export type Database = {
         Args: Record<PropertyKey, never>
         Returns: boolean
       }
+      log_security_event: {
+        Args: { event_type_val: string; event_data_val?: Json }
+        Returns: undefined
+      }
       search_product_types: {
         Args: Record<PropertyKey, never> | { search_term: string }
         Returns: {
@@ -497,6 +531,15 @@ export type Database = {
           product_name_id: string
           is_barista: boolean
         }[]
+      }
+      validate_milk_test_input: {
+        Args: {
+          rating_val: number
+          notes_val: string
+          shop_name_val: string
+          country_code_val: string
+        }
+        Returns: boolean
       }
     }
     Enums: {

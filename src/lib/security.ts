@@ -78,6 +78,56 @@ export const validateUsername = (username: string): {
   return { isValid: true, message: "" };
 };
 
+export const validateMilkTestInput = (data: {
+  rating: number;
+  notes?: string;
+  shopName?: string;
+  countryCode?: string;
+}): { isValid: boolean; message: string; } => {
+  // Validate rating
+  if (typeof data.rating !== 'number' || data.rating < 0 || data.rating > 10) {
+    return { isValid: false, message: "Rating must be between 0 and 10" };
+  }
+  
+  // Validate notes length
+  if (data.notes && data.notes.length > 1000) {
+    return { isValid: false, message: "Notes must be less than 1000 characters" };
+  }
+  
+  // Validate shop name length
+  if (data.shopName && data.shopName.length > 255) {
+    return { isValid: false, message: "Shop name must be less than 255 characters" };
+  }
+  
+  // Validate country code format
+  if (data.countryCode && (data.countryCode.length !== 2 || !/^[A-Z]{2}$/.test(data.countryCode))) {
+    return { isValid: false, message: "Country code must be a 2-letter uppercase code" };
+  }
+  
+  return { isValid: true, message: "" };
+};
+
+export const validateSearchInput = (searchTerm: string): { 
+  isValid: boolean; 
+  message: string; 
+} => {
+  if (!searchTerm || typeof searchTerm !== 'string') {
+    return { isValid: false, message: "Search term is required" };
+  }
+  
+  const sanitized = sanitizeInput(searchTerm);
+  
+  if (sanitized.length < 1) {
+    return { isValid: false, message: "Search term must be at least 1 character" };
+  }
+  
+  if (sanitized.length > 100) {
+    return { isValid: false, message: "Search term must be less than 100 characters" };
+  }
+  
+  return { isValid: true, message: "" };
+};
+
 /**
  * Rate limiting helper (client-side basic implementation)
  * Note: This is not a substitute for server-side rate limiting
@@ -131,3 +181,36 @@ export class ClientSideRateLimit {
 export const loginRateLimit = new ClientSideRateLimit(5, 15 * 60 * 1000); // 5 attempts per 15 minutes
 export const signupRateLimit = new ClientSideRateLimit(3, 60 * 60 * 1000); // 3 attempts per hour
 export const passwordResetRateLimit = new ClientSideRateLimit(3, 60 * 60 * 1000); // 3 attempts per hour
+export const searchRateLimit = new ClientSideRateLimit(30, 60 * 1000); // 30 searches per minute
+
+/**
+ * Security logging helper
+ */
+export const logSecurityEvent = async (eventType: string, eventData?: any) => {
+  try {
+    // This would integrate with your security logging system
+    console.warn(`Security Event: ${eventType}`, eventData);
+    
+    // In a production app, you might send this to a logging service
+    // or store it in the database via the log_security_event function
+  } catch (error) {
+    console.error('Failed to log security event:', error);
+  }
+};
+
+/**
+ * Enhanced input sanitization for SQL injection prevention
+ */
+export const sanitizeForDatabase = (input: string): string => {
+  if (typeof input !== 'string') {
+    return '';
+  }
+  
+  // Remove SQL injection patterns
+  return input
+    .replace(/[<>]/g, '') // Remove < and > to prevent XSS
+    .replace(/javascript:/gi, '') // Remove javascript: protocol
+    .replace(/on\w+=/gi, '') // Remove event handlers
+    .replace(/['";]|(\/\*)|(\*\/)|(\bhex\b)|(\bwaitfor\b)|(\bcount\b)|(\bunion\b)|(\bselect\b)|(\binsert\b)|(\bupdate\b)|(\bdelete\b)|(\bdrop\b)|(\balter\b)|(\bcreate\b)|(\btruncate\b)/gi, '') // Basic SQL keywords
+    .trim();
+};

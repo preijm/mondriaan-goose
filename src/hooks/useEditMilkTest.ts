@@ -4,6 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/components/ui/use-toast";
 import { MilkTestResult } from "@/types/milk-test";
 import { sanitizeFileName } from "@/lib/fileValidation";
+import { validateMilkTestInput, sanitizeInput } from "@/lib/security";
 
 interface UseEditMilkTestProps {
   test: MilkTestResult;
@@ -78,6 +79,22 @@ export const useEditMilkTest = ({ test, onSuccess, onClose }: UseEditMilkTestPro
       return;
     }
 
+    // Validate input data
+    const validation = validateMilkTestInput({
+      rating: Number(rating),
+      notes: notes,
+      shopName: shop
+    });
+
+    if (!validation.isValid) {
+      toast({
+        title: "Invalid input",
+        description: validation.message,
+        variant: "destructive",
+      });
+      return;
+    }
+
     setIsSubmitting(true);
 
     try {
@@ -120,11 +137,11 @@ export const useEditMilkTest = ({ test, onSuccess, onClose }: UseEditMilkTestPro
         }
       }
 
-      // Create the base update data
+      // Create the base update data with sanitized inputs
       const updateData: any = {
-        shop_id: shopData?.id || null,
-        rating,
-        notes,
+        shop_name: shop ? sanitizeInput(shop) : null,
+        rating: Number(rating),
+        notes: notes ? sanitizeInput(notes) : null,
         picture_path: picturePath,
         drink_preference: drinkPreference
       };
@@ -180,6 +197,16 @@ export const useEditMilkTest = ({ test, onSuccess, onClose }: UseEditMilkTestPro
         await supabase.storage
           .from('milk-pictures')
           .remove([test.picture_path]);
+      }
+
+      // Verify user owns this test before deletion
+      if (test.user_id !== userData.user.id) {
+        toast({
+          title: "Unauthorized",
+          description: "You can only delete your own milk tests",
+          variant: "destructive",
+        });
+        return;
       }
 
       // Delete the milk test record

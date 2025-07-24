@@ -6,6 +6,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { sanitizeFileName } from "@/lib/fileValidation";
 import { useUserProfile } from "./useUserProfile";
+import { validateMilkTestInput, sanitizeInput, sanitizeForDatabase } from "@/lib/security";
 
 export const useMilkTestForm = () => {
   const [rating, setRating] = useState(0);
@@ -36,6 +37,23 @@ export const useMilkTestForm = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
+    // Validate input data before submission
+    const validation = validateMilkTestInput({
+      rating: Number(rating),
+      notes: notes,
+      shopName: shop,
+      countryCode: country
+    });
+
+    if (!validation.isValid) {
+      toast({
+        title: "Invalid input",
+        description: validation.message,
+        variant: "destructive",
+      });
+      return;
+    }
+
     // Debug logging to help identify issues
     console.log("Milk Test Form submission values:", {
       brandId,
@@ -49,9 +67,6 @@ export const useMilkTestForm = () => {
       priceHasChanged, // Log whether price has changed
       hasPicture: !!picture // Log whether a picture is attached
     });
-    
-    // Validation moved to the component itself
-    // This prevents toast notifications from appearing when not needed
     
     setIsSubmitting(true);
 
@@ -128,13 +143,13 @@ export const useMilkTestForm = () => {
 
       console.log("Inserting milk test with user_id:", userData.user.id);
       
-      // Base milk test data
+      // Base milk test data with sanitized inputs
       const milkTestData: any = {
         product_id: productId,
-        country_code: country,
-        shop_name: shop || null,
-        rating,
-        notes,
+        country_code: country ? sanitizeInput(country) : null,
+        shop_name: shop ? sanitizeForDatabase(shop) : null,
+        rating: Number(rating),
+        notes: notes ? sanitizeForDatabase(notes) : null,
         drink_preference: drinkPreference,
         user_id: userData.user.id,
         picture_path: picturePath

@@ -34,18 +34,43 @@ const MyResults = () => {
     refetch
   } = useUserMilkTests(sortConfig);
   const handleDelete = async (id: string) => {
-    const {
-      error
-    } = await supabase.from('milk_tests').delete().eq('id', id);
-    if (error) {
+    try {
+      // Get current user for authorization check
+      const { data: userData, error: userError } = await supabase.auth.getUser();
+      
+      if (userError || !userData.user) {
+        toast({
+          title: "Authentication required",
+          description: "Please sign in to delete milk tests",
+          variant: "destructive",
+        });
+        return;
+      }
+
+      // Delete with user_id check for additional security
+      const { error } = await supabase
+        .from('milk_tests')
+        .delete()
+        .eq('id', id)
+        .eq('user_id', userData.user.id); // Ensure user can only delete their own tests
+        
+      if (error) {
+        toast({
+          title: "Error",
+          description: "Failed to delete test result",
+          variant: "destructive"
+        });
+      } else {
+        // Success toast removed
+        refetch();
+      }
+    } catch (error) {
+      console.error('Error deleting test:', error);
       toast({
         title: "Error",
-        description: "Failed to delete test result",
+        description: "An unexpected error occurred",
         variant: "destructive"
       });
-    } else {
-      // Success toast removed
-      refetch();
     }
   };
   const handleSort = (column: string) => {
