@@ -104,7 +104,7 @@ export const TestDetailsTable = ({
                 width="100%"
               />
             </TableHead>
-            <TableHead className="hidden md:table-cell font-semibold text-gray-700 text-left pl-4 w-[15%]">
+            <TableHead className="font-semibold text-gray-700 text-left pl-4 w-[15%]">
               <SortableColumnHeader
                 column="shop_name"
                 label="Shop"
@@ -113,7 +113,7 @@ export const TestDetailsTable = ({
                 width="100%"
               />
             </TableHead>
-            <TableHead className="hidden md:table-cell font-semibold text-gray-700 text-left pl-4 w-[8%]">
+            <TableHead className="font-semibold text-gray-700 text-left pl-4 w-[8%]">
               <SortableColumnHeader
                 column="country_code"
                 label="Country"
@@ -173,10 +173,10 @@ export const TestDetailsTable = ({
                 <TableCell>
                   <PriceQualityBadge priceQuality={test.price_quality_ratio} />
                 </TableCell>
-                <TableCell className="hidden md:table-cell">
+                <TableCell>
                   {test.shop_name || "-"}
                 </TableCell>
-                <TableCell className="hidden md:table-cell">
+                <TableCell>
                   {test.country_code ? (
                     <span className="text-sm font-medium">{test.country_code}</span>
                   ) : (
