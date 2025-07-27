@@ -37,6 +37,16 @@ export const useMilkTestForm = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
+    // Validate required fields before submission
+    if (!country || country.trim() === '') {
+      toast({
+        title: "Country required",
+        description: "Please select a country before submitting.",
+        variant: "destructive",
+      });
+      return;
+    }
+
     // Validate input data before submission
     const validation = validateMilkTestInput({
       rating: Number(rating),
@@ -183,7 +193,7 @@ export const useMilkTestForm = () => {
       await queryClient.invalidateQueries({ queryKey: ['milk-tests-aggregated'] });
       await queryClient.invalidateQueries({ queryKey: ['my-milk-tests'] });
 
-      navigate("/dashboard");
+      navigate("/my-results");
     } catch (error) {
       console.error('Error adding milk test:', error);
       toast({
