@@ -121,7 +121,7 @@ const Home = () => {
             </div>
             
             {/* Trust indicators */}
-            <div className="flex items-center justify-center gap-8 text-sm text-muted-foreground animate-fade-in">
+            <div className="flex items-center justify-center gap-4 md:gap-8 text-sm text-muted-foreground animate-fade-in">
               <div className="flex items-center gap-2">
                 <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
                 <span>{formatNumber(stats.totalTests)} Reviews</span>
