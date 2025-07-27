@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import { MilkTestResult } from "@/types/milk-test";
 
@@ -203,12 +204,12 @@ export const HomeStatsOverview = () => {
         </div>
         
         <div className="text-center animate-fade-in">
-          <a 
-            href="/results" 
+          <Link 
+            to="/results" 
             className="inline-flex items-center px-8 py-3 bg-transparent border-2 border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white font-semibold rounded-lg transition-colors duration-200 text-lg"
           >
             View All Results
-          </a>
+          </Link>
         </div>
       </div>
     </div>
