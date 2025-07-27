@@ -7,7 +7,6 @@ import BackgroundPattern from "@/components/BackgroundPattern";
 import MobileFooter from "@/components/MobileFooter";
 import { HomeStatsOverview } from "@/components/UserStatsOverview";
 import { supabase } from "@/integrations/supabase/client";
-
 const Home = () => {
   const navigate = useNavigate();
   const [stats, setStats] = useState({
@@ -15,25 +14,32 @@ const Home = () => {
     brandsCovered: 0,
     activeMembers: 0
   });
-
   useEffect(() => {
     const fetchTrustIndicators = async () => {
       try {
         // Get total tests count
-        const { count: totalTestsCount } = await supabase
-          .from('milk_tests')
-          .select('*', { count: 'exact', head: true });
+        const {
+          count: totalTestsCount
+        } = await supabase.from('milk_tests').select('*', {
+          count: 'exact',
+          head: true
+        });
 
         // Get brands covered count
-        const { count: brandsCount } = await supabase
-          .from('brands')
-          .select('*', { count: 'exact', head: true });
+        const {
+          count: brandsCount
+        } = await supabase.from('brands').select('*', {
+          count: 'exact',
+          head: true
+        });
 
         // Get active members count
-        const { count: membersCount } = await supabase
-          .from('profiles')
-          .select('*', { count: 'exact', head: true });
-
+        const {
+          count: membersCount
+        } = await supabase.from('profiles').select('*', {
+          count: 'exact',
+          head: true
+        });
         setStats({
           totalTests: totalTestsCount || 0,
           brandsCovered: brandsCount || 0,
@@ -43,28 +49,31 @@ const Home = () => {
         console.error('Error fetching trust indicators:', error);
       }
     };
-
     fetchTrustIndicators();
   }, []);
-
   const handleStartJourney = async () => {
-    const { data: { session } } = await supabase.auth.getSession();
+    const {
+      data: {
+        session
+      }
+    } = await supabase.auth.getSession();
     if (!session) {
-      navigate('/auth', { state: { from: '/add' } });
+      navigate('/auth', {
+        state: {
+          from: '/add'
+        }
+      });
     } else {
       navigate('/add');
     }
   };
-
   const formatNumber = (num: number): string => {
     if (num >= 1000) {
       return (num / 1000).toFixed(1).replace(/\.0$/, '') + 'K+';
     }
     return num.toString() + '+';
   };
-
-  return (
-    <div className="min-h-screen">
+  return <div className="min-h-screen">
       <MenuBar />
       
       {/* Enhanced Hero Section */}
@@ -77,12 +86,14 @@ const Home = () => {
             
             {/* Enhanced hero title with green color */}
             <div className="mb-6 relative">
-              <h1 className="text-4xl md:text-7xl lg:text-8xl font-bold mb-4 max-w-4xl animate-fade-in relative" style={{ color: '#00BF63' }}>
+              <h1 className="text-4xl md:text-7xl lg:text-8xl font-bold mb-4 max-w-4xl animate-fade-in relative" style={{
+              color: '#00BF63'
+            }}>
                 Ditch the Moo.
                 <br />
                 <span className="flex items-center justify-center gap-4">
                   Find Your New!
-                  <Sparkles className="w-12 h-12 md:w-16 md:h-16 animate-pulse" style={{ color: '#00BF63' }} />
+                  
                 </span>
               </h1>
             </div>
@@ -94,22 +105,15 @@ const Home = () => {
             
             {/* Enhanced CTA button with better animation */}
             <div className="flex flex-col sm:flex-row gap-4 animate-fade-in mb-12">
-              <Button 
-                onClick={handleStartJourney}
-                size="lg" 
-                className="text-lg px-8 py-4 text-white shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group" style={{ backgroundColor: '#2144ff' }}
-              >
+              <Button onClick={handleStartJourney} size="lg" className="text-lg px-8 py-4 text-white shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group" style={{
+              backgroundColor: '#2144ff'
+            }}>
                 <Milk className="mr-2 h-6 w-6 group-hover:rotate-12 transition-transform duration-300" />
                 Start Your Taste Journey
                 <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform duration-300" />
               </Button>
               
-              <Button 
-                asChild
-                variant="outline"
-                size="lg"
-                className="text-lg px-8 py-4 border-2 hover:bg-primary/5 transition-all duration-300"
-              >
+              <Button asChild variant="outline" size="lg" className="text-lg px-8 py-4 border-2 hover:bg-primary/5 transition-all duration-300">
                 <Link to="/results">
                   Explore Results
                 </Link>
@@ -141,8 +145,6 @@ const Home = () => {
       </BackgroundPattern>
       
       <MobileFooter />
-    </div>
-  );
+    </div>;
 };
-
 export default Home;
