@@ -44,8 +44,13 @@ const MapboxWorldMap = () => {
   // Fetch Mapbox token from Supabase Edge Function
   const fetchMapboxToken = async () => {
     try {
+      console.log('Fetching Mapbox token...');
       const { data, error } = await supabase.functions.invoke('get-mapbox-token');
-      if (error) throw error;
+      if (error) {
+        console.error('Error invoking function:', error);
+        throw error;
+      }
+      console.log('Token fetched successfully:', data);
       return data.token;
     } catch (error) {
       console.error('Error fetching Mapbox token:', error);
