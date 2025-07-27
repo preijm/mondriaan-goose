@@ -71,10 +71,10 @@ export const useEditMilkTest = ({ test, onSuccess, onClose }: UseEditMilkTestPro
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!test.product_id || !rating) {
+    if (!test.product_id || !rating || !country || country.trim() === '') {
       toast({
         title: "Missing fields",
-        description: "Please fill in all required fields",
+        description: "Please fill in all required fields (rating and country)",
         variant: "destructive",
       });
       return;

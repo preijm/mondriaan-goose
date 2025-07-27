@@ -52,8 +52,15 @@ export const EditMilkTestForm = ({
   onCancel,
   onDelete,
 }: EditMilkTestFormProps) => {
+  const isFormValid = formState.rating > 0 && formState.country && formState.country.trim() !== '';
+
   return (
-    <form onSubmit={onSubmit} className="space-y-8">
+    <form onSubmit={e => {
+      e.preventDefault();
+      if (isFormValid) {
+        onSubmit(e);
+      }
+    }} className="space-y-8">
       {/* Product Information */}
       <div className="space-y-4">
         <ProductInfo brand={brand} productName={productName} />
@@ -93,7 +100,7 @@ export const EditMilkTestForm = ({
         <div className="space-y-3">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
-              Country
+              Country <span className="text-red-500">*</span>
             </label>
             <CountrySelect 
               country={formState.country} 
