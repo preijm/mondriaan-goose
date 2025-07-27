@@ -18,6 +18,7 @@ export interface MilkTestResult {
   shop_name?: string | null;
   shop?: string;  // Added for compatibility with EditMilkTest
   shop_country_code?: string | null;
+  country_code?: string | null;  // Added missing field
   username?: string | null;
   property_names?: string[] | null;
   flavor_names?: string[] | null;

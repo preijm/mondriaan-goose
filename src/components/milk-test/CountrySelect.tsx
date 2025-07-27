@@ -69,13 +69,13 @@ export const CountrySelect = ({ country, setCountry }: CountrySelectProps) => {
 
   // Find the selected country to display its name in the input
   useEffect(() => {
-    if (country) {
+    if (country && countries.length > 0) {
       const selectedCountry = countries.find(c => c.code === country);
-      if (selectedCountry) {
+      if (selectedCountry && !isUserTyping) {
         setInputValue(selectedCountry.name);
       }
     }
-  }, [country, countries]);
+  }, [country, countries, isUserTyping]);
 
   return (
     <div className="relative">
