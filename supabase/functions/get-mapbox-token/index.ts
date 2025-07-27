@@ -13,7 +13,7 @@ serve(async (req) => {
 
   try {
     // Get the Mapbox token from Supabase secrets
-    const mapboxToken = Deno.env.get('MAPBOX_PUBLIC_TOKEN');
+    const mapboxToken = Deno.env.get('MAPBOX_KEY');
     
     if (!mapboxToken) {
       throw new Error('Mapbox token not configured');
