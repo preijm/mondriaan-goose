@@ -13,7 +13,7 @@ export interface FileValidationOptions {
 }
 
 const DEFAULT_OPTIONS: Required<FileValidationOptions> = {
-  maxSizeBytes: 5 * 1024 * 1024, // 5MB
+  maxSizeBytes: 10 * 1024 * 1024, // 10MB (compression will reduce this)
   allowedMimeTypes: ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'],
   allowedExtensions: ['.jpg', '.jpeg', '.png', '.webp'],
   maxDimensions: { width: 4096, height: 4096 }

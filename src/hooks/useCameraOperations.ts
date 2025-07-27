@@ -3,6 +3,7 @@ import { useRef } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { Camera as CapacitorCamera, CameraResultType, CameraSource } from '@capacitor/camera';
 import { validateFile } from "@/lib/fileValidation";
+import { progressiveCompress, shouldCompress } from "@/lib/imageCompression";
 
 interface UseCameraOperationsProps {
   setPicture: (file: File | null) => void;
@@ -20,6 +21,43 @@ export const useCameraOperations = ({
   const fileInputRef = useRef<HTMLInputElement>(null);
   const cameraInputRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
+
+  const processAndSetFile = async (file: File, previewUrl: string) => {
+    try {
+      // Check if compression is needed
+      if (shouldCompress(file)) {
+        toast({
+          title: "Compressing Image",
+          description: "Optimizing image size for better performance...",
+        });
+        
+        const compressedFile = await progressiveCompress(file);
+        setPicture(compressedFile);
+        
+        // Update preview with compressed image if significantly smaller
+        if (compressedFile.size < file.size * 0.8) {
+          const compressedPreviewUrl = URL.createObjectURL(compressedFile);
+          setPicturePreview(compressedPreviewUrl);
+          URL.revokeObjectURL(previewUrl); // Clean up original preview
+        } else {
+          setPicturePreview(previewUrl);
+        }
+        
+        toast({
+          title: "Image Optimized",
+          description: `File size reduced from ${(file.size / 1024 / 1024).toFixed(1)}MB to ${(compressedFile.size / 1024 / 1024).toFixed(1)}MB`,
+        });
+      } else {
+        setPicture(file);
+        setPicturePreview(previewUrl);
+      }
+    } catch (error) {
+      console.error('Error processing file:', error);
+      // Fallback to original file if compression fails
+      setPicture(file);
+      setPicturePreview(previewUrl);
+    }
+  };
 
   const takePictureWithNativeCamera = async () => {
     try {
@@ -46,8 +84,7 @@ export const useCameraOperations = ({
           return;
         }
 
-        setPicture(file);
-        setPicturePreview(image.dataUrl);
+        await processAndSetFile(file, image.dataUrl);
       }
     } catch (error) {
       console.error('Camera error:', error);
@@ -77,8 +114,7 @@ export const useCameraOperations = ({
       }
 
       const previewUrl = URL.createObjectURL(file);
-      setPicture(file);
-      setPicturePreview(previewUrl);
+      await processAndSetFile(file, previewUrl);
       e.target.value = '';
     } catch (err) {
       console.error("Error handling selected picture:", err);
@@ -138,8 +174,7 @@ export const useCameraOperations = ({
           return;
         }
 
-        setPicture(file);
-        setPicturePreview(image.dataUrl);
+        await processAndSetFile(file, image.dataUrl);
       }
     } catch (error) {
       console.error('Gallery error:', error);
