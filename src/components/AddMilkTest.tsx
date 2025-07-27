@@ -16,7 +16,7 @@ export const AddMilkTest = () => {
     formSetters,
     handleSubmit
   } = useMilkTestForm();
-  const isFormValid = formState.productId && formState.rating > 0 && formState.country;
+  const isFormValid = formState.productId && formState.rating > 0 && formState.country && formState.country.trim() !== '';
 
   return (
     <Card className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg border border-white/20 animate-fade-in">
