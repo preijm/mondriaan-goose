@@ -22,22 +22,8 @@ export const ShopSelect = ({ shop, setShop, selectedCountry }: ShopSelectProps) 
   const [inputValue, setInputValue] = useState("");
   const [userHasTyped, setUserHasTyped] = useState(false);
   const [newShopName, setNewShopName] = useState("");
-  const [selectedCountryCode, setSelectedCountryCode] = useState("");
   const { toast } = useToast();
   const isMobile = useIsMobile();
-
-  const { data: countries = [] } = useQuery({
-    queryKey: ['countries'],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from('countries')
-        .select('code, name')
-        .order('name');
-      
-      if (error) throw error;
-      return data || [];
-    },
-  });
 
   const { data: shops = [], refetch: refetchShops } = useQuery({
     queryKey: ['shops'],
@@ -98,11 +84,10 @@ export const ShopSelect = ({ shop, setShop, selectedCountry }: ShopSelectProps) 
   };
 
   const handleAddNewShop = async () => {
-    const countryToUse = selectedCountryCode || selectedCountry;
-    if (!newShopName.trim() || !countryToUse) {
+    if (!newShopName.trim()) {
       toast({
         title: "Missing information",
-        description: "Please provide both shop name and country",
+        description: "Please provide shop name",
         variant: "destructive",
       });
       return;
@@ -113,7 +98,7 @@ export const ShopSelect = ({ shop, setShop, selectedCountry }: ShopSelectProps) 
         .from('shops')
         .insert({
           name: newShopName.trim(),
-          country_code: countryToUse,
+          country_code: selectedCountry || null,
         });
 
       if (error) throw error;
@@ -124,10 +109,8 @@ export const ShopSelect = ({ shop, setShop, selectedCountry }: ShopSelectProps) 
       });
 
       setNewShopName("");
-      setSelectedCountryCode("");
       
-      const displayValue = `${newShopName.trim()} (${countryToUse})`;
-      setInputValue(displayValue);
+      setInputValue(newShopName.trim());
       setShop(newShopName.trim());
       setSuggestions([]);
       refetchShops();
@@ -182,10 +165,7 @@ export const ShopSelect = ({ shop, setShop, selectedCountry }: ShopSelectProps) 
               <AddShopForm
                 newShopName={newShopName}
                 setNewShopName={setNewShopName}
-                selectedCountryCode={selectedCountryCode}
-                setSelectedCountryCode={setSelectedCountryCode}
                 onAdd={handleAddNewShop}
-                countries={countries}
               />
             </div>
           </PopoverContent>
