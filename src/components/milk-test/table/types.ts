@@ -13,6 +13,7 @@ export type AggregatedResult = {
   flavor_names?: string[] | null;
   avg_rating: number;
   count: number;
+  most_recent_date: string;
 };
 
 export interface FilterOptions {

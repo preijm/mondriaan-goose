@@ -33,7 +33,7 @@ export const DesktopResultsTable = ({
                 width="100%"
               />
             </TableHead>
-            <TableHead className="font-semibold text-gray-700 text-left pl-4 pr-0 w-[45%]">
+            <TableHead className="font-semibold text-gray-700 text-left pl-4 pr-0 w-[35%]">
               <SortableColumnHeader 
                 column="product_name" 
                 label="Product" 
@@ -42,7 +42,7 @@ export const DesktopResultsTable = ({
                 width="100%" 
               />
             </TableHead>
-            <TableHead className="font-semibold text-gray-700 text-left pl-4 w-[15%]">
+            <TableHead className="font-semibold text-gray-700 text-left pl-4 w-[12%]">
               <SortableColumnHeader 
                 column="avg_rating" 
                 label="Score" 
@@ -51,10 +51,19 @@ export const DesktopResultsTable = ({
                 width="100%" 
               />
             </TableHead>
-            <TableHead className="font-semibold text-gray-700 text-left pl-4 w-[15%]">
+            <TableHead className="font-semibold text-gray-700 text-left pl-4 w-[12%]">
               <SortableColumnHeader 
                 column="count" 
                 label="Tests" 
+                sortConfig={sortConfig} 
+                onSort={handleSort}
+                width="100%" 
+              />
+            </TableHead>
+            <TableHead className="font-semibold text-gray-700 text-left pl-4 w-[16%]">
+              <SortableColumnHeader 
+                column="most_recent_date" 
+                label="Latest Test" 
                 sortConfig={sortConfig} 
                 onSort={handleSort}
                 width="100%" 
@@ -65,7 +74,7 @@ export const DesktopResultsTable = ({
         <TableBody>
           {results.length === 0 ? (
             <TableRow>
-              <TableCell colSpan={4} className="text-center py-12 text-gray-500">
+              <TableCell colSpan={5} className="text-center py-12 text-gray-500">
                 <div className="flex flex-col items-center justify-center">
                   <p className="text-lg mb-2">No results found</p>
                   <p className="text-sm">Try adjusting your search criteria</p>

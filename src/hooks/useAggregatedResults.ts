@@ -18,6 +18,7 @@ export type AggregatedResult = {
   flavor_names?: string[] | null;
   avg_rating: number;
   count: number;
+  most_recent_date: string; // New field for most recent test date
 };
 
 export const useAggregatedResults = (sortConfig: SortConfig) => {
@@ -29,7 +30,7 @@ export const useAggregatedResults = (sortConfig: SortConfig) => {
       // Get all milk test data first - no auth check needed for public data
       const { data, error } = await supabase
         .from('milk_tests_view')
-        .select('brand_id, brand_name, product_id, product_name, property_names, is_barista, flavor_names, rating, price_quality_ratio');
+        .select('brand_id, brand_name, product_id, product_name, property_names, is_barista, flavor_names, rating, price_quality_ratio, created_at');
       
       if (error) {
         console.error("Supabase query error:", error);
@@ -62,13 +63,20 @@ export const useAggregatedResults = (sortConfig: SortConfig) => {
             is_barista: item.is_barista || false,
             flavor_names: item.flavor_names || [],
             avg_rating: 0,
-            count: 0
+            count: 0,
+            most_recent_date: item.created_at || new Date().toISOString()
           });
         }
         
         const product = productMap.get(key)!;
         product.avg_rating = (product.avg_rating * product.count + (item.rating || 0)) / (product.count + 1);
         product.count += 1;
+        
+        // Update most recent date if this test is more recent
+        const currentDate = item.created_at || new Date().toISOString();
+        if (new Date(currentDate) > new Date(product.most_recent_date)) {
+          product.most_recent_date = currentDate;
+        }
       });
       
       let results = Array.from(productMap.values());
@@ -92,7 +100,9 @@ export const useAggregatedResults = (sortConfig: SortConfig) => {
           comparison = a.avg_rating - b.avg_rating;
         } else if (sortConfig.column === 'count') {
           comparison = a.count - b.count;
-        } 
+        } else if (sortConfig.column === 'created_at' || sortConfig.column === 'most_recent_date') {
+          comparison = new Date(a.most_recent_date).getTime() - new Date(b.most_recent_date).getTime();
+        }
         
         return sortConfig.direction === 'asc' ? comparison : -comparison;
       });

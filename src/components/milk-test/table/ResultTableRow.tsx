@@ -5,6 +5,7 @@ import { ChevronRight } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { getScoreBadgeVariant } from "@/lib/scoreUtils";
 import { formatScore } from "@/lib/scoreFormatter";
+import { format } from "date-fns";
 import { AggregatedResult, FilterOptions } from "./types";
 
 interface ResultTableRowProps {
@@ -60,6 +61,13 @@ export const ResultTableRow = ({
           <Badge variant="testCount">
             {result.count}
           </Badge>
+        </div>
+      </TableCell>
+      <TableCell className="relative">
+        <div className="flex items-center justify-between">
+          <span className="text-sm text-gray-600">
+            {format(new Date(result.most_recent_date), 'MMM dd, yyyy')}
+          </span>
           <ChevronRight className="opacity-0 group-hover:opacity-100 text-black transition-opacity" size={24} />
         </div>
       </TableCell>

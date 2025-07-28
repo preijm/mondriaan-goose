@@ -3,6 +3,7 @@ import { ProductPropertyBadges } from "@/components/milk-test/ProductPropertyBad
 import { Badge } from "@/components/ui/badge";
 import { getScoreBadgeVariant } from "@/lib/scoreUtils";
 import { formatScore } from "@/lib/scoreFormatter";
+import { format } from "date-fns";
 import { AggregatedResult, FilterOptions } from "./types";
 
 interface ResultCardProps {
@@ -56,6 +57,12 @@ export const ResultCard = ({
             <Badge variant="testCount" className="px-1.5 py-1 sm:px-2 sm:py-0.5 text-xs font-medium min-w-[2rem] flex items-center justify-center">
               {result.count}
             </Badge>
+          </div>
+          <div className="flex items-center gap-1">
+            <span className="text-gray-500">Latest:</span>
+            <span className="text-xs text-gray-600">
+              {format(new Date(result.most_recent_date), 'MMM dd, yyyy')}
+            </span>
           </div>
         </div>
       </div>
