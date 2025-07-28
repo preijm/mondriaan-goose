@@ -23,9 +23,9 @@ export const useCameraCapabilities = () => {
       if (isNative) {
         // Native app always has camera support
         setHasCameraSupport(true);
-      } else if (isMobile && navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+      } else if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
         try {
-          // Check camera permissions and availability
+          // Check camera permissions and availability on all devices
           const devices = await navigator.mediaDevices.enumerateDevices();
           const hasCamera = devices.some(device => device.kind === 'videoinput');
           setHasCameraSupport(hasCamera);
