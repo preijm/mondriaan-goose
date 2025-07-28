@@ -127,12 +127,16 @@ export const useCameraOperations = ({
   };
 
   const handleTakePhoto = () => {
+    console.log('handleTakePhoto called', { isNativeApp, cameraInputExists: !!cameraInputRef.current });
     if (isNativeApp) {
       takePictureWithNativeCamera();
     } else {
       // For web browsers, use camera input
       if (cameraInputRef.current) {
+        console.log('Clicking camera input...');
         cameraInputRef.current.click();
+      } else {
+        console.error('Camera input ref not found!');
       }
     }
   };
