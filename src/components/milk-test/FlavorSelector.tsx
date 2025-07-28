@@ -132,7 +132,7 @@ export const FlavorSelector = ({
           <Badge 
             key={flavor.id} 
             variant="flavor" 
-            className={`cursor-pointer transition-all !px-1.5 !py-0.5 ${
+            className={`cursor-pointer transition-all ${
               selectedFlavors.includes(flavor.key) 
                 ? 'bg-purple-600 text-white border-purple-600' 
                 : ''
