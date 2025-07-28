@@ -44,21 +44,23 @@ export const ResultCard = ({
           )}
         </div>
         
-        {/* Score and Tests in horizontal layout */}
-        <div className="flex items-center gap-4 text-sm">
-          <div className="flex items-center gap-1">
-            <span className="text-gray-500">Score:</span>
-            <Badge variant={getScoreBadgeVariant(result.avg_rating)} className="px-2 py-1 sm:px-2 sm:py-0.5 text-xs font-bold min-w-[2.5rem] flex items-center justify-center">
-              {formatScore(result.avg_rating)}
-            </Badge>
+        {/* Score and Tests in horizontal layout with date on the right */}
+        <div className="flex items-center justify-between text-sm">
+          <div className="flex items-center gap-4">
+            <div className="flex items-center gap-1">
+              <span className="text-gray-500">Score:</span>
+              <Badge variant={getScoreBadgeVariant(result.avg_rating)} className="px-2 py-1 sm:px-2 sm:py-0.5 text-xs font-bold min-w-[2.5rem] flex items-center justify-center">
+                {formatScore(result.avg_rating)}
+              </Badge>
+            </div>
+            <div className="flex items-center gap-1">
+              <span className="text-gray-500">Tests:</span>
+              <Badge variant="testCount" className="px-1.5 py-1 sm:px-2 sm:py-0.5 text-xs font-medium min-w-[2rem] flex items-center justify-center">
+                {result.count}
+              </Badge>
+            </div>
           </div>
-          <div className="flex items-center gap-1">
-            <span className="text-gray-500">Tests:</span>
-            <Badge variant="testCount" className="px-1.5 py-1 sm:px-2 sm:py-0.5 text-xs font-medium min-w-[2rem] flex items-center justify-center">
-              {result.count}
-            </Badge>
-          </div>
-          <div className="flex items-center gap-1">
+          <div className="flex items-center">
             <span className="text-xs text-gray-600">
               {format(new Date(result.most_recent_date), 'MMM dd, yyyy')}
             </span>
