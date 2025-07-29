@@ -16,6 +16,7 @@ import MyResults from "./pages/MyResults";
 import Account from "./pages/Account";
 import ProductDetails from "./pages/ProductDetails";
 import ResetPassword from "./pages/ResetPassword";
+import Feed from "./pages/Feed";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -56,6 +57,7 @@ const App = () => {
                   <Account />  
                 </ProtectedRoute>
               } />
+              <Route path="/feed" element={<Feed />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
             <Toaster />

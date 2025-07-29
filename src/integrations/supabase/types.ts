@@ -32,6 +32,33 @@ export type Database = {
         }
         Relationships: []
       }
+      comments: {
+        Row: {
+          content: string
+          created_at: string
+          id: string
+          milk_test_id: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          content: string
+          created_at?: string
+          id?: string
+          milk_test_id: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          content?: string
+          created_at?: string
+          id?: string
+          milk_test_id?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       countries: {
         Row: {
           code: string
@@ -74,6 +101,27 @@ export type Database = {
           key?: string
           name?: string
           ordering?: number
+        }
+        Relationships: []
+      }
+      likes: {
+        Row: {
+          created_at: string
+          id: string
+          milk_test_id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          milk_test_id: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          milk_test_id?: string
+          user_id?: string
         }
         Relationships: []
       }
