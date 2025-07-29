@@ -226,16 +226,27 @@ export const FeedItem = ({ item }: FeedItemProps) => {
         </div>
 
         {/* Photo */}
-        {item.picture_path && (
+        {item.picture_path ? (
           <div className="rounded-lg overflow-hidden">
             <img
-              src={`${supabase.storage.from('Milk Product Pictures').getPublicUrl(item.picture_path).data.publicUrl}`}
+              src={`https://jtabjndnietpewvknjrm.supabase.co/storage/v1/object/public/Milk%20Product%20Pictures/${item.picture_path}`}
               alt={`${item.brand_name} ${item.product_name}`}
               className="w-full h-64 object-cover"
               onError={(e) => {
+                console.error('Failed to load image:', item.picture_path);
                 e.currentTarget.style.display = 'none';
               }}
+              onLoad={() => {
+                console.log('Successfully loaded image:', item.picture_path);
+              }}
             />
+          </div>
+        ) : (
+          <div className="rounded-lg overflow-hidden bg-gradient-to-br from-blue-50 to-indigo-100 h-64 flex items-center justify-center">
+            <div className="text-center">
+              <div className="text-4xl mb-2">🥛</div>
+              <p className="text-sm text-gray-600">No photo available</p>
+            </div>
           </div>
         )}
 
