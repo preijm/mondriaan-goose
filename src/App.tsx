@@ -17,6 +17,7 @@ import Account from "./pages/Account";
 import ProductDetails from "./pages/ProductDetails";
 import ResetPassword from "./pages/ResetPassword";
 import Feed from "./pages/Feed";
+import Wishlist from "./pages/Wishlist";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -58,6 +59,11 @@ const App = () => {
                 </ProtectedRoute>
               } />
               <Route path="/feed" element={<Feed />} />
+              <Route path="/wishlist" element={
+                <ProtectedRoute>
+                  <Wishlist />
+                </ProtectedRoute>
+              } />
               <Route path="*" element={<NotFound />} />
             </Routes>
             <Toaster />

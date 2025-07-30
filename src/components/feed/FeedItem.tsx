@@ -366,13 +366,6 @@ export const FeedItem = ({ item }: FeedItemProps) => {
           </div>
 
           <div className="flex items-center space-x-2">
-            <WishlistButton
-              productId={item.product_id || ''}
-              variant="outline"
-              size="sm"
-              className="rounded-full"
-              showText={false}
-            />
             <Button
               variant="outline"
               size="sm"
@@ -381,7 +374,7 @@ export const FeedItem = ({ item }: FeedItemProps) => {
                 if (!user) {
                   toast({
                     title: "Sign in required",
-                    description: "Please sign in to try this product",
+                    description: "Please sign in to save products",
                     variant: "destructive",
                   });
                   return;
@@ -396,6 +389,13 @@ export const FeedItem = ({ item }: FeedItemProps) => {
               <Plus className="h-4 w-4" />
               <span className="font-medium">Try This</span>
             </Button>
+            <WishlistButton
+              productId={item.product_id || ''}
+              variant="outline"
+              size="sm"
+              className="rounded-full"
+              showText={false}
+            />
           </div>
         </div>
 
