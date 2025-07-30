@@ -8,7 +8,7 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
-import { Heart, MessageCircle, Star } from "lucide-react";
+import { Heart, MessageCircle, Star, Plus, MapPin, DollarSign, Clock, ThumbsUp, ThumbsDown } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 import { cn } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
@@ -174,64 +174,97 @@ export const FeedItem = ({ item }: FeedItemProps) => {
     commentMutation.mutate(commentText);
   };
 
+  // Helper function to get badge color based on sentiment
+  const getBadgeVariant = (property: string) => {
+    const positiveSentiments = ['delicious', 'creamy', 'smooth', 'rich', 'worth_it', 'recommended'];
+    const negativeSentiments = ['bitter', 'watery', 'thin', 'not_worth_it', 'disappointing'];
+    
+    if (positiveSentiments.some(p => property.toLowerCase().includes(p))) {
+      return "default"; // Green for positive
+    }
+    if (negativeSentiments.some(p => property.toLowerCase().includes(p))) {
+      return "destructive"; // Red for negative
+    }
+    return "secondary"; // Neutral gray
+  };
+
+  const getBadgeIcon = (property: string) => {
+    if (property.toLowerCase().includes('not_worth_it') || property.toLowerCase().includes('disappointing')) {
+      return <ThumbsDown className="h-3 w-3 mr-1" />;
+    }
+    if (property.toLowerCase().includes('worth_it') || property.toLowerCase().includes('recommended')) {
+      return <ThumbsUp className="h-3 w-3 mr-1" />;
+    }
+    return null;
+  };
+
   const renderRating = (rating: number) => {
+    const ratingColor = rating >= 7 ? "text-green-600" : rating >= 5 ? "text-yellow-600" : "text-red-600";
     return (
       <div className="flex items-center space-x-1">
-        <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-        <span className="font-semibold">{rating}/10</span>
+        <Star className={cn("h-4 w-4 fill-current", ratingColor)} />
+        <span className={cn("font-bold text-lg", ratingColor)}>{rating}/10</span>
       </div>
     );
   };
 
   return (
-    <Card className="w-full">
+    <Card className="w-full shadow-lg hover:shadow-xl transition-shadow duration-300 hover-scale">
       <CardHeader className="pb-3">
-        <div className="flex items-center space-x-3">
-          <Avatar className="h-10 w-10">
-            <AvatarFallback className="bg-primary/10 text-primary font-semibold">
-              {item.username?.charAt(0).toUpperCase() || 'U'}
-            </AvatarFallback>
-          </Avatar>
-          <div className="flex-1">
-            <div className="flex items-center space-x-2">
-              <span className="font-semibold text-foreground">{item.username}</span>
-              <span className="text-sm text-muted-foreground">
-                {formatDistanceToNow(new Date(item.created_at), { addSuffix: true })}
-              </span>
-            </div>
-            <div className="text-sm text-muted-foreground">
-              tried {item.brand_name} {item.product_name}
-            </div>
-          </div>
-        </div>
-      </CardHeader>
-
-      <CardContent className="space-y-4">
-        {/* Product info and rating */}
         <div className="flex items-center justify-between">
-          <div className="flex flex-wrap gap-2">
-            <Badge variant="secondary">{item.brand_name}</Badge>
-            {item.property_names?.map((property) => (
-              <Badge key={property} variant="outline" className="text-xs">
-                {property}
-              </Badge>
-            ))}
-            {item.flavor_names?.map((flavor) => (
-              <Badge key={flavor} variant="flavor" className="text-xs">
-                {flavor}
-              </Badge>
-            ))}
+          <div className="flex items-center space-x-3">
+            <Avatar className="h-12 w-12 ring-2 ring-primary/10">
+              <AvatarFallback className="bg-primary/10 text-primary font-semibold text-lg">
+                {item.username?.charAt(0).toUpperCase() || 'U'}
+              </AvatarFallback>
+            </Avatar>
+            <div className="flex-1">
+              <div className="flex items-center space-x-2">
+                <span className="font-bold text-foreground text-lg">{item.username}</span>
+                <Badge variant="outline" className="text-xs">
+                  <Clock className="h-3 w-3 mr-1" />
+                  {formatDistanceToNow(new Date(item.created_at), { addSuffix: true })}
+                </Badge>
+              </div>
+              <div className="text-base font-medium text-muted-foreground">
+                {item.brand_name} {item.product_name}
+              </div>
+            </div>
           </div>
           {renderRating(item.rating)}
         </div>
+      </CardHeader>
 
-        {/* Photo */}
+      <CardContent className="space-y-6">
+        {/* Enhanced Product Tags with Color Coding */}
+        <div className="flex flex-wrap gap-2">
+          <Badge variant="default" className="font-medium">
+            {item.brand_name}
+          </Badge>
+          {item.property_names?.map((property) => (
+            <Badge 
+              key={property} 
+              variant={getBadgeVariant(property)}
+              className="text-xs font-medium flex items-center"
+            >
+              {getBadgeIcon(property)}
+              {property.replace(/_/g, ' ')}
+            </Badge>
+          ))}
+          {item.flavor_names?.map((flavor) => (
+            <Badge key={flavor} variant="outline" className="text-xs font-medium">
+              {flavor}
+            </Badge>
+          ))}
+        </div>
+
+        {/* Enhanced Photo Display */}
         {item.picture_path ? (
-          <div className="rounded-lg overflow-hidden">
+          <div className="rounded-xl overflow-hidden shadow-md">
             <img
               src={`https://jtabjndnietpewvknjrm.supabase.co/storage/v1/object/public/milk-pictures/${encodeURIComponent(item.picture_path)}`}
               alt={`${item.brand_name} ${item.product_name}`}
-              className="w-full h-96 object-cover"
+              className="w-full h-96 object-cover transition-transform duration-300 hover:scale-105"
               onError={(e) => {
                 console.error('Failed to load image:', item.picture_path);
                 const target = e.currentTarget as HTMLImageElement;
@@ -249,105 +282,158 @@ export const FeedItem = ({ item }: FeedItemProps) => {
           </div>
         ) : null}
         
-        {/* Fallback placeholder - always rendered but hidden unless image fails */}
+        {/* Enhanced Fallback placeholder */}
         <div 
-          className="rounded-lg overflow-hidden bg-gradient-to-br from-blue-50 to-indigo-100 h-96 flex items-center justify-center"
+          className="rounded-xl overflow-hidden bg-gradient-to-br from-primary/5 to-primary/10 h-96 flex items-center justify-center border-2 border-dashed border-primary/20"
           style={{ display: item.picture_path ? 'none' : 'flex' }}
         >
           <div className="text-center">
-            <div className="text-4xl mb-2">🥛</div>
-            <p className="text-sm text-gray-600">No photo available</p>
+            <div className="text-6xl mb-4">🥛</div>
+            <p className="text-lg font-medium text-muted-foreground">No photo available</p>
+            <p className="text-sm text-muted-foreground">Share a photo of this product!</p>
           </div>
         </div>
 
         {/* Notes */}
         {item.notes && (
-          <p className="text-foreground">{item.notes}</p>
+          <div className="bg-muted/30 rounded-lg p-4 border-l-4 border-primary">
+            <p className="text-foreground font-medium italic">"{item.notes}"</p>
+          </div>
         )}
 
-        {/* Additional details */}
-        <div className="flex flex-wrap gap-4 text-sm text-muted-foreground">
+        {/* Enhanced Product Context */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-4 bg-muted/20 rounded-lg">
           {item.drink_preference && (
-            <span>🥛 {item.drink_preference}</span>
+            <div className="flex items-center space-x-2 text-sm">
+              <span className="text-2xl">🥛</span>
+              <div>
+                <div className="font-medium text-foreground">Preference</div>
+                <div className="text-muted-foreground">{item.drink_preference}</div>
+              </div>
+            </div>
           )}
           {item.shop_name && (
-            <span>📍 {item.shop_name}</span>
+            <div className="flex items-center space-x-2 text-sm">
+              <MapPin className="h-5 w-5 text-primary" />
+              <div>
+                <div className="font-medium text-foreground">Available at</div>
+                <div className="text-muted-foreground">{item.shop_name}</div>
+              </div>
+            </div>
           )}
           {item.price_quality_ratio && (
-            <span>💰 {item.price_quality_ratio}</span>
+            <div className="flex items-center space-x-2 text-sm">
+              <DollarSign className="h-5 w-5 text-primary" />
+              <div>
+                <div className="font-medium text-foreground">Value</div>
+                <div className="text-muted-foreground">{item.price_quality_ratio}</div>
+              </div>
+            </div>
           )}
         </div>
 
-        {/* Actions */}
-        <div className="flex items-center space-x-4 pt-2 border-t">
+        {/* Enhanced Engagement Actions */}
+        <div className="flex items-center justify-between pt-4 border-t-2 border-border/50">
+          <div className="flex items-center space-x-4">
+            <Button
+              variant="ghost"
+              size="lg"
+              onClick={handleLike}
+              disabled={likeMutation.isPending}
+              className={cn(
+                "flex items-center space-x-2 px-4 py-2 rounded-full transition-all duration-200",
+                isLiked 
+                  ? "text-red-500 bg-red-50 hover:bg-red-100" 
+                  : "hover:bg-gray-50"
+              )}
+            >
+              <Heart className={cn("h-5 w-5", isLiked && "fill-current")} />
+              <span className="font-semibold text-lg">{likes.length}</span>
+              <span className="text-sm">Likes</span>
+            </Button>
+            
+            <Button
+              variant="ghost"
+              size="lg"
+              onClick={() => setShowComments(!showComments)}
+              className="flex items-center space-x-2 px-4 py-2 rounded-full hover:bg-gray-50 transition-all duration-200"
+            >
+              <MessageCircle className="h-5 w-5" />
+              <span className="font-semibold text-lg">{comments.length}</span>
+              <span className="text-sm">Comments</span>
+            </Button>
+          </div>
+
           <Button
-            variant="ghost"
+            variant="outline"
             size="sm"
-            onClick={handleLike}
-            disabled={likeMutation.isPending}
-            className={cn(
-              "flex items-center space-x-2",
-              isLiked && "text-red-500"
-            )}
+            className="flex items-center space-x-2 px-4 py-2 rounded-full hover:bg-primary hover:text-primary-foreground transition-all duration-200"
+            onClick={() => {
+              if (!user) {
+                toast({
+                  title: "Sign in required",
+                  description: "Please sign in to try this product",
+                  variant: "destructive",
+                });
+                return;
+              }
+              // Navigate to add test page with this product pre-selected
+              toast({
+                title: "Coming soon!",
+                description: "Quick 'Try This' feature will be available soon",
+              });
+            }}
           >
-            <Heart className={cn("h-4 w-4", isLiked && "fill-current")} />
-            <span>{likes.length}</span>
-          </Button>
-          
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => setShowComments(!showComments)}
-            className="flex items-center space-x-2"
-          >
-            <MessageCircle className="h-4 w-4" />
-            <span>{comments.length}</span>
+            <Plus className="h-4 w-4" />
+            <span className="font-medium">Try This</span>
           </Button>
         </div>
 
         {/* Comments section */}
         {showComments && (
-          <div className="space-y-3 pt-2 border-t">
+          <div className="space-y-4 pt-4 border-t border-border/50">
             {comments.map((comment) => (
-              <div key={comment.id} className="flex space-x-3">
-                <Avatar className="h-8 w-8">
-                  <AvatarFallback className="bg-primary/10 text-primary text-xs">
+              <div key={comment.id} className="flex space-x-3 p-3 bg-muted/20 rounded-lg">
+                <Avatar className="h-10 w-10 ring-2 ring-primary/10">
+                  <AvatarFallback className="bg-primary/10 text-primary text-sm font-semibold">
                     {comment.username?.charAt(0).toUpperCase() || 'U'}
                   </AvatarFallback>
                 </Avatar>
                 <div className="flex-1">
                   <div className="flex items-center space-x-2">
-                    <span className="font-medium text-sm">{comment.username}</span>
-                    <span className="text-xs text-muted-foreground">
+                    <span className="font-semibold text-foreground">{comment.username}</span>
+                    <span className="text-xs text-muted-foreground flex items-center">
+                      <Clock className="h-3 w-3 mr-1" />
                       {formatDistanceToNow(new Date(comment.created_at), { addSuffix: true })}
                     </span>
                   </div>
-                  <p className="text-sm text-foreground">{comment.content}</p>
+                  <p className="text-foreground mt-1">{comment.content}</p>
                 </div>
               </div>
             ))}
 
             {/* Add comment */}
             {user && (
-              <div className="flex space-x-3">
-                <Avatar className="h-8 w-8">
-                  <AvatarFallback className="bg-primary/10 text-primary text-xs">
+              <div className="flex space-x-3 p-4 bg-muted/30 rounded-lg">
+                <Avatar className="h-10 w-10 ring-2 ring-primary/10">
+                  <AvatarFallback className="bg-primary/10 text-primary text-sm font-semibold">
                     {user.email?.charAt(0).toUpperCase() || 'U'}
                   </AvatarFallback>
                 </Avatar>
-                <div className="flex-1 space-y-2">
+                <div className="flex-1 space-y-3">
                   <Textarea
-                    placeholder="Add a comment..."
+                    placeholder="Share your thoughts about this product..."
                     value={commentText}
                     onChange={(e) => setCommentText(e.target.value)}
-                    className="min-h-[60px] resize-none"
+                    className="min-h-[80px] resize-none border-2 focus:border-primary"
                   />
                   <Button
                     size="sm"
                     onClick={handleComment}
                     disabled={!commentText.trim() || commentMutation.isPending}
+                    className="px-6 py-2 rounded-full"
                   >
-                    Comment
+                    {commentMutation.isPending ? "Posting..." : "Post Comment"}
                   </Button>
                 </div>
               </div>
