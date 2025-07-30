@@ -229,7 +229,7 @@ export const FeedItem = ({ item }: FeedItemProps) => {
         {item.picture_path ? (
           <div className="rounded-lg overflow-hidden">
             <img
-              src={`https://jtabjndnietpewvknjrm.supabase.co/storage/v1/object/public/Milk%20Product%20Pictures/${encodeURIComponent(item.picture_path)}`}
+              src={`https://jtabjndnietpewvknjrm.supabase.co/storage/v1/object/public/milk-pictures/${encodeURIComponent(item.picture_path)}`}
               alt={`${item.brand_name} ${item.product_name}`}
               className="w-full h-64 object-cover"
               onError={(e) => {
