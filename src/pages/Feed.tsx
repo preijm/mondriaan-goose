@@ -49,78 +49,16 @@ const Feed = () => {
               {feedItems.map(item => <FeedItem key={item.id} item={item} />)}
               {feedItems.length === 0 && (
                 <div className="text-center py-8 text-muted-foreground">
-                  No milk tests to show yet. Be the first to share your tasting!
+                  {user 
+                    ? "No milk tests to show yet. Be the first to share your tasting!"
+                    : "Sign in to see milk tests and reviews from the community. Join to discover new alternatives and share your tastings!"
+                  }
                 </div>
               )}
             </div>
           )}
         </div>
 
-        {/* Authentication Overlay - Only shown when not authenticated */}
-        {!user && (
-          <div data-auth-overlay className="absolute inset-0 z-20 flex items-center justify-center bg-black/20 backdrop-blur-[1px]">
-            <Card className="mx-4 w-full max-w-md bg-white/95 backdrop-blur-sm shadow-2xl border border-white/20">
-              <CardContent className="p-8 text-center">
-                <div className="text-6xl mb-6">🥛</div>
-                <h2 className="text-2xl font-bold text-foreground mb-4">
-                  Join the Milk Community
-                </h2>
-                <p className="text-muted-foreground mb-4">
-                  Discover milk alternatives, read honest reviews, and share your own tastings with fellow enthusiasts.
-                </p>
-                
-                {/* Social Proof */}
-                <div className="bg-primary/5 rounded-lg p-4 mb-6">
-                  <p className="text-sm font-medium text-foreground mb-2">
-                    Join 1,200+ milk alternative enthusiasts
-                  </p>
-                  <div className="flex justify-center gap-4 text-xs text-muted-foreground">
-                    <span>⭐ 4.8/5 avg rating</span>
-                    <span>📝 850+ reviews</span>
-                    <span>🥛 200+ products</span>
-                  </div>
-                </div>
-
-                <div className="space-y-3 mb-6">
-                  <Button 
-                    onClick={() => navigate('/auth')} 
-                    className="w-full" 
-                    variant="brand"
-                    size="lg"
-                  >
-                    <LogIn className="h-5 w-5 mr-2" />
-                    Sign In
-                  </Button>
-                  <Button 
-                    onClick={() => navigate('/auth')} 
-                    variant="outline" 
-                    className="w-full"
-                    size="lg"
-                  >
-                    <UserPlus className="h-5 w-5 mr-2" />
-                    Create Account
-                  </Button>
-                  <Button 
-                    onClick={() => {
-                      // Temporarily disable auth requirement for browsing
-                      const overlay = document.querySelector('[data-auth-overlay]');
-                      if (overlay) overlay.remove();
-                    }}
-                    variant="ghost" 
-                    className="w-full text-sm"
-                    size="sm"
-                  >
-                    Browse without account
-                  </Button>
-                </div>
-                
-                <p className="text-xs text-muted-foreground">
-                  Already have an account? Click "Sign In" to access your profile.
-                </p>
-              </CardContent>
-            </Card>
-          </div>
-        )}
       </BackgroundPattern>
       <MobileFooter />
     </div>
