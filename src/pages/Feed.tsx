@@ -37,7 +37,7 @@ const Feed = () => {
       <MenuBar />
       <BackgroundPattern>
         {/* Main Content - Always rendered but blurred when not authenticated */}
-        <div className={`container max-w-2xl mx-auto px-4 py-6 md:py-8 pt-24 md:pt-32 pb-20 sm:pb-6 md:pb-8 relative z-10 transition-all duration-300 ${!user ? 'blur-sm pointer-events-none' : ''}`}>
+        <div className={`container max-w-2xl mx-auto px-4 py-6 md:py-8 pt-24 md:pt-32 pb-20 sm:pb-6 md:pb-8 relative z-10 transition-all duration-300 ${!user ? 'pointer-events-none' : ''}`}>
           <h1 className="text-2xl md:text-3xl font-bold text-foreground mb-6 md:mb-8 text-center">Moo'd Board</h1>
           
           {isLoading ? (
