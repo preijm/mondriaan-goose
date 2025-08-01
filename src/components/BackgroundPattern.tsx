@@ -7,7 +7,7 @@ interface BackgroundPatternProps {
 
 const BackgroundPattern = ({ children }: BackgroundPatternProps) => {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-white via-emerald-50/5 to-white relative overflow-hidden">
+    <div className="h-full bg-gradient-to-br from-white via-emerald-50/5 to-white relative overflow-hidden">
       {/* Primary curved line */}
       <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwMCIgaGVpZ2h0PSIyMDAwIiB2aWV3Qm94PSIwIDAgMzAwMCAyMDAwIiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxwYXRoIGQ9Ik0tNTAwIC0yMDBDMCAtMTAwIDUwMCAyMDAgMTAwMCA1MDBDMTUwMCA4MDAgMjAwMCAxMDAwIDI1MDAgMTIwMEMzMDAwIDE0MDAgMzUwMCAxNjAwIDQwMDAgMTgwMCIgc3Ryb2tlPSJ1cmwoI2dyYWRpZW50KSIgc3Ryb2tlLXdpZHRoPSIyIi8+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJncmFkaWVudCIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMTAwJSI+PHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzVFRjBFNiIvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iIzBFQjVCNSIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjwvc3ZnPg==')] opacity-25" />
       
