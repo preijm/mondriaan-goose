@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
 import { MilkTestResult } from "@/types/milk-test";
@@ -8,7 +9,7 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
-import { Heart, MessageCircle, Star, Plus, MapPin, DollarSign, Clock, ThumbsUp, ThumbsDown } from "lucide-react";
+import { Heart, MessageCircle, Star, Plus, MapPin, DollarSign, Clock, ThumbsUp, ThumbsDown, Edit3 } from "lucide-react";
 import { WishlistButton } from "@/components/WishlistButton";
 import { formatDistanceToNow } from "date-fns";
 import { cn } from "@/lib/utils";
@@ -36,9 +37,13 @@ interface Comment {
 export const FeedItem = ({ item }: FeedItemProps) => {
   const { user } = useAuth();
   const { toast } = useToast();
+  const navigate = useNavigate();
   const queryClient = useQueryClient();
   const [commentText, setCommentText] = useState("");
   const [showComments, setShowComments] = useState(false);
+
+  // Check if current user is the author of this milk test
+  const isOwnPost = user?.id === item.user_id;
 
   // Fetch likes for this milk test
   const { data: likes = [] } = useQuery({
@@ -264,7 +269,19 @@ export const FeedItem = ({ item }: FeedItemProps) => {
               </div>
             </div>
           </div>
-          {renderRating(item.rating)}
+          <div className="flex items-center gap-2">
+            {isOwnPost && (
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => navigate(`/edit/${item.id}`)}
+                className="text-muted-foreground hover:text-foreground"
+              >
+                <Edit3 className="h-4 w-4" />
+              </Button>
+            )}
+            {renderRating(item.rating)}
+          </div>
         </div>
       </CardHeader>
 
