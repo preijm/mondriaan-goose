@@ -227,20 +227,29 @@ export const FeedItem = ({ item }: FeedItemProps) => {
                   {formatDistanceToNow(new Date(item.created_at), { addSuffix: true })}
                 </Badge>
               </div>
-              <div className="flex items-center gap-2 mt-1">
+              <div className="flex items-center gap-2 mt-1 flex-wrap">
                 <span className="text-base font-medium text-foreground">
                   {item.brand_name}
                 </span>
                 <span className="text-base font-medium text-muted-foreground">
                   {item.product_name}
                 </span>
-                {item.property_names?.slice(0, 2).map((property) => (
+                {item.property_names?.map((property) => (
                   <Badge 
                     key={property} 
                     variant={property.toLowerCase().includes('barista') ? 'barista' : 'category'}
                     className="text-xs font-medium"
                   >
                     {property.replace(/_/g, ' ')}
+                  </Badge>
+                ))}
+                {item.flavor_names?.map((flavor) => (
+                  <Badge 
+                    key={flavor} 
+                    variant="flavor"
+                    className="text-xs font-medium"
+                  >
+                    {flavor}
                   </Badge>
                 ))}
               </div>
