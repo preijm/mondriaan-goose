@@ -228,12 +228,21 @@ export const FeedItem = ({ item }: FeedItemProps) => {
                 </Badge>
               </div>
               <div className="flex items-center gap-2 mt-1">
-                <Badge variant="category" className="font-medium">
+                <span className="text-base font-medium text-foreground">
                   {item.brand_name}
-                </Badge>
+                </span>
                 <span className="text-base font-medium text-muted-foreground">
                   {item.product_name}
                 </span>
+                {item.property_names?.slice(0, 2).map((property) => (
+                  <Badge 
+                    key={property} 
+                    variant={property.toLowerCase().includes('barista') ? 'barista' : 'category'}
+                    className="text-xs font-medium"
+                  >
+                    {property.replace(/_/g, ' ')}
+                  </Badge>
+                ))}
               </div>
             </div>
           </div>
