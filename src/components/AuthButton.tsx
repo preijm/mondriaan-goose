@@ -43,9 +43,9 @@ export const AuthButton = () => {
   };
   
   if (!user) {
-    return <Button onClick={handleAuth} variant="brand" className="w-full">
+    return <Button onClick={handleAuth} variant="brand" className={isMobile ? "px-3" : "w-full"}>
       <LogIn className="w-4 h-4 mr-2" />
-      Login here
+      {isMobile ? "Login" : "Login here"}
     </Button>;
   }
   
