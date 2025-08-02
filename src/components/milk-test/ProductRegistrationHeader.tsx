@@ -9,11 +9,15 @@ import {
   TooltipTrigger 
 } from "@/components/ui/tooltip";
 
-export const ProductRegistrationHeader = () => {
+interface ProductRegistrationHeaderProps {
+  isEditMode?: boolean;
+}
+
+export const ProductRegistrationHeader = ({ isEditMode = false }: ProductRegistrationHeaderProps) => {
   return (
     <DialogHeader>
       <DialogTitle className="flex items-center gap-2">
-        Register New Product
+        {isEditMode ? 'Edit Product' : 'Register New Product'}
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger asChild>

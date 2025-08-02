@@ -97,7 +97,10 @@ export const ProductSearch = ({
         />
         
         {selectedProductId && selectedProductData && (
-          <SelectedProduct product={selectedProductData} />
+          <SelectedProduct 
+            product={selectedProductData} 
+            onEdit={() => setShowRegistrationDialog(true)}
+          />
         )}
         
         {/* Search results dropdown */}
@@ -121,6 +124,7 @@ export const ProductSearch = ({
         open={showRegistrationDialog}
         onOpenChange={setShowRegistrationDialog}
         onSuccess={handleProductRegistrationSuccess}
+        editProductId={selectedProductId || undefined}
       />
     </div>
   );

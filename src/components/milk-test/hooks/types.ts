@@ -3,6 +3,8 @@ export interface UseProductRegistrationFormProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   onSuccess: (productId: string, brandId: string) => void;
+  editProductId?: string;
+  productDetails?: any;
 }
 
 export interface FormState {

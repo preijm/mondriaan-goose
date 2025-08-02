@@ -1,12 +1,18 @@
 import React from "react";
 import { ProductData } from "./search-utils/types";
 import { ProductPropertyBadges } from "@/components/milk-test/ProductPropertyBadges";
+import { Button } from "@/components/ui/button";
+import { Edit } from "lucide-react";
+import { useAdminCheck } from "@/hooks/useAdminCheck";
 interface SelectedProductProps {
   product: ProductData;
+  onEdit?: () => void;
 }
 export const SelectedProduct = ({
-  product
+  product,
+  onEdit
 }: SelectedProductProps) => {
+  const { data: isAdmin } = useAdminCheck();
   // Safety check - if product is invalid, don't render anything
   if (!product || !product.brand_name || !product.product_name) {
     console.log("SelectedProduct received invalid product data:", product);
@@ -22,7 +28,19 @@ export const SelectedProduct = ({
     isBarista: product.is_barista
   });
   return <div className="mt-2 p-3 bg-gray-50 border rounded-md">
-      <div className="font-medium">{product.brand_name} - {product.product_name}</div>
+      <div className="flex justify-between items-start">
+        <div className="font-medium">{product.brand_name} - {product.product_name}</div>
+        {isAdmin && onEdit && (
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={onEdit}
+            className="h-8 w-8 p-0 hover:bg-gray-200"
+          >
+            <Edit className="h-4 w-4" />
+          </Button>
+        )}
+      </div>
       
       <div className="mt-2 flex flex-wrap gap-2.5">
         {/* Barista status */}

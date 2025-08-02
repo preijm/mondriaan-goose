@@ -10,13 +10,15 @@ interface ProductRegistrationDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   onSuccess: (productId: string, brandId: string) => void;
+  editProductId?: string; // Optional product ID for edit mode
 }
 
 // Container component that handles the form submission logic
 const ProductRegistrationContainer: React.FC<ProductRegistrationDialogProps> = ({
   open,
   onOpenChange,
-  onSuccess
+  onSuccess,
+  editProductId
 }) => {
   const {
     brandId,
@@ -120,9 +122,9 @@ const ProductRegistrationContainer: React.FC<ProductRegistrationDialogProps> = (
   return <>
       <Dialog open={open} onOpenChange={handleOpenChange}>
         <DialogContent className="max-w-2xl max-h-[85vh] overflow-y-auto backdrop-blur-sm border border-white/20 shadow-xl bg-white">
-          <ProductRegistrationHeader />
+          <ProductRegistrationHeader isEditMode={!!editProductId} />
           <DialogDescription className="sr-only">
-            Register a new milk product with brand, product details, properties, and flavors
+            {editProductId ? 'Edit milk product details, properties, and flavors' : 'Register a new milk product with brand, product details, properties, and flavors'}
           </DialogDescription>
           
           <ProductForm onSubmit={handleSubmit} onCancel={handleCancel} onBrandInputReady={handleBrandInputReady} />

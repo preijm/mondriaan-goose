@@ -8,7 +8,9 @@ import { UseProductRegistrationFormProps } from "./types";
 export const useProductRegistrationForm = ({
   open,
   onOpenChange,
-  onSuccess
+  onSuccess,
+  editProductId,
+  productDetails
 }: UseProductRegistrationFormProps) => {
   // Form state
   const [brandId, setBrandId] = useState("");
@@ -19,20 +21,37 @@ export const useProductRegistrationForm = ({
   const [selectedFlavors, setSelectedFlavors] = useState<string[]>([]);
   const { toast } = useToast();
 
-  // Reset form when dialog opens
+  // Reset form when dialog opens or populate with existing data
   useEffect(() => {
     if (open) {
-      resetFormState({
-        setBrandId,
-        setProductName,
-        setNameId,
-        setSelectedProductTypes,
-        setIsBarista,
-        setSelectedFlavors,
-        setIsSubmitting: () => {} // This is now handled by the context
-      });
+      if (editProductId && productDetails) {
+        // Edit mode - populate form with existing data
+        setBrandId(productDetails.brand_id || "");
+        setProductName(productDetails.product_name || "");
+        setNameId(productDetails.product_name_id || null);
+        setIsBarista(productDetails.is_barista || false);
+        
+        // Map property names to property keys for selectedProductTypes
+        const propertyKeys = productDetails.property_names || [];
+        setSelectedProductTypes(propertyKeys);
+        
+        // Map flavor names to flavor keys for selectedFlavors
+        const flavorKeys = productDetails.flavor_names || [];
+        setSelectedFlavors(flavorKeys);
+      } else {
+        // New product mode - reset form
+        resetFormState({
+          setBrandId,
+          setProductName,
+          setNameId,
+          setSelectedProductTypes,
+          setIsBarista,
+          setSelectedFlavors,
+          setIsSubmitting: () => {} // This is now handled by the context
+        });
+      }
     }
-  }, [open]);
+  }, [open, editProductId, productDetails]);
 
   // Fetch product_flavors
   const flavorsResult = useProductFlavors();

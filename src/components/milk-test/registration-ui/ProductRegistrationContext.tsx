@@ -4,6 +4,7 @@ import {
   useProductRegistrationForm
 } from "../hooks/useProductRegistrationForm";
 import { UseProductRegistrationFormProps } from "../hooks/types";
+import { useProductDetails } from "@/hooks/useProductDetails";
 
 // The context holds the entire state and handlers from useProductRegistrationForm
 type ProductRegistrationContextType = ReturnType<typeof useProductRegistrationForm> & {
@@ -34,7 +35,13 @@ export const ProductRegistrationProvider: React.FC<ProductRegistrationProviderPr
 }) => {
   const [isSubmitting, setIsSubmitting] = React.useState(false);
   
-  const formState = useProductRegistrationForm(formProps);
+  // Fetch product details if in edit mode
+  const { data: productDetails } = useProductDetails(formProps.editProductId);
+  
+  const formState = useProductRegistrationForm({
+    ...formProps,
+    productDetails
+  });
   
   // Reset isSubmitting state when dialog opens/closes
   useEffect(() => {
