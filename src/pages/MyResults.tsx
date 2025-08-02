@@ -94,7 +94,7 @@ const MyResults = () => {
     return <div className="min-h-screen">
         <MenuBar />
         <BackgroundPattern>
-          <div className="container max-w-6xl mx-auto px-4 py-8 pt-32 relative z-10">
+          <div className="container max-w-6xl mx-auto px-4 py-8 pt-24 relative z-10">
             <div className="text-center mt-8">Loading...</div>
           </div>
         </BackgroundPattern>
@@ -104,7 +104,7 @@ const MyResults = () => {
     return <div className="min-h-screen">
         <MenuBar />
         <BackgroundPattern>
-          <div className="container max-w-6xl mx-auto px-4 py-8 pt-32 relative z-10">
+          <div className="container max-w-6xl mx-auto px-4 py-8 pt-24 relative z-10">
             <div className="text-center mt-8 text-red-500">Error loading data</div>
           </div>
         </BackgroundPattern>
@@ -113,7 +113,7 @@ const MyResults = () => {
   return <div className="min-h-screen">
       <MenuBar />
       <BackgroundPattern>
-        <div className="container max-w-6xl mx-auto px-4 py-8 pt-32 relative z-10">
+        <div className="container max-w-6xl mx-auto px-4 py-8 pt-24 pb-20 sm:pb-8 relative z-10">
           <div className="flex items-center justify-between mb-8">
             <h1 className="text-3xl font-bold text-gray-900">My Results</h1>
             <Button onClick={() => navigate('/add')} className="flex items-center gap-2" variant="brand">

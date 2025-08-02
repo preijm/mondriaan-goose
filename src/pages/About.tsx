@@ -7,8 +7,8 @@ const About = () => {
   return <div className="min-h-screen">
       <MenuBar />
       <BackgroundPatternWithOverlay>
-        <div className="flex items-center justify-center min-h-screen">
-          <div className="container max-w-7xl mx-auto px-4 py-8 pt-16 relative z-10">
+        <div className="flex items-center justify-center min-h-screen pt-16 pb-20 sm:pb-8">
+          <div className="container max-w-7xl mx-auto px-4 py-8 relative z-10">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <div className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow">
                 <div className="flex flex-col items-center text-center gap-4">

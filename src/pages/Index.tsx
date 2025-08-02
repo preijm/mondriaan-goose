@@ -7,11 +7,11 @@ import BackgroundPattern from "@/components/BackgroundPattern";
 // Note: This page is now protected by ProtectedRoute in App.tsx
 const Index = () => {
   return (
-    <div className="h-screen flex flex-col overflow-hidden">
+    <div className="min-h-screen flex flex-col">
       <MenuBar />
-      <div className="flex-1 overflow-hidden">
+      <div className="flex-1 pt-16 pb-20 sm:pb-4">
         <BackgroundPattern>
-          <div className="h-full flex items-center justify-center px-4">
+          <div className="min-h-[calc(100vh-4rem)] flex items-center justify-center px-4">
             <div className="container max-w-3xl mx-auto relative z-10 w-full">
               <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-6 md:mb-8 text-center">Moo-ment of Truth</h1>
               <AddMilkTest />
