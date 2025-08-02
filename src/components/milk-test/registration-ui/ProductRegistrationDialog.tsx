@@ -6,6 +6,7 @@ import { ProductRegistrationProvider, useProductRegistration } from "./ProductRe
 import { ProductForm } from "./FormSections";
 import { useToast } from "@/hooks/use-toast";
 import { AlertDialog, AlertDialogAction, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
+import { supabase } from "@/integrations/supabase/client";
 interface ProductRegistrationDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
@@ -113,6 +114,48 @@ const ProductRegistrationContainer: React.FC<ProductRegistrationDialogProps> = (
     setIsSubmitting(false); // Ensure isSubmitting is reset
   };
 
+  // Handle delete button click
+  const handleDelete = async () => {
+    if (!editProductId) return;
+    
+    try {
+      setIsSubmitting(true);
+      
+      // Delete the product from the database
+      const { error } = await supabase
+        .from('products')
+        .delete()
+        .eq('id', editProductId);
+      
+      if (error) {
+        console.error('Error deleting product:', error);
+        toast({
+          title: "Error",
+          description: "Failed to delete product. Please try again.",
+          variant: "destructive"
+        });
+        return;
+      }
+      
+      toast({
+        title: "Success",
+        description: "Product deleted successfully.",
+      });
+      
+      onOpenChange(false);
+      onSuccess('', ''); // Trigger parent to refresh
+    } catch (error) {
+      console.error('Error deleting product:', error);
+      toast({
+        title: "Error",
+        description: "Failed to delete product. Please try again.",
+        variant: "destructive"
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   // Handle cancel button click - just close the dialog without navigation
   const handleCancel = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -127,7 +170,7 @@ const ProductRegistrationContainer: React.FC<ProductRegistrationDialogProps> = (
             {editProductId ? 'Edit milk product details, properties, and flavors' : 'Register a new milk product with brand, product details, properties, and flavors'}
           </DialogDescription>
           
-          <ProductForm onSubmit={handleSubmit} onCancel={handleCancel} onBrandInputReady={handleBrandInputReady} />
+          <ProductForm onSubmit={handleSubmit} onCancel={handleCancel} onBrandInputReady={handleBrandInputReady} onDelete={handleDelete} />
         </DialogContent>
       </Dialog>
       

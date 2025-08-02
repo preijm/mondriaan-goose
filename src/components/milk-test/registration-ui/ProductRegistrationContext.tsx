@@ -5,6 +5,7 @@ import {
 } from "../hooks/useProductRegistrationForm";
 import { UseProductRegistrationFormProps } from "../hooks/types";
 import { useProductDetails } from "@/hooks/useProductDetails";
+import { useAdminCheck } from "@/hooks/useAdminCheck";
 
 // The context holds the entire state and handlers from useProductRegistrationForm
 type ProductRegistrationContextType = ReturnType<typeof useProductRegistrationForm> & {
@@ -12,6 +13,9 @@ type ProductRegistrationContextType = ReturnType<typeof useProductRegistrationFo
   setIsSubmitting: (value: boolean) => void;
   handleSubmit: (e: React.FormEvent) => Promise<any>;
   refetchFlavors?: () => void;
+  isEditMode: boolean;
+  isAdmin: boolean;
+  editProductId?: string;
 };
 
 const ProductRegistrationContext = createContext<ProductRegistrationContextType | undefined>(undefined);
@@ -38,6 +42,9 @@ export const ProductRegistrationProvider: React.FC<ProductRegistrationProviderPr
   // Fetch product details if in edit mode
   const { data: productDetails } = useProductDetails(formProps.editProductId);
   
+  // Check admin status
+  const { data: isAdmin } = useAdminCheck();
+  
   const formState = useProductRegistrationForm({
     ...formProps,
     productDetails
@@ -57,7 +64,10 @@ export const ProductRegistrationProvider: React.FC<ProductRegistrationProviderPr
     setIsSubmitting,
     // The handleSubmit will be overridden in the Dialog component
     handleSubmit: async (e: React.FormEvent) => Promise.resolve(null),
-    refetchFlavors: formState.flavorQuery?.refetch
+    refetchFlavors: formState.flavorQuery?.refetch,
+    isEditMode: !!formProps.editProductId,
+    isAdmin: isAdmin || false,
+    editProductId: formProps.editProductId
   };
   
   return (

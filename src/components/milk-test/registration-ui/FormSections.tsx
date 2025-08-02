@@ -6,14 +6,16 @@ import { FlavorSelector } from "../FlavorSelector";
 import { BaristaToggle } from "../BaristaToggle";
 import { ProductOptions } from "../ProductOptions";
 import { NameSelect } from "../NameSelect";
+import { Trash2 } from "lucide-react";
 
 interface ProductFormProps {
   onSubmit: (e: React.FormEvent) => Promise<void>;
   onCancel: (e: React.MouseEvent) => void;
   onBrandInputReady?: (input: HTMLInputElement | null) => void;
+  onDelete?: () => void;
 }
 
-export const ProductForm = forwardRef<HTMLInputElement, ProductFormProps>(({ onSubmit, onCancel, onBrandInputReady }, ref) => {
+export const ProductForm = forwardRef<HTMLInputElement, ProductFormProps>(({ onSubmit, onCancel, onBrandInputReady, onDelete }, ref) => {
   const {
     brandId,
     setBrandId,
@@ -29,7 +31,10 @@ export const ProductForm = forwardRef<HTMLInputElement, ProductFormProps>(({ onS
     handleFlavorToggle,
     flavors = [],
     isSubmitting,
-    refetchFlavors
+    refetchFlavors,
+    isEditMode,
+    isAdmin,
+    editProductId
   } = useProductRegistration();
 
   // Form validation logic
@@ -87,23 +92,45 @@ export const ProductForm = forwardRef<HTMLInputElement, ProductFormProps>(({ onS
         </div>
       </div>
 
-      <div className="flex justify-end space-x-2 pt-4">
-        <Button
-          type="button"
-          variant="outline"
-          onClick={onCancel}
-          className="px-4"
-        >
-          Cancel
-        </Button>
-        <Button
-          type="submit"
-          variant="brand"
-          disabled={!isFormValid || isSubmitting}
-          className="px-4"
-        >
-          {isSubmitting ? "Registering..." : "Register Product"}
-        </Button>
+      <div className="flex justify-between items-center pt-4">
+        {/* Left side - Remove button for admins in edit mode */}
+        <div>
+          {isEditMode && isAdmin && onDelete && (
+            <Button
+              type="button"
+              variant="destructive"
+              onClick={onDelete}
+              className="px-4"
+              disabled={isSubmitting}
+            >
+              <Trash2 className="h-4 w-4 mr-2" />
+              Remove
+            </Button>
+          )}
+        </div>
+        
+        {/* Right side - Cancel and Submit buttons */}
+        <div className="flex space-x-2">
+          <Button
+            type="button"
+            variant="outline"
+            onClick={onCancel}
+            className="px-4"
+          >
+            Cancel
+          </Button>
+          <Button
+            type="submit"
+            variant="brand"
+            disabled={!isFormValid || isSubmitting}
+            className="px-4"
+          >
+            {isSubmitting 
+              ? (isEditMode ? "Updating..." : "Registering...")
+              : (isEditMode ? "Update Product" : "Register Product")
+            }
+          </Button>
+        </div>
       </div>
     </form>
   );
