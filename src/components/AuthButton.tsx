@@ -3,9 +3,10 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { supabase } from "@/integrations/supabase/client";
-import { LogIn, Settings, ChevronDown, Plus, Bookmark } from "lucide-react";
+import { LogIn, Settings, ChevronDown, Plus, Bookmark, Bell } from "lucide-react";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
 import { useToast } from "@/hooks/use-toast";
+import { NotificationDropdown } from "@/components/notifications/NotificationDropdown";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 export const AuthButton = () => {
@@ -74,6 +75,8 @@ export const AuthButton = () => {
           </svg>
           <span>My Results</span>
         </DropdownMenuItem>
+        
+        <NotificationDropdown />
         
         <DropdownMenuItem onClick={() => navigate('/wishlist')} className="flex items-center gap-2 rounded-lg px-3 py-2.5 hover:bg-emerald-50 transition-colors cursor-pointer">
           <Bookmark className="w-4 h-4 opacity-70" />

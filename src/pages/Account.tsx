@@ -10,6 +10,7 @@ import MenuBar from "@/components/MenuBar";
 import MobileFooter from "@/components/MobileFooter";
 import BackgroundPatternWithOverlay from "@/components/BackgroundPatternWithOverlay";
 import { CountrySelect } from "@/components/milk-test/CountrySelect";
+import NotificationSettings from "@/components/settings/NotificationSettings";
 const Account = () => {
   const [username, setUsername] = useState("");
   const [defaultCountry, setDefaultCountry] = useState<string | null>(null);
@@ -201,17 +202,7 @@ const Account = () => {
                     </TabsContent>
 
                     <TabsContent value="notifications" className="space-y-6 mt-0 h-full">
-                      <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
-                        <div className="flex items-start">
-                          <Bell className="w-5 h-5 text-yellow-600 mt-0.5 mr-3" />
-                          <div>
-                            <h3 className="font-semibold text-yellow-800">Coming Soon</h3>
-                            <p className="text-yellow-700 text-sm mt-1">
-                              Notification preferences will be available in a future update.
-                            </p>
-                          </div>
-                        </div>
-                      </div>
+                      <NotificationSettings />
                     </TabsContent>
                   </div>
                 </div>
