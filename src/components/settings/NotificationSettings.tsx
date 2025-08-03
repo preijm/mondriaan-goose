@@ -2,35 +2,23 @@ import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { Bell, Heart, MessageCircle } from "lucide-react";
 import { useNotificationPreferences } from "@/hooks/useNotifications";
-
 export default function NotificationSettings() {
-  const { preferences, loading, updatePreferences } = useNotificationPreferences();
-
+  const {
+    preferences,
+    loading,
+    updatePreferences
+  } = useNotificationPreferences();
   if (loading) {
-    return (
-      <div>
+    return <div>
         <h2 className="text-2xl font-bold mb-6 text-primary">Notification Settings</h2>
         <p className="text-muted-foreground">Loading notification preferences...</p>
-      </div>
-    );
+      </div>;
   }
-
-  return (
-    <div>
-      <h2 className="text-2xl font-bold mb-6 text-primary">Notification Settings</h2>
+  return <div>
+      
       
       <div className="space-y-6">
-        <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-          <div className="flex items-start">
-            <Bell className="w-5 h-5 text-blue-600 mt-0.5 mr-3" />
-            <div>
-              <h3 className="font-semibold text-blue-800">Stay Connected</h3>
-              <p className="text-blue-700 text-sm mt-1">
-                Choose what notifications you'd like to receive when others interact with your milk tests.
-              </p>
-            </div>
-          </div>
-        </div>
+        
 
         <div className="space-y-4">
           <div className="flex items-center justify-between p-4 border rounded-lg">
@@ -45,11 +33,9 @@ export default function NotificationSettings() {
                 </p>
               </div>
             </div>
-            <Switch
-              id="likes-notifications"
-              checked={preferences?.likes_enabled ?? true}
-              onCheckedChange={(checked) => updatePreferences({ likes_enabled: checked })}
-            />
+            <Switch id="likes-notifications" checked={preferences?.likes_enabled ?? true} onCheckedChange={checked => updatePreferences({
+            likes_enabled: checked
+          })} />
           </div>
           
           <div className="flex items-center justify-between p-4 border rounded-lg">
@@ -64,26 +50,13 @@ export default function NotificationSettings() {
                 </p>
               </div>
             </div>
-            <Switch
-              id="comments-notifications"
-              checked={preferences?.comments_enabled ?? true}
-              onCheckedChange={(checked) => updatePreferences({ comments_enabled: checked })}
-            />
+            <Switch id="comments-notifications" checked={preferences?.comments_enabled ?? true} onCheckedChange={checked => updatePreferences({
+            comments_enabled: checked
+          })} />
           </div>
         </div>
         
-        <div className="bg-green-50 border border-green-200 rounded-lg p-4">
-          <div className="flex items-start">
-            <Bell className="w-5 h-5 text-green-600 mt-0.5 mr-3" />
-            <div>
-              <h3 className="font-semibold text-green-800">Real-time Updates</h3>
-              <p className="text-green-700 text-sm mt-1">
-                Notifications appear instantly when you're active in the app. No need to refresh!
-              </p>
-            </div>
-          </div>
-        </div>
+        
       </div>
-    </div>
-  );
+    </div>;
 }
