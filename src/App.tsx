@@ -14,6 +14,8 @@ import NotFound from "./pages/NotFound";
 import Auth from "./pages/Auth";
 import MyResults from "./pages/MyResults";
 import Account from "./pages/Account";
+import AccountSecurity from "./pages/AccountSecurity";
+import AccountNotifications from "./pages/AccountNotifications";
 import ProductDetails from "./pages/ProductDetails";
 import ResetPassword from "./pages/ResetPassword";
 import Feed from "./pages/Feed";
@@ -56,6 +58,16 @@ const App = () => {
               <Route path="/account" element={
                 <ProtectedRoute>
                   <Account />  
+                </ProtectedRoute>
+              } />
+              <Route path="/account/security" element={
+                <ProtectedRoute>
+                  <AccountSecurity />
+                </ProtectedRoute>
+              } />
+              <Route path="/account/notifications" element={
+                <ProtectedRoute>
+                  <AccountNotifications />
                 </ProtectedRoute>
               } />
               <Route path="/feed" element={<Feed />} />
