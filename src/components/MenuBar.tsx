@@ -1,9 +1,12 @@
 
 import { Link, useLocation } from "react-router-dom";
 import { AuthButton } from "@/components/AuthButton";
+import { NotificationBadge } from "@/components/notifications/NotificationBadge";
+import { useAuth } from "@/contexts/AuthContext";
 
 const MenuBar = () => {
   const location = useLocation();
+  const { user } = useAuth();
 
   return (
     <nav className="bg-white/5 backdrop-blur-[2px] fixed w-full z-50 border-b border-white/10">
@@ -34,7 +37,8 @@ const MenuBar = () => {
               </Link>
             </div>
 
-            {/* AuthButton for all screen sizes */}
+            {/* Notification Badge and AuthButton for all screen sizes */}
+            {user && <NotificationBadge />}
             <AuthButton />
           </div>
         </div>
