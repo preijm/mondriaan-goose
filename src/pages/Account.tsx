@@ -137,15 +137,15 @@ const Account = () => {
                 <div className="flex flex-col md:flex-row gap-4 md:gap-8">
                   <TabsList className="flex flex-row md:flex-col h-fit w-full md:w-48 p-1">
                     <TabsTrigger value="profile" className="flex-1 md:w-full justify-center md:justify-start gap-2 mb-0 md:mb-1">
-                      <User className="w-4 h-4" />
+                      <User className="w-8 h-8 md:w-4 md:h-4" />
                       <span className="hidden sm:inline">Profile</span>
                     </TabsTrigger>
                     <TabsTrigger value="security" className="flex-1 md:w-full justify-center md:justify-start gap-2 mb-0 md:mb-1">
-                      <Shield className="w-4 h-4" />
+                      <Shield className="w-8 h-8 md:w-4 md:h-4" />
                       <span className="hidden sm:inline">Security</span>
                     </TabsTrigger>
                     <TabsTrigger value="notifications" className="flex-1 md:w-full justify-center md:justify-start gap-2">
-                      <Bell className="w-4 h-4" />
+                      <Bell className="w-8 h-8 md:w-4 md:h-4" />
                       <span className="hidden sm:inline">Notifications</span>
                     </TabsTrigger>
                   </TabsList>
