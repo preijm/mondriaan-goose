@@ -123,7 +123,7 @@ const Account = () => {
             <div className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-lg overflow-hidden border border-white/20 animate-fade-up">
               {/* Header Section */}
               <div className="bg-gradient-to-r from-primary to-primary/90 px-8 py-6 text-white">
-                <h1 className="text-3xl font-bold mb-2">
+                <h1 className="text-3xl font-bold mb-2 text-[#01bd71]">
                   Account Settings
                 </h1>
                 <p className="text-white/90">
