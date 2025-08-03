@@ -10,7 +10,6 @@ import MenuBar from "@/components/MenuBar";
 import MobileFooter from "@/components/MobileFooter";
 import BackgroundPatternWithOverlay from "@/components/BackgroundPatternWithOverlay";
 import { CountrySelect } from "@/components/milk-test/CountrySelect";
-
 const Account = () => {
   const [username, setUsername] = useState("");
   const [defaultCountry, setDefaultCountry] = useState<string | null>(null);
@@ -20,101 +19,89 @@ const Account = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [isChangingPassword, setIsChangingPassword] = useState(false);
   const navigate = useNavigate();
-  const { toast } = useToast();
-
+  const {
+    toast
+  } = useToast();
   useEffect(() => {
     const getProfile = async () => {
-      const { data: { user } } = await supabase.auth.getUser();
+      const {
+        data: {
+          user
+        }
+      } = await supabase.auth.getUser();
       if (!user) {
         navigate('/auth');
         return;
       }
       setUserId(user.id);
-
-      const { data: profile } = await supabase
-        .from('profiles')
-        .select('username, default_country_code')
-        .eq('id', user.id)
-        .maybeSingle();
-
+      const {
+        data: profile
+      } = await supabase.from('profiles').select('username, default_country_code').eq('id', user.id).maybeSingle();
       if (profile) {
         setUsername(profile.username);
         setDefaultCountry(profile.default_country_code);
       }
     };
-
     getProfile();
   }, [navigate]);
-
   const handleUpdateProfile = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!userId) return;
-
     setLoading(true);
     try {
-      const { data: existingUser } = await supabase
-        .from('profiles')
-        .select('id')
-        .eq('username', username)
-        .neq('id', userId)
-        .maybeSingle();
-
+      const {
+        data: existingUser
+      } = await supabase.from('profiles').select('id').eq('username', username).neq('id', userId).maybeSingle();
       if (existingUser) {
         toast({
           title: "Username taken",
           description: "Please choose a different username.",
-          variant: "destructive",
+          variant: "destructive"
         });
         return;
       }
-
-      const { error } = await supabase
-        .from('profiles')
-        .update({ 
-          username,
-          default_country_code: defaultCountry 
-        })
-        .eq('id', userId);
-
+      const {
+        error
+      } = await supabase.from('profiles').update({
+        username,
+        default_country_code: defaultCountry
+      }).eq('id', userId);
       if (error) throw error;
-
       toast({
         title: "Success",
-        description: "Profile updated successfully.",
+        description: "Profile updated successfully."
       });
     } catch (error: any) {
       toast({
         title: "Error",
         description: error.message,
-        variant: "destructive",
+        variant: "destructive"
       });
     } finally {
       setLoading(false);
     }
   };
-
   const handleUpdatePassword = async (e: React.FormEvent) => {
     e.preventDefault();
     if (newPassword !== confirmPassword) {
       toast({
         title: "Error",
         description: "New passwords do not match.",
-        variant: "destructive",
+        variant: "destructive"
       });
       return;
     }
-
     setIsChangingPassword(true);
     try {
-      const { error } = await supabase.auth.updateUser({
+      const {
+        error
+      } = await supabase.auth.updateUser({
         password: newPassword
       });
-
       if (error) throw error;
-
       toast({
         title: "Success",
-        description: "Password updated successfully.",
+        description: "Password updated successfully."
       });
       setNewPassword("");
       setConfirmPassword("");
@@ -122,15 +109,13 @@ const Account = () => {
       toast({
         title: "Error",
         description: error.message,
-        variant: "destructive",
+        variant: "destructive"
       });
     } finally {
       setIsChangingPassword(false);
     }
   };
-
-  return (
-    <div className="min-h-screen">
+  return <div className="min-h-screen">
       <MenuBar />
       <BackgroundPatternWithOverlay>
         <div className="flex items-center justify-center min-h-screen py-8 pt-20 pb-24 md:pb-8">
@@ -172,39 +157,20 @@ const Account = () => {
                           <label className="block text-sm font-medium text-gray-700 mb-2">
                             Username
                           </label>
-                          <Input
-                            type="text"
-                            placeholder="Username"
-                            value={username}
-                            onChange={(e) => setUsername(e.target.value)}
-                            required
-                            minLength={3}
-                            maxLength={30}
-                            pattern="^[a-zA-Z0-9_-]+$"
-                            title="Username can only contain letters, numbers, underscores, and hyphens"
-                            className="bg-white/80 border-black/20 backdrop-blur-sm rounded-sm"
-                          />
+                          <Input type="text" placeholder="Username" value={username} onChange={e => setUsername(e.target.value)} required minLength={3} maxLength={30} pattern="^[a-zA-Z0-9_-]+$" title="Username can only contain letters, numbers, underscores, and hyphens" className="bg-white/80 border-black/20 backdrop-blur-sm rounded-sm" />
                         </div>
 
                         <div>
                           <label className="block text-sm font-medium text-gray-700 mb-2">
                             Default Country (optional)
                           </label>
-                          <CountrySelect
-                            country={defaultCountry}
-                            setCountry={setDefaultCountry}
-                          />
+                          <CountrySelect country={defaultCountry} setCountry={setDefaultCountry} />
                           <p className="text-xs text-gray-500 mt-1">
                             This will be pre-selected when adding new milk tests
                           </p>
                         </div>
 
-                        <Button 
-                          type="submit" 
-                          variant="brand"
-                          className="w-full" 
-                          disabled={loading}
-                        >
+                        <Button type="submit" variant="brand" className="w-full" disabled={loading}>
                           <Save className="w-4 h-4 mr-2" />
                           {loading ? "Saving..." : "Save Profile"}
                         </Button>
@@ -212,57 +178,24 @@ const Account = () => {
                     </TabsContent>
 
                     <TabsContent value="security" className="space-y-6 mt-0">
-                      <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-                        <div className="flex items-start">
-                          <Shield className="w-5 h-5 text-blue-600 mt-0.5 mr-3" />
-                          <div>
-                            <h3 className="font-semibold text-blue-800">Account Security</h3>
-                            <p className="text-blue-700 text-sm mt-1">
-                              Your account is secured with email authentication. Keep your password strong and unique.
-                            </p>
-                          </div>
-                        </div>
-                      </div>
+                      
 
                       <form onSubmit={handleUpdatePassword} className="space-y-6">
                         <div>
                           <label className="block text-sm font-medium text-gray-700 mb-2">
                             New Password
                           </label>
-                          <Input
-                            type="password"
-                            placeholder="Enter new password"
-                            value={newPassword}
-                            onChange={(e) => setNewPassword(e.target.value)}
-                            required
-                            minLength={6}
-                            showPasswordToggle
-                            className="bg-white/80 border-black/20 backdrop-blur-sm rounded-sm"
-                          />
+                          <Input type="password" placeholder="Enter new password" value={newPassword} onChange={e => setNewPassword(e.target.value)} required minLength={6} showPasswordToggle className="bg-white/80 border-black/20 backdrop-blur-sm rounded-sm" />
                         </div>
                         
                         <div>
                           <label className="block text-sm font-medium text-gray-700 mb-2">
                             Confirm New Password
                           </label>
-                          <Input
-                            type="password"
-                            placeholder="Confirm new password"
-                            value={confirmPassword}
-                            onChange={(e) => setConfirmPassword(e.target.value)}
-                            required
-                            minLength={6}
-                            showPasswordToggle
-                            className="bg-white/80 border-black/20 backdrop-blur-sm rounded-sm"
-                          />
+                          <Input type="password" placeholder="Confirm new password" value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} required minLength={6} showPasswordToggle className="bg-white/80 border-black/20 backdrop-blur-sm rounded-sm" />
                         </div>
                         
-                        <Button 
-                          type="submit" 
-                          variant="brand"
-                          className="w-full" 
-                          disabled={isChangingPassword || !newPassword || !confirmPassword}
-                        >
+                        <Button type="submit" variant="brand" className="w-full" disabled={isChangingPassword || !newPassword || !confirmPassword}>
                           <Lock className="w-4 h-4 mr-2" />
                           {isChangingPassword ? "Updating..." : "Update Password"}
                         </Button>
@@ -291,8 +224,6 @@ const Account = () => {
         </div>
       </BackgroundPatternWithOverlay>
       <MobileFooter />
-    </div>
-  );
+    </div>;
 };
-
 export default Account;
