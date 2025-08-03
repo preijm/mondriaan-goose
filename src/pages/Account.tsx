@@ -4,10 +4,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
-import { Save, Lock, User, Shield, Bell, Settings } from "lucide-react";
+import { Save, Lock, User, Shield, Bell } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Switch } from "@/components/ui/switch";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import MenuBar from "@/components/MenuBar";
 import MobileFooter from "@/components/MobileFooter";
 import BackgroundPatternWithOverlay from "@/components/BackgroundPatternWithOverlay";
@@ -21,10 +19,6 @@ const Account = () => {
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [isChangingPassword, setIsChangingPassword] = useState(false);
-  const [darkMode, setDarkMode] = useState(false);
-  const [compactView, setCompactView] = useState(false);
-  const [language, setLanguage] = useState("en");
-  const [timezone, setTimezone] = useState("Europe/Amsterdam");
   const navigate = useNavigate();
   const { toast } = useToast();
 
@@ -145,9 +139,6 @@ const Account = () => {
               <h1 className="text-3xl font-bold text-center mb-8 text-primary">
                 Account Settings
               </h1>
-              <p className="text-center text-gray-600 mb-8">
-                Manage your account preferences and security
-              </p>
               
               <Tabs defaultValue="profile" className="w-full">
                 <div className="flex gap-8">
@@ -159,10 +150,6 @@ const Account = () => {
                     <TabsTrigger value="security" className="w-full justify-start gap-2 mb-1">
                       <Shield className="w-4 h-4" />
                       Security
-                    </TabsTrigger>
-                    <TabsTrigger value="preferences" className="w-full justify-start gap-2 mb-1">
-                      <Settings className="w-4 h-4" />
-                      Preferences
                     </TabsTrigger>
                     <TabsTrigger value="notifications" className="w-full justify-start gap-2">
                       <Bell className="w-4 h-4" />
@@ -272,98 +259,6 @@ const Account = () => {
                           {isChangingPassword ? "Updating..." : "Update Password"}
                         </Button>
                       </form>
-                    </TabsContent>
-
-                    <TabsContent value="preferences" className="space-y-6 mt-0">
-                      <div>
-                        <h3 className="text-lg font-semibold mb-2">Preferences</h3>
-                        <p className="text-gray-600 text-sm mb-6">Customize your experience</p>
-                      </div>
-
-                      <div className="space-y-6">
-                        <div>
-                          <h4 className="font-medium mb-4">Display Settings</h4>
-                          <div className="space-y-4">
-                            <div className="flex items-center justify-between p-4 border rounded-lg">
-                              <div>
-                                <h5 className="font-medium">Dark Mode</h5>
-                                <p className="text-sm text-gray-500">Use dark theme across the application</p>
-                              </div>
-                              <Switch
-                                checked={darkMode}
-                                onCheckedChange={setDarkMode}
-                              />
-                            </div>
-                            
-                            <div className="flex items-center justify-between p-4 border rounded-lg">
-                              <div>
-                                <h5 className="font-medium">Compact View</h5>
-                                <p className="text-sm text-gray-500">Show more information in less space</p>
-                              </div>
-                              <Switch
-                                checked={compactView}
-                                onCheckedChange={setCompactView}
-                              />
-                            </div>
-                          </div>
-                        </div>
-
-                        <div>
-                          <h4 className="font-medium mb-4">Language & Region</h4>
-                          <div className="space-y-4">
-                            <div>
-                              <label className="block text-sm font-medium text-gray-700 mb-2">
-                                Language
-                              </label>
-                              <Select value={language} onValueChange={setLanguage}>
-                                <SelectTrigger className="bg-white/80 border-black/20">
-                                  <SelectValue />
-                                </SelectTrigger>
-                                <SelectContent className="bg-white z-50">
-                                  <SelectItem value="en">English</SelectItem>
-                                  <SelectItem value="es">Español</SelectItem>
-                                  <SelectItem value="fr">Français</SelectItem>
-                                  <SelectItem value="de">Deutsch</SelectItem>
-                                  <SelectItem value="nl">Nederlands</SelectItem>
-                                </SelectContent>
-                              </Select>
-                            </div>
-
-                            <div>
-                              <label className="block text-sm font-medium text-gray-700 mb-2">
-                                Timezone
-                              </label>
-                              <Select value={timezone} onValueChange={setTimezone}>
-                                <SelectTrigger className="bg-white/80 border-black/20">
-                                  <SelectValue />
-                                </SelectTrigger>
-                                <SelectContent className="bg-white z-50">
-                                  <SelectItem value="Europe/Amsterdam">Europe/Amsterdam</SelectItem>
-                                  <SelectItem value="Europe/London">Europe/London</SelectItem>
-                                  <SelectItem value="America/New_York">America/New_York</SelectItem>
-                                  <SelectItem value="America/Los_Angeles">America/Los_Angeles</SelectItem>
-                                  <SelectItem value="Asia/Tokyo">Asia/Tokyo</SelectItem>
-                                  <SelectItem value="Australia/Sydney">Australia/Sydney</SelectItem>
-                                </SelectContent>
-                              </Select>
-                            </div>
-                          </div>
-                        </div>
-
-                        <Button 
-                          variant="brand"
-                          className="w-full"
-                          onClick={() => {
-                            toast({
-                              title: "Success",
-                              description: "Preferences updated successfully.",
-                            });
-                          }}
-                        >
-                          <Save className="w-4 h-4 mr-2" />
-                          Save Preferences
-                        </Button>
-                      </div>
                     </TabsContent>
 
                     <TabsContent value="notifications" className="space-y-6 mt-0">
