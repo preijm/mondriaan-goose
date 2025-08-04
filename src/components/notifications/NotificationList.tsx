@@ -61,8 +61,8 @@ export function NotificationList() {
   }
 
   return (
-    <div className="max-h-96">
-      <div className="p-4 border-b border-border/50">
+    <div className="w-full">
+      <div className="p-4 border-b border-border/50 bg-background">
         <div className="flex items-center justify-between">
           <h3 className="font-semibold">Notifications</h3>
           {unreadCount > 0 && (
@@ -79,20 +79,22 @@ export function NotificationList() {
       </div>
       
       {notifications.length === 0 ? (
-        <div className="p-8 text-center text-muted-foreground">
+        <div className="p-8 text-center text-muted-foreground bg-background">
           <Bell className="h-8 w-8 mx-auto mb-2 opacity-50" />
           <p>No notifications yet</p>
           <p className="text-xs mt-1">You'll see likes and comments here</p>
         </div>
       ) : (
-        <ScrollArea className="max-h-80">
-          {notifications.map((notification) => (
-            <NotificationItem
-              key={notification.id}
-              notification={notification}
-              onMarkAsRead={markAsRead}
-            />
-          ))}
+        <ScrollArea className="h-80 bg-background">
+          <div className="max-h-none">
+            {notifications.map((notification) => (
+              <NotificationItem
+                key={notification.id}
+                notification={notification}
+                onMarkAsRead={markAsRead}
+              />
+            ))}
+          </div>
         </ScrollArea>
       )}
     </div>
