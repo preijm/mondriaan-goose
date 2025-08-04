@@ -11,31 +11,22 @@ const BackgroundPattern = ({ children }: BackgroundPatternProps) => {
       <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none">
         {/* Dotted pattern using CSS */}
         <div 
-          className="absolute inset-0 opacity-20"
+          className="absolute inset-0 opacity-40"
           style={{
-            backgroundImage: `radial-gradient(circle at 2px 2px, rgba(94, 240, 230, 0.3) 1px, transparent 0)`,
-            backgroundSize: '40px 40px'
-          }}
-        />
-        
-        {/* Diagonal lines pattern */}
-        <div 
-          className="absolute inset-0 opacity-10"
-          style={{
-            backgroundImage: `linear-gradient(45deg, transparent 40%, rgba(14, 181, 181, 0.2) 50%, transparent 60%)`,
-            backgroundSize: '60px 60px'
+            backgroundImage: `radial-gradient(circle at 2px 2px, rgba(94, 240, 230, 0.5) 1px, transparent 0)`,
+            backgroundSize: '80px 80px'
           }}
         />
         
         {/* Cross-hatch pattern */}
         <div 
-          className="absolute inset-0 opacity-15"
+          className="absolute inset-0 opacity-25"
           style={{
             backgroundImage: `
-              linear-gradient(90deg, transparent 49%, rgba(94, 240, 230, 0.3) 50%, transparent 51%),
-              linear-gradient(0deg, transparent 49%, rgba(94, 240, 230, 0.2) 50%, transparent 51%)
+              linear-gradient(90deg, transparent 49%, rgba(94, 240, 230, 0.4) 50%, transparent 51%),
+              linear-gradient(0deg, transparent 49%, rgba(94, 240, 230, 0.3) 50%, transparent 51%)
             `,
-            backgroundSize: '80px 80px'
+            backgroundSize: '120px 120px'
           }}
         />
         
