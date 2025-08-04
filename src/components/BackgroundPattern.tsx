@@ -7,7 +7,7 @@ interface BackgroundPatternProps {
 
 const BackgroundPattern = ({ children }: BackgroundPatternProps) => {
   return (
-    <div className="min-h-screen w-full bg-gradient-to-br from-white via-emerald-50/5 to-white relative overflow-hidden">
+    <div className="min-h-screen w-full max-w-full bg-gradient-to-br from-white via-emerald-50/5 to-white relative overflow-hidden">
       {/* CSS-based subtle background layers */}
       <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none">
         {/* Subtle gradient overlays contained within viewport */}
@@ -36,8 +36,8 @@ const BackgroundPattern = ({ children }: BackgroundPatternProps) => {
 
       {/* Subtle geometric patterns */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {/* Top-left circle */}
-        <div className="absolute -left-4 top-20 text-emerald-100/20">
+        {/* Top-left circle - constrained to prevent overflow */}
+        <div className="absolute left-4 top-20 text-emerald-100/20">
           <Circle size={80} />
         </div>
         
