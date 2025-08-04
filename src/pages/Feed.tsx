@@ -1,7 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { useEffect } from "react";
 import MenuBar from "@/components/MenuBar";
 import MobileFooter from "@/components/MobileFooter";
 import BackgroundPattern from "@/components/BackgroundPattern";
@@ -13,6 +14,8 @@ import { Loader, LogIn, UserPlus } from "lucide-react";
 const Feed = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const highlightTestId = searchParams.get('testId');
   
   const {
     data: feedItems = [],
@@ -31,6 +34,24 @@ const Feed = () => {
     },
     enabled: !!user // Only fetch if user is authenticated
   });
+
+  // Scroll to specific test when coming from notification
+  useEffect(() => {
+    if (highlightTestId && feedItems.length > 0) {
+      const timer = setTimeout(() => {
+        const element = document.getElementById(`test-${highlightTestId}`);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          // Add a temporary highlight effect
+          element.classList.add('ring-2', 'ring-primary', 'ring-offset-2');
+          setTimeout(() => {
+            element.classList.remove('ring-2', 'ring-primary', 'ring-offset-2');
+          }, 3000);
+        }
+      }, 100);
+      return () => clearTimeout(timer);
+    }
+  }, [highlightTestId, feedItems]);
 
   return (
     <div className="min-h-screen relative">

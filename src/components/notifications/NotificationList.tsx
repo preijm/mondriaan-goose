@@ -17,9 +17,9 @@ function NotificationItem({ notification, onMarkAsRead }: {
   
   const handleClick = () => {
     onMarkAsRead(notification.id);
-    // Navigate to the feed page where the specific test can be found
+    // Navigate to the feed page with the specific test ID
     if (notification.milk_test_id) {
-      navigate(`/feed`);
+      navigate(`/feed?testId=${notification.milk_test_id}`);
     }
   };
   

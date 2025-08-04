@@ -215,7 +215,7 @@ export const FeedItem = ({ item }: FeedItemProps) => {
   };
 
   return (
-    <Card className="w-full shadow-lg hover:shadow-xl transition-shadow duration-300 hover-scale">
+    <Card id={`test-${item.id}`} className="w-full shadow-lg hover:shadow-xl transition-shadow duration-300 hover-scale">
       <CardHeader className="pb-3">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-3">
