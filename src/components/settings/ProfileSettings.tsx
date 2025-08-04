@@ -101,10 +101,8 @@ export default function ProfileSettings() {
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             required
-            minLength={3}
+            minLength={2}
             maxLength={30}
-            pattern="^[a-zA-Z0-9_-]+$"
-            title="Username can only contain letters, numbers, underscores, and hyphens"
             className="bg-white/80 border-black/20 backdrop-blur-sm rounded-sm"
           />
         </div>
