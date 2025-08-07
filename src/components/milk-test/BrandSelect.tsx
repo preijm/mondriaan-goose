@@ -93,6 +93,12 @@ export const BrandSelect = forwardRef<HTMLInputElement, BrandSelectProps>(({
           setIsDropdownVisible(true);
         }}
         onBlur={() => setTimeout(() => setIsDropdownVisible(false), 200)}
+        onKeyDown={(e) => {
+          // Ensure the spacebar works inside dialogs/popovers by stopping propagation only
+          if (e.key === ' ' || e.key === 'Spacebar') {
+            e.stopPropagation();
+          }
+        }}
         className="w-full pr-10"
         disabled={isLoading}
         autoFocus
