@@ -26,9 +26,14 @@ const Feed = () => {
       const {
         data,
         error
-      } = await supabase.from('milk_tests_view').select('*').order('created_at', {
-        ascending: false
-      }).limit(50);
+      } = await supabase.from('milk_tests_view')
+        .select('*')
+        .not('created_at', 'gte', '1970-01-01')
+        .not('created_at', 'lt', '1970-01-02')
+        .order('created_at', {
+          ascending: false
+        })
+        .limit(50);
       if (error) throw error;
       return data as MilkTestResult[];
     },
