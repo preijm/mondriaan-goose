@@ -73,12 +73,12 @@ const Home = () => {
     }
     return num.toString() + '+';
   };
-  return <div className="min-h-screen">
+  return <div className="min-h-dvh overflow-hidden">
       <MenuBar />
       
       {/* Enhanced Hero Section */}
       <BackgroundPattern>
-        <div className="container max-w-4xl mx-auto px-4 pt-16 pb-20 flex items-center justify-center min-h-screen">
+        <div className="container max-w-4xl mx-auto px-4 pt-16 flex items-center justify-center min-h-dvh">
           <div className="flex flex-col items-center justify-center text-center relative z-10">
             
             {/* Enhanced hero title with green color */}
@@ -135,10 +135,7 @@ const Home = () => {
           </div>
         </div>
         
-        {/* Enhanced Statistics Section */}
-        <div className="relative z-10 mt-12 md:mt-20">
-          <HomeStatsOverview />
-        </div>
+        {/* Statistics hidden on homepage to avoid scrollbar */}
       </BackgroundPattern>
       
       <MobileFooter />
