@@ -57,7 +57,7 @@ function NotificationItem({ notification, onMarkAsRead }: {
 }
 
 export function NotificationList() {
-  const { notifications, unreadCount, loading, markAsRead, markAllAsRead } = useNotifications();
+  const { notifications, loading, markAsRead } = useNotifications();
 
   if (loading) {
     return (
@@ -69,20 +69,6 @@ export function NotificationList() {
 
   return (
     <div className="w-full">
-      <div className="p-4 border-b border-border/50 bg-background">
-        <div className="flex items-center justify-end">
-          {unreadCount > 0 && (
-            <Button 
-              variant="ghost" 
-              size="sm" 
-              onClick={markAllAsRead}
-              className="text-xs"
-            >
-              Mark all read
-            </Button>
-          )}
-        </div>
-      </div>
       
       {notifications.length === 0 ? (
         <div className="p-8 text-center text-muted-foreground bg-background">

@@ -8,7 +8,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Bell } from "lucide-react";
+import { Bell, CheckCheck } from "lucide-react";
 import { NotificationList } from "./NotificationList";
 import { useNotifications } from "@/hooks/useNotifications";
 
@@ -18,7 +18,7 @@ interface NotificationDropdownProps {
 }
 
 export function NotificationDropdown({ trigger, className }: NotificationDropdownProps) {
-  const { unreadCount } = useNotifications();
+  const { unreadCount, markAllAsRead } = useNotifications();
   const [open, setOpen] = useState(false);
 
   const defaultTrigger = (
@@ -52,6 +52,19 @@ export function NotificationDropdown({ trigger, className }: NotificationDropdow
               </Badge>
             )}
           </h3>
+          <div className="flex items-center">
+            {unreadCount > 0 && (
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={markAllAsRead}
+                aria-label="Mark all notifications as read"
+                className="h-8 w-8"
+              >
+                <CheckCheck className="h-4 w-4" />
+              </Button>
+            )}
+          </div>
         </div>
         <NotificationList />
       </DialogContent>
