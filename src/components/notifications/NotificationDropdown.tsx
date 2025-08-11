@@ -22,25 +22,19 @@ export function NotificationDropdown({ trigger, className }: NotificationDropdow
   const [open, setOpen] = useState(false);
 
   const defaultTrigger = (
-    <div className="relative flex items-center gap-2">
+    <div className="relative flex items-center gap-1">
       <Bell className="w-4 h-4 opacity-70" aria-hidden="true" />
       <span>Notifications</span>
       <span className="sr-only" aria-live="polite" role="status">
         {unreadCount > 0 ? `${unreadCount} unread notifications` : 'No unread notifications'}
       </span>
-      {unreadCount > 0 && (
-        <span
-          className="absolute -top-1.5 -right-1.5 h-2.5 w-2.5 rounded-full bg-destructive"
-          aria-hidden="true"
-        />
-      )}
     </div>
   );
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="ghost" size="sm" className="relative flex items-center gap-2 rounded-lg px-3 py-2.5">
+        <Button variant="ghost" size="sm" className="relative flex items-center gap-1 rounded-lg px-2 py-2">
           {trigger || defaultTrigger}
         </Button>
       </DialogTrigger>
