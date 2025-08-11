@@ -23,19 +23,17 @@ export function NotificationDropdown({ trigger, className }: NotificationDropdow
 
   const defaultTrigger = (
     <div className="flex items-center gap-2">
-      <div className="relative">
-        <Bell className="w-4 h-4 opacity-70" aria-hidden="true" />
-        {unreadCount > 0 && (
-          <Badge 
-            variant="destructive" 
-            className="absolute -top-1 -right-1 h-4 w-4 rounded-full p-0 flex items-center justify-center text-xs leading-none z-10"
-            aria-label={`${unreadCount} unread notifications`}
-          >
-            {unreadCount > 99 ? '99+' : unreadCount}
-          </Badge>
-        )}
-      </div>
+      <Bell className="w-4 h-4 opacity-70" aria-hidden="true" />
       <span>Notifications</span>
+      {unreadCount > 0 && (
+        <Badge
+          variant="destructive"
+          className="ml-1 h-4 min-w-4 px-1 rounded-full p-0 flex items-center justify-center text-[10px] leading-none"
+          aria-label={`${unreadCount} unread notifications`}
+        >
+          {unreadCount > 99 ? '99+' : unreadCount}
+        </Badge>
+      )}
     </div>
   );
 
