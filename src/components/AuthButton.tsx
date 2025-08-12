@@ -76,9 +76,7 @@ export const AuthButton = () => {
           <span>My Results</span>
         </DropdownMenuItem>
         
-        <DropdownMenuItem asChild>
-          <NotificationDropdown />
-        </DropdownMenuItem>
+        <NotificationDropdown variant="menu" />
         
         <DropdownMenuItem onClick={() => navigate('/wishlist')} className="flex items-center gap-2 rounded-lg px-3 py-2.5 hover:bg-emerald-50 transition-colors cursor-pointer">
           <Bookmark className="w-4 h-4 opacity-70" />

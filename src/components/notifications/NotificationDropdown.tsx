@@ -10,13 +10,14 @@ import {
 import { Bell, CheckCheck, X } from "lucide-react";
 import { NotificationList } from "./NotificationList";
 import { useNotifications } from "@/hooks/useNotifications";
-
+import { cn } from "@/lib/utils";
 interface NotificationDropdownProps {
   trigger?: React.ReactNode;
   className?: string;
+  variant?: 'button' | 'menu';
 }
 
-export function NotificationDropdown({ trigger, className }: NotificationDropdownProps) {
+export function NotificationDropdown({ trigger, className, variant = 'button' }: NotificationDropdownProps) {
   const { unreadCount, markAllAsRead } = useNotifications();
   const [open, setOpen] = useState(false);
 
@@ -33,9 +34,15 @@ export function NotificationDropdown({ trigger, className }: NotificationDropdow
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="ghost" size="sm" className={`relative flex items-center gap-2 rounded-lg px-3 py-2.5 ${className ?? ''}`}>
-          {trigger || defaultTrigger}
-        </Button>
+        {variant === 'menu' ? (
+          <div className={cn("flex items-center gap-2 rounded-lg px-3 py-2.5 hover:bg-emerald-50 transition-colors cursor-pointer w-full", className)}>
+            {trigger || defaultTrigger}
+          </div>
+        ) : (
+          <Button variant="ghost" size="sm" className={cn("relative flex items-center gap-2 rounded-lg px-3 py-2.5", className)}>
+            {trigger || defaultTrigger}
+          </Button>
+        )}
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px] p-0 backdrop-blur-sm border border-white/20 shadow-xl bg-white rounded-lg overflow-hidden" closeButton={false}>
         <div className="flex items-center justify-between p-4 border-b border-border/50 bg-background">
