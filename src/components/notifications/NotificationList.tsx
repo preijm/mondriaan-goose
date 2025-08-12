@@ -36,12 +36,6 @@ function NotificationItem({ notification, onMarkAsRead }: {
           <IconComponent className="h-4 w-4" />
         </div>
         <div className="flex-1 min-w-0">
-          {!notification.is_read && (
-            <span
-              className="absolute top-3 right-3 h-2.5 w-2.5 rounded-full bg-primary"
-              aria-hidden="true"
-            />
-          )}
           <p className={cn("text-sm text-foreground", !notification.is_read && "font-semibold")}> 
             {notification.message}
           </p>
