@@ -46,10 +46,10 @@ const Feed = () => {
         const element = document.getElementById(`test-${highlightTestId}`);
         if (element) {
           element.scrollIntoView({ behavior: 'smooth', block: 'center' });
-          // Add a temporary highlight effect
-          element.classList.add('ring-2', 'ring-primary', 'ring-offset-2');
+          // Add a temporary highlight effect using brand blue
+          element.classList.add('ring-2', 'ring-[hsl(var(--brand-blue))]', 'ring-offset-2');
           setTimeout(() => {
-            element.classList.remove('ring-2', 'ring-primary', 'ring-offset-2');
+            element.classList.remove('ring-2', 'ring-[hsl(var(--brand-blue))]', 'ring-offset-2');
           }, 3000);
         }
       }, 100);
