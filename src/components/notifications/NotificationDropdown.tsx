@@ -36,7 +36,7 @@ export function NotificationDropdown({ trigger, className, variant = 'button' }:
   const defaultTrigger = (
     <div className="relative flex items-center gap-2 w-full">
       <Bell className="w-4 h-4 opacity-70" aria-hidden="true" />
-      <span>Notifications</span>
+      <span className="text-sm">Notifications</span>
       {unreadCount > 0 && (
         <span className="ml-auto relative flex h-2.5 w-2.5" aria-hidden="true">
           <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-destructive opacity-60" />
