@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -21,10 +21,25 @@ export function NotificationDropdown({ trigger, className, variant = 'button' }:
   const { unreadCount, markAllAsRead } = useNotifications();
   const [open, setOpen] = useState(false);
 
+  useEffect(() => {
+    const handler = () => setOpen(true);
+    // Allow other parts of the app to open the notifications dialog
+    window.addEventListener("lov-open-notifications", handler as EventListener);
+    return () => {
+      window.removeEventListener("lov-open-notifications", handler as EventListener);
+    };
+  }, []);
+
   const defaultTrigger = (
-    <div className="relative flex items-center gap-2">
+    <div className="relative flex items-center gap-2 w-full">
       <Bell className="w-4 h-4 opacity-70" aria-hidden="true" />
       <span>Notifications</span>
+      {unreadCount > 0 && (
+        <span className="ml-auto relative flex h-2.5 w-2.5" aria-hidden="true">
+          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-destructive opacity-60" />
+          <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-destructive" />
+        </span>
+      )}
       <span className="sr-only" aria-live="polite" role="status">
         {unreadCount > 0 ? `${unreadCount} unread notifications` : 'No unread notifications'}
       </span>

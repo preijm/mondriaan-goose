@@ -1,6 +1,7 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import { ToastAction } from "@/components/ui/toast";
 
 export interface Notification {
   id: string;
@@ -128,6 +129,22 @@ export function useNotifications() {
             const newNotification = payload.new as Notification;
             setNotifications(prev => [newNotification, ...prev]);
             setUnreadCount(prev => prev + 1);
+
+            // Show a toast with an action to open notifications
+            const title = newNotification.title || "New notification";
+            const description = newNotification.message || undefined;
+            // Use React.createElement since this is a .ts file
+            const actionEl = React.createElement(
+              ToastAction as any,
+              {
+                altText: "Open notifications",
+                onClick: () => {
+                  window.dispatchEvent(new Event("lov-open-notifications"));
+                },
+              },
+              "Open"
+            );
+            toast({ title, description, action: actionEl as any });
           }
         )
         .subscribe();
