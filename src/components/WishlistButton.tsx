@@ -1,4 +1,4 @@
-import { Heart } from "lucide-react";
+import { Bookmark } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useWishlist } from "@/hooks/useWishlist";
 import { cn } from "@/lib/utils";
@@ -43,7 +43,7 @@ export const WishlistButton = ({
         className
       )}
     >
-      <Heart 
+      <Bookmark 
         className={cn(
           "transition-all",
           inWishlist ? "fill-current" : "fill-none",
