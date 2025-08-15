@@ -235,52 +235,54 @@ export const FeedItem = ({ item }: FeedItemProps) => {
 
   return (
     <Card id={`test-${item.id}`} className="w-full shadow-lg hover:shadow-xl transition-shadow duration-300 hover-scale">
-      <CardHeader className="pb-3">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-3">
+      <CardHeader className="pb-2 pt-4">
+        <div className="flex items-start justify-between gap-3">
+          <div className="flex items-start space-x-2 flex-1 min-w-0">
             <Badge 
               variant="category" 
-              className="w-12 h-12 rounded-full flex items-center justify-center p-0 font-medium text-lg"
+              className="w-8 h-8 rounded-full flex items-center justify-center p-0 font-medium text-sm flex-shrink-0"
             >
               {item.username?.charAt(0).toUpperCase() || 'U'}
             </Badge>
-            <div className="flex-1">
-              <div className="flex items-center space-x-2">
-                <span className="font-bold text-foreground text-lg" translate="no">{item.username}</span>
-                <Badge variant="outline" className="text-xs">
-                  <Clock className="h-3 w-3 mr-1" />
+            <div className="flex-1 min-w-0">
+              <div className="flex items-center space-x-2 flex-wrap">
+                <span className="font-semibold text-foreground text-sm" translate="no">{item.username}</span>
+                <Badge variant="outline" className="text-xs px-1.5 py-0.5">
+                  <Clock className="h-2.5 w-2.5 mr-1" />
                   {formatDistanceToNow(new Date(item.created_at), { addSuffix: true })}
                 </Badge>
               </div>
-              <div className="flex items-center gap-2 mt-1 flex-wrap">
-                <span className="text-base font-medium text-foreground">
+              <div className="flex items-center gap-1.5 mt-1 flex-wrap">
+                <span className="text-sm font-medium text-foreground">
                   <span translate="no">{item.brand_name}</span>
                 </span>
-                <span className="text-base font-medium text-muted-foreground">
+                <span className="text-sm font-medium text-muted-foreground">
                   • {item.product_name}
                 </span>
+              </div>
+              <div className="flex items-center gap-1 mt-1 flex-wrap">
                 {item.is_barista && (
                   <Badge 
                     variant="barista"
-                    className="text-xs font-medium"
+                    className="text-xs font-medium px-1.5 py-0.5"
                   >
                     Barista
                   </Badge>
                 )}
-                {item.property_names?.map((property) => (
+                {item.property_names?.slice(0, 2).map((property) => (
                   <Badge 
                     key={property} 
                     variant="category"
-                    className="text-xs font-medium"
+                    className="text-xs font-medium px-1.5 py-0.5"
                   >
                     {property.replace(/_/g, ' ')}
                   </Badge>
                 ))}
-                {item.flavor_names?.map((flavor) => (
+                {item.flavor_names?.slice(0, 1).map((flavor) => (
                   <Badge 
                     key={flavor} 
                     variant="flavor"
-                    className="text-xs font-medium"
+                    className="text-xs font-medium px-1.5 py-0.5"
                   >
                     {flavor}
                   </Badge>
@@ -288,15 +290,15 @@ export const FeedItem = ({ item }: FeedItemProps) => {
               </div>
             </div>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1 flex-shrink-0">
             {isOwnPost && (
               <Button
                 variant="ghost"
                 size="sm"
                 onClick={() => setEditingTest(item)}
-                className="text-muted-foreground hover:text-foreground"
+                className="text-muted-foreground hover:text-foreground h-7 w-7 p-0"
               >
-                <Edit3 className="h-4 w-4" />
+                <Edit3 className="h-3.5 w-3.5" />
               </Button>
             )}
             {renderRating(item.rating)}
@@ -304,14 +306,14 @@ export const FeedItem = ({ item }: FeedItemProps) => {
         </div>
       </CardHeader>
 
-      <CardContent className="space-y-6">
+      <CardContent className="space-y-3 pt-0">
         {/* Enhanced Photo Display */}
         {item.picture_path ? (
-          <div className="rounded-xl overflow-hidden shadow-md">
+          <div className="rounded-lg overflow-hidden shadow-sm">
             <img
               src={`https://jtabjndnietpewvknjrm.supabase.co/storage/v1/object/public/milk-pictures/${encodeURIComponent(item.picture_path)}`}
               alt={`${item.brand_name} ${item.product_name}`}
-              className="w-full h-96 object-cover transition-transform duration-300 hover:scale-105"
+              className="w-full h-64 sm:h-80 object-cover transition-transform duration-300 hover:scale-105"
               onError={(e) => {
                 console.error('Failed to load image:', item.picture_path);
                 const target = e.currentTarget as HTMLImageElement;
@@ -331,28 +333,28 @@ export const FeedItem = ({ item }: FeedItemProps) => {
         
         {/* Enhanced Fallback placeholder */}
         <div 
-          className="rounded-xl overflow-hidden bg-gradient-to-br from-primary/5 to-primary/10 h-96 flex items-center justify-center border-2 border-dashed border-primary/20"
+          className="rounded-lg overflow-hidden bg-gradient-to-br from-primary/5 to-primary/10 h-64 sm:h-80 flex items-center justify-center border-2 border-dashed border-primary/20"
           style={{ display: item.picture_path ? 'none' : 'flex' }}
         >
           <div className="text-center">
-            <div className="text-6xl mb-4">🥛</div>
-            <p className="text-lg font-medium text-muted-foreground">No photo available</p>
-            <p className="text-sm text-muted-foreground">Share a photo of this product!</p>
+            <div className="text-4xl mb-2">🥛</div>
+            <p className="text-sm font-medium text-muted-foreground">No photo available</p>
+            <p className="text-xs text-muted-foreground">Share a photo of this product!</p>
           </div>
         </div>
 
         {/* Notes */}
         {item.notes && (
-          <div className="bg-muted/30 rounded-lg p-4 border-l-4 border-primary">
-            <p className="text-foreground font-medium italic">"{item.notes}"</p>
+          <div className="bg-muted/30 rounded-lg p-3 border-l-4 border-primary">
+            <p className="text-sm text-foreground font-medium italic">"{item.notes}"</p>
           </div>
         )}
 
         {/* Enhanced Product Context */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-4 bg-muted/20 rounded-lg">
+        <div className="flex flex-wrap gap-3 p-3 bg-muted/20 rounded-lg text-xs">
           {item.drink_preference && (
-            <div className="flex items-center space-x-2 text-sm">
-              <span className="text-2xl">🥛</span>
+            <div className="flex items-center space-x-1.5">
+              <span className="text-base">🥛</span>
               <div>
                 <div className="font-medium text-foreground">Preference</div>
                 <div className="text-muted-foreground">{item.drink_preference}</div>
@@ -360,8 +362,8 @@ export const FeedItem = ({ item }: FeedItemProps) => {
             </div>
           )}
           {item.shop_name && (
-            <div className="flex items-center space-x-2 text-sm">
-              <MapPin className="h-5 w-5 text-primary" />
+            <div className="flex items-center space-x-1.5">
+              <MapPin className="h-4 w-4 text-primary flex-shrink-0" />
               <div>
                 <div className="font-medium text-foreground">Available at</div>
                 <div className="text-muted-foreground" translate="no">{item.shop_name}</div>
@@ -369,8 +371,8 @@ export const FeedItem = ({ item }: FeedItemProps) => {
             </div>
           )}
           {item.price_quality_ratio && (
-            <div className="flex items-center space-x-2 text-sm">
-              <DollarSign className="h-5 w-5 text-primary" />
+            <div className="flex items-center space-x-1.5">
+              <DollarSign className="h-4 w-4 text-primary flex-shrink-0" />
               <div>
                 <div className="font-medium text-foreground">Value</div>
                 <div className="text-muted-foreground">{item.price_quality_ratio}</div>
@@ -380,26 +382,26 @@ export const FeedItem = ({ item }: FeedItemProps) => {
         </div>
 
         {/* Enhanced Engagement Actions */}
-        <div className="flex items-center justify-between pt-4 border-t-2 border-border/50">
-          <div className="flex items-center space-x-4">
+        <div className="flex items-center justify-between pt-3 border-t border-border/50">
+          <div className="flex items-center space-x-1">
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
                   <Button
                     variant="ghost"
-                    size="lg"
+                    size="sm"
                     onClick={handleLike}
                     disabled={likeMutation.isPending}
                     className={cn(
-                      "flex items-center space-x-2 px-4 py-2 rounded-full transition-all duration-200",
+                      "flex items-center space-x-1 px-2 py-1.5 rounded-full transition-all duration-200",
                       isLiked 
                         ? "text-red-500 bg-red-50 hover:bg-red-100" 
                         : "hover:bg-gray-50"
                     )}
                   >
-                    <Heart className={cn("h-5 w-5", isLiked && "fill-current")} />
-                    <span className="font-semibold text-lg">{likes.length}</span>
-                    <span className="text-sm">Likes</span>
+                    <Heart className={cn("h-4 w-4", isLiked && "fill-current")} />
+                    <span className="font-semibold text-sm">{likes.length}</span>
+                    <span className="text-xs hidden sm:inline">Likes</span>
                   </Button>
                 </TooltipTrigger>
                 {likes.length > 0 && (
@@ -417,22 +419,13 @@ export const FeedItem = ({ item }: FeedItemProps) => {
             
             <Button
               variant="ghost"
-              size="lg"
+              size="sm"
               onClick={() => setShowComments(!showComments)}
-              className="flex items-center space-x-2 px-4 py-2 rounded-full hover:bg-gray-50 transition-all duration-200"
+              className="flex items-center space-x-1 px-2 py-1.5 rounded-full hover:bg-gray-50 transition-all duration-200"
             >
-              <MessageCircle className="h-5 w-5" />
-              <span className="font-semibold text-lg">{comments.length}</span>
-              <span className="text-sm">Comments</span>
-            </Button>
-            
-            <Button
-              variant="ghost"
-              size="lg"
-              onClick={() => window.location.href = '/results'}
-              className="flex items-center space-x-2 px-4 py-2 rounded-full hover:bg-gray-50 transition-all duration-200"
-            >
-              <span className="text-sm">View All Results</span>
+              <MessageCircle className="h-4 w-4" />
+              <span className="font-semibold text-sm">{comments.length}</span>
+              <span className="text-xs hidden sm:inline">Comments</span>
             </Button>
           </div>
 
@@ -440,43 +433,43 @@ export const FeedItem = ({ item }: FeedItemProps) => {
             productId={item.product_id || ''}
             variant="outline"
             size="sm"
-            className="rounded-full"
+            className="rounded-full h-8 w-8 p-0"
             showText={false}
           />
         </div>
 
         {/* Comments section */}
         {showComments && (
-          <div className="space-y-4 pt-4 border-t border-border/50">
+          <div className="space-y-3 pt-3 border-t border-border/50">
             {comments.map((comment) => (
-              <div key={comment.id} className="flex space-x-3 p-3 bg-muted/20 rounded-lg">
-                <Avatar className="h-10 w-10 ring-2 ring-primary/10">
-                  <AvatarFallback className="bg-primary/10 text-primary text-sm font-semibold">
+              <div key={comment.id} className="flex space-x-2 p-2 bg-muted/20 rounded-lg">
+                <Avatar className="h-8 w-8 ring-1 ring-primary/10 flex-shrink-0">
+                  <AvatarFallback className="bg-primary/10 text-primary text-xs font-semibold">
                     {comment.username?.charAt(0).toUpperCase() || 'U'}
                   </AvatarFallback>
                 </Avatar>
-                <div className="flex-1">
+                <div className="flex-1 min-w-0">
                   <div className="flex items-center space-x-2">
-                    <span className="font-semibold text-foreground" translate="no">{comment.username}</span>
+                    <span className="font-semibold text-foreground text-sm" translate="no">{comment.username}</span>
                     <span className="text-xs text-muted-foreground flex items-center">
-                      <Clock className="h-3 w-3 mr-1" />
+                      <Clock className="h-2.5 w-2.5 mr-1" />
                       {formatDistanceToNow(new Date(comment.created_at), { addSuffix: true })}
                     </span>
                   </div>
-                  <p className="text-foreground mt-1">{comment.content}</p>
+                  <p className="text-foreground text-sm mt-1">{comment.content}</p>
                 </div>
               </div>
             ))}
 
             {/* Add comment */}
             {user && (
-              <div className="flex space-x-3 p-4 bg-muted/30 rounded-lg">
-                <Avatar className="h-10 w-10 ring-2 ring-primary/10">
-                  <AvatarFallback className="bg-primary/10 text-primary text-sm font-semibold">
+              <div className="flex space-x-2 p-3 bg-muted/30 rounded-lg">
+                <Avatar className="h-8 w-8 ring-1 ring-primary/10 flex-shrink-0">
+                  <AvatarFallback className="bg-primary/10 text-primary text-xs font-semibold">
                     {user.email?.charAt(0).toUpperCase() || 'U'}
                   </AvatarFallback>
                 </Avatar>
-                <div className="flex-1 space-y-3">
+                <div className="flex-1 space-y-2">
                   <Textarea
                     placeholder="Share your thoughts about this product..."
                     value={commentText}
