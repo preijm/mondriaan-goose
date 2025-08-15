@@ -2,7 +2,7 @@ import { useWishlist } from "@/hooks/useWishlist";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Heart, Loader2 } from "lucide-react";
+import { Bookmark, Loader2 } from "lucide-react";
 import { Link } from "react-router-dom";
 
 export const WishlistGrid = () => {
@@ -68,7 +68,7 @@ export const WishlistGrid = () => {
                   disabled={isRemovingFromWishlist}
                   className="text-red-500 hover:text-red-600"
                 >
-                  <Heart className="h-4 w-4 fill-current" />
+                  <Bookmark className="h-4 w-4 fill-current" />
                 </Button>
               </div>
             </CardHeader>
