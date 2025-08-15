@@ -93,16 +93,20 @@ export const useWishlist = () => {
       return productId;
     },
     onMutate: async (productId: string) => {
+      console.log('Starting optimistic update for product:', productId);
+      
       // Cancel any outgoing refetches
       await queryClient.cancelQueries({ queryKey: ['wishlist'] });
 
       // Snapshot the previous value
       const previousWishlist = queryClient.getQueryData(['wishlist']);
+      console.log('Previous wishlist:', previousWishlist);
 
       // Optimistically update to remove the item
-      queryClient.setQueryData(['wishlist'], (old: any) => 
-        old?.filter((item: any) => item.product_id !== productId) || []
-      );
+      const newWishlist = (previousWishlist as any)?.filter((item: any) => item.product_id !== productId) || [];
+      console.log('New wishlist after filter:', newWishlist);
+      
+      queryClient.setQueryData(['wishlist'], newWishlist);
 
       // Return a context object with the snapshotted value
       return { previousWishlist };
