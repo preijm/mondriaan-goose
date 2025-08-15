@@ -113,11 +113,9 @@ export const useWishlist = () => {
     onError: (err, productId, context: any) => {
       // Rollback on error
       queryClient.setQueryData(['wishlist'], context?.previousWishlist);
-      toast.error("Failed to remove from wishlist");
-    },
-    onSettled: () => {
-      // Always refetch after error or success to ensure consistency
+      // Refetch to ensure consistency after error
       queryClient.invalidateQueries({ queryKey: ['wishlist'] });
+      toast.error("Failed to remove from wishlist");
     },
   });
 
