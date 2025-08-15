@@ -6,95 +6,73 @@ interface BackgroundPatternProps {
 
 const BackgroundPattern = ({ children }: BackgroundPatternProps) => {
   return (
-    <div className="min-h-screen w-full max-w-full bg-gradient-to-br from-white via-emerald-50/5 to-white relative overflow-hidden">
-      {/* Pure CSS Background Pattern */}
-      <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none">
-        {/* Dotted pattern using CSS */}
-        <div 
-          className="absolute inset-0 opacity-40"
-          style={{
-            backgroundImage: `radial-gradient(circle at 2px 2px, rgba(94, 240, 230, 0.5) 1px, transparent 0)`,
-            backgroundSize: '80px 80px'
-          }}
-        />
-        
-        {/* Horizontal lines */}
-        <div 
-          className="absolute inset-0 opacity-25"
-          style={{
-            backgroundImage: `linear-gradient(90deg, transparent 49%, rgba(94, 240, 230, 0.4) 50%, transparent 51%)`,
-            backgroundSize: '120px 120px'
-          }}
-        />
-        
-        {/* Vertical lines - reduced density */}
-        <div 
-          className="absolute inset-0 opacity-25"
-          style={{
-            backgroundImage: `linear-gradient(0deg, transparent 49%, rgba(94, 240, 230, 0.3) 50%, transparent 51%)`,
-            backgroundSize: '200px 200px'
-          }}
-        />
-        
-        {/* Circular rings using CSS */}
-        <div 
-          className="absolute top-1/4 left-1/4 w-32 h-32 opacity-15 rounded-full border-2 border-emerald-200/30"
-          style={{
-            background: `conic-gradient(from 0deg, transparent, rgba(94, 240, 230, 0.1), transparent)`
-          }}
-        />
-        
-        {/* Large decorative circle */}
-        <div 
-          className="absolute top-1/3 right-1/4 w-48 h-48 opacity-10 rounded-full"
-          style={{
-            background: `radial-gradient(circle, rgba(14, 181, 181, 0.2) 30%, transparent 70%)`
-          }}
-        />
-        
-        {/* Hexagonal pattern using CSS */}
-        <div 
-          className="absolute bottom-1/4 left-1/3 opacity-20"
-          style={{
-            width: '60px',
-            height: '34.64px',
-            background: 'rgba(94, 240, 230, 0.3)',
-            clipPath: 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)'
-          }}
-        />
-        
-        {/* Triangle pattern */}
-        <div 
-          className="absolute top-1/2 left-1/2 opacity-15"
-          style={{
-            width: '0',
-            height: '0',
-            borderLeft: '20px solid transparent',
-            borderRight: '20px solid transparent',
-            borderBottom: '35px solid rgba(14, 181, 181, 0.2)'
-          }}
-        />
-        
-        {/* Wavy pattern using CSS */}
-        <div 
-          className="absolute bottom-1/3 right-1/3 opacity-25"
-          style={{
-            width: '100px',
-            height: '20px',
-            background: `repeating-linear-gradient(
-              90deg,
-              transparent,
-              transparent 10px,
-              rgba(94, 240, 230, 0.3) 10px,
-              rgba(94, 240, 230, 0.3) 20px
-            )`,
-            borderRadius: '10px'
-          }}
-        />
-      </div>
+    <div 
+      className="min-h-screen w-full max-w-full relative overflow-hidden"
+      style={{
+        background: 'linear-gradient(135deg, #ffffff, #ffffff, rgba(0, 191, 99, 0.02), rgba(33, 68, 255, 0.015), #ffffff, #ffffff)'
+      }}
+    >
+      {/* Oat grains pattern */}
+      <div 
+        style={{
+          position: 'absolute',
+          inset: '0',
+          backgroundImage: `
+            radial-gradient(ellipse 3px 6px at 20% 30%, rgba(0, 191, 99, 0.2) 70%, transparent 71%),
+            radial-gradient(ellipse 2px 5px at 60% 70%, rgba(0, 191, 99, 0.15) 70%, transparent 71%),
+            radial-gradient(ellipse 4px 7px at 80% 20%, rgba(0, 191, 99, 0.18) 70%, transparent 71%)
+          `,
+          backgroundSize: '180px 180px, 140px 140px, 220px 220px',
+          opacity: 0.4
+        }}
+      />
+      
+      {/* Milk splash with animation */}
+      <div 
+        style={{
+          position: 'absolute',
+          top: '40%',
+          right: '30%',
+          width: '60px',
+          height: '60px',
+          borderRadius: '50%',
+          background: 'radial-gradient(circle, rgba(33, 68, 255, 0.1), transparent 70%)',
+          opacity: 0.5,
+          animation: 'gentlePulse 4s ease-in-out infinite'
+        }}
+      />
+      
+      {/* Plant stem */}
+      <div 
+        style={{
+          position: 'absolute',
+          bottom: '25%',
+          left: '20%',
+          width: '3px',
+          height: '50px',
+          background: 'linear-gradient(to top, rgba(0, 191, 99, 0.3), rgba(0, 191, 99, 0.1))',
+          borderRadius: '2px'
+        }}
+      />
 
       {/* Content */}
       {children}
+
+      {/* Keyframes for animation */}
+      <style>
+        {`
+          @keyframes gentlePulse {
+            0%, 100% { 
+              transform: scale(1); 
+              opacity: 0.9; 
+            }
+            50% { 
+              transform: scale(1.1); 
+              opacity: 0.6; 
+            }
+          }
+        `}
+      </style>
     </div>
   );
 };
