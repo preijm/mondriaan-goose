@@ -13,6 +13,7 @@ import MapboxWorldMap from "@/components/MapboxWorldMap";
 import { MilkTestResult } from "@/types/milk-test";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { supabase } from "@/integrations/supabase/client";
+import { LoginPrompt } from "@/components/auth/LoginPrompt";
 interface FilterOptions {
   barista: boolean;
   properties: string[];
@@ -30,6 +31,9 @@ const Results = () => {
     properties: [],
     flavors: []
   });
+  const [showLoginPrompt, setShowLoginPrompt] = useState(false);
+  const [selectedProductName, setSelectedProductName] = useState<string>("");
+  
   const {
     data: aggregatedResults = [],
     isLoading
@@ -80,7 +84,22 @@ const Results = () => {
       direction: 'desc'
     });
   };
-  const navigateToProduct = (productId: string) => {
+  const navigateToProduct = async (productId: string) => {
+    // Check if user is authenticated
+    const { data: { session } } = await supabase.auth.getSession();
+    
+    if (!session) {
+      // Find the product name for the prompt
+      const product = aggregatedResults.find(r => r.product_id === productId);
+      const productDisplayName = product 
+        ? `${product.brand_name} ${product.product_name}`
+        : "";
+      
+      setSelectedProductName(productDisplayName);
+      setShowLoginPrompt(true);
+      return;
+    }
+    
     navigate(`/product/${productId}`);
   };
   const filteredResults = aggregatedResults.filter(result => {
@@ -187,6 +206,13 @@ const Results = () => {
       </BackgroundPattern>
       
       <MobileFooter />
+      
+      {/* Login prompt modal */}
+      <LoginPrompt 
+        isOpen={showLoginPrompt}
+        onClose={() => setShowLoginPrompt(false)}
+        productName={selectedProductName}
+      />
     </div>;
 };
 export default Results;
