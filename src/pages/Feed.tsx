@@ -21,7 +21,7 @@ const Feed = () => {
     data: feedItems = [],
     isLoading
   } = useQuery({
-    queryKey: ['feed'],
+    queryKey: ['feed', user?.id || 'anonymous'],
     queryFn: async () => {
       const {
         data,
@@ -32,11 +32,10 @@ const Feed = () => {
         .order('created_at', {
           ascending: false
         })
-        .limit(50);
+        .limit(user ? 50 : 3); // Limit to 3 items if not logged in
       if (error) throw error;
       return data as MilkTestResult[];
-    },
-    enabled: !!user // Only fetch if user is authenticated
+    }
   });
 
   // Scroll to specific test when coming from notification
@@ -61,8 +60,8 @@ const Feed = () => {
     <div className="min-h-screen relative">
       <MenuBar />
       <BackgroundPattern>
-        {/* Main Content - Always rendered but blurred when not authenticated */}
-        <div className={`container max-w-2xl mx-auto px-4 py-6 md:py-8 pt-24 md:pt-32 pb-20 sm:pb-6 md:pb-8 relative z-10 transition-all duration-300 ${!user ? 'pointer-events-none' : ''}`}>
+        {/* Main Content */}
+        <div className={`container max-w-2xl mx-auto px-4 py-6 md:py-8 pt-24 md:pt-32 pb-20 sm:pb-6 md:pb-8 relative z-10 transition-all duration-300`}>
           <h1 className="text-2xl md:text-3xl font-bold text-foreground mb-6 md:mb-8 text-center">Moo'd Board</h1>
           
           {isLoading ? (
@@ -71,7 +70,50 @@ const Feed = () => {
             </div>
           ) : (
             <div className="space-y-6">
-              {feedItems.map(item => <FeedItem key={item.id} item={item} />)}
+              {feedItems.map(item => (
+                <FeedItem 
+                  key={item.id} 
+                  item={item} 
+                  blurred={!user}
+                  disabled={!user}
+                />
+              ))}
+              
+              {/* Login prompt for non-authenticated users after preview items */}
+              {!user && feedItems.length > 0 && (
+                <Card className="w-full shadow-lg border-2 border-primary/20">
+                  <CardContent className="p-8 text-center space-y-6">
+                    <div className="text-2xl">🔓</div>
+                    <div className="space-y-4">
+                      <h3 className="text-xl font-semibold text-foreground">Ready to see more?</h3>
+                      <p className="text-muted-foreground leading-relaxed">
+                        Join our community to unlock all reviews, leave comments, and share your own taste tests!
+                      </p>
+                      <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                        <Button 
+                          onClick={() => navigate('/auth', { state: { from: '/feed' } })}
+                          variant="brand" 
+                          className="border-0" 
+                          size="lg"
+                          style={{backgroundColor: '#2144ff', color: 'white'}}
+                        >
+                          <LogIn className="mr-2 h-4 w-4" />
+                          Log In
+                        </Button>
+                        <Button 
+                          onClick={() => navigate('/auth', { state: { from: '/feed', mode: 'signup' } })}
+                          variant="outline" 
+                          size="lg"
+                        >
+                          <UserPlus className="mr-2 h-4 w-4" />
+                          Sign Up
+                        </Button>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              )}
+              
               {feedItems.length === 0 && (
                 <div className="text-center py-8">
                   {user ? (

@@ -21,6 +21,8 @@ import { formatScore } from "@/lib/scoreFormatter";
 
 interface FeedItemProps {
   item: MilkTestResult;
+  blurred?: boolean;
+  disabled?: boolean;
 }
 
 interface Like {
@@ -37,7 +39,7 @@ interface Comment {
   username?: string;
 }
 
-export const FeedItem = ({ item }: FeedItemProps) => {
+export const FeedItem = ({ item, blurred = false, disabled = false }: FeedItemProps) => {
   const { user } = useAuth();
   const { toast } = useToast();
   const navigate = useNavigate();
@@ -240,6 +242,7 @@ export const FeedItem = ({ item }: FeedItemProps) => {
   };
 
   return (
+    <div className={cn("w-full", disabled && "pointer-events-none")}>
     <Card id={`test-${item.id}`} className="w-full shadow-lg hover:shadow-xl transition-shadow duration-300 hover-scale">
       <CardHeader className="pb-2 pt-4">
         <div className="flex items-start justify-between gap-3">
@@ -252,7 +255,7 @@ export const FeedItem = ({ item }: FeedItemProps) => {
             </Badge>
             <div className="flex-1 min-w-0">
               <div className="flex items-center space-x-2 flex-wrap">
-                <span className="font-semibold text-foreground text-sm" translate="no">{item.username}</span>
+                <span className={cn("font-semibold text-foreground text-sm", blurred && "blur-sm")} translate="no">{item.username}</span>
                 <Badge variant="outline" className="text-xs px-1.5 py-0.5">
                   <Clock className="h-2.5 w-2.5 mr-1" />
                   {formatDistanceToNow(new Date(item.created_at), { addSuffix: true })}
@@ -319,7 +322,10 @@ export const FeedItem = ({ item }: FeedItemProps) => {
             <img
               src={`https://jtabjndnietpewvknjrm.supabase.co/storage/v1/object/public/milk-pictures/${encodeURIComponent(item.picture_path)}`}
               alt={`${item.brand_name} ${item.product_name}`}
-              className="w-full h-64 sm:h-80 object-cover transition-transform duration-300 hover:scale-105"
+              className={cn(
+                "w-full h-64 sm:h-80 object-cover transition-transform duration-300 hover:scale-105",
+                blurred && "blur-md"
+              )}
               onError={(e) => {
                 console.error('Failed to load image:', item.picture_path);
                 const target = e.currentTarget as HTMLImageElement;
@@ -522,5 +528,6 @@ export const FeedItem = ({ item }: FeedItemProps) => {
         />
       )}
     </Card>
+    </div>
   );
 };
