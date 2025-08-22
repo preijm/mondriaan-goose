@@ -36,23 +36,20 @@ export const LoginPrompt = ({
         <DialogHeader>
           <DialogTitle className="text-center">Login Required</DialogTitle>
           <DialogDescription className="text-center">
-            Unlock the test results — just log in or sign up!
+            {productName ? `To view individual test results for ${productName}, please log in or create an account.` : "To view individual test results, please log in or create an account."}
           </DialogDescription>
         </DialogHeader>
         
-        <div className="flex flex-col gap-4 mt-6">
-          <Button onClick={handleLogin} className="w-full bg-brand-blue hover:bg-brand-blue/90 text-white h-12 rounded-lg px-6 text-base font-medium" size="lg">
+        <div className="flex flex-col gap-3 mt-6">
+          <Button onClick={handleLogin} className="w-full" size="lg">
             <LogIn className="mr-2 h-4 w-4" />
             Log In
           </Button>
           
-          <button 
-            onClick={handleSignUp} 
-            className="text-green-600 hover:text-green-700 font-medium text-center py-2 transition-colors"
-          >
-            <UserPlus className="mr-2 h-4 w-4 inline" />
+          <Button onClick={handleSignUp} variant="outline" className="w-full" size="lg">
+            <UserPlus className="mr-2 h-4 w-4" />
             Create Account
-          </button>
+          </Button>
         </div>
         
         <p className="text-xs text-muted-foreground text-center mt-4">Join the community, read reviews, and show off your own taste tests!</p>
