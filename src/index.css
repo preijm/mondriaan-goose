@@ -37,10 +37,10 @@
     --cream-200: 40 100% 94%; /* #FFF2CC */
     --cream-300: 40 100% 91%; /* #FFEAB2 */
     
-    /* Brand blue colors */
-    --brand-blue: 225 100% 56%; /* #2144FF */
-    --brand-blue-hover: 225 91% 54%; /* #1D3EF0 */
-    --brand-blue-disabled: 225 100% 82%; /* #A8B3FF */
+    /* Brand blue colors - Updated to match user specification */
+    --brand-blue: 225 94% 54%; /* #1f54f4 */
+    --brand-blue-hover: 225 89% 48%; /* Slightly darker for hover */
+    --brand-blue-disabled: 225 94% 82%; /* Lighter for disabled state */
     
     /* Rating color */
     --rating-bg: 225 100% 91%; /* #D1DCFF */
@@ -100,11 +100,11 @@
 
 @layer components {
   .btn-brand {
-    @apply bg-[hsl(var(--brand-blue))] text-white transition-all duration-200 ease-in-out;
+    @apply bg-[hsl(var(--brand-blue))] text-white transition-all duration-200 ease-in-out rounded-lg py-3 px-6 font-medium;
   }
   
   .btn-brand:hover:not(:disabled) {
-    @apply bg-[hsl(var(--brand-blue-hover))] -translate-y-0.5 shadow-[0_4px_12px_hsl(var(--brand-blue)/0.3)];
+    @apply bg-[hsl(var(--brand-blue-hover))] shadow-lg;
   }
   
   .btn-brand:disabled {

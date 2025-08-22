@@ -31,31 +31,33 @@ const AuthFormButtons = ({
       <Button
         type="submit"
         variant="brand"
-        className="w-full"
+        className="w-full h-12 text-base font-medium rounded-lg"
         disabled={loading}
       >
         {loading ? (
           "Loading..."
         ) : isLogin ? (
           <div className="flex items-center justify-center gap-2">
-            <LogIn className="w-4 h-4" />
+            <LogIn className="w-5 h-5" />
             <span>Sign In</span>
           </div>
         ) : (
           <div className="flex items-center justify-center gap-2">
-            <UserPlus className="w-4 h-4" />
+            <UserPlus className="w-5 h-5" />
             <span>Sign Up</span>
           </div>
         )}
       </Button>
 
-      <button
-        type="button"
-        onClick={onToggleMode}
-        className="mt-6 text-center w-full text-[#00BF63] hover:text-emerald-700 transition-colors"
-      >
-        {isLogin ? "Need an account? Sign up" : "Already have an account? Sign in"}
-      </button>
+      <div className="text-center mt-6">
+        <button
+          type="button"
+          onClick={onToggleMode}
+          className="text-[#00BF63] hover:text-emerald-700 transition-colors font-medium"
+        >
+          {isLogin ? "Need an account? Sign up" : "Already have an account? Sign in"}
+        </button>
+      </div>
     </>
   );
 };
