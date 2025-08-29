@@ -642,6 +642,15 @@ export type Database = {
       }
     }
     Functions: {
+      get_public_stats: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          total_brands: number
+          total_members: number
+          total_products: number
+          total_tests: number
+        }[]
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
