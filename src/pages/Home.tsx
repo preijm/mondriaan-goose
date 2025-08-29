@@ -17,34 +17,16 @@ const Home = () => {
   useEffect(() => {
     const fetchTrustIndicators = async () => {
       try {
-        // Get total tests count
-        const {
-          count: totalTestsCount
-        } = await supabase.from('milk_tests').select('*', {
-          count: 'exact',
-          head: true
-        });
-
-        // Get brands covered count
-        const {
-          count: brandsCount
-        } = await supabase.from('brands').select('*', {
-          count: 'exact',
-          head: true
-        });
-
-        // Get active members count
-        const {
-          count: membersCount
-        } = await supabase.from('profiles').select('*', {
-          count: 'exact',
-          head: true
-        });
-        setStats({
-          totalTests: totalTestsCount || 0,
-          brandsCovered: brandsCount || 0,
-          activeMembers: membersCount || 0
-        });
+        // Get all stats using secure function
+        const { data: stats } = await supabase.rpc('get_public_stats');
+        if (stats && stats.length > 0) {
+          const stat = stats[0];
+          setStats({
+            totalTests: Number(stat.total_tests) || 0,
+            brandsCovered: Number(stat.total_brands) || 0,
+            activeMembers: Number(stat.total_members) || 0
+          });
+        }
       } catch (error) {
         console.error('Error fetching trust indicators:', error);
       }

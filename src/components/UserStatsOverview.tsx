@@ -97,41 +97,18 @@ export const HomeStatsOverview = () => {
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        // Get active members count
-        const {
-          count: membersCount
-        } = await supabase.from('profiles').select('*', {
-          count: 'exact',
-          head: true
-        });
+        // Get all stats using secure function
+        const { data: stats } = await supabase.rpc('get_public_stats');
 
-        // Get total tests count
-        const {
-          count: totalTestsCount
-        } = await supabase.from('milk_tests').select('*', {
-          count: 'exact',
-          head: true
-        });
-
-        // Get unique products reviewed count
-        const {
-          data: uniqueProducts
-        } = await supabase.from('milk_tests').select('product_id').not('product_id', 'is', null);
-        const uniqueProductCount = uniqueProducts ? new Set(uniqueProducts.map(item => item.product_id)).size : 0;
-
-        // Get brands covered count
-        const {
-          count: brandsCount
-        } = await supabase.from('brands').select('*', {
-          count: 'exact',
-          head: true
-        });
-        setStats({
-          activeMembers: membersCount || 0,
-          totalTests: totalTestsCount || 0,
-          productsReviewed: uniqueProductCount,
-          brandsCovered: brandsCount || 0
-        });
+        if (stats && stats.length > 0) {
+          const stat = stats[0];
+          setStats({
+            activeMembers: Number(stat.total_members) || 0,
+            totalTests: Number(stat.total_tests) || 0,
+            productsReviewed: Number(stat.total_products) || 0,
+            brandsCovered: Number(stat.total_brands) || 0
+          });
+        }
       } catch (error) {
         console.error('Error fetching stats:', error);
       } finally {
