@@ -133,14 +133,11 @@ export const useAuthOperations = () => {
     signupRateLimit.recordAttempt(rateLimitKey);
 
     try {
-      // Check if username is available
-      const { data: existingUser } = await supabase
-        .from('profiles')
-        .select('username')
-        .eq('username', sanitizedUsername)
-        .maybeSingle();
+      // Check if username is available using secure function
+      const { data: usernameExists } = await supabase
+        .rpc('check_username_exists', { username_to_check: sanitizedUsername });
 
-      if (existingUser) {
+      if (usernameExists) {
         await logSecurityEvent('username_conflict', { 
           attempted_username: sanitizedUsername 
         });

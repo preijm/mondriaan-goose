@@ -642,6 +642,10 @@ export type Database = {
       }
     }
     Functions: {
+      check_username_exists: {
+        Args: { username_to_check: string }
+        Returns: boolean
+      }
       get_public_stats: {
         Args: Record<PropertyKey, never>
         Returns: {
