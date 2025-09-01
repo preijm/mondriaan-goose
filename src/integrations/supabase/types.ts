@@ -677,6 +677,45 @@ export type Database = {
         Args: { username_to_check: string }
         Returns: boolean
       }
+      get_aggregated_milk_tests: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          brand_name: string
+          country_code: string
+          created_at: string
+          drink_preference: string
+          flavor_names: string[]
+          is_barista: boolean
+          price_quality_ratio: string
+          product_id: string
+          product_name: string
+          property_names: string[]
+          rating: number
+        }[]
+      }
+      get_all_milk_tests: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          brand_id: string
+          brand_name: string
+          country_code: string
+          created_at: string
+          drink_preference: string
+          flavor_names: string[]
+          id: string
+          is_barista: boolean
+          notes: string
+          picture_path: string
+          price_quality_ratio: string
+          product_id: string
+          product_name: string
+          property_names: string[]
+          rating: number
+          shop_name: string
+          user_id: string
+          username: string
+        }[]
+      }
       get_public_stats: {
         Args: Record<PropertyKey, never>
         Returns: {
