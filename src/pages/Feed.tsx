@@ -23,18 +23,13 @@ const Feed = () => {
   } = useQuery({
     queryKey: ['feed', user?.id || 'anonymous'],
     queryFn: async () => {
-      // For social feed, show all users' tests with their details
-      const {
-        data,
-        error
-      } = await supabase.from('milk_tests_view')
-        .select('id, created_at, brand_name, product_name, rating, username, notes, shop_name, picture_path, drink_preference, property_names, is_barista, flavor_names, price_quality_ratio, country_code, product_id, user_id')
-        .order('created_at', {
-          ascending: false
-        })
-        .limit(user ? 50 : 3); // Limit to 3 items if not logged in
+      // For social feed, show all users' tests with their details using security definer function
+      const { data, error } = await supabase.rpc('get_all_milk_tests');
       if (error) throw error;
-      return data as MilkTestResult[];
+      
+      // Limit the results based on authentication status
+      const limitedData = (data || []).slice(0, user ? 50 : 3);
+      return limitedData as MilkTestResult[];
     }
   });
 

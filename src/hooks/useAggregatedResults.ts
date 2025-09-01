@@ -27,10 +27,8 @@ export const useAggregatedResults = (sortConfig: SortConfig) => {
     queryFn: async () => {
       console.log("Fetching with sort config:", sortConfig);
       
-      // Get anonymized aggregated data - safe for public access
-      const { data, error } = await supabase
-        .from('milk_tests_aggregated_view')
-        .select('product_id, brand_name, product_name, property_names, is_barista, flavor_names, rating, price_quality_ratio, created_at');
+      // Get anonymized aggregated data using security definer function
+      const { data, error } = await supabase.rpc('get_aggregated_milk_tests');
       
       if (error) {
         console.error("Supabase query error:", error);
