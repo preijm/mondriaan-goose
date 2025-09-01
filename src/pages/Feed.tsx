@@ -23,12 +23,12 @@ const Feed = () => {
   } = useQuery({
     queryKey: ['feed', user?.id || 'anonymous'],
     queryFn: async () => {
+      // For social feed, show all users' tests with their details
       const {
         data,
         error
       } = await supabase.from('milk_tests_view')
-        .select('*')
-        .or('created_at.lt.1970-01-01,created_at.gte.1970-01-02')
+        .select('id, created_at, brand_name, product_name, rating, username, notes, shop_name, picture_path, drink_preference, property_names, is_barista, flavor_names, price_quality_ratio, country_code, product_id, user_id')
         .order('created_at', {
           ascending: false
         })
