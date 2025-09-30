@@ -1,7 +1,7 @@
 import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'app.lovable.534a6b8e95044d1c9f7fe02ff5b37b5b',
+  appId: 'com.lovable.mondriaangoose',
   appName: 'mondriaan-goose',
   webDir: 'dist',
   server: {
