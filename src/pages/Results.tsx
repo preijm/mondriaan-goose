@@ -8,7 +8,7 @@ import MobileFooter from "@/components/MobileFooter";
 import { ResultsContainer } from "@/components/milk-test/ResultsContainer";
 import { MilkCharts } from "@/components/MilkCharts";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { ChartBar, Table2, MapPin } from "lucide-react";
+import { ChartBar, Table2, MapPin, Construction } from "lucide-react";
 import MapboxWorldMap from "@/components/MapboxWorldMap";
 import { MilkTestResult } from "@/types/milk-test";
 import { useIsMobile } from "@/hooks/use-mobile";
@@ -175,10 +175,12 @@ const Results = () => {
                   <TabsTrigger value="charts" className="flex items-center gap-2">
                     <ChartBar className="w-4 h-4" />
                     <span>Chart</span>
+                    <Construction className="w-3 h-3 text-muted-foreground" />
                   </TabsTrigger>
                   <TabsTrigger value="map" className="flex items-center gap-2">
                     <MapPin className="w-4 h-4" />
                     <span>Map</span>
+                    <Construction className="w-3 h-3 text-muted-foreground" />
                   </TabsTrigger>
                 </TabsList>
               </Tabs>
