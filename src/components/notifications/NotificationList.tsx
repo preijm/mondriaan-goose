@@ -1,9 +1,11 @@
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Heart, MessageCircle, Bell } from "lucide-react";
+import { Heart, MessageCircle, Bell, ChevronDown } from "lucide-react";
 import { useNotifications, type Notification } from "@/hooks/useNotifications";
-import { formatDistanceToNow } from "date-fns";
+import { formatDistanceToNow, subDays } from "date-fns";
 import { cn } from "@/lib/utils";
 import { useNavigate } from "react-router-dom";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import { useState } from "react";
 
 function NotificationItem({ notification, onMarkAsRead }: { 
   notification: Notification; 
@@ -52,6 +54,8 @@ function NotificationItem({ notification, onMarkAsRead }: {
 
 export function NotificationList() {
   const { notifications, loading, markAsRead } = useNotifications();
+  const [recentOpen, setRecentOpen] = useState(true);
+  const [earlierOpen, setEarlierOpen] = useState(true);
 
   if (loading) {
     return (
@@ -61,9 +65,14 @@ export function NotificationList() {
     );
   }
 
+  // Group notifications by recency
+  const now = new Date();
+  const sevenDaysAgo = subDays(now, 7);
+  const recentNotifications = notifications.filter(n => new Date(n.created_at) > sevenDaysAgo);
+  const earlierNotifications = notifications.filter(n => new Date(n.created_at) <= sevenDaysAgo);
+
   return (
     <div className="w-full">
-      
       {notifications.length === 0 ? (
         <div className="p-8 text-center text-muted-foreground bg-background">
           <Bell className="h-8 w-8 mx-auto mb-2 opacity-50" />
@@ -73,13 +82,45 @@ export function NotificationList() {
       ) : (
         <ScrollArea className="h-80 bg-background">
           <div className="max-h-none">
-            {notifications.map((notification) => (
-              <NotificationItem
-                key={notification.id}
-                notification={notification}
-                onMarkAsRead={markAsRead}
-              />
-            ))}
+            {recentNotifications.length > 0 && (
+              <Collapsible open={recentOpen} onOpenChange={setRecentOpen}>
+                <CollapsibleTrigger className="w-full">
+                  <div className="px-4 py-3 bg-muted/50 flex items-center justify-between">
+                    <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">Recent</h3>
+                    <ChevronDown className={cn("h-4 w-4 text-muted-foreground transition-transform", recentOpen && "rotate-180")} />
+                  </div>
+                </CollapsibleTrigger>
+                <CollapsibleContent>
+                  {recentNotifications.map((notification) => (
+                    <NotificationItem
+                      key={notification.id}
+                      notification={notification}
+                      onMarkAsRead={markAsRead}
+                    />
+                  ))}
+                </CollapsibleContent>
+              </Collapsible>
+            )}
+            
+            {earlierNotifications.length > 0 && (
+              <Collapsible open={earlierOpen} onOpenChange={setEarlierOpen}>
+                <CollapsibleTrigger className="w-full">
+                  <div className="px-4 py-3 bg-muted/50 flex items-center justify-between">
+                    <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">Earlier</h3>
+                    <ChevronDown className={cn("h-4 w-4 text-muted-foreground transition-transform", earlierOpen && "rotate-180")} />
+                  </div>
+                </CollapsibleTrigger>
+                <CollapsibleContent>
+                  {earlierNotifications.map((notification) => (
+                    <NotificationItem
+                      key={notification.id}
+                      notification={notification}
+                      onMarkAsRead={markAsRead}
+                    />
+                  ))}
+                </CollapsibleContent>
+              </Collapsible>
+            )}
           </div>
         </ScrollArea>
       )}

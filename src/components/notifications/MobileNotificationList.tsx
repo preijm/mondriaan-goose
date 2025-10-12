@@ -1,10 +1,12 @@
-import { Heart, MessageCircle, Bell, MoreVertical } from "lucide-react";
+import { Heart, MessageCircle, Bell, ChevronDown } from "lucide-react";
 import { useNotifications, type Notification } from "@/hooks/useNotifications";
 import { formatDistanceToNow, subDays } from "date-fns";
 import { cn } from "@/lib/utils";
 import { useNavigate } from "react-router-dom";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import { useState } from "react";
 function NotificationItem({
   notification,
   onMarkAsRead
@@ -78,10 +80,9 @@ function NotificationItem({
     </div>;
 }
 export function MobileNotificationList() {
-  const {
-    notifications,
-    loading
-  } = useNotifications();
+  const { notifications, loading } = useNotifications();
+  const [recentOpen, setRecentOpen] = useState(true);
+  const [earlierOpen, setEarlierOpen] = useState(true);
   if (loading) {
     return <div className="p-4 text-center text-muted-foreground">
         Loading notifications...
@@ -101,18 +102,32 @@ export function MobileNotificationList() {
   const recentNotifications = notifications.filter(n => new Date(n.created_at) > sevenDaysAgo);
   const earlierNotifications = notifications.filter(n => new Date(n.created_at) <= sevenDaysAgo);
   return <div className="w-full">
-      {recentNotifications.length > 0 && <>
-          <div className="px-4 py-3 bg-gray-100">
-            <h3 className="text-xs font-semibold text-gray-600 uppercase tracking-wide">Recent</h3>
-          </div>
-          {recentNotifications.map(notification => <NotificationItem key={notification.id} notification={notification} onMarkAsRead={() => {}} />)}
-        </>}
+      {recentNotifications.length > 0 && (
+        <Collapsible open={recentOpen} onOpenChange={setRecentOpen}>
+          <CollapsibleTrigger className="w-full">
+            <div className="px-4 py-3 bg-gray-100 flex items-center justify-between">
+              <h3 className="text-xs font-semibold text-gray-600 uppercase tracking-wide">Recent</h3>
+              <ChevronDown className={cn("h-4 w-4 text-gray-600 transition-transform", recentOpen && "rotate-180")} />
+            </div>
+          </CollapsibleTrigger>
+          <CollapsibleContent>
+            {recentNotifications.map(notification => <NotificationItem key={notification.id} notification={notification} onMarkAsRead={() => {}} />)}
+          </CollapsibleContent>
+        </Collapsible>
+      )}
       
-      {earlierNotifications.length > 0 && <>
-          <div className="px-4 py-3 bg-gray-100">
-            <h3 className="text-xs font-semibold text-gray-600 uppercase tracking-wide">Earlier</h3>
-          </div>
-          {earlierNotifications.map(notification => <NotificationItem key={notification.id} notification={notification} onMarkAsRead={() => {}} />)}
-        </>}
+      {earlierNotifications.length > 0 && (
+        <Collapsible open={earlierOpen} onOpenChange={setEarlierOpen}>
+          <CollapsibleTrigger className="w-full">
+            <div className="px-4 py-3 bg-gray-100 flex items-center justify-between">
+              <h3 className="text-xs font-semibold text-gray-600 uppercase tracking-wide">Earlier</h3>
+              <ChevronDown className={cn("h-4 w-4 text-gray-600 transition-transform", earlierOpen && "rotate-180")} />
+            </div>
+          </CollapsibleTrigger>
+          <CollapsibleContent>
+            {earlierNotifications.map(notification => <NotificationItem key={notification.id} notification={notification} onMarkAsRead={() => {}} />)}
+          </CollapsibleContent>
+        </Collapsible>
+      )}
     </div>;
 }
