@@ -1,4 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
+import { Home, Radio, BarChart3, Info, Mail } from "lucide-react";
 
 const MobileFooter = () => {
   const location = useLocation();
@@ -22,42 +23,47 @@ const MobileFooter = () => {
   return (
     <div className="sm:hidden fixed bottom-0 left-0 right-0 z-50">
       <div className="bg-white/95 backdrop-blur-sm border-t border-gray-200 shadow-lg">
-        <div className="px-4 py-3">
-          <div className="flex justify-center space-x-4 text-sm">
+        <div className="px-2 py-2">
+          <div className="flex justify-around items-center">
             <Link 
               to="/" 
-              className={getLinkClass("/")}
+              className={`flex flex-col items-center gap-1 px-3 py-1.5 rounded-lg transition-colors ${getLinkClass("/")}`}
               style={getLinkStyle("/")}
             >
-              Home
+              <Home className="w-5 h-5" />
+              <span className="text-xs">Home</span>
             </Link>
             <Link 
               to="/feed" 
-              className={getLinkClass("/feed")}
+              className={`flex flex-col items-center gap-1 px-3 py-1.5 rounded-lg transition-colors ${getLinkClass("/feed")}`}
               style={getLinkStyle("/feed")}
             >
-              Feed
+              <Radio className="w-5 h-5" />
+              <span className="text-xs">Feed</span>
             </Link>
             <Link 
               to="/results" 
-              className={getLinkClass("/results")}
+              className={`flex flex-col items-center gap-1 px-3 py-1.5 rounded-lg transition-colors ${getLinkClass("/results")}`}
               style={getLinkStyle("/results")}
             >
-              Results
+              <BarChart3 className="w-5 h-5" />
+              <span className="text-xs">Results</span>
             </Link>
             <Link 
               to="/about" 
-              className={getLinkClass("/about")}
+              className={`flex flex-col items-center gap-1 px-3 py-1.5 rounded-lg transition-colors ${getLinkClass("/about")}`}
               style={getLinkStyle("/about")}
             >
-              About
+              <Info className="w-5 h-5" />
+              <span className="text-xs">About</span>
             </Link>
             <Link 
               to="/contact" 
-              className={getLinkClass("/contact")}
+              className={`flex flex-col items-center gap-1 px-3 py-1.5 rounded-lg transition-colors ${getLinkClass("/contact")}`}
               style={getLinkStyle("/contact")}
             >
-              Contact
+              <Mail className="w-5 h-5" />
+              <span className="text-xs">Contact</span>
             </Link>
           </div>
         </div>
