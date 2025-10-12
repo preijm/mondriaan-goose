@@ -84,7 +84,7 @@ const Home = () => {
             
             {/* Enhanced CTA button with better animation */}
             <div className="flex flex-col sm:flex-row gap-3 md:gap-4 animate-fade-in mb-8 md:mb-12">
-              <Button onClick={handleStartJourney} size="lg" className="text-base md:text-lg px-6 md:px-8 py-3 md:py-4 text-white shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group" style={{
+              <Button onClick={handleStartJourney} size="lg" className="text-base md:text-lg px-6 md:px-8 py-3 md:py-4 text-white shadow-lg hover:shadow-xl md:hover:-translate-y-1 transition-all duration-300 group" style={{
               backgroundColor: '#2144ff'
             }}>
                 <Milk className="mr-2 h-6 w-6 group-hover:rotate-12 transition-transform duration-300" />

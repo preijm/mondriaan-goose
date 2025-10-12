@@ -56,7 +56,7 @@ const FeaturesSection = () => {
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {features.map((feature, index) => (
-            <Card key={index} className="border-0 shadow-md hover:shadow-lg transition-all duration-300 group hover:-translate-y-1">
+            <Card key={index} className="border-0 shadow-md hover:shadow-lg transition-all duration-300 group md:hover:-translate-y-1">
               <CardContent className="p-8">
                 <div className={`w-14 h-14 mb-6 rounded-xl bg-gradient-to-br ${feature.gradient} flex items-center justify-center group-hover:scale-110 transition-transform duration-300`}>
                   <feature.icon className="w-7 h-7 text-primary" />
