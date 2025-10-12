@@ -45,7 +45,7 @@ export const FeedComments = ({ comments, userEmail, isCommentPending, onAddComme
               </span>
               <span className="text-xs text-muted-foreground flex items-center">
                 <Clock className="h-2.5 w-2.5 mr-1" />
-                {formatDistanceToNow(new Date(comment.created_at), { addSuffix: true })}
+                {formatDistanceToNow(new Date(comment.created_at), { addSuffix: true }).replace('about ', '')}
               </span>
             </div>
             <p className="text-foreground text-sm mt-1">{comment.content}</p>

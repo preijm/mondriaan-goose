@@ -13,6 +13,8 @@ interface FeedHeaderProps {
 }
 
 export const FeedHeader = ({ username, createdAt, rating, blurred }: FeedHeaderProps) => {
+  const timeAgo = formatDistanceToNow(new Date(createdAt), { addSuffix: true }).replace('about ', '');
+  
   return (
     <div className="flex items-center justify-between gap-3">
       <div className="flex items-center gap-2 flex-1 min-w-0">
@@ -25,7 +27,7 @@ export const FeedHeader = ({ username, createdAt, rating, blurred }: FeedHeaderP
           </span>
           <Badge variant="outline" className="text-xs px-2 py-0.5 whitespace-nowrap">
             <Clock className="h-3 w-3 mr-1" />
-            {formatDistanceToNow(new Date(createdAt), { addSuffix: true })}
+            {timeAgo}
           </Badge>
         </div>
       </div>
