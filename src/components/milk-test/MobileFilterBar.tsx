@@ -36,8 +36,6 @@ export const MobileFilterBar = ({
 }: MobileFilterBarProps) => {
   const [isFiltersOpen, setIsFiltersOpen] = useState(false);
   const [isSortOpen, setIsSortOpen] = useState(false);
-  const [isBrandOpen, setIsBrandOpen] = useState(false);
-  const [isPriceOpen, setIsPriceOpen] = useState(false);
 
   const { data: properties = [] } = useQuery({
     queryKey: ['properties'],
@@ -126,7 +124,7 @@ export const MobileFilterBar = ({
   };
 
   return (
-    <div className="space-y-3">
+    <div className="sticky top-16 z-40 bg-white/95 backdrop-blur-sm -mx-6 px-6 py-3 space-y-3 border-b border-gray-100">
       {/* Search Bar */}
       <div className="relative">
         <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
@@ -294,40 +292,6 @@ export const MobileFilterBar = ({
                   {sortConfig.column === option.key && getSortIcon()}
                 </button>
               ))}
-            </div>
-          </PopoverContent>
-        </Popover>
-
-        {/* Price Button - Coming Soon */}
-        <Popover open={isPriceOpen} onOpenChange={setIsPriceOpen}>
-          <PopoverTrigger asChild>
-            <Button 
-              variant="outline" 
-              className="flex-shrink-0 h-10 px-4 bg-white border-gray-200"
-            >
-              Price
-            </Button>
-          </PopoverTrigger>
-          <PopoverContent className="w-56 p-4" align="start">
-            <div className="text-center text-sm text-muted-foreground">
-              Price filtering coming soon!
-            </div>
-          </PopoverContent>
-        </Popover>
-
-        {/* Brand Button - Coming Soon */}
-        <Popover open={isBrandOpen} onOpenChange={setIsBrandOpen}>
-          <PopoverTrigger asChild>
-            <Button 
-              variant="outline" 
-              className="flex-shrink-0 h-10 px-4 bg-white border-gray-200"
-            >
-              Brand
-            </Button>
-          </PopoverTrigger>
-          <PopoverContent className="w-56 p-4" align="start">
-            <div className="text-center text-sm text-muted-foreground">
-              Brand filtering coming soon!
             </div>
           </PopoverContent>
         </Popover>
