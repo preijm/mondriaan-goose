@@ -1,6 +1,6 @@
 
 import React from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import MenuBar from "@/components/MenuBar";
 import MobileFooter from "@/components/MobileFooter";
 import BackgroundPattern from "@/components/BackgroundPattern";
@@ -34,6 +34,7 @@ type ProductDetails = {
 const ProductDetails = () => {
   const { productId } = useParams<{ productId: string }>();
   const { user } = useAuth();
+  const navigate = useNavigate();
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [showLoginPrompt, setShowLoginPrompt] = useState(false);
   // Set default sort to created_at in descending order to show latest tests first
@@ -170,10 +171,10 @@ const ProductDetails = () => {
             </Link>
           </div>
 
-          {/* Product header card - matching results page style exactly with highlight */}
+          {/* Product header card - matching results page style exactly with grey border */}
           <div
-            className="bg-white/80 backdrop-blur-sm rounded-xl shadow-lg border-2 border-primary p-4 animate-fade-in max-w-sm w-full"
-            style={{ boxShadow: '0 0 0 3px rgba(0, 191, 99, 0.1)' }}
+            className="bg-white/80 backdrop-blur-sm rounded-xl shadow-lg border-2 border-gray-300 p-4 animate-fade-in max-w-sm w-full cursor-pointer hover:shadow-xl transition-all"
+            onClick={() => navigate('/results')}
           >
             <div className="space-y-2">
               {/* Brand - Product with inline badges */}
