@@ -138,14 +138,14 @@ export const MobileFilterBar = ({
       </div>
 
       {/* Filter Buttons Row */}
-      <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
+      <div className="grid grid-cols-2 gap-2">
         {/* Filters Button */}
         <Popover open={isFiltersOpen} onOpenChange={setIsFiltersOpen}>
           <PopoverTrigger asChild>
             <Button 
               variant="outline" 
-              className="flex-shrink-0 h-10 px-4 bg-white border-gray-200 relative"
-              style={activeFilterCount > 0 ? { 
+              className="w-full h-10 px-4 bg-white border-gray-200 relative"
+              style={activeFilterCount > 0 ? {
                 backgroundColor: '#2144ff',
                 color: 'white',
                 borderColor: '#2144ff'
@@ -246,7 +246,7 @@ export const MobileFilterBar = ({
           <PopoverTrigger asChild>
             <Button 
               variant="outline" 
-              className="flex-shrink-0 h-10 px-4 bg-white border-gray-200"
+              className="w-full h-10 px-4 bg-white border-gray-200"
             >
               <ArrowUpDown className="h-4 w-4 mr-2" />
               {currentSort?.label || 'Newest'}
