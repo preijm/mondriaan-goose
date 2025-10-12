@@ -81,7 +81,7 @@ export function NotificationList() {
         </div>
       ) : (
         <ScrollArea className="h-80 bg-background">
-          <div>
+          <div className="pt-5">
             {recentNotifications.length > 0 && (
               <Collapsible open={recentOpen} onOpenChange={setRecentOpen}>
                 <CollapsibleTrigger className="w-full">
