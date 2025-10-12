@@ -41,19 +41,6 @@ const OatMilkBackground = ({ children }: OatMilkBackgroundProps) => {
           animation: 'gentlePulse 4s ease-in-out infinite'
         }}
       />
-      
-      {/* Plant stem */}
-      <div 
-        style={{
-          position: 'absolute',
-          bottom: '25%',
-          left: '20%',
-          width: '3px',
-          height: '50px',
-          background: 'linear-gradient(to top, rgba(0, 191, 99, 0.3), rgba(0, 191, 99, 0.1))',
-          borderRadius: '2px'
-        }}
-      />
 
       {/* Content */}
       {children}
