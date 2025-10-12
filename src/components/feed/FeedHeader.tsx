@@ -17,17 +17,17 @@ export const FeedHeader = ({ username, createdAt, rating, blurred }: FeedHeaderP
   
   return (
     <div className="flex items-start justify-between gap-3">
-      <div className="flex items-start gap-3 flex-1 min-w-0">
-        <Badge variant="category" className="w-9 h-9 rounded-full flex items-center justify-center p-0 font-semibold flex-shrink-0">
+      <div className="flex items-start gap-2 flex-1 min-w-0">
+        <Badge variant="category" className="w-8 h-8 rounded-full flex items-center justify-center p-0 font-semibold text-sm flex-shrink-0">
           {username?.charAt(0).toUpperCase() || 'U'}
         </Badge>
-        <div className="flex flex-col gap-1 min-w-0">
-          <span className={cn("font-semibold text-foreground", blurred && "blur-sm")} translate="no">
+        <div className="flex flex-col gap-0.5 min-w-0">
+          <span className={cn("font-semibold text-sm text-foreground", blurred && "blur-sm")} translate="no">
             {username}
           </span>
           <div className="flex items-center gap-1 text-muted-foreground">
-            <Clock className="h-3.5 w-3.5" />
-            <span className="text-sm">{timeAgo}</span>
+            <Clock className="h-3 w-3" />
+            <span className="text-xs">{timeAgo}</span>
           </div>
         </div>
       </div>

@@ -191,7 +191,7 @@ export const FeedItem = ({ item, blurred = false, disabled = false }: FeedItemPr
   return (
     <div className={cn("w-full", disabled && "pointer-events-none")}>
       <Card id={`test-${item.id}`} className="w-full shadow-lg hover:shadow-xl transition-shadow duration-300 hover-scale">
-        <CardHeader className="pb-3 pt-4 px-4">
+        <CardHeader className="pb-2 pt-3 px-4">
           <FeedHeader
             username={item.username}
             createdAt={item.created_at}
@@ -200,7 +200,7 @@ export const FeedItem = ({ item, blurred = false, disabled = false }: FeedItemPr
           />
         </CardHeader>
 
-        <CardContent className="space-y-3 pt-0 px-4 pb-4">
+        <CardContent className="space-y-3 pt-0 px-4 pb-3">
           <FeedProductInfo
             brandName={item.brand_name}
             productName={item.product_name}
