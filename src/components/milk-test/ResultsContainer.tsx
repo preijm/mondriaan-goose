@@ -8,7 +8,9 @@ import { MobileFilterBar } from "@/components/milk-test/MobileFilterBar";
 import { AggregatedResultsTable } from "@/components/milk-test/AggregatedResultsTable";
 import { AggregatedResult, SortConfig } from "@/hooks/useAggregatedResults";
 import { Card, CardHeader, CardContent } from "@/components/ui/card";
+import { Checkbox } from "@/components/ui/checkbox";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { useAuth } from "@/contexts/AuthContext";
 
 interface FilterOptions {
   barista: boolean;
@@ -41,6 +43,14 @@ export const ResultsContainer = ({
   onFiltersChange
 }: ResultsContainerProps) => {
   const isMobile = useIsMobile();
+  const { user } = useAuth();
+
+  const handleMyResultsToggle = () => {
+    onFiltersChange({
+      ...filters,
+      myResultsOnly: !filters.myResultsOnly
+    });
+  };
 
   return (
     <>
@@ -71,7 +81,7 @@ export const ResultsContainer = ({
       ) : (
         <Card className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg border border-white/20 overflow-hidden animate-fade-in">
           <CardHeader className="bg-white/50 backdrop-blur-sm pb-4 pt-6 px-6">
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-4 mb-4">
               <div className="flex-1">
                 <SearchBar
                   searchTerm={searchTerm}
@@ -85,6 +95,23 @@ export const ResultsContainer = ({
                 onFiltersChange={onFiltersChange}
               />
             </div>
+            
+            {/* My Results Only Checkbox - Visible when logged in */}
+            {user && (
+              <div className="flex items-center space-x-2">
+                <Checkbox
+                  id="myResultsMain"
+                  checked={filters.myResultsOnly}
+                  onCheckedChange={handleMyResultsToggle}
+                />
+                <label
+                  htmlFor="myResultsMain"
+                  className="text-sm font-medium leading-none cursor-pointer select-none"
+                >
+                  Show only my results
+                </label>
+              </div>
+            )}
           </CardHeader>
           <CardContent className="p-0">
             <AggregatedResultsTable

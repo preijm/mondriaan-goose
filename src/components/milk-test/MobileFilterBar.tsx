@@ -4,10 +4,12 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Badge } from "@/components/ui/badge";
+import { Checkbox } from "@/components/ui/checkbox";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { SortConfig } from "@/hooks/useAggregatedResults";
 import { ArrowUp, ArrowDown } from "lucide-react";
+import { useAuth } from "@/contexts/AuthContext";
 
 interface FilterOptions {
   barista: boolean;
@@ -37,6 +39,14 @@ export const MobileFilterBar = ({
 }: MobileFilterBarProps) => {
   const [isFiltersOpen, setIsFiltersOpen] = useState(false);
   const [isSortOpen, setIsSortOpen] = useState(false);
+  const { user } = useAuth();
+
+  const handleMyResultsToggle = () => {
+    onFiltersChange({
+      ...filters,
+      myResultsOnly: !filters.myResultsOnly
+    });
+  };
 
   const { data: properties = [] } = useQuery({
     queryKey: ['properties'],
@@ -138,6 +148,23 @@ export const MobileFilterBar = ({
           maxLength={100}
         />
       </div>
+
+      {/* My Results Only Checkbox - Visible when logged in */}
+      {user && (
+        <div className="flex items-center space-x-2 bg-white rounded-lg p-3 border border-gray-200">
+          <Checkbox
+            id="myResultsMobile"
+            checked={filters.myResultsOnly}
+            onCheckedChange={handleMyResultsToggle}
+          />
+          <label
+            htmlFor="myResultsMobile"
+            className="text-sm font-medium leading-none cursor-pointer select-none"
+          >
+            Show only my results
+          </label>
+        </div>
+      )}
 
       {/* Filter Buttons Row */}
       <div className="grid grid-cols-2 gap-2">
