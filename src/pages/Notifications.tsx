@@ -1,15 +1,18 @@
 import React from "react";
 import MenuBar from "@/components/MenuBar";
 import MobileFooter from "@/components/MobileFooter";
-import { Bell } from "lucide-react";
+import { ArrowLeft, Bell } from "lucide-react";
 import BackgroundPattern from "@/components/BackgroundPattern";
 import { useNotifications } from "@/hooks/useNotifications";
 import { NotificationList } from "@/components/notifications/NotificationList";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { useNavigate } from "react-router-dom";
+import { Button } from "@/components/ui/button";
 
 const Notifications = () => {
-  const { notifications, markAllAsRead } = useNotifications();
+  const { notifications, unreadCount, markAllAsRead } = useNotifications();
   const isMobile = useIsMobile();
+  const navigate = useNavigate();
   
   // Check if device is mobile or tablet (up to 1024px)
   const isMobileOrTablet = typeof window !== 'undefined' && window.innerWidth < 1024;
@@ -21,19 +24,31 @@ const Notifications = () => {
         <MenuBar />
         <div className="pt-16 pb-20 min-h-screen">
           <div className="bg-white">
+            {/* Header with back button */}
             <div className="flex items-center justify-between p-4 border-b sticky top-16 bg-white z-10">
               <div className="flex items-center gap-3">
-                <div className="h-12 w-12 rounded-full flex items-center justify-center" style={{ backgroundColor: '#00bf63' }}>
-                  <Bell className="w-6 h-6 text-white" />
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => navigate(-1)}
+                  className="h-10 w-10"
+                >
+                  <ArrowLeft className="w-5 h-5" />
+                </Button>
+                <div>
+                  <h1 className="text-xl font-semibold text-gray-900">Notifications</h1>
+                  {unreadCount > 0 && (
+                    <p className="text-sm text-gray-500">{unreadCount} unread</p>
+                  )}
                 </div>
-                <h1 className="text-xl font-semibold text-gray-800">Notifications</h1>
               </div>
-              {notifications.length > 0 && (
+              {notifications.length > 0 && unreadCount > 0 && (
                 <button
                   onClick={markAllAsRead}
-                  className="text-sm text-gray-600"
+                  className="text-sm font-medium"
+                  style={{ color: '#00bf63' }}
                 >
-                  Mark all as read
+                  Mark all read
                 </button>
               )}
             </div>
@@ -55,20 +70,27 @@ const Notifications = () => {
       <BackgroundPattern>
         <div className="flex items-center justify-center min-h-screen pt-16 pb-20 sm:pb-8">
           <div className="container max-w-4xl mx-auto px-4 py-4 sm:py-8 relative z-10">
-            <div className="bg-white rounded-lg shadow-md p-6">
-              <div className="flex items-center justify-between mb-6">
+            <div className="bg-white rounded-lg shadow-md overflow-hidden">
+              {/* Header */}
+              <div className="flex items-center justify-between p-6 border-b">
                 <div className="flex items-center gap-3">
                   <div className="h-12 w-12 rounded-full flex items-center justify-center" style={{ backgroundColor: '#00bf63' }}>
                     <Bell className="w-6 h-6 text-white" />
                   </div>
-                  <h1 className="text-2xl font-semibold text-gray-800">Notifications</h1>
+                  <div>
+                    <h1 className="text-2xl font-semibold text-gray-800">Notifications</h1>
+                    {unreadCount > 0 && (
+                      <p className="text-sm text-gray-500">{unreadCount} unread</p>
+                    )}
+                  </div>
                 </div>
-                {notifications.length > 0 && (
+                {notifications.length > 0 && unreadCount > 0 && (
                   <button
                     onClick={markAllAsRead}
-                    className="text-sm text-gray-600 md:hover:text-gray-900 transition-colors"
+                    className="text-sm font-medium md:hover:opacity-80 transition-opacity"
+                    style={{ color: '#00bf63' }}
                   >
-                    Mark all as read
+                    Mark all read
                   </button>
                 )}
               </div>
