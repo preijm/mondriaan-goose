@@ -28,12 +28,12 @@ const Notifications = () => {
         <div className="pt-16 pb-20 min-h-screen">
           <div className="bg-white pt-16">
             {/* Header with notifications info */}
-            <div className="flex items-center justify-between p-4 border-b sticky top-16 bg-white z-10">
+            <div className="flex items-start justify-between p-4 border-b sticky top-16 bg-white z-10">
               <div>
-                <h1 className="text-xl font-semibold text-gray-900">Notifications</h1>
-                {unreadCount > 0 && <p className="text-sm text-gray-500">{unreadCount} unread</p>}
+                <h1 className="text-2xl font-semibold text-gray-900">Notifications</h1>
+                {unreadCount > 0 && <p className="text-sm text-gray-500 mt-1">{unreadCount} unread</p>}
               </div>
-              {notifications.length > 0 && unreadCount > 0 && <button onClick={markAllAsRead} className="text-sm font-medium" style={{
+              {notifications.length > 0 && unreadCount > 0 && <button onClick={markAllAsRead} className="text-sm font-medium pt-1" style={{
               color: '#00bf63'
             }}>
                   Mark all read
