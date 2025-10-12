@@ -9,49 +9,38 @@ import { MobileNotificationList } from "@/components/notifications/MobileNotific
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-
 const Notifications = () => {
-  const { notifications, unreadCount, markAllAsRead } = useNotifications();
+  const {
+    notifications,
+    unreadCount,
+    markAllAsRead
+  } = useNotifications();
   const isMobile = useIsMobile();
   const navigate = useNavigate();
-  
+
   // Check if device is mobile or tablet (up to 1024px)
   const isMobileOrTablet = typeof window !== 'undefined' && window.innerWidth < 1024;
 
   // Mobile/Tablet full-screen layout
   if (isMobileOrTablet) {
-    return (
-      <div className="min-h-screen bg-white">
+    return <div className="min-h-screen bg-white">
         <MenuBar />
         <div className="pt-16 pb-20 min-h-screen">
           <div className="bg-white">
             {/* Header with back button */}
             <div className="flex items-center justify-between p-4 border-b sticky top-16 bg-white z-10">
               <div className="flex items-center gap-3">
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={() => navigate(-1)}
-                  className="h-10 w-10"
-                >
-                  <ArrowLeft className="w-5 h-5" />
-                </Button>
+                
                 <div>
                   <h1 className="text-xl font-semibold text-gray-900">Notifications</h1>
-                  {unreadCount > 0 && (
-                    <p className="text-sm text-gray-500">{unreadCount} unread</p>
-                  )}
+                  {unreadCount > 0 && <p className="text-sm text-gray-500">{unreadCount} unread</p>}
                 </div>
               </div>
-              {notifications.length > 0 && unreadCount > 0 && (
-                <button
-                  onClick={markAllAsRead}
-                  className="text-sm font-medium"
-                  style={{ color: '#00bf63' }}
-                >
+              {notifications.length > 0 && unreadCount > 0 && <button onClick={markAllAsRead} className="text-sm font-medium" style={{
+              color: '#00bf63'
+            }}>
                   Mark all read
-                </button>
-              )}
+                </button>}
             </div>
             
             <div className="px-0">
@@ -60,13 +49,11 @@ const Notifications = () => {
           </div>
         </div>
         <MobileFooter />
-      </div>
-    );
+      </div>;
   }
 
   // Desktop layout
-  return (
-    <div className="min-h-screen">
+  return <div className="min-h-screen">
       <MenuBar />
       <BackgroundPattern>
         <div className="flex items-center justify-center min-h-screen pt-16 pb-20 sm:pb-8">
@@ -75,25 +62,21 @@ const Notifications = () => {
               {/* Header */}
               <div className="flex items-center justify-between p-6 border-b">
                 <div className="flex items-center gap-3">
-                  <div className="h-12 w-12 rounded-full flex items-center justify-center" style={{ backgroundColor: '#00bf63' }}>
+                  <div className="h-12 w-12 rounded-full flex items-center justify-center" style={{
+                  backgroundColor: '#00bf63'
+                }}>
                     <Bell className="w-6 h-6 text-white" />
                   </div>
                   <div>
                     <h1 className="text-2xl font-semibold text-gray-800">Notifications</h1>
-                    {unreadCount > 0 && (
-                      <p className="text-sm text-gray-500">{unreadCount} unread</p>
-                    )}
+                    {unreadCount > 0 && <p className="text-sm text-gray-500">{unreadCount} unread</p>}
                   </div>
                 </div>
-                {notifications.length > 0 && unreadCount > 0 && (
-                  <button
-                    onClick={markAllAsRead}
-                    className="text-sm font-medium md:hover:opacity-80 transition-opacity"
-                    style={{ color: '#00bf63' }}
-                  >
+                {notifications.length > 0 && unreadCount > 0 && <button onClick={markAllAsRead} className="text-sm font-medium md:hover:opacity-80 transition-opacity" style={{
+                color: '#00bf63'
+              }}>
                     Mark all read
-                  </button>
-                )}
+                  </button>}
               </div>
               
               <NotificationList />
@@ -102,8 +85,6 @@ const Notifications = () => {
         </div>
       </BackgroundPattern>
       <MobileFooter />
-    </div>
-  );
+    </div>;
 };
-
 export default Notifications;
