@@ -32,21 +32,21 @@ const MobileFooter = () => {
               className={`flex flex-col items-center justify-center py-1.5 rounded-lg transition-colors ${getLinkClass("/")}`}
               style={getLinkStyle("/")}
             >
-              <Home className="w-5 h-5" />
+              <Home className="w-6 h-6" />
             </Link>
             <Link 
               to="/feed" 
               className={`flex flex-col items-center justify-center py-1.5 rounded-lg transition-colors ${getLinkClass("/feed")}`}
               style={getLinkStyle("/feed")}
             >
-              <Radio className="w-5 h-5" />
+              <Radio className="w-6 h-6" />
             </Link>
             <Link 
               to="/results" 
               className={`flex flex-col items-center justify-center py-1.5 rounded-lg transition-colors ${getLinkClass("/results")}`}
               style={getLinkStyle("/results")}
             >
-              <BarChart3 className="w-5 h-5" />
+              <BarChart3 className="w-6 h-6" />
             </Link>
             <Link 
               to="/notifications" 
@@ -54,7 +54,7 @@ const MobileFooter = () => {
               style={getLinkStyle("/notifications")}
             >
               <div className="relative">
-                <Bell className="w-5 h-5" />
+                <Bell className="w-6 h-6" />
                 {unreadCount > 0 && (
                   <div 
                     className="absolute -top-1 -right-1 h-2.5 w-2.5 bg-red-500 rounded-full border border-white"
@@ -68,7 +68,7 @@ const MobileFooter = () => {
               className={`flex flex-col items-center justify-center py-1.5 rounded-lg transition-colors ${getLinkClass("/profile")}`}
               style={getLinkStyle("/profile")}
             >
-              <User className="w-5 h-5" />
+              <User className="w-6 h-6" />
             </Link>
           </div>
         </div>
