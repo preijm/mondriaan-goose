@@ -56,7 +56,7 @@ export const ResultsContainer = ({
               onClearSort={onClearSort}
             />
           </div>
-          <div className="pt-[150px] px-2">
+          <div className="pt-[150px] px-4">
             <AggregatedResultsTable
               results={filteredResults}
               sortConfig={sortConfig}
