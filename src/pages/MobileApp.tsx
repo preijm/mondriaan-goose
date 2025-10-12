@@ -1,103 +1,105 @@
 import MenuBar from "@/components/MenuBar";
 import MobileFooter from "@/components/MobileFooter";
 import BackgroundPattern from "@/components/BackgroundPattern";
-import { Smartphone, Download, Github } from "lucide-react";
+import { Smartphone, Download, Copy, ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
 
 const MobileApp = () => {
+  const copyToClipboard = () => {
+    const repoUrl = "https://github.com/yourusername/mondriaan-goose";
+    navigator.clipboard.writeText(repoUrl);
+    toast.success("Repository link copied to clipboard!");
+  };
+
   return (
     <div className="min-h-screen">
       <MenuBar />
       <BackgroundPattern>
-        <div className="container max-w-4xl mx-auto px-4 pt-24 pb-20">
-          <div className="relative z-10">
-            <div className="flex items-center justify-center gap-3 mb-6">
-              <Smartphone className="h-12 w-12 text-[#00bf63]" />
-              <h1 className="text-3xl md:text-5xl font-bold text-[#00bf63]">
-                Mobile App
-              </h1>
+        <div className="container max-w-2xl mx-auto px-4 pt-24 pb-20">
+          <div className="bg-white rounded-2xl shadow-xl p-8 md:p-12 relative z-10">
+            {/* App Icon and Title */}
+            <div className="flex flex-col items-center mb-8">
+              <img 
+                src="/lovable-uploads/9f030b65-074a-4e64-82d9-f0eba7246e1a.png" 
+                alt="Milk Me Not Logo" 
+                className="h-24 w-24 mb-4 rounded-2xl shadow-lg"
+              />
+              <h1 className="text-3xl font-bold text-gray-900">Milk Me Not</h1>
             </div>
-            
-            <div className="bg-white/80 backdrop-blur-sm rounded-lg p-6 md:p-8 shadow-lg space-y-6">
-              <div className="text-center mb-8">
-                <h2 className="text-2xl font-semibold mb-3 text-gray-800">
-                  Get the Native Mobile Experience
-                </h2>
-                <p className="text-gray-600">
-                  Install Milk Me Not as a native app on your Android or iOS device
+
+            {/* Instructions */}
+            <div className="text-center mb-8">
+              <p className="text-gray-700 text-lg leading-relaxed">
+                Get the native mobile app experience on your Android or iOS device
+              </p>
+            </div>
+
+            {/* Installation Steps */}
+            <div className="space-y-4 mb-8">
+              <div className="bg-gray-50 rounded-lg p-6">
+                <h3 className="font-semibold text-gray-900 mb-3 flex items-center gap-2">
+                  <span className="flex items-center justify-center w-6 h-6 bg-[#00bf63] text-white rounded-full text-sm">1</span>
+                  Export to GitHub
+                </h3>
+                <p className="text-gray-600 text-sm ml-8">
+                  Export this project to your GitHub repository using the export button
                 </p>
               </div>
 
-              <div className="space-y-6">
-                <div className="border-l-4 border-[#00bf63] pl-4">
-                  <h3 className="text-xl font-semibold mb-2 text-gray-800">
-                    Prerequisites
-                  </h3>
-                  <ul className="list-disc list-inside space-y-2 text-gray-700">
-                    <li>Node.js and npm installed on your computer</li>
-                    <li>Android Studio (for Android) or Xcode (for iOS on Mac)</li>
-                    <li>Java Development Kit (JDK) 17 or higher (for Android)</li>
-                    <li>Git installed on your computer</li>
-                  </ul>
-                </div>
-
-                <div className="border-l-4 border-[#2144ff] pl-4">
-                  <h3 className="text-xl font-semibold mb-2 text-gray-800">
-                    Installation Steps
-                  </h3>
-                  <ol className="list-decimal list-inside space-y-3 text-gray-700">
-                    <li>
-                      <strong>Export to GitHub:</strong> Click the "Export to GitHub" button in the project settings
-                    </li>
-                    <li>
-                      <strong>Clone the repository:</strong> Run <code className="bg-gray-100 px-2 py-1 rounded">git clone [your-repo-url]</code>
-                    </li>
-                    <li>
-                      <strong>Install dependencies:</strong> Run <code className="bg-gray-100 px-2 py-1 rounded">npm install</code>
-                    </li>
-                    <li>
-                      <strong>Add platform:</strong> Run <code className="bg-gray-100 px-2 py-1 rounded">npx cap add android</code> or <code className="bg-gray-100 px-2 py-1 rounded">npx cap add ios</code>
-                    </li>
-                    <li>
-                      <strong>Update dependencies:</strong> Run <code className="bg-gray-100 px-2 py-1 rounded">npx cap update android</code> or <code className="bg-gray-100 px-2 py-1 rounded">npx cap update ios</code>
-                    </li>
-                    <li>
-                      <strong>Build the project:</strong> Run <code className="bg-gray-100 px-2 py-1 rounded">npm run build</code>
-                    </li>
-                    <li>
-                      <strong>Sync with native platform:</strong> Run <code className="bg-gray-100 px-2 py-1 rounded">npx cap sync</code>
-                    </li>
-                    <li>
-                      <strong>Run the app:</strong> Run <code className="bg-gray-100 px-2 py-1 rounded">npx cap run android</code> or <code className="bg-gray-100 px-2 py-1 rounded">npx cap run ios</code>
-                    </li>
-                  </ol>
-                </div>
-
-                <div className="border-l-4 border-purple-500 pl-4">
-                  <h3 className="text-xl font-semibold mb-2 text-gray-800">
-                    Important Notes
-                  </h3>
-                  <ul className="list-disc list-inside space-y-2 text-gray-700">
-                    <li>For iOS development, you must use a Mac with Xcode installed</li>
-                    <li>Ensure your JAVA_HOME environment variable is set correctly for Android</li>
-                    <li>After pulling updates from GitHub, always run <code className="bg-gray-100 px-2 py-1 rounded">npx cap sync</code></li>
-                  </ul>
-                </div>
-
-                <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mt-6">
-                  <p className="text-sm text-gray-700">
-                    <strong>Need help?</strong> For detailed instructions and troubleshooting, check out our{" "}
-                    <a 
-                      href="https://docs.lovable.dev/features/mobile" 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="text-[#2144ff] hover:underline"
-                    >
-                      mobile development documentation
-                    </a>
-                  </p>
+              <div className="bg-gray-50 rounded-lg p-6">
+                <h3 className="font-semibold text-gray-900 mb-3 flex items-center gap-2">
+                  <span className="flex items-center justify-center w-6 h-6 bg-[#00bf63] text-white rounded-full text-sm">2</span>
+                  Clone and Setup
+                </h3>
+                <div className="text-gray-600 text-sm ml-8 space-y-2">
+                  <p>Clone your repository and run:</p>
+                  <code className="block bg-white px-3 py-2 rounded border border-gray-200 text-xs">
+                    npm install<br/>
+                    npx cap add android<br/>
+                    npm run build<br/>
+                    npx cap sync
+                  </code>
                 </div>
               </div>
+
+              <div className="bg-gray-50 rounded-lg p-6">
+                <h3 className="font-semibold text-gray-900 mb-3 flex items-center gap-2">
+                  <span className="flex items-center justify-center w-6 h-6 bg-[#00bf63] text-white rounded-full text-sm">3</span>
+                  Build and Run
+                </h3>
+                <p className="text-gray-600 text-sm ml-8">
+                  Open the project in Android Studio or Xcode and build the app
+                </p>
+              </div>
+            </div>
+
+            {/* Action Buttons */}
+            <div className="space-y-3">
+              <Button 
+                onClick={copyToClipboard}
+                variant="outline" 
+                className="w-full py-6 text-base"
+              >
+                <Copy className="mr-2 h-5 w-5" />
+                Copy repository link to clipboard
+              </Button>
+            </div>
+
+            {/* Footer Note */}
+            <div className="mt-8 text-center">
+              <p className="text-sm text-gray-600">
+                Need help? Learn more in our{" "}
+                <a 
+                  href="https://docs.lovable.dev/features/mobile" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="text-[#2144ff] hover:underline inline-flex items-center gap-1"
+                >
+                  documentation
+                  <ExternalLink className="h-3 w-3" />
+                </a>
+              </p>
             </div>
           </div>
         </div>
