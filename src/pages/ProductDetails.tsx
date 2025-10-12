@@ -170,66 +170,48 @@ const ProductDetails = () => {
             </Link>
           </div>
 
-          {/* Product header card - matching results page style with highlight */}
-          <Card 
-            className="bg-white rounded-xl shadow-md hover:shadow-lg transition-all duration-300 mb-6 animate-fade-in border-2 border-primary"
+          {/* Product header card - matching results page style exactly with highlight */}
+          <div
+            className="bg-white/80 backdrop-blur-sm rounded-xl shadow-lg border-2 border-primary p-4 animate-fade-in max-w-sm w-full"
             style={{ boxShadow: '0 0 0 3px rgba(0, 191, 99, 0.1)' }}
           >
-            <CardContent className="p-5">
-              <div className="flex items-center justify-between gap-4">
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2 mb-2">
-                    <h3 className="text-lg font-bold text-gray-900 truncate" translate="no">
-                      {product.brand_name}
-                    </h3>
-                    <span className="text-gray-400">•</span>
-                    <span className="text-lg text-gray-700 truncate">{product.product_name}</span>
-                  </div>
-                  
-                  <div className="flex flex-wrap gap-1.5">
-                    {product.is_barista && (
-                      <ProductPropertyBadges 
-                        isBarista={product.is_barista}
-                        displayType="barista"
-                        inline={true}
-                        compact={false}
-                      />
-                    )}
-                    
-                    <ProductPropertyBadges 
-                      propertyNames={product.property_names}
-                      displayType="properties"
-                      inline={true}
-                      compact={false}
-                    />
-                    
-                    <ProductPropertyBadges 
-                      flavorNames={product.flavor_names}
-                      displayType="flavors"
-                      inline={true}
-                      compact={false}
-                    />
-                  </div>
-                </div>
-                
-                <div className="flex items-center gap-3 flex-shrink-0">
-                  <div className="text-center">
-                    <div className="text-xs text-gray-500 mb-1">Score</div>
-                    <Badge variant={getScoreBadgeVariant(Number(product.avg_rating))} className="text-base px-3 py-1.5">
+            <div className="space-y-2">
+              {/* Brand - Product with inline badges */}
+              <div className="flex items-center gap-2 flex-wrap">
+                <h2 className="text-sm font-semibold text-gray-900">
+                  <span translate="no">{product.brand_name}</span> - {product.product_name}
+                </h2>
+                {(product.is_barista || (product.property_names && product.property_names.length > 0) || (product.flavor_names && product.flavor_names.length > 0)) && (
+                  <ProductPropertyBadges 
+                    isBarista={product.is_barista}
+                    propertyNames={product.property_names}
+                    flavorNames={product.flavor_names}
+                    compact={true}
+                    displayType="all"
+                    inline={true}
+                  />
+                )}
+              </div>
+              
+              {/* Score and Tests in horizontal layout */}
+              <div className="flex items-center justify-between text-sm">
+                <div className="flex items-center gap-4">
+                  <div className="flex items-center gap-1">
+                    <span className="text-gray-500">Score:</span>
+                    <Badge variant={getScoreBadgeVariant(Number(product.avg_rating))} className="px-2 py-1 sm:px-2 sm:py-0.5 text-xs font-bold min-w-[2.5rem] flex items-center justify-center">
                       {formatScore(Number(product.avg_rating))}
                     </Badge>
                   </div>
-                  
-                  <div className="text-center">
-                    <div className="text-xs text-gray-500 mb-1">Tests</div>
-                    <div className="border-2 border-gray-300 rounded-md px-3 py-1.5 min-w-[3rem]">
-                      <span className="text-base font-semibold text-gray-900">{product.count}</span>
-                    </div>
+                  <div className="flex items-center gap-1">
+                    <span className="text-gray-500">Tests:</span>
+                    <Badge variant="testCount" className="px-1.5 py-1 sm:px-2 sm:py-0.5 text-xs font-medium min-w-[2rem] flex items-center justify-center">
+                      {product.count}
+                    </Badge>
                   </div>
                 </div>
               </div>
-            </CardContent>
-          </Card>
+            </div>
+          </div>
 
           <Card className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg border border-white/20 overflow-hidden animate-fade-in">
             <CardHeader className="bg-white/50 backdrop-blur-sm pt-6 px-6">
