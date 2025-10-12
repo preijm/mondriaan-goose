@@ -34,13 +34,16 @@ export const LoginPrompt = ({
   return <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle className="text-center">Login Required</DialogTitle>
-          <DialogDescription className="text-center mt-6">
-            Unlock the test results — just log in or sign up!
+          <div className="flex justify-center mb-4">
+            <div className="text-4xl">🔓</div>
+          </div>
+          <DialogTitle className="text-center text-xl">Ready to see more?</DialogTitle>
+          <DialogDescription className="text-center mt-4">
+            Join our community to unlock all reviews, leave comments, and share your own taste tests!
           </DialogDescription>
         </DialogHeader>
         
-        <div className="flex flex-col gap-4 mt-8">
+        <div className="flex flex-col gap-4 mt-6">
           <Button onClick={handleLogin} variant="brand" className="w-full border-0 focus-visible:ring-0 focus:ring-0" size="lg" style={{backgroundColor: '#2144ff', color: 'white'}}>
             <LogIn className="mr-2 h-4 w-4" />
             Log In
@@ -48,11 +51,9 @@ export const LoginPrompt = ({
           
           <Button onClick={handleSignUp} variant="outline" className="w-full" size="lg">
             <UserPlus className="mr-2 h-4 w-4" />
-            Create Account
+            Sign Up
           </Button>
         </div>
-        
-        <p className="text-xs text-muted-foreground text-center mt-6">Join the community, read reviews, and show off your own taste tests!</p>
       </DialogContent>
     </Dialog>;
 };
