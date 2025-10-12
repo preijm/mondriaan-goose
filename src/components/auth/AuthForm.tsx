@@ -100,9 +100,32 @@ const AuthForm = ({
           </div>
         </div>
       )}
-      <h1 className="text-3xl font-bold text-center mb-8 text-[#00BF63]">
-        {isLogin ? "Welcome Back" : "Join Our Community"}
-      </h1>
+      <div className="flex flex-col items-center mb-8">
+        <div className="w-20 h-20 mb-4">
+          <svg viewBox="0 0 200 200" className="w-full h-full">
+            <defs>
+              <linearGradient id="milkGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" style={{ stopColor: '#00BF63', stopOpacity: 1 }} />
+                <stop offset="100%" style={{ stopColor: '#00E677', stopOpacity: 1 }} />
+              </linearGradient>
+            </defs>
+            <circle cx="100" cy="100" r="95" fill="url(#milkGradient)" />
+            <path
+              d="M100 40 C85 45, 75 55, 70 70 L70 130 C70 145, 85 160, 100 160 C115 160, 130 145, 130 130 L130 70 C125 55, 115 45, 100 40 Z"
+              fill="white"
+              opacity="0.9"
+            />
+            <ellipse cx="100" cy="65" rx="22" ry="8" fill="white" opacity="0.7" />
+            <circle cx="90" cy="100" r="4" fill="#00BF63" opacity="0.3" />
+            <circle cx="105" cy="110" r="3" fill="#00BF63" opacity="0.3" />
+            <circle cx="95" cy="125" r="3.5" fill="#00BF63" opacity="0.3" />
+          </svg>
+        </div>
+        <h2 className="text-2xl font-bold text-[#00BF63] mb-2">MilkTest</h2>
+        <h1 className="text-3xl font-bold text-center text-[#00BF63]">
+          {isLogin ? "Welcome Back" : "Join Our Community"}
+        </h1>
+      </div>
       <form onSubmit={handleAuth} className="space-y-6">
         <AuthFormInputs
           isLogin={isLogin}
