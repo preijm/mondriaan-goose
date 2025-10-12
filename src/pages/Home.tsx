@@ -65,7 +65,7 @@ const Home = () => {
             
             {/* Enhanced hero title with green color */}
             <div className="mb-4 md:mb-6 relative">
-              <h1 className="text-3xl md:text-7xl lg:text-8xl font-bold mb-3 md:mb-4 max-w-4xl animate-fade-in relative" style={{
+              <h1 className="text-4xl md:text-7xl lg:text-8xl font-bold mb-3 md:mb-4 max-w-4xl animate-fade-in relative" style={{
               color: '#00BF63'
             }}>
                 Ditch the Moo.
