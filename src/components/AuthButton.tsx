@@ -44,7 +44,6 @@ export const AuthButton = () => {
     >
       <LogIn className={`${isMobile ? "w-4 h-4" : "w-6 h-6 mr-2"} group-hover:rotate-12 transition-transform duration-300`} />
       {isMobile ? "Login" : "Login here"}
-      {!isMobile && <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform duration-300" />}
     </Button>;
   }
   
