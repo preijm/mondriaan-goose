@@ -6,13 +6,14 @@ const MenuBar = () => {
   const location = useLocation();
   
   const getPageTitle = () => {
+    // Don't show title for notifications page as it has its own detailed header
+    if (location.pathname === '/notifications') return null;
+    
     switch (location.pathname) {
       case '/feed':
         return 'Feed';
       case '/results':
         return 'Results';
-      case '/notifications':
-        return 'Notifications';
       case '/profile':
         return 'Profile';
       case '/about':
