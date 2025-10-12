@@ -117,8 +117,8 @@ const Home = () => {
           </div>
         </div>
         
-        {/* Mobile App Banner - Only visible on desktop */}
-        <div className="hidden md:block pb-8">
+        {/* Mobile App Banner - Only visible on large desktop screens */}
+        <div className="hidden lg:block pb-8">
           <div className="container max-w-3xl mx-auto px-4">
             <Link to="/mobile-app" className="block">
               <div className="bg-white/60 backdrop-blur-sm border border-gray-200 rounded-lg shadow-md p-4 hover:shadow-lg transition-all duration-300 hover:border-[#00bf63]/30">
