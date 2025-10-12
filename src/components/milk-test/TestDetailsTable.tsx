@@ -19,6 +19,8 @@ import { SortableColumnHeader } from "./SortableColumnHeader";
 import { Badge } from "@/components/ui/badge";
 import { getScoreBadgeVariant } from "@/lib/scoreUtils";
 import { formatScore } from "@/lib/scoreFormatter";
+import { TestDetailsAccordion } from "./TestDetailsAccordion";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface TestDetailsTableProps {
   productTests: MilkTestResult[];
@@ -36,6 +38,13 @@ export const TestDetailsTable = ({
   sortConfig,
   handleSort
 }: TestDetailsTableProps) => {
+  const isMobile = useIsMobile();
+
+  // Use accordion on mobile/tablet (below 1024px)
+  if (isMobile || (typeof window !== 'undefined' && window.innerWidth < 1024)) {
+    return <TestDetailsAccordion productTests={productTests} handleImageClick={handleImageClick} />;
+  }
+
   const getCountryFlag = (code: string) => {
     if (!code) return '';
     const codePoints = code
