@@ -1,14 +1,20 @@
 
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AuthButton } from "@/components/AuthButton";
-import { Bell, Radio, BarChart3, ArrowLeft } from "lucide-react";
+import { Bell, Radio, BarChart3, ArrowLeft, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useNotifications } from "@/hooks/useNotifications";
+import { useState } from "react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { AddMilkTest } from "@/components/AddMilkTest";
+import { useAuth } from "@/contexts/AuthContext";
 
 const MenuBar = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  const { user } = useAuth();
   const { notifications, unreadCount, markAllAsRead } = useNotifications();
+  const [showAddTestDialog, setShowAddTestDialog] = useState(false);
   
   const getPageTitle = () => {
     switch (location.pathname) {
@@ -118,7 +124,7 @@ const MenuBar = () => {
               </Link>
             </div>
 
-            {/* Mobile/Tablet: Back to results button on product details page */}
+            {/* Mobile/Tablet: Add test button on results and feed pages, Back button on product details */}
             {isProductDetailsPage && isMobileOrTablet ? (
               <Button 
                 variant="outline" 
@@ -129,6 +135,16 @@ const MenuBar = () => {
                 <ArrowLeft className="h-4 w-4" />
                 Back to results
               </Button>
+            ) : (isResultsPage || isFeedPage) && isMobileOrTablet && user ? (
+              <Button 
+                variant="default"
+                size="sm" 
+                onClick={() => setShowAddTestDialog(true)}
+                className="rounded-full h-9 w-9 p-0"
+                style={{ backgroundColor: '#00bf63' }}
+              >
+                <Plus className="h-5 w-5 text-white" />
+              </Button>
             ) : isNotificationsPage && isMobileOrTablet && notifications.length > 0 && unreadCount > 0 ? (
               <button onClick={markAllAsRead} className="text-sm font-medium whitespace-nowrap" style={{ color: '#00bf63' }}>
                 Mark all read
@@ -137,6 +153,16 @@ const MenuBar = () => {
           </div>
         </div>
       </div>
+      
+      {/* Add Test Dialog */}
+      <Dialog open={showAddTestDialog} onOpenChange={setShowAddTestDialog}>
+        <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle className="text-2xl font-bold text-[#00bf63]">Add New Test</DialogTitle>
+          </DialogHeader>
+          <AddMilkTest />
+        </DialogContent>
+      </Dialog>
     </nav>
   );
 };
