@@ -1,11 +1,13 @@
 
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AuthButton } from "@/components/AuthButton";
-import { Bell, Radio, BarChart3 } from "lucide-react";
+import { Bell, Radio, BarChart3, ArrowLeft } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import { useNotifications } from "@/hooks/useNotifications";
 
 const MenuBar = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const { notifications, unreadCount, markAllAsRead } = useNotifications();
   
   const getPageTitle = () => {
@@ -116,8 +118,18 @@ const MenuBar = () => {
               </Link>
             </div>
 
-            {/* AuthButton or Mark all read - Hidden on mobile/tablet except profile page, always shown on desktop */}
-            {isNotificationsPage && isMobileOrTablet && notifications.length > 0 && unreadCount > 0 ? (
+            {/* Mobile/Tablet: Back to results button on product details page */}
+            {isProductDetailsPage && isMobileOrTablet ? (
+              <Button 
+                variant="outline" 
+                size="sm" 
+                onClick={() => navigate('/results')}
+                className="gap-1"
+              >
+                <ArrowLeft className="h-4 w-4" />
+                Back to results
+              </Button>
+            ) : isNotificationsPage && isMobileOrTablet && notifications.length > 0 && unreadCount > 0 ? (
               <button onClick={markAllAsRead} className="text-sm font-medium whitespace-nowrap" style={{ color: '#00bf63' }}>
                 Mark all read
               </button>

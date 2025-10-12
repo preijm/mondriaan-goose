@@ -159,7 +159,8 @@ const ProductDetails = () => {
       />
       <BackgroundPattern>
         <div className="container max-w-6xl mx-auto px-4 py-8 pt-32 relative z-10">
-          <div className="flex items-center mb-6">
+          {/* Desktop: Show back button */}
+          <div className="hidden lg:flex items-center mb-6">
             <Link to="/results">
               <Button variant="outline" size="sm" className="gap-1">
                 <ArrowLeft className="h-4 w-4" /> Back to results
