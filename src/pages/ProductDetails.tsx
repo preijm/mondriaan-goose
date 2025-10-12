@@ -170,11 +170,8 @@ const ProductDetails = () => {
             </Link>
           </div>
 
-          {/* Product header card - matching results page style exactly with highlight */}
-          <div
-            className="bg-white/80 backdrop-blur-sm rounded-xl shadow-lg border-2 border-primary p-4 animate-fade-in max-w-sm w-full"
-            style={{ boxShadow: '0 0 0 3px rgba(0, 191, 99, 0.1)' }}
-          >
+          {/* Product header card - matching results page style */}
+          <div className="bg-white/80 backdrop-blur-sm rounded-xl shadow-lg border-2 border-gray-300 p-4 animate-fade-in max-w-sm w-full mb-6">
             <div className="space-y-2">
               {/* Brand - Product with inline badges */}
               <div className="flex items-center gap-2 flex-wrap">
@@ -194,20 +191,18 @@ const ProductDetails = () => {
               </div>
               
               {/* Score and Tests in horizontal layout */}
-              <div className="flex items-center justify-between text-sm">
-                <div className="flex items-center gap-4">
-                  <div className="flex items-center gap-1">
-                    <span className="text-gray-500">Score:</span>
-                    <Badge variant={getScoreBadgeVariant(Number(product.avg_rating))} className="px-2 py-1 sm:px-2 sm:py-0.5 text-xs font-bold min-w-[2.5rem] flex items-center justify-center">
-                      {formatScore(Number(product.avg_rating))}
-                    </Badge>
-                  </div>
-                  <div className="flex items-center gap-1">
-                    <span className="text-gray-500">Tests:</span>
-                    <Badge variant="testCount" className="px-1.5 py-1 sm:px-2 sm:py-0.5 text-xs font-medium min-w-[2rem] flex items-center justify-center">
-                      {product.count}
-                    </Badge>
-                  </div>
+              <div className="flex items-center gap-4 text-sm">
+                <div className="flex items-center gap-1">
+                  <span className="text-gray-500">Score:</span>
+                  <Badge variant={getScoreBadgeVariant(Number(product.avg_rating))} className="px-2 py-1 sm:px-2 sm:py-0.5 text-xs font-bold min-w-[2.5rem] flex items-center justify-center">
+                    {formatScore(Number(product.avg_rating))}
+                  </Badge>
+                </div>
+                <div className="flex items-center gap-1">
+                  <span className="text-gray-500">Tests:</span>
+                  <Badge variant="testCount" className="px-1.5 py-1 sm:px-2 sm:py-0.5 text-xs font-medium min-w-[2rem] flex items-center justify-center">
+                    {product.count}
+                  </Badge>
                 </div>
               </div>
             </div>
