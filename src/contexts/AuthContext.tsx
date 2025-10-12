@@ -28,7 +28,8 @@ interface AuthProviderProps {
 export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [user, setUser] = useState<User | null>(null);
   const [session, setSession] = useState<Session | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false); // Start with false to prevent flash
+  const [initialized, setInitialized] = useState(false);
   const { toast } = useToast();
 
   const refreshAuth = async () => {
@@ -68,6 +69,11 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   };
 
   useEffect(() => {
+    // Only run once on mount
+    if (initialized) return;
+    
+    setLoading(true);
+    
     // Set up auth state listener FIRST
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (event, session) => {
@@ -80,19 +86,17 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
           setSession(null);
           setUser(null);
         }
-        
-        // Set loading to false after the first auth state change
-        setLoading(false);
       }
     );
 
     // THEN check for existing session
     refreshAuth().finally(() => {
       setLoading(false);
+      setInitialized(true);
     });
 
     return () => subscription.unsubscribe();
-  }, []);
+  }, [initialized]);
 
   const value = {
     user,

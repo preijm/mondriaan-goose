@@ -29,18 +29,9 @@ export const AuthButton = () => {
     navigate('/');
   };
   
-  // Show a skeleton that matches the login button to prevent layout shift
+  // Don't show loading state to prevent flash - just render the appropriate button
   if (loading) {
-    return (
-      <Button 
-        disabled
-        className={`text-white opacity-50 ${isMobile ? "px-3" : "w-full"}`}
-        style={{backgroundColor: '#2144ff'}}
-      >
-        <LogIn className={`${isMobile ? "w-4 h-4" : "w-6 h-6 mr-2"}`} />
-        {isMobile ? "Login" : "Login here"}
-      </Button>
-    );
+    return null;
   }
   
   if (!user) {
