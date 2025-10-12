@@ -61,16 +61,16 @@ const Feed = () => {
       <MenuBar />
       <BackgroundPattern>
         {/* Main Content */}
-        <div className={`container max-w-2xl mx-auto px-4 py-6 md:py-8 pt-24 md:pt-32 pb-20 sm:pb-6 md:pb-8 relative z-10 transition-all duration-300`}>
+        <div className={`container max-w-7xl mx-auto px-4 py-6 md:py-8 pt-24 md:pt-32 pb-20 sm:pb-6 md:pb-8 relative z-10 transition-all duration-300`}>
           
           
           {isLoading ? <div className="flex items-center justify-center py-8">
               <Loader className="h-8 w-8 animate-spin text-primary" />
-            </div> : <div className="space-y-6">
+            </div> : <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               {feedItems.map(item => <FeedItem key={item.id} item={item} blurred={!user} disabled={!user} />)}
               
               {/* Login prompt for non-authenticated users after preview items */}
-              {!user && feedItems.length > 0 && <Card className="w-full shadow-lg border-2 border-primary/20">
+              {!user && feedItems.length > 0 && <Card className="w-full shadow-lg border-2 border-primary/20 lg:col-span-2">
                   <CardContent className="p-8 text-center space-y-6">
                     <div className="text-2xl">🔓</div>
                     <div className="space-y-4">
@@ -104,7 +104,7 @@ const Feed = () => {
                   </CardContent>
                 </Card>}
               
-              {feedItems.length === 0 && <div className="text-center py-8">
+              {feedItems.length === 0 && <div className="text-center py-8 lg:col-span-2">
                   {user ? <p className="text-muted-foreground">No milk tests to show yet. Be the first to share your tasting!</p> : <div className="max-w-md mx-auto space-y-4">
                       <div className="text-lg">🥛✨</div>
                       <h3 className="text-xl font-semibold text-foreground">The community is buzzing with amazing milk alternative discoveries!</h3>
