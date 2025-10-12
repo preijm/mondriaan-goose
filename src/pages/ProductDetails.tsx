@@ -170,52 +170,60 @@ const ProductDetails = () => {
             </Link>
           </div>
 
-          {/* Product header card */}
-          <Card className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg border border-white/20 mb-6 animate-fade-in">
-            <CardContent className="p-6">
-              <div className="flex items-start justify-between gap-4">
-                <div className="flex-1">
-                  <div className="mb-3">
-                    <div className="text-sm text-gray-500 mb-1">Brand</div>
-                    <h2 className="text-2xl font-bold text-gray-900" translate="no">{product.brand_name}</h2>
+          {/* Product header card - matching results page style with highlight */}
+          <Card 
+            className="bg-white rounded-xl shadow-md hover:shadow-lg transition-all duration-300 mb-6 animate-fade-in border-2 border-primary"
+            style={{ boxShadow: '0 0 0 3px rgba(0, 191, 99, 0.1)' }}
+          >
+            <CardContent className="p-5">
+              <div className="flex items-center justify-between gap-4">
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2 mb-2">
+                    <h3 className="text-lg font-bold text-gray-900 truncate" translate="no">
+                      {product.brand_name}
+                    </h3>
+                    <span className="text-gray-400">•</span>
+                    <span className="text-lg text-gray-700 truncate">{product.product_name}</span>
                   </div>
                   
-                  <div>
-                    <div className="text-sm text-gray-500 mb-1">Product</div>
-                    <div className="flex items-center gap-2 flex-wrap">
-                      <h3 className="text-2xl font-semibold text-gray-900">{product.product_name}</h3>
-                      
-                      {product.is_barista && (
-                        <ProductPropertyBadges 
-                          isBarista={product.is_barista}
-                          displayType="barista"
-                          inline={true}
-                          compact={false}
-                        />
-                      )}
-                      
+                  <div className="flex flex-wrap gap-1.5">
+                    {product.is_barista && (
                       <ProductPropertyBadges 
-                        flavorNames={product.flavor_names}
-                        displayType="flavors"
+                        isBarista={product.is_barista}
+                        displayType="barista"
                         inline={true}
                         compact={false}
                       />
-                    </div>
+                    )}
+                    
+                    <ProductPropertyBadges 
+                      propertyNames={product.property_names}
+                      displayType="properties"
+                      inline={true}
+                      compact={false}
+                    />
+                    
+                    <ProductPropertyBadges 
+                      flavorNames={product.flavor_names}
+                      displayType="flavors"
+                      inline={true}
+                      compact={false}
+                    />
                   </div>
                 </div>
                 
-                <div className="flex items-start gap-4 flex-shrink-0">
+                <div className="flex items-center gap-3 flex-shrink-0">
                   <div className="text-center">
-                    <div className="text-sm text-gray-500 mb-2">Score</div>
-                    <Badge variant={getScoreBadgeVariant(Number(product.avg_rating))} className="text-lg px-4 py-2">
+                    <div className="text-xs text-gray-500 mb-1">Score</div>
+                    <Badge variant={getScoreBadgeVariant(Number(product.avg_rating))} className="text-base px-3 py-1.5">
                       {formatScore(Number(product.avg_rating))}
                     </Badge>
                   </div>
                   
                   <div className="text-center">
-                    <div className="text-sm text-gray-500 mb-2">Tests</div>
-                    <div className="border-2 border-gray-300 rounded-lg px-4 py-2">
-                      <span className="text-lg font-semibold text-gray-900">{product.count}</span>
+                    <div className="text-xs text-gray-500 mb-1">Tests</div>
+                    <div className="border-2 border-gray-300 rounded-md px-3 py-1.5 min-w-[3rem]">
+                      <span className="text-base font-semibold text-gray-900">{product.count}</span>
                     </div>
                   </div>
                 </div>
