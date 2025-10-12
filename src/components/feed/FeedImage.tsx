@@ -49,7 +49,13 @@ export const FeedImage = ({ picturePath, brandName, productName, blurred }: Feed
       </div>
 
       <Dialog open={showEnlarged} onOpenChange={setShowEnlarged}>
-        <DialogContent className="max-w-7xl w-full p-0 overflow-hidden">
+        <DialogContent className="max-w-7xl w-full p-0 overflow-hidden bg-black/95">
+          <button
+            onClick={() => setShowEnlarged(false)}
+            className="absolute top-4 right-4 z-50 h-10 w-10 rounded-full bg-white/90 hover:bg-white flex items-center justify-center shadow-lg transition-all hover:scale-110"
+          >
+            <X className="h-5 w-5 text-black" />
+          </button>
           <div className="relative">
             <img 
               src={imageUrl}
