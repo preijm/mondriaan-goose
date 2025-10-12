@@ -45,7 +45,7 @@ export const ResultsContainer = ({
     <>
       {isMobile ? (
         <>
-          <div className="sticky top-16 z-40 bg-white/95 backdrop-blur-sm border-b border-gray-100 -mx-4 px-4 py-3 mb-2">
+          <div className="fixed top-16 left-0 right-0 z-40 bg-white/95 backdrop-blur-sm border-b border-gray-100 px-4 py-3">
             <MobileFilterBar
               searchTerm={searchTerm}
               setSearchTerm={setSearchTerm}
@@ -56,7 +56,7 @@ export const ResultsContainer = ({
               onClearSort={onClearSort}
             />
           </div>
-          <div className="px-4">
+          <div className="pt-[140px] px-4">
             <AggregatedResultsTable
               results={filteredResults}
               sortConfig={sortConfig}
