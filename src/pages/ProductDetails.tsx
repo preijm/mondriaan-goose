@@ -1,6 +1,5 @@
-
 import React from "react";
-import { useParams, Link, useNavigate } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import MenuBar from "@/components/MenuBar";
 import MobileFooter from "@/components/MobileFooter";
 import BackgroundPattern from "@/components/BackgroundPattern";
@@ -15,11 +14,8 @@ import { supabase } from "@/integrations/supabase/client";
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { ProductPropertyBadges } from "@/components/milk-test/ProductPropertyBadges";
+import { CircularStats } from "@/components/CircularStats";
 import { useAuth } from "@/contexts/AuthContext";
-import { getScoreBadgeVariant } from "@/lib/scoreUtils";
-import { formatScore } from "@/lib/scoreFormatter";
-import { Badge } from "@/components/ui/badge";
-
 type ProductDetails = {
   product_id: string;
   brand_name: string;
@@ -29,16 +25,23 @@ type ProductDetails = {
   flavor_names: string[] | null;
   avg_rating: number;
   count: number;
-}
-
+};
 const ProductDetails = () => {
-  const { productId } = useParams<{ productId: string }>();
-  const { user } = useAuth();
-  const navigate = useNavigate();
+  const {
+    productId
+  } = useParams<{
+    productId: string;
+  }>();
+  const {
+    user
+  } = useAuth();
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [showLoginPrompt, setShowLoginPrompt] = useState(false);
   // Set default sort to created_at in descending order to show latest tests first
-  const [sortConfig, setSortConfig] = useState<SortConfig>({ column: 'created_at', direction: 'desc' });
+  const [sortConfig, setSortConfig] = useState<SortConfig>({
+    column: 'created_at',
+    direction: 'desc'
+  });
 
   // Show login prompt if user is not authenticated
   React.useEffect(() => {
@@ -46,22 +49,24 @@ const ProductDetails = () => {
       setShowLoginPrompt(true);
     }
   }, [user]);
-  
+
   // Fetch product details using milk_tests_view to aggregate the data
-  const { data: product, isLoading: isLoadingProduct } = useQuery({
+  const {
+    data: product,
+    isLoading: isLoadingProduct
+  } = useQuery({
     queryKey: ['product-details', productId],
     queryFn: async () => {
       if (!productId) return null;
-      
+
       // Get all tests for this product
-      const { data: testData, error: testError } = await supabase
-        .from('milk_tests_view')
-        .select('product_id, brand_name, product_name, property_names, is_barista, flavor_names, rating')
-        .eq('product_id', productId);
-      
+      const {
+        data: testData,
+        error: testError
+      } = await supabase.from('milk_tests_view').select('product_id, brand_name, product_name, property_names, is_barista, flavor_names, rating').eq('product_id', productId);
       if (testError) throw testError;
       if (!testData || testData.length === 0) return null;
-      
+
       // Aggregate the data
       const aggregatedData: ProductDetails = {
         product_id: productId,
@@ -73,19 +78,20 @@ const ProductDetails = () => {
         avg_rating: 0,
         count: testData.length
       };
-      
+
       // Calculate average rating
       const totalRating = testData.reduce((sum, test) => sum + (test.rating || 0), 0);
       aggregatedData.avg_rating = totalRating / testData.length;
-      
       return aggregatedData;
     },
     enabled: !!productId
   });
 
   // Fetch individual tests for the product (only if user is authenticated)
-  const { data: productTests = [], isLoading: isLoadingTests } = useProductTests(user ? productId : null, sortConfig);
-
+  const {
+    data: productTests = [],
+    isLoading: isLoadingTests
+  } = useProductTests(user ? productId : null, sortConfig);
   const handleSort = (column: string) => {
     setSortConfig(current => {
       // If clicking on the same column, toggle direction
@@ -95,7 +101,7 @@ const ProductDetails = () => {
           direction: current.direction === 'asc' ? 'desc' : 'asc'
         };
       }
-      
+
       // If clicking on a different column, default to desc direction
       return {
         column,
@@ -107,14 +113,11 @@ const ProductDetails = () => {
   // Handle opening the image modal
   const handleImageClick = (picturePath: string) => {
     if (!picturePath) return;
-    
     const imageUrl = supabase.storage.from('milk-pictures').getPublicUrl(picturePath).data.publicUrl;
     setSelectedImage(imageUrl);
   };
-
   if (isLoadingProduct) {
-    return (
-      <div className="min-h-screen">
+    return <div className="min-h-screen">
         <MenuBar />
         <BackgroundPattern>
           <div className="container max-w-5xl mx-auto px-4 py-8 pt-32 relative z-10">
@@ -128,13 +131,10 @@ const ProductDetails = () => {
             <div className="text-center py-12">Loading product details...</div>
           </div>
         </BackgroundPattern>
-      </div>
-    );
+      </div>;
   }
-
   if (!product) {
-    return (
-      <div className="min-h-screen">
+    return <div className="min-h-screen">
         <MenuBar />
         <BackgroundPattern>
           <div className="container max-w-5xl mx-auto px-4 py-8 pt-32 relative z-10">
@@ -148,22 +148,14 @@ const ProductDetails = () => {
             <div className="text-center py-12">Product not found</div>
           </div>
         </BackgroundPattern>
-      </div>
-    );
+      </div>;
   }
-
-  return (
-    <div className="min-h-screen">
+  return <div className="min-h-screen">
       <MenuBar />
-      <LoginPrompt 
-        isOpen={showLoginPrompt}
-        onClose={() => setShowLoginPrompt(false)}
-        productName={product?.product_name}
-      />
+      <LoginPrompt isOpen={showLoginPrompt} onClose={() => setShowLoginPrompt(false)} productName={product?.product_name} />
       <BackgroundPattern>
         <div className="container max-w-6xl mx-auto px-4 py-8 pt-32 relative z-10">
-          {/* Desktop: Show back button */}
-          <div className="hidden lg:flex items-center mb-6">
+          <div className="flex items-center mb-6">
             <Link to="/results">
               <Button variant="outline" size="sm" className="gap-1">
                 <ArrowLeft className="h-4 w-4" /> Back to results
@@ -171,81 +163,45 @@ const ProductDetails = () => {
             </Link>
           </div>
 
-          {/* Product header card - matching results page style exactly with grey border */}
-          <div
-            className="bg-white/80 backdrop-blur-sm rounded-xl shadow-lg border-2 border-gray-300 p-4 animate-fade-in max-w-sm w-full cursor-pointer hover:shadow-xl transition-all"
-            onClick={() => navigate('/results')}
-          >
-            <div className="space-y-2">
-              {/* Brand - Product with inline badges */}
-              <div className="flex items-center gap-2 flex-wrap">
-                <h2 className="text-sm font-semibold text-gray-900">
-                  <span translate="no">{product.brand_name}</span> - {product.product_name}
-                </h2>
-                {(product.is_barista || (product.property_names && product.property_names.length > 0) || (product.flavor_names && product.flavor_names.length > 0)) && (
-                  <ProductPropertyBadges 
-                    isBarista={product.is_barista}
-                    propertyNames={product.property_names}
-                    flavorNames={product.flavor_names}
-                    compact={true}
-                    displayType="all"
-                    inline={true}
-                  />
-                )}
-              </div>
-              
-              {/* Score and Tests in horizontal layout */}
-              <div className="flex items-center justify-between text-sm">
-                <div className="flex items-center gap-4">
-                  <div className="flex items-center gap-1">
-                    <span className="text-gray-500">Score:</span>
-                    <Badge variant={getScoreBadgeVariant(Number(product.avg_rating))} className="px-2 py-1 sm:px-2 sm:py-0.5 text-xs font-bold min-w-[2.5rem] flex items-center justify-center">
-                      {formatScore(Number(product.avg_rating))}
-                    </Badge>
+          {/* Redesigned compact header */}
+          <Card className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg border border-white/20 mb-6 animate-fade-in">
+            <CardContent className="p-4">
+              <div className="flex items-center justify-between">
+                <div className="flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-3">
+                  <div>
+                    <div className="text-xs text-gray-500">Brand</div>
+                    <h2 className="text-xl font-bold text-gray-900" translate="no">{product.brand_name}</h2>
                   </div>
-                  <div className="flex items-center gap-1">
-                    <span className="text-gray-500">Tests:</span>
-                    <Badge variant="testCount" className="px-1.5 py-1 sm:px-2 sm:py-0.5 text-xs font-medium min-w-[2rem] flex items-center justify-center">
-                      {product.count}
-                    </Badge>
+                  <div>
+                    <div className="text-xs text-gray-500">Product</div>
+                    <div className="flex items-center">
+                      <h3 className="" style={{
+                      fontSize: '20px'
+                    }}>{product.product_name}</h3>
+                      <div className="flex flex-wrap gap-1 ml-2">
+                        {product.is_barista && <ProductPropertyBadges isBarista={product.is_barista} displayType="barista" inline={true} compact={true} />}
+                        
+                        <ProductPropertyBadges propertyNames={product.property_names} displayType="properties" inline={true} compact={true} />
+                        
+                        <ProductPropertyBadges flavorNames={product.flavor_names} displayType="flavors" inline={true} compact={true} />
+                      </div>
+                    </div>
                   </div>
                 </div>
+                
+                <CircularStats score={product.avg_rating} testCount={product.count} />
               </div>
-            </div>
-          </div>
-
-          <Card className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg border border-white/20 overflow-hidden animate-fade-in">
-            <CardHeader className="bg-white/50 backdrop-blur-sm pt-6 px-6">
-              <CardTitle className="text-xl">Individual Tests</CardTitle>
-            </CardHeader>
-            <CardContent className="p-0">
-              {isLoadingTests ? (
-                <div className="text-center py-8">Loading test results...</div>
-              ) : (
-                <TestDetailsTable 
-                  productTests={productTests} 
-                  handleImageClick={handleImageClick}
-                  sortConfig={sortConfig}
-                  handleSort={handleSort}
-                />
-              )}
             </CardContent>
           </Card>
+
+          
         </div>
       </BackgroundPattern>
 
       <MobileFooter />
 
       {/* Image modal */}
-      {selectedImage && (
-        <ImageModal 
-          imageUrl={selectedImage} 
-          isOpen={!!selectedImage} 
-          onClose={() => setSelectedImage(null)} 
-        />
-      )}
-    </div>
-  );
+      {selectedImage && <ImageModal imageUrl={selectedImage} isOpen={!!selectedImage} onClose={() => setSelectedImage(null)} />}
+    </div>;
 };
-
 export default ProductDetails;
