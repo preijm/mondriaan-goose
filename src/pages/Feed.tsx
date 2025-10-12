@@ -32,7 +32,7 @@ const Feed = () => {
       if (error) throw error;
 
       // Limit the results based on authentication status
-      const limitedData = (data || []).slice(0, user ? 50 : 3);
+      const limitedData = (data || []).slice(0, user ? 50 : 4);
       return limitedData as MilkTestResult[];
     }
   });
