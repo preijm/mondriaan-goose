@@ -4,12 +4,53 @@ import { AuthButton } from "@/components/AuthButton";
 
 const MenuBar = () => {
   const location = useLocation();
+  
+  const getPageTitle = () => {
+    switch (location.pathname) {
+      case '/feed':
+        return 'Feed';
+      case '/results':
+        return 'Results';
+      case '/notifications':
+        return 'Notifications';
+      case '/profile':
+        return 'Profile';
+      case '/about':
+        return 'About';
+      case '/contact':
+        return 'Contact';
+      case '/my-results':
+        return 'My Results';
+      case '/wishlist':
+        return 'Wishlist';
+      case '/account':
+        return 'Settings';
+      default:
+        return null;
+    }
+  };
+  
+  const pageTitle = getPageTitle();
+  const isHomePage = location.pathname === '/';
 
   return (
     <nav className="bg-white/5 backdrop-blur-[2px] fixed w-full z-50 border-b lg:border-white/10 border-gray-200/60 shadow-sm lg:shadow-none">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16 my-[5px]">
-          <Link to="/" className="flex items-center gap-3">
+          {/* Mobile/Tablet: Show logo only on home, page title on other pages */}
+          <div className="lg:hidden">
+            {isHomePage ? (
+              <Link to="/" className="flex items-center gap-3">
+                <img src="/lovable-uploads/9f030b65-074a-4e64-82d9-f0eba7246e1a.png" alt="Milk Me Not Logo" className="h-12 w-12" />
+                <span className="text-gray-800 text-2xl md:text-4xl font-bold whitespace-nowrap flex items-center" translate="no">Milk Me Not</span>
+              </Link>
+            ) : (
+              <h1 className="text-gray-800 text-xl font-semibold">{pageTitle}</h1>
+            )}
+          </div>
+          
+          {/* Desktop: Always show logo */}
+          <Link to="/" className="hidden lg:flex items-center gap-3">
             <img src="/lovable-uploads/9f030b65-074a-4e64-82d9-f0eba7246e1a.png" alt="Milk Me Not Logo" className="h-12 w-12" />
             <span className="text-gray-800 text-2xl md:text-4xl font-bold whitespace-nowrap flex items-center" translate="no">Milk Me Not</span>
           </Link>
