@@ -21,13 +21,10 @@ export function NotificationBadge() {
             {unreadCount > 0 ? `${unreadCount} unread notifications` : 'No unread notifications'}
           </span>
           {unreadCount > 0 && (
-            <Badge 
-              variant="destructive" 
-              className="absolute -top-2 -right-2 h-5 w-5 rounded-full p-0 flex items-center justify-center text-xs z-10"
+            <div 
+              className="absolute -top-1 -right-1 h-3 w-3 bg-red-500 rounded-full border-2 border-background z-10"
               aria-label={`${unreadCount} unread notifications`}
-            >
-              {unreadCount > 99 ? '99+' : unreadCount}
-            </Badge>
+            />
           )}
         </Button>
       </PopoverTrigger>
