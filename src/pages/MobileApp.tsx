@@ -3,16 +3,13 @@ import MobileFooter from "@/components/MobileFooter";
 import BackgroundPatternWithOverlay from "@/components/BackgroundPatternWithOverlay";
 import { Smartphone, Download, ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
-
 const MobileApp = () => {
   // Placeholder URLs - to be updated later
   const androidDownloadUrl = "#";
   const iosDownloadUrl = "#";
   const androidStoreUrl = "#";
   const iosStoreUrl = "#";
-
-  return (
-    <div className="min-h-screen">
+  return <div className="min-h-screen">
       <MenuBar />
       <BackgroundPatternWithOverlay>
         <div className="flex items-center justify-center min-h-screen pt-16 pb-20 sm:pb-8">
@@ -22,9 +19,7 @@ const MobileApp = () => {
               <h1 className="text-4xl md:text-5xl font-bold text-[#00bf63] mb-4">
                 Get the Mobile App
               </h1>
-              <p className="text-lg text-gray-700">
-                Download Milk Me Not on your device for the best experience
-              </p>
+              <p className="text-lg text-gray-700">Love what you see? You’ll love it even more in the app.</p>
             </div>
 
             {/* Platform Tiles */}
@@ -68,21 +63,13 @@ const MobileApp = () => {
                 {/* Direct Download Section */}
                 <div className="space-y-4">
                   <h4 className="font-medium text-gray-700 text-center mb-4">Direct Download</h4>
-                  <Button 
-                    asChild
-                    className="w-full bg-[#00bf63] hover:bg-[#00bf63]/90 text-white"
-                    size="lg"
-                  >
+                  <Button asChild className="w-full bg-[#00bf63] hover:bg-[#00bf63]/90 text-white" size="lg">
                     <a href={androidDownloadUrl} download>
                       <Download className="mr-2 h-5 w-5" />
                       Download Android APK
                     </a>
                   </Button>
-                  <Button 
-                    asChild
-                    className="w-full bg-[#00bf63] hover:bg-[#00bf63]/90 text-white"
-                    size="lg"
-                  >
+                  <Button asChild className="w-full bg-[#00bf63] hover:bg-[#00bf63]/90 text-white" size="lg">
                     <a href={iosDownloadUrl} download>
                       <Download className="mr-2 h-5 w-5" />
                       Download iOS App
@@ -93,23 +80,13 @@ const MobileApp = () => {
                 {/* App Store Section */}
                 <div className="space-y-4">
                   <h4 className="font-medium text-gray-700 text-center mb-4">Visit App Stores</h4>
-                  <Button 
-                    asChild
-                    variant="outline"
-                    className="w-full border-2 border-[#00bf63] text-[#00bf63] hover:bg-[#00bf63]/5"
-                    size="lg"
-                  >
+                  <Button asChild variant="outline" className="w-full border-2 border-[#00bf63] text-[#00bf63] hover:bg-[#00bf63]/5" size="lg">
                     <a href={androidStoreUrl} target="_blank" rel="noopener noreferrer">
                       <ExternalLink className="mr-2 h-5 w-5" />
                       Google Play Store
                     </a>
                   </Button>
-                  <Button 
-                    asChild
-                    variant="outline"
-                    className="w-full border-2 border-[#00bf63] text-[#00bf63] hover:bg-[#00bf63]/5"
-                    size="lg"
-                  >
+                  <Button asChild variant="outline" className="w-full border-2 border-[#00bf63] text-[#00bf63] hover:bg-[#00bf63]/5" size="lg">
                     <a href={iosStoreUrl} target="_blank" rel="noopener noreferrer">
                       <ExternalLink className="mr-2 h-5 w-5" />
                       Apple App Store
@@ -120,12 +97,7 @@ const MobileApp = () => {
 
               <p className="text-sm text-gray-600 text-center mt-6">
                 Need help? Check our{" "}
-                <a 
-                  href="https://docs.lovable.dev/features/mobile" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="text-[#2144ff] hover:underline"
-                >
+                <a href="https://docs.lovable.dev/features/mobile" target="_blank" rel="noopener noreferrer" className="text-[#2144ff] hover:underline">
                   installation guide
                 </a>
               </p>
@@ -134,8 +106,6 @@ const MobileApp = () => {
         </div>
       </BackgroundPatternWithOverlay>
       <MobileFooter />
-    </div>
-  );
+    </div>;
 };
-
 export default MobileApp;
