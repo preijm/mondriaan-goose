@@ -60,7 +60,7 @@ const Home = () => {
       
       {/* Enhanced Hero Section */}
       <BackgroundPattern>
-        <div className="container max-w-4xl mx-auto px-4 pt-8 md:pt-16 flex items-center justify-center min-h-[calc(100dvh-120px)] md:min-h-[calc(100dvh-180px)]">
+        <div className="container max-w-4xl mx-auto px-4 pt-8 lg:pt-16 flex items-center justify-center min-h-[calc(100dvh-120px)] lg:min-h-[calc(100dvh-180px)]">
           <div className="flex flex-col items-center justify-center text-center relative z-10">
             
             {/* Enhanced hero title with green color */}
