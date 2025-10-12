@@ -6,7 +6,7 @@ const MenuBar = () => {
   const location = useLocation();
 
   return (
-    <nav className="bg-white/5 backdrop-blur-[2px] fixed w-full z-50 border-b border-white/10">
+    <nav className="bg-white/5 backdrop-blur-[2px] fixed w-full z-50 border-b border-white/10 md:border-white/10 border-gray-200/60 shadow-sm md:shadow-none">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16 my-[5px]">
           <Link to="/" className="flex items-center gap-3">
