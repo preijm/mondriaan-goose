@@ -11,6 +11,7 @@ import { MilkTestResult } from "@/types/milk-test";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Loader, LogIn, UserPlus, Rss } from "lucide-react";
+import Masonry from 'react-masonry-css';
 const Feed = () => {
   const {
     user
@@ -82,11 +83,17 @@ const Feed = () => {
           <div className="container max-w-7xl mx-auto px-4 py-6">
             {isLoading ? <div className="flex items-center justify-center py-8">
                 <Loader className="h-8 w-8 animate-spin text-primary" />
-              </div> : <div className="grid grid-cols-1 gap-6 auto-rows-auto" style={{ gridAutoFlow: 'dense' }}>
-                {feedItems.map(item => <FeedItem key={item.id} item={item} blurred={!user} disabled={!user} />)}
+              </div> : <>
+                <Masonry
+                  breakpointCols={1}
+                  className="flex gap-6"
+                  columnClassName="space-y-6"
+                >
+                  {feedItems.map(item => <FeedItem key={item.id} item={item} blurred={!user} disabled={!user} />)}
+                </Masonry>
                 
                 {/* Login prompt for non-authenticated users after preview items */}
-                {!user && feedItems.length > 0 && <Card className="w-full shadow-lg border-2 border-primary/20">
+                {!user && feedItems.length > 0 && <Card className="w-full shadow-lg border-2 border-primary/20 mt-6">
                     <CardContent className="p-8 text-center space-y-6">
                       <div className="text-2xl">🔓</div>
                       <div className="space-y-4">
@@ -118,7 +125,7 @@ const Feed = () => {
                         </div>
                       </div>
                     </CardContent>
-                  </Card>}
+                   </Card>}
                 
                 {feedItems.length === 0 && <div className="text-center py-8">
                     {user ? <p className="text-muted-foreground">No milk tests to show yet. Be the first to share your tasting!</p> : <div className="max-w-md mx-auto space-y-4">
@@ -136,7 +143,7 @@ const Feed = () => {
                         </p>
                       </div>}
                   </div>}
-              </div>}
+              </>}
           </div>
         </div>
         <MobileFooter />
@@ -153,11 +160,15 @@ const Feed = () => {
           {isLoading ? <div className="flex items-center justify-center py-8">
               <Loader className="h-8 w-8 animate-spin text-primary" />
             </div> : <>
-              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 auto-rows-auto" style={{ gridAutoFlow: 'dense' }}>
+              <Masonry
+                breakpointCols={{ default: 3, 1280: 3, 768: 2, 640: 1 }}
+                className="flex gap-6"
+                columnClassName="space-y-6"
+              >
                 {feedItems.map(item => (
                   <FeedItem key={item.id} item={item} blurred={!user} disabled={!user} />
                 ))}
-              </div>
+              </Masonry>
               
               {/* Login prompt for non-authenticated users after preview items */}
               {!user && feedItems.length > 0 && (
