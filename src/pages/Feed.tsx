@@ -31,8 +31,14 @@ const Feed = () => {
       } = await supabase.rpc('get_all_milk_tests');
       if (error) throw error;
 
+      // Filter out posts from 1970 (invalid dates)
+      const validData = (data || []).filter(item => {
+        const year = new Date(item.created_at).getFullYear();
+        return year !== 1970;
+      });
+
       // Sort by created_at descending (newest first)
-      const sortedData = (data || []).sort((a, b) => {
+      const sortedData = validData.sort((a, b) => {
         const dateA = new Date(a.created_at).getTime();
         const dateB = new Date(b.created_at).getTime();
         return dateB - dateA;
