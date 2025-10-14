@@ -147,11 +147,9 @@ const Feed = () => {
           {isLoading ? <div className="flex items-center justify-center py-8">
               <Loader className="h-8 w-8 animate-spin text-primary" />
             </div> : <>
-              <div className="columns-1 md:columns-2 xl:columns-3 gap-6 space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
                 {feedItems.map(item => (
-                  <div key={item.id} className="break-inside-avoid mb-6">
-                    <FeedItem item={item} blurred={!user} disabled={!user} />
-                  </div>
+                  <FeedItem key={item.id} item={item} blurred={!user} disabled={!user} />
                 ))}
               </div>
               
