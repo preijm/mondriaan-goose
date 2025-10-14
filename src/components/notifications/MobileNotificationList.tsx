@@ -22,16 +22,20 @@ function NotificationItem({
     window.dispatchEvent(new Event("lov-close-notifications"));
   };
 
-  // Extract username from message (e.g., "Ilva liked your test" -> "Ilva")
-  const getUsername = (message: string) => {
-    const match = message.match(/^(\w+)/);
-    return match ? match[1] : "U";
+  // Parse the message: "Username|ProductInfo|BARISTA|FLAVORS:flavor1,flavor2"
+  const parseMessage = (message: string) => {
+    const parts = message.split('|');
+    const username = parts[0] || '';
+    const productInfo = parts[1] || '';
+    const isBarista = parts.includes('BARISTA');
+    
+    const flavorsPart = parts.find(p => p.startsWith('FLAVORS:'));
+    const flavors = flavorsPart ? flavorsPart.replace('FLAVORS:', '').split(',').filter(Boolean) : [];
+    
+    return { username, productInfo, isBarista, flavors };
   };
 
-  const getInitials = (message: string) => {
-    const username = getUsername(message);
-    return username.charAt(0).toUpperCase();
-  };
+  const { username, productInfo, isBarista, flavors } = parseMessage(notification.message);
 
   return <div className={cn("relative flex items-start gap-3 p-4 border-b cursor-pointer transition-colors", !notification.is_read && "bg-blue-50/50")} onClick={handleClick}>
       {/* Blue indicator for unread */}
@@ -41,17 +45,32 @@ function NotificationItem({
       
       {/* Avatar */}
       <Badge variant="category" className="w-12 h-12 rounded-full flex items-center justify-center p-0 font-semibold text-base flex-shrink-0">
-        {getInitials(notification.message)}
+        {username.charAt(0).toUpperCase() || 'U'}
       </Badge>
       
       {/* Content */}
-      <div className="flex-1 min-w-0">
+      <div className="flex-1 min-w-0 space-y-1.5">
         <p className="text-sm text-gray-900">
-          <span className="font-semibold">{getUsername(notification.message)}</span>
+          <span className="font-semibold">{username}</span>
           {' '}
-          {notification.message.substring(getUsername(notification.message).length)}
+          {notification.type === 'like' ? 'liked your test' : 'commented on your test'}
         </p>
-        <div className="flex items-center gap-2 mt-1">
+        
+        {productInfo && (
+          <div className="flex flex-wrap items-center gap-1.5">
+            <span className="text-sm text-gray-900 font-medium">{productInfo}</span>
+            {isBarista && (
+              <Badge variant="barista" className="text-xs">Barista</Badge>
+            )}
+            {flavors.map((flavor) => (
+              <Badge key={flavor} variant="flavor" className="text-xs capitalize">
+                {flavor}
+              </Badge>
+            ))}
+          </div>
+        )}
+        
+        <div className="flex items-center gap-2">
           <p className="text-xs text-gray-500">
             {formatDistanceToNow(new Date(notification.created_at), {
             addSuffix: true
