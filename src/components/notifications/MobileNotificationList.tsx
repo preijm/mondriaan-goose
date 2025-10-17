@@ -22,17 +22,35 @@ function NotificationItem({
     window.dispatchEvent(new Event("lov-close-notifications"));
   };
 
-  // Parse the message: "Username|ProductInfo|BARISTA|FLAVORS:flavor1,flavor2"
+  // Parse the message: supports two formats:
+  // New format: "Username|ProductInfo|BARISTA|FLAVORS:flavor1,flavor2"
+  // Old format: "Username liked your test of ProductName"
   const parseMessage = (message: string) => {
-    const parts = message.split('|');
-    const username = parts[0] || '';
-    const productInfo = parts[1] || '';
-    const isBarista = parts.includes('BARISTA');
-    
-    const flavorsPart = parts.find(p => p.startsWith('FLAVORS:'));
-    const flavors = flavorsPart ? flavorsPart.replace('FLAVORS:', '').split(',').filter(Boolean) : [];
-    
-    return { username, productInfo, isBarista, flavors };
+    if (message.includes('|')) {
+      // New format with pipe-separated values
+      const parts = message.split('|');
+      const username = parts[0] || '';
+      const productInfo = parts[1] || '';
+      const isBarista = parts.includes('BARISTA');
+      
+      const flavorsPart = parts.find(p => p.startsWith('FLAVORS:'));
+      const flavors = flavorsPart ? flavorsPart.replace('FLAVORS:', '').split(',').filter(Boolean) : [];
+      
+      return { username, productInfo, isBarista, flavors };
+    } else {
+      // Old format - extract username and product from text
+      const match = message.match(/^(.+?)\s+liked your test(?:\s+of\s+(.+))?$/);
+      if (match) {
+        return {
+          username: match[1] || '',
+          productInfo: match[2] || '',
+          isBarista: false,
+          flavors: []
+        };
+      }
+      // Fallback
+      return { username: '', productInfo: message, isBarista: false, flavors: [] };
+    }
   };
 
   const { username, productInfo, isBarista, flavors } = parseMessage(notification.message);
