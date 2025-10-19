@@ -19,7 +19,7 @@ export const AddMilkTest = () => {
   const isFormValid = formState.productId && formState.rating > 0 && formState.country && formState.country.trim() !== '';
 
   return (
-    <Card className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg border border-white/20 animate-fade-in">
+    <Card className="bg-white/80 backdrop-blur-sm lg:rounded-2xl lg:shadow-lg lg:border lg:border-white/20 animate-fade-in rounded-none shadow-none border-0">
       <CardContent className="p-4 md:p-6">
         <form onSubmit={e => {
           e.preventDefault();
