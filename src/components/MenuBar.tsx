@@ -4,10 +4,13 @@ import { AuthButton } from "@/components/AuthButton";
 import { Bell, Radio, BarChart3, ArrowLeft, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useNotifications } from "@/hooks/useNotifications";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { AddMilkTest } from "@/components/AddMilkTest";
 import { useAuth } from "@/contexts/AuthContext";
+
+const TABLET_BREAKPOINT = 1024; // Desktop starts at 1024px
+
 
 const MenuBar = () => {
   const location = useLocation();
@@ -15,6 +18,32 @@ const MenuBar = () => {
   const { user } = useAuth();
   const { notifications, unreadCount, markAllAsRead } = useNotifications();
   const [showAddTestDialog, setShowAddTestDialog] = useState(false);
+  const [isDesktop, setIsDesktop] = useState(window.innerWidth >= TABLET_BREAKPOINT);
+  
+  // Track screen size to determine if we should use dialog or navigate
+  useEffect(() => {
+    const handleResize = () => {
+      setIsDesktop(window.innerWidth >= TABLET_BREAKPOINT);
+    };
+    
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+  
+  const handleAddTest = () => {
+    if (!user) {
+      navigate('/auth');
+      return;
+    }
+    
+    // On mobile/tablet, navigate to /add page
+    // On desktop, open dialog
+    if (isDesktop) {
+      setShowAddTestDialog(true);
+    } else {
+      navigate('/add');
+    }
+  };
   
   const getPageTitle = () => {
     switch (location.pathname) {
@@ -139,7 +168,7 @@ const MenuBar = () => {
               <Button 
                 variant="default"
                 size="sm" 
-                onClick={() => setShowAddTestDialog(true)}
+                onClick={handleAddTest}
                 className="rounded-full h-9 w-9 p-0"
                 style={{ backgroundColor: '#00bf63' }}
               >
