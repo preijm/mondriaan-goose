@@ -44,7 +44,7 @@ export const ProductInformation = ({
 
   return (
     <div className="space-y-4">
-      <h2 className="text-xl font-semibold bg-gradient-to-r from-emerald-600 to-blue-600 bg-clip-text text-transparent">Product Information</h2>
+      <h2 className="text-xl font-semibold text-gray-900">Product Information</h2>
       
       <ProductSearch 
         onSelectProduct={handleSelectProduct}

@@ -42,7 +42,7 @@ export const AddMilkTest = () => {
 
           {/* Rating Section */}
           <div className="space-y-3 md:space-y-4">
-            <h2 className="text-xl font-semibold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">Rating</h2>
+            <h2 className="text-xl font-semibold text-gray-900">Rating</h2>
             <div className="bg-gradient-to-br from-blue-50/30 to-purple-50/30 p-4 rounded-lg">
               <RatingSelect rating={formState.rating} setRating={formSetters.setRating} />
               <div className="mt-4">
@@ -63,7 +63,7 @@ export const AddMilkTest = () => {
 
           {/* Price Section */}
           <div className="space-y-3 md:space-y-4">
-            <h2 className="text-xl font-semibold bg-gradient-to-r from-amber-600 to-orange-600 bg-clip-text text-transparent">Price-to-Quality Ratio</h2>
+            <h2 className="text-xl font-semibold text-gray-900">Price-to-Quality Ratio</h2>
             <div className="bg-gradient-to-br from-amber-50/30 to-orange-50/30 p-4 rounded-lg">
               <PriceInput 
                 price={formState.price} 
@@ -79,7 +79,7 @@ export const AddMilkTest = () => {
 
           {/* Location Section */}
           <div className="space-y-3 md:space-y-4">
-            <h2 className="text-xl font-semibold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent">Buying Location</h2>
+            <h2 className="text-xl font-semibold text-gray-900">Buying Location</h2>
             <div className="bg-gradient-to-br from-green-50/30 to-emerald-50/30 p-4 rounded-lg space-y-3">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -108,7 +108,7 @@ export const AddMilkTest = () => {
 
           {/* Drinking Style Section */}
           <div className="space-y-3 md:space-y-4">
-            <h2 className="text-xl font-semibold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">Drinking Style</h2>
+            <h2 className="text-xl font-semibold text-gray-900">Drinking Style</h2>
             <div className="bg-gradient-to-br from-purple-50/30 to-pink-50/30 p-4 rounded-lg">
               <DrinkPreference 
                 preference={formState.drinkPreference} 
