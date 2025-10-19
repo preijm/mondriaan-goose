@@ -148,8 +148,8 @@ export const FlavorSelector = ({
             </Badge>
           </PopoverTrigger>
           <PopoverContent 
-            className="p-0 w-64 bg-white/95 backdrop-blur-sm border border-white/20 shadow-xl" 
-            align="end"
+            className="p-0 w-64 bg-white dark:bg-gray-800 backdrop-blur-sm border border-gray-200 dark:border-gray-700 shadow-xl z-50" 
+            align="start"
             side="bottom"
             sideOffset={8}
           >
