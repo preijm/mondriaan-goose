@@ -1,7 +1,7 @@
 
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AuthButton } from "@/components/AuthButton";
-import { Bell, Radio, BarChart3, ArrowLeft, Plus } from "lucide-react";
+import { Bell, Radio, BarChart3, ArrowLeft, Plus, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useNotifications } from "@/hooks/useNotifications";
 import { useState, useEffect } from "react";
@@ -77,6 +77,7 @@ const MenuBar = () => {
   const isFeedPage = location.pathname === '/feed';
   const isProductDetailsPage = location.pathname.startsWith('/product/');
   const isResultsPage = location.pathname === '/results';
+  const isAddPage = location.pathname === '/add';
   const isMobileOrTablet = typeof window !== 'undefined' && window.innerWidth < 1024;
 
 
@@ -91,6 +92,13 @@ const MenuBar = () => {
                 <img src="/lovable-uploads/9f030b65-074a-4e64-82d9-f0eba7246e1a.png" alt="Milk Me Not Logo" className="h-12 w-12" />
                 <span className="text-gray-800 text-2xl md:text-4xl font-bold whitespace-nowrap flex items-center" translate="no">Milk Me Not</span>
               </Link>
+            ) : isAddPage ? (
+              <div className="flex items-center gap-3">
+                <div className="h-10 w-10 rounded-full flex items-center justify-center flex-shrink-0" style={{ backgroundColor: '#00bf63' }}>
+                  <Plus className="w-5 h-5 text-white" />
+                </div>
+                <h1 className="text-lg font-semibold text-gray-900">Add Test</h1>
+              </div>
             ) : isNotificationsPage ? (
               <div className="flex items-center gap-3">
                 <div className="h-10 w-10 rounded-full flex items-center justify-center flex-shrink-0" style={{ backgroundColor: '#00bf63' }}>
@@ -153,7 +161,7 @@ const MenuBar = () => {
               </Link>
             </div>
 
-            {/* Mobile/Tablet: Add test button on results and feed pages, Back button on product details */}
+            {/* Mobile/Tablet: Add test button on results and feed pages, Back button on product details, Close button on add page */}
             {isProductDetailsPage && isMobileOrTablet ? (
               <Button 
                 variant="outline" 
@@ -163,6 +171,15 @@ const MenuBar = () => {
               >
                 <ArrowLeft className="h-4 w-4" />
                 Back to results
+              </Button>
+            ) : isAddPage && isMobileOrTablet ? (
+              <Button 
+                variant="ghost" 
+                size="icon"
+                onClick={() => navigate(-1)}
+                className="h-10 w-10 rounded-full"
+              >
+                <X className="h-6 w-6" />
               </Button>
             ) : (isResultsPage || isFeedPage) && isMobileOrTablet && user ? (
               <Button 
