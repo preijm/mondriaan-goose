@@ -24,7 +24,7 @@ export const TestDetailsAccordion = ({ productTests, handleImageClick }: TestDet
   }
 
   return (
-    <Accordion type="single" collapsible className="w-full">
+    <Accordion type="multiple" className="w-full">
       {productTests.map((test) => (
         <AccordionItem key={test.id} value={test.id} className="border-b border-gray-200">
           <AccordionTrigger className="hover:no-underline py-3 px-4">
