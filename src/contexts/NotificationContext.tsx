@@ -119,11 +119,6 @@ export function NotificationProvider({ children }: { children: ReactNode }) {
 
       setNotifications(prev => prev.map(n => ({ ...n, is_read: true })));
       setUnreadCount(0);
-
-      toast({
-        title: "Success",
-        description: "All notifications marked as read",
-      });
     } catch (error: any) {
       console.error('Error marking all notifications as read:', error);
       toast({
