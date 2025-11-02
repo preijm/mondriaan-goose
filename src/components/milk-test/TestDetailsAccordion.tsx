@@ -6,7 +6,7 @@ import { formatScore } from "@/lib/scoreFormatter";
 import { DrinkPreferenceIcon } from "./DrinkPreferenceIcon";
 import { PriceQualityBadge } from "./PriceQualityBadge";
 import { supabase } from "@/integrations/supabase/client";
-import { ImageIcon, MapPin, DollarSign, Globe } from "lucide-react";
+import { ImageIcon, MapPin, DollarSign, Globe, ChevronDown } from "lucide-react";
 
 interface TestDetailsAccordionProps {
   productTests: MilkTestResult[];
@@ -27,8 +27,8 @@ export const TestDetailsAccordion = ({ productTests, handleImageClick }: TestDet
     <Accordion type="multiple" className="w-full">
       {productTests.map((test) => (
         <AccordionItem key={test.id} value={test.id} className="border-b border-gray-200">
-          <AccordionTrigger className="hover:no-underline py-3 px-4">
-            <div className="flex items-center justify-between w-full pr-4 gap-3">
+          <AccordionTrigger className="hover:no-underline py-3 px-4 [&>svg]:hidden">
+            <div className="flex items-center justify-between w-full gap-3">
               <div className="flex items-center gap-3 flex-1 min-w-0">
                 {/* Thumbnail */}
                 {test.picture_path ? (
@@ -66,13 +66,16 @@ export const TestDetailsAccordion = ({ productTests, handleImageClick }: TestDet
                 </div>
               </div>
 
-              {/* Score badge */}
-              <Badge 
-                variant={getScoreBadgeVariant(Number(test.rating))}
-                className="ml-2 flex-shrink-0"
-              >
-                {formatScore(Number(test.rating))}
-              </Badge>
+              {/* Score badge and chevron aligned to right */}
+              <div className="flex items-center gap-2 flex-shrink-0">
+                <Badge 
+                  variant={getScoreBadgeVariant(Number(test.rating))}
+                  className="flex-shrink-0"
+                >
+                  {formatScore(Number(test.rating))}
+                </Badge>
+                <ChevronDown className="h-5 w-5 text-gray-400 transition-transform duration-200 group-data-[state=open]:rotate-180" />
+              </div>
             </div>
           </AccordionTrigger>
           
