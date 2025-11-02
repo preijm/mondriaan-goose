@@ -82,37 +82,40 @@ export const ResultsContainer = ({
       ) : (
         <Card className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg border border-white/20 overflow-hidden animate-fade-in">
           <CardHeader className="bg-white/50 backdrop-blur-sm pb-4 pt-6 px-6">
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-3">
               <div className="flex-1">
                 <SearchBar
                   searchTerm={searchTerm}
                   setSearchTerm={setSearchTerm}
                   className="mb-0"
-                  placeholder="Search by brand or product..."
+                  placeholder="Search products..."
                 />
               </div>
               <ResultsFilter 
                 filters={filters}
                 onFiltersChange={onFiltersChange}
               />
+              {user && (
+                <button
+                  onClick={handleMyResultsToggle}
+                  className={`p-2 rounded-lg transition-colors ${
+                    filters.myResultsOnly 
+                      ? 'bg-primary text-primary-foreground' 
+                      : 'bg-muted hover:bg-muted/80'
+                  }`}
+                  aria-label="My results"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/>
+                    <circle cx="12" cy="7" r="4"/>
+                  </svg>
+                </button>
+              )}
             </div>
             
-            {/* My Results Only Checkbox - Hidden on desktop/tablet, visible on mobile only */}
-            {user && (
-              <div className="flex items-center space-x-2 mt-4 pl-1 md:hidden">
-                <Checkbox
-                  id="myResultsMain"
-                  checked={filters.myResultsOnly}
-                  onCheckedChange={handleMyResultsToggle}
-                />
-                <label
-                  htmlFor="myResultsMain"
-                  className="text-sm font-medium leading-none cursor-pointer select-none"
-                >
-                  Show only my results
-                </label>
-              </div>
-            )}
+            <div className="mt-3 text-sm text-muted-foreground">
+              {filteredResults.length} products
+            </div>
           </CardHeader>
           <CardContent className="p-0">
             <AggregatedResultsTable
