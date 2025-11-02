@@ -478,7 +478,7 @@ export type Database = {
           event_data: Json | null
           event_type: string
           id: string
-          ip_address: unknown | null
+          ip_address: unknown
           user_agent: string | null
           user_id: string | null
         }
@@ -487,7 +487,7 @@ export type Database = {
           event_data?: Json | null
           event_type: string
           id?: string
-          ip_address?: unknown | null
+          ip_address?: unknown
           user_agent?: string | null
           user_id?: string | null
         }
@@ -496,7 +496,7 @@ export type Database = {
           event_data?: Json | null
           event_type?: string
           id?: string
-          ip_address?: unknown | null
+          ip_address?: unknown
           user_agent?: string | null
           user_id?: string | null
         }
@@ -671,7 +671,7 @@ export type Database = {
         Returns: boolean
       }
       get_aggregated_milk_tests: {
-        Args: Record<PropertyKey, never>
+        Args: never
         Returns: {
           brand_name: string
           country_code: string
@@ -687,7 +687,7 @@ export type Database = {
         }[]
       }
       get_all_milk_tests: {
-        Args: Record<PropertyKey, never>
+        Args: never
         Returns: {
           brand_id: string
           brand_name: string
@@ -710,7 +710,7 @@ export type Database = {
         }[]
       }
       get_public_stats: {
-        Args: Record<PropertyKey, never>
+        Args: never
         Returns: {
           total_brands: number
           total_members: number
@@ -725,27 +725,41 @@ export type Database = {
         }
         Returns: boolean
       }
-      is_admin: {
-        Args: Record<PropertyKey, never>
-        Returns: boolean
-      }
+      is_admin: { Args: never; Returns: boolean }
       log_security_event: {
         Args: { event_data_val?: Json; event_type_val: string }
         Returns: undefined
       }
-      search_product_types: {
-        Args: Record<PropertyKey, never> | { search_term: string }
-        Returns: {
-          brand_id: string
-          brand_name: string
-          flavor_names: string[]
-          id: string
-          is_barista: boolean
-          product_name: string
-          product_name_id: string
-          property_names: string[]
-        }[]
-      }
+      search_product_types:
+        | {
+            Args: { search_term: string }
+            Returns: {
+              brand_id: string
+              brand_name: string
+              flavor_names: string[]
+              id: string
+              is_barista: boolean
+              product_name: string
+              product_name_id: string
+              property_names: string[]
+            }[]
+          }
+        | {
+            Args: never
+            Returns: {
+              brand_id: string
+              created_at: string
+              id: string
+              is_barista: boolean
+              name_id: string | null
+            }[]
+            SetofOptions: {
+              from: "*"
+              to: "products"
+              isOneToOne: false
+              isSetofReturn: true
+            }
+          }
       validate_milk_test_input: {
         Args: {
           country_code_val: string
