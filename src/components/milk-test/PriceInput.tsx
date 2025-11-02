@@ -52,30 +52,35 @@ export const PriceInput = ({
       value: "waste_of_money",
       emoji: "🚫",
       label: "Total waste of money",
+      shortLabel: "Waste",
       activeClass: "bg-white text-[#ff4b51] border-[#ff4b51]",
     },
     {
       value: "not_worth_it",
       emoji: "⚠️",
       label: "Not worth it",
+      shortLabel: "Poor",
       activeClass: "bg-white text-[#f59e0b] border-[#f59e0b]",
     },
     {
       value: "fair_price",
       emoji: "✅",
       label: "Fair price",
+      shortLabel: "Fair",
       activeClass: "bg-white text-[#00bf63] border-[#00bf63]",
     },
     {
       value: "good_deal",
       emoji: "🏆",
       label: "Good deal",
+      shortLabel: "Good",
       activeClass: "bg-white text-[#f59e0b] border-[#f59e0b]",
     },
     {
       value: "great_value",
       emoji: "💎",
       label: "Great value for money",
+      shortLabel: "Gem",
       activeClass: "bg-white text-[#2144ff] border-[#2144ff]",
     },
   ];
@@ -85,55 +90,27 @@ export const PriceInput = ({
 
   return (
     <div className="grid grid-cols-5 gap-2">
-      {isMobile ? (
-        // Mobile view using HoverCard
-        buttons.map(({ value, emoji, label, activeClass }) => (
-          <HoverCard key={value}>
-            <HoverCardTrigger asChild>
-              <button
-                type="button"
-                onClick={() => handlePriceChange(value)}
-                className={`flex items-center justify-center py-3 px-2 rounded-lg border transition-all cursor-default ${
-                  priceValue === value
-                    ? `${activeClass} shadow-sm`
-                    : "bg-white border-gray-200 hover:border-gray-300"
-                }`}
-                aria-label={label}
-              >
-                <span className="text-xl">{emoji}</span>
-              </button>
-            </HoverCardTrigger>
-            <HoverCardContent className="p-2 text-center">
-              <p>{label}</p>
-            </HoverCardContent>
-          </HoverCard>
-        ))
-      ) : (
-        // Desktop view using Tooltip
-        <TooltipProvider>
-          {buttons.map(({ value, emoji, label, activeClass }) => (
-            <Tooltip key={value} delayDuration={300}>
-              <TooltipTrigger asChild>
-                <button
-                  type="button"
-                  onClick={() => handlePriceChange(value)}
-                  className={`flex items-center justify-center py-3 px-2 rounded-lg border transition-all cursor-default ${
-                    priceValue === value
-                      ? `${activeClass} shadow-sm`
-                      : "bg-white border-gray-200 hover:border-gray-300"
-                  }`}
-                  aria-label={label}
-                >
-                  <span className="text-xl">{emoji}</span>
-                </button>
-              </TooltipTrigger>
-              <TooltipContent side="top" align="center">
-                <p>{label}</p>
-              </TooltipContent>
-            </Tooltip>
-          ))}
-        </TooltipProvider>
-      )}
+      {buttons.map(({ value, emoji, label, shortLabel, activeClass }) => (
+        <div key={value} className="flex flex-col items-center gap-2">
+          <button
+            type="button"
+            onClick={() => handlePriceChange(value)}
+            className={`flex items-center justify-center py-3 px-2 rounded-lg border transition-all w-full ${
+              priceValue === value
+                ? `${activeClass} shadow-sm`
+                : "bg-white border-gray-200 hover:border-gray-300"
+            }`}
+            aria-label={label}
+          >
+            <span className="text-xl">{emoji}</span>
+          </button>
+          <span className={`text-xs font-medium text-center ${
+            priceValue === value ? "text-gray-900" : "text-gray-500"
+          }`}>
+            {shortLabel}
+          </span>
+        </div>
+      ))}
     </div>
   );
 };
