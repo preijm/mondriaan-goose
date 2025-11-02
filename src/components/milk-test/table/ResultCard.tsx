@@ -4,6 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { getScoreBadgeVariant } from "@/lib/scoreUtils";
 import { formatScore } from "@/lib/scoreFormatter";
 import { format } from "date-fns";
+import { ClipboardList } from "lucide-react";
 import { AggregatedResult, FilterOptions } from "./types";
 
 interface ResultCardProps {
@@ -38,13 +39,23 @@ export const ResultCard = ({
       } animate-fade-in`}
       onClick={handleClick}
     >
-      <div className="space-y-2">
-        {/* Brand - Product with inline badges */}
-        <div className="flex items-center gap-2 flex-wrap">
-          <h2 className="text-sm font-semibold text-gray-900">
+      <div className="space-y-3">
+        {/* Top row: Product name and Score badge */}
+        <div className="flex items-start justify-between gap-3">
+          <h2 className="text-base font-semibold text-gray-900 flex-1">
             <span translate="no">{result.brand_name || "Unknown Brand"}</span> - {result.product_name || "Unknown Product"}
           </h2>
-          {(result.is_barista || (result.property_names && result.property_names.length > 0) || (result.flavor_names && result.flavor_names.length > 0)) && (
+          <div className="flex-shrink-0">
+            <div className="bg-green-500 text-white rounded-lg px-3 py-2 flex flex-col items-center justify-center min-w-[60px]">
+              <div className="text-xl font-bold leading-none">{formatScore(result.avg_rating)}</div>
+              <div className="text-[10px] font-medium uppercase tracking-wide mt-0.5">Score</div>
+            </div>
+          </div>
+        </div>
+        
+        {/* Property badges */}
+        {(result.is_barista || (result.property_names && result.property_names.length > 0) || (result.flavor_names && result.flavor_names.length > 0)) && (
+          <div className="flex flex-wrap gap-2">
             <ProductPropertyBadges 
               isBarista={result.is_barista}
               propertyNames={result.property_names}
@@ -55,29 +66,17 @@ export const ResultCard = ({
               filters={filters}
               onFiltersChange={onFiltersChange}
             />
-          )}
-        </div>
-        
-        {/* Score and Tests in horizontal layout with date on the right */}
-        <div className="flex items-center justify-between text-sm">
-          <div className="flex items-center gap-4">
-            <div className="flex items-center gap-1">
-              <span className="text-gray-500">Score:</span>
-              <Badge variant={getScoreBadgeVariant(result.avg_rating)} className="px-2 py-1 sm:px-2 sm:py-0.5 text-xs font-bold min-w-[2.5rem] flex items-center justify-center">
-                {formatScore(result.avg_rating)}
-              </Badge>
-            </div>
-            <div className="flex items-center gap-1">
-              <span className="text-gray-500">Tests:</span>
-              <Badge variant="testCount" className="px-1.5 py-1 sm:px-2 sm:py-0.5 text-xs font-medium min-w-[2rem] flex items-center justify-center">
-                {result.count}
-              </Badge>
-            </div>
           </div>
-          <div className="flex items-center">
-            <span className="text-xs text-gray-600">
-              {format(new Date(result.most_recent_date), 'MMM dd, yyyy')}
-            </span>
+        )}
+        
+        {/* Bottom row: Test count and Date */}
+        <div className="flex items-center justify-between text-sm pt-1">
+          <div className="flex items-center gap-1.5 text-gray-600">
+            <ClipboardList className="w-4 h-4" />
+            <span>{result.count} test{result.count !== 1 ? 's' : ''}</span>
+          </div>
+          <div className="text-gray-500">
+            {format(new Date(result.most_recent_date), 'MMM dd, yyyy')}
           </div>
         </div>
       </div>
