@@ -40,9 +40,55 @@ export const TestDetailsTable = ({
 }: TestDetailsTableProps) => {
   const isMobile = useIsMobile();
 
-  // Use accordion on mobile/tablet (below 1024px)
+  // Use card-based layout on mobile/tablet (below 1024px)
   if (isMobile || (typeof window !== 'undefined' && window.innerWidth < 1024)) {
-    return <TestDetailsAccordion productTests={productTests} handleImageClick={handleImageClick} />;
+    return (
+      <div className="space-y-3">
+        {productTests.length === 0 ? (
+          <div className="text-center py-12 text-slate-300">
+            <p className="text-lg mb-1">No test details available</p>
+            <p className="text-sm opacity-70">Be the first to add a test for this product!</p>
+          </div>
+        ) : (
+          productTests.map((test) => {
+            const initials = (test.username || "A").substring(0, 2).toUpperCase();
+            return (
+              <div 
+                key={test.id}
+                className="bg-slate-700/50 backdrop-blur-sm rounded-xl p-4 border border-white/10 hover:border-white/20 transition-all"
+              >
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3 flex-1">
+                    {/* Avatar */}
+                    <div className="w-12 h-12 rounded-full bg-slate-600 flex items-center justify-center text-white font-semibold border-2 border-slate-500">
+                      {initials}
+                    </div>
+                    
+                    {/* Date and Name */}
+                    <div>
+                      <div className="text-sm text-slate-400">
+                        {new Date(test.created_at).toLocaleDateString()}
+                      </div>
+                      <div className="font-medium text-white" translate="no">
+                        {test.username || "Anonymous"}
+                      </div>
+                    </div>
+                  </div>
+                  
+                  {/* Score Badge */}
+                  <Badge 
+                    variant={getScoreBadgeVariant(Number(test.rating))}
+                    className="text-xl font-bold px-4 py-2 min-w-[3.5rem] flex items-center justify-center"
+                  >
+                    {formatScore(Number(test.rating))}
+                  </Badge>
+                </div>
+              </div>
+            );
+          })
+        )}
+      </div>
+    );
   }
 
   const getCountryFlag = (code: string) => {
@@ -64,11 +110,11 @@ export const TestDetailsTable = ({
   };
 
   return (
-    <div className="overflow-x-auto">
+    <div className="overflow-x-auto rounded-lg">
       <Table>
         <TableHeader>
-          <TableRow className="bg-gray-100 text-sm">
-            <TableHead className="font-semibold text-gray-700 text-left pl-4 w-[12%]">
+          <TableRow className="bg-slate-700/50 text-sm border-b border-white/10 hover:bg-slate-700/50">
+            <TableHead className="font-semibold text-slate-200 text-left pl-4 w-[12%]">
               <SortableColumnHeader
                 column="created_at"
                 label="Date"
@@ -77,7 +123,7 @@ export const TestDetailsTable = ({
                 width="100%"
               />
             </TableHead>
-            <TableHead className="font-semibold text-gray-700 text-left pl-4 w-[12%]">
+            <TableHead className="font-semibold text-slate-200 text-left pl-4 w-[12%]">
               <SortableColumnHeader
                 column="username"
                 label="Tester"
@@ -86,7 +132,7 @@ export const TestDetailsTable = ({
                 width="100%"
               />
             </TableHead>
-            <TableHead className="font-semibold text-gray-700 text-left pl-4 w-[8%]">
+            <TableHead className="font-semibold text-slate-200 text-left pl-4 w-[8%]">
               <SortableColumnHeader
                 column="rating"
                 label="Score"
@@ -95,7 +141,7 @@ export const TestDetailsTable = ({
                 width="100%"
               />
             </TableHead>
-            <TableHead className="font-semibold text-gray-700 text-left pl-4 w-[8%]">
+            <TableHead className="font-semibold text-slate-200 text-left pl-4 w-[8%]">
               <SortableColumnHeader
                 column="drink_preference"
                 label="Style"
@@ -104,7 +150,7 @@ export const TestDetailsTable = ({
                 width="100%"
               />
             </TableHead>
-            <TableHead className="font-semibold text-gray-700 text-left pl-4 w-[8%]">
+            <TableHead className="font-semibold text-slate-200 text-left pl-4 w-[8%]">
               <SortableColumnHeader
                 column="price_quality_ratio"
                 label="Price"
@@ -113,7 +159,7 @@ export const TestDetailsTable = ({
                 width="100%"
               />
             </TableHead>
-            <TableHead className="font-semibold text-gray-700 text-left pl-4 w-[15%]">
+            <TableHead className="font-semibold text-slate-200 text-left pl-4 w-[15%]">
               <SortableColumnHeader
                 column="shop_name"
                 label="Shop"
@@ -122,7 +168,7 @@ export const TestDetailsTable = ({
                 width="100%"
               />
             </TableHead>
-            <TableHead className="font-semibold text-gray-700 text-left pl-4 w-[8%]">
+            <TableHead className="font-semibold text-slate-200 text-left pl-4 w-[8%]">
               <SortableColumnHeader
                 column="country_code"
                 label="Country"
@@ -131,7 +177,7 @@ export const TestDetailsTable = ({
                 width="100%"
               />
             </TableHead>
-            <TableHead className="w-[8%] font-semibold text-gray-700 text-left pl-4">
+            <TableHead className="w-[8%] font-semibold text-slate-200 text-left pl-4">
               <SortableColumnHeader
                 column="notes"
                 label="Note"
@@ -140,7 +186,7 @@ export const TestDetailsTable = ({
                 width="100%"
               />
             </TableHead>
-            <TableHead className="font-semibold text-gray-700 text-left pl-4 w-[8%]">
+            <TableHead className="font-semibold text-slate-200 text-left pl-4 w-[8%]">
               <SortableColumnHeader
                 column="picture_path"
                 label="Image"
@@ -154,10 +200,10 @@ export const TestDetailsTable = ({
         <TableBody>
           {productTests.length === 0 ? (
             <TableRow>
-              <TableCell colSpan={9} className="text-center py-8 text-gray-500">
+              <TableCell colSpan={9} className="text-center py-8 text-slate-300">
                 <div className="flex flex-col items-center justify-center">
                   <p className="text-lg mb-1">No test details available</p>
-                  <p className="text-sm">Be the first to add a test for this product!</p>
+                  <p className="text-sm opacity-70">Be the first to add a test for this product!</p>
                 </div>
               </TableCell>
             </TableRow>
@@ -165,10 +211,10 @@ export const TestDetailsTable = ({
             productTests.map((test, index) => (
               <TableRow 
                 key={test.id} 
-                className={index % 2 === 0 ? 'bg-white' : 'bg-gray-50'}
+                className={index % 2 === 0 ? 'bg-slate-800/30 hover:bg-slate-700/40' : 'bg-slate-700/20 hover:bg-slate-700/40'}
               >
-                <TableCell className="text-sm">{new Date(test.created_at).toLocaleDateString()}</TableCell>
-                <TableCell translate="no">{test.username || "Anonymous"}</TableCell>
+                <TableCell className="text-sm text-slate-300">{new Date(test.created_at).toLocaleDateString()}</TableCell>
+                <TableCell className="text-white" translate="no">{test.username || "Anonymous"}</TableCell>
                 <TableCell>
                   <Badge variant={getScoreBadgeVariant(Number(test.rating))}>
                     {formatScore(Number(test.rating))}
@@ -182,10 +228,10 @@ export const TestDetailsTable = ({
                 <TableCell>
                   <PriceQualityBadge priceQuality={test.price_quality_ratio} />
                 </TableCell>
-                <TableCell>
+                <TableCell className="text-slate-300">
                   <span translate="no">{test.shop_name || "-"}</span>
                 </TableCell>
-                <TableCell>
+                <TableCell className="text-slate-300">
                   {test.country_code ? (
                     <span className="text-sm font-medium">{test.country_code}</span>
                   ) : (
