@@ -20,7 +20,7 @@ export const AddMilkTest = () => {
 
   return (
     <Card className="bg-white/80 backdrop-blur-sm lg:rounded-2xl lg:shadow-lg lg:border lg:border-white/20 animate-fade-in rounded-none shadow-none border-0">
-      <CardContent className="p-4 md:p-6">
+      <CardContent className="p-4 md:p-6 pb-8">
         <form onSubmit={e => {
           e.preventDefault();
           if (isFormValid) {
