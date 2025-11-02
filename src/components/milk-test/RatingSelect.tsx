@@ -86,7 +86,7 @@ export const RatingSelect = ({ rating, setRating }: RatingSelectProps) => {
             onBlur={handleInputBlur}
             onKeyDown={handleKeyDown}
             autoFocus
-            className="w-16 h-8 text-center font-semibold text-[#f59e0b] border-[#f59e0b] focus:border-[#f59e0b] focus:ring-[#f59e0b] px-2"
+            className="w-16 h-8 text-center font-semibold text-gray-600 border-gray-300 focus:border-gray-400 focus:ring-gray-400 px-2"
           />
         ) : (
           <Badge 
