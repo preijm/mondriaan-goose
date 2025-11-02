@@ -56,7 +56,7 @@ export const ResultsContainer = ({
     <>
       {isMobile ? (
         <>
-          <div className="fixed top-16 left-0 right-0 z-40 bg-white/95 backdrop-blur-sm border-b border-gray-100 px-4 pt-4 pb-3">
+          <div className="fixed top-16 left-0 right-0 z-40 bg-white/95 backdrop-blur-sm border-b border-gray-100 px-4 pt-3 pb-2">
             <MobileFilterBar
               searchTerm={searchTerm}
               setSearchTerm={setSearchTerm}
@@ -68,7 +68,7 @@ export const ResultsContainer = ({
               resultsCount={filteredResults.length}
             />
           </div>
-          <div className={filters.barista || filters.properties.length > 0 || filters.flavors.length > 0 ? "pt-[180px]" : "pt-[150px]"}>
+          <div className={filters.barista || filters.properties.length > 0 || filters.flavors.length > 0 ? "pt-[170px]" : "pt-[140px]"}>
             <AggregatedResultsTable
               results={filteredResults}
               sortConfig={sortConfig}

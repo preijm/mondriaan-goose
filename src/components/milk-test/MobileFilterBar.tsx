@@ -180,35 +180,35 @@ export const MobileFilterBar = ({
   };
 
   return (
-    <div className="space-y-3">
+    <div className="space-y-2">
       {/* Search Bar */}
       <div className="relative">
-        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
         <Input
           placeholder="Search products..."
           value={searchTerm}
           onChange={(e) => handleSearchChange(e.target.value)}
-          className="pl-11 h-12 bg-background border-border text-base"
+          className="pl-10 h-10 bg-background border-border text-sm"
           maxLength={100}
         />
       </div>
 
       {/* Three Button Row */}
-      <div className="grid grid-cols-3 gap-2">
+      <div className="grid grid-cols-3 gap-1.5">
         {/* Score Sort Button */}
         <Button
           variant="outline"
           onClick={() => onSort('avg_rating')}
-          className={`h-12 flex items-center justify-center gap-2 ${
+          className={`h-10 flex items-center justify-center gap-1.5 ${
             sortConfig.column === 'avg_rating'
               ? 'bg-primary text-primary-foreground border-primary'
               : 'bg-background border-border'
           }`}
         >
-          <Star className="h-5 w-5" />
+          <Star className="h-4 w-4" />
           <span className="text-sm font-medium">Score</span>
           {sortConfig.column === 'avg_rating' && (
-            <span className="ml-1">
+            <span className="ml-0.5">
               {getSortIcon()}
             </span>
           )}
@@ -219,16 +219,16 @@ export const MobileFilterBar = ({
           <PopoverTrigger asChild>
             <Button
               variant="outline"
-              className={`h-12 flex items-center justify-center gap-2 relative ${
+              className={`h-10 flex items-center justify-center gap-1.5 relative ${
                 activeFilterCount > 0
                   ? 'bg-primary text-primary-foreground border-primary'
                   : 'bg-background border-border'
               }`}
             >
-              <SlidersHorizontal className="h-5 w-5" />
+              <SlidersHorizontal className="h-4 w-4" />
               <span className="text-sm font-medium">Filters</span>
               {activeFilterCount > 0 && (
-                <span className="ml-1 bg-background text-primary rounded-full px-1.5 py-0.5 text-xs font-semibold min-w-[20px] text-center">
+                <span className="ml-0.5 bg-background text-primary rounded-full px-1.5 py-0.5 text-xs font-semibold min-w-[20px] text-center">
                   {activeFilterCount}
                 </span>
               )}
@@ -371,13 +371,13 @@ export const MobileFilterBar = ({
           <Button
             variant="outline"
             onClick={handleMyResultsToggle}
-            className={`h-12 flex items-center justify-center gap-2 transition-colors ${
+            className={`h-10 flex items-center justify-center gap-1.5 transition-colors ${
               filters.myResultsOnly
                 ? 'bg-primary text-primary-foreground border-primary'
                 : 'bg-background border-border'
             }`}
           >
-            <User className="h-5 w-5" />
+            <User className="h-4 w-4" />
             <span className="text-sm font-medium">My Results</span>
           </Button>
         )}
