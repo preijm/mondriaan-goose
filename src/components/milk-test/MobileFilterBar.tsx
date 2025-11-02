@@ -180,55 +180,35 @@ export const MobileFilterBar = ({
   };
 
   return (
-    <div className="space-y-2">
-      {/* Search Bar */}
-      <div className="relative">
-        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-        <Input
-          placeholder="Search products..."
-          value={searchTerm}
-          onChange={(e) => handleSearchChange(e.target.value)}
-          className="pl-10 h-10 bg-background border-border text-sm"
-          maxLength={100}
-        />
-      </div>
-
-      {/* Three Button Row */}
-      <div className="grid grid-cols-3 gap-1.5">
-        {/* Score Sort Button */}
-        <Button
-          variant="outline"
-          onClick={() => onSort('avg_rating')}
-          className={`h-10 flex items-center justify-center gap-1.5 ${
-            sortConfig.column === 'avg_rating'
-              ? 'bg-primary text-primary-foreground border-primary'
-              : 'bg-background border-border'
-          }`}
-        >
-          <Star className="h-4 w-4" />
-          <span className="text-sm font-medium">Score</span>
-          {sortConfig.column === 'avg_rating' && (
-            <span className="ml-0.5">
-              {getSortIcon()}
-            </span>
-          )}
-        </Button>
+    <div className="space-y-3">
+      {/* Search Bar and Action Buttons */}
+      <div className="flex items-center gap-2">
+        <div className="relative flex-1">
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+          <Input
+            placeholder="Search products..."
+            value={searchTerm}
+            onChange={(e) => handleSearchChange(e.target.value)}
+            className="pl-10 h-11 bg-background border-border rounded-lg"
+            maxLength={100}
+          />
+        </div>
 
         {/* Filters Button */}
         <Popover open={isFiltersOpen} onOpenChange={setIsFiltersOpen}>
           <PopoverTrigger asChild>
             <Button
               variant="outline"
-              className={`h-10 flex items-center justify-center gap-1.5 relative ${
+              size="icon"
+              className={`h-11 w-11 flex-shrink-0 relative rounded-lg ${
                 activeFilterCount > 0
                   ? 'bg-primary text-primary-foreground border-primary'
                   : 'bg-background border-border'
               }`}
             >
-              <SlidersHorizontal className="h-4 w-4" />
-              <span className="text-sm font-medium">Filters</span>
+              <SlidersHorizontal className="h-5 w-5" />
               {activeFilterCount > 0 && (
-                <span className="ml-0.5 bg-background text-primary rounded-full px-1.5 py-0.5 text-xs font-semibold min-w-[20px] text-center">
+                <span className="absolute -top-1 -right-1 bg-primary text-primary-foreground rounded-full w-5 h-5 text-xs font-semibold flex items-center justify-center border-2 border-background">
                   {activeFilterCount}
                 </span>
               )}
@@ -370,17 +350,22 @@ export const MobileFilterBar = ({
         {user && (
           <Button
             variant="outline"
+            size="icon"
             onClick={handleMyResultsToggle}
-            className={`h-10 flex items-center justify-center gap-1.5 transition-colors ${
+            className={`h-11 w-11 flex-shrink-0 rounded-lg ${
               filters.myResultsOnly
                 ? 'bg-primary text-primary-foreground border-primary'
                 : 'bg-background border-border'
             }`}
           >
-            <User className="h-4 w-4" />
-            <span className="text-sm font-medium">My Results</span>
+            <User className="h-5 w-5" />
           </Button>
         )}
+      </div>
+
+      {/* Results Count */}
+      <div className="text-sm text-muted-foreground">
+        {resultsCount} products
       </div>
 
       {/* Active Filter Chips */}
@@ -427,10 +412,6 @@ export const MobileFilterBar = ({
         </div>
       )}
 
-      {/* Results Count */}
-      <div className="text-sm text-foreground">
-        <span className="font-semibold">{resultsCount} products</span> match your filters
-      </div>
     </div>
   );
 };
