@@ -9,7 +9,7 @@ import { TestDetailsTable } from "@/components/milk-test/TestDetailsTable";
 import { ImageModal } from "@/components/milk-test/ImageModal";
 import { LoginPrompt } from "@/components/auth/LoginPrompt";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, ClipboardList } from "lucide-react";
 import { Card, CardHeader, CardContent, CardTitle } from "@/components/ui/card";
 import { supabase } from "@/integrations/supabase/client";
 import { useState } from "react";
@@ -174,37 +174,38 @@ const ProductDetails = () => {
           <Card className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg border-2 border-gray-300 overflow-hidden animate-fade-in">
             {/* Product header section */}
             <CardHeader className="bg-white/50 backdrop-blur-sm pt-6 px-6 pb-4 border-b border-gray-200">
-              <div className="space-y-3">
-                {/* Brand - Product with inline badges */}
-                <div className="flex items-center gap-2 flex-wrap">
-                  <CardTitle className="text-xl font-semibold text-gray-900 m-0">
-                    <span translate="no">{product.brand_name}</span> - {product.product_name}
-                  </CardTitle>
-                  {(product.is_barista || (product.property_names && product.property_names.length > 0) || (product.flavor_names && product.flavor_names.length > 0)) && (
-                    <ProductPropertyBadges 
-                      isBarista={product.is_barista}
-                      propertyNames={product.property_names}
-                      flavorNames={product.flavor_names}
-                      compact={true}
-                      displayType="all"
-                      inline={true}
-                    />
-                  )}
+              <div className="space-y-2">
+                {/* Top row: Product name and Score badge */}
+                <div className="flex items-start justify-between gap-3">
+                  <div className="flex-1">
+                    <CardTitle className="text-xl font-semibold text-gray-900 m-0">
+                      <span translate="no">{product.brand_name}</span> - {product.product_name}
+                    </CardTitle>
+                    {/* Property badges directly below name */}
+                    {(product.is_barista || (product.property_names && product.property_names.length > 0) || (product.flavor_names && product.flavor_names.length > 0)) && (
+                      <div className="flex flex-wrap gap-2 mt-2">
+                        <ProductPropertyBadges 
+                          isBarista={product.is_barista}
+                          propertyNames={product.property_names}
+                          flavorNames={product.flavor_names}
+                          compact={true}
+                          displayType="all"
+                          inline={true}
+                        />
+                      </div>
+                    )}
+                  </div>
+                  <Badge variant={getScoreBadgeVariant(Number(product.avg_rating))} className="flex-shrink-0">
+                    {formatScore(Number(product.avg_rating))}
+                  </Badge>
                 </div>
                 
-                {/* Score and Tests in horizontal layout */}
-                <div className="flex items-center gap-4 text-sm">
-                  <div className="flex items-center gap-1">
-                    <span className="text-gray-500">Score:</span>
-                    <Badge variant={getScoreBadgeVariant(Number(product.avg_rating))} className="px-2 py-1 sm:px-2 sm:py-0.5 text-xs font-bold min-w-[2.5rem] flex items-center justify-center">
-                      {formatScore(Number(product.avg_rating))}
-                    </Badge>
-                  </div>
-                  <div className="flex items-center gap-1">
-                    <span className="text-gray-500">Tests:</span>
-                    <Badge variant="testCount" className="px-1.5 py-1 sm:px-2 sm:py-0.5 text-xs font-medium min-w-[2rem] flex items-center justify-center">
-                      {product.count}
-                    </Badge>
+                {/* Separator line */}
+                <div className="border-t border-gray-200 pt-2">
+                  {/* Bottom row: Test count */}
+                  <div className="flex items-center gap-1.5 text-sm text-gray-600">
+                    <ClipboardList className="w-4 h-4" />
+                    <span>{product.count} test{product.count !== 1 ? 's' : ''}</span>
                   </div>
                 </div>
               </div>
