@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { createContext, useContext, useState, useEffect, useCallback, ReactNode } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from '@/hooks/use-toast';
 import { Notification, NotificationPreferences } from '@/hooks/useNotifications';
@@ -23,7 +23,7 @@ export function NotificationProvider({ children }: { children: ReactNode }) {
   const [preferences, setPreferences] = useState<NotificationPreferences | null>(null);
   const [preferencesLoading, setPreferencesLoading] = useState(true);
 
-  const fetchNotifications = async () => {
+  const fetchNotifications = useCallback(async () => {
     try {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) {
@@ -53,9 +53,9 @@ export function NotificationProvider({ children }: { children: ReactNode }) {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
-  const fetchPreferences = async () => {
+  const fetchPreferences = useCallback(async () => {
     try {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) {
@@ -77,9 +77,9 @@ export function NotificationProvider({ children }: { children: ReactNode }) {
     } finally {
       setPreferencesLoading(false);
     }
-  };
+  }, []);
 
-  const markAsRead = async (notificationId: string) => {
+  const markAsRead = useCallback(async (notificationId: string) => {
     try {
       const { error } = await supabase
         .from('notifications')
@@ -100,9 +100,9 @@ export function NotificationProvider({ children }: { children: ReactNode }) {
         variant: "destructive",
       });
     }
-  };
+  }, []);
 
-  const markAllAsRead = async () => {
+  const markAllAsRead = useCallback(async () => {
     try {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) return;
@@ -132,9 +132,9 @@ export function NotificationProvider({ children }: { children: ReactNode }) {
         variant: "destructive",
       });
     }
-  };
+  }, [notifications]);
 
-  const updatePreferences = async (updates: Partial<Pick<NotificationPreferences, 'likes_enabled' | 'comments_enabled' | 'newsletter_enabled'>>) => {
+  const updatePreferences = useCallback(async (updates: Partial<Pick<NotificationPreferences, 'likes_enabled' | 'comments_enabled' | 'newsletter_enabled'>>) => {
     try {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) throw new Error('Not authenticated');
@@ -176,7 +176,7 @@ export function NotificationProvider({ children }: { children: ReactNode }) {
         variant: "destructive",
       });
     }
-  };
+  }, []);
 
   useEffect(() => {
     fetchNotifications();
@@ -219,7 +219,7 @@ export function NotificationProvider({ children }: { children: ReactNode }) {
       subscription.unsubscribe();
       supabase.removeChannel(channel);
     };
-  }, []);
+  }, [fetchNotifications, fetchPreferences]);
 
   return (
     <NotificationContext.Provider
