@@ -17,11 +17,8 @@ export const FeedProductInfo = ({
 }: FeedProductInfoProps) => {
   return (
     <div className="flex items-center gap-1.5 flex-wrap pt-3 border-t border-border/50">
-      <span className="text-sm font-medium text-foreground">
-        <span translate="no">{brandName}</span>
-      </span>
-      <span className="text-sm font-medium text-muted-foreground">
-        • {productName}
+      <span className="text-sm font-semibold text-foreground" translate="no">
+        {brandName} - {productName}
       </span>
       {isBarista && (
         <Badge variant="barista" className="text-xs font-medium px-1.5 py-0.5">
