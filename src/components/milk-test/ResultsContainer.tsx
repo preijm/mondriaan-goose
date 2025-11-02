@@ -82,7 +82,7 @@ export const ResultsContainer = ({
       ) : (
         <Card className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg border border-white/20 overflow-hidden animate-fade-in">
           <CardHeader className="bg-white/50 backdrop-blur-sm pb-4 pt-6 px-6">
-            <div className="flex items-center gap-4 mb-4">
+            <div className="flex items-center gap-4">
               <div className="flex-1">
                 <SearchBar
                   searchTerm={searchTerm}
@@ -99,7 +99,7 @@ export const ResultsContainer = ({
             
             {/* My Results Only Checkbox - Visible when logged in */}
             {user && (
-              <div className="flex items-center space-x-2">
+              <div className="flex items-center space-x-2 mt-4 pl-1">
                 <Checkbox
                   id="myResultsMain"
                   checked={filters.myResultsOnly}
