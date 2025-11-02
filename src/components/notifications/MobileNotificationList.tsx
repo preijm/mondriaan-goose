@@ -80,7 +80,7 @@ function NotificationItem({
         
         {productInfo && (
           <div className="flex flex-wrap items-center gap-1.5">
-            <span className="text-sm text-gray-900 font-medium">{productInfo}</span>
+            <span className="text-sm text-gray-900 font-semibold">{productInfo}</span>
             {isBarista && (
               <Badge variant="barista" className="text-xs">Barista</Badge>
             )}
