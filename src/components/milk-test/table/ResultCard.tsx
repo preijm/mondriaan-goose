@@ -42,9 +42,26 @@ export const ResultCard = ({
       <div className="space-y-2">
         {/* Top row: Product name and Score badge */}
         <div className="flex items-start justify-between gap-3">
-          <h2 className="text-base font-semibold text-gray-900 flex-1">
-            <span translate="no">{result.brand_name || "Unknown Brand"}</span> - {result.product_name || "Unknown Product"}
-          </h2>
+          <div className="flex-1">
+            <h2 className="text-base font-semibold text-gray-900">
+              <span translate="no">{result.brand_name || "Unknown Brand"}</span> - {result.product_name || "Unknown Product"}
+            </h2>
+            {/* Property badges directly below name */}
+            {(result.is_barista || (result.property_names && result.property_names.length > 0) || (result.flavor_names && result.flavor_names.length > 0)) && (
+              <div className="flex flex-wrap gap-2 mt-2">
+                <ProductPropertyBadges 
+                  isBarista={result.is_barista}
+                  propertyNames={result.property_names}
+                  flavorNames={result.flavor_names}
+                  compact={true}
+                  displayType="all"
+                  inline={true}
+                  filters={filters}
+                  onFiltersChange={onFiltersChange}
+                />
+              </div>
+            )}
+          </div>
           <div className="flex-shrink-0">
             <div className="bg-green-500 text-white rounded-lg px-3 py-2 flex flex-col items-center justify-center min-w-[60px]">
               <div className="text-xl font-bold leading-none">{formatScore(result.avg_rating)}</div>
@@ -52,22 +69,6 @@ export const ResultCard = ({
             </div>
           </div>
         </div>
-        
-        {/* Property badges */}
-        {(result.is_barista || (result.property_names && result.property_names.length > 0) || (result.flavor_names && result.flavor_names.length > 0)) && (
-          <div className="flex flex-wrap gap-2">
-            <ProductPropertyBadges 
-              isBarista={result.is_barista}
-              propertyNames={result.property_names}
-              flavorNames={result.flavor_names}
-              compact={true}
-              displayType="all"
-              inline={true}
-              filters={filters}
-              onFiltersChange={onFiltersChange}
-            />
-          </div>
-        )}
         
         {/* Separator line */}
         <div className="border-t border-gray-200 pt-2">
