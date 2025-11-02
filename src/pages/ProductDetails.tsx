@@ -152,7 +152,7 @@ const ProductDetails = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-800 via-slate-700 to-slate-800">
+    <div className="min-h-screen">
       <MenuBar />
       <LoginPrompt 
         isOpen={showLoginPrompt}
@@ -160,65 +160,61 @@ const ProductDetails = () => {
         productName={product?.product_name}
       />
       <BackgroundPattern>
-        <div className="container max-w-4xl mx-auto px-4 py-8 pt-32 relative z-10">
+        <div className="container max-w-6xl mx-auto px-4 py-8 pt-32 relative z-10">
           {/* Desktop: Show back button */}
           <div className="hidden lg:flex items-center mb-6">
             <Link to="/results">
-              <Button variant="outline" size="sm" className="gap-1 bg-background/80 hover:bg-background">
+              <Button variant="outline" size="sm" className="gap-1">
                 <ArrowLeft className="h-4 w-4" /> Back to results
               </Button>
             </Link>
           </div>
 
-          {/* Unified Product Details Card */}
-          <div className="bg-gradient-to-br from-slate-700 to-slate-600 rounded-2xl shadow-2xl border border-white/10 overflow-hidden animate-fade-in">
-            {/* Product Header */}
-            <div className="p-6 border-b border-white/10">
-              <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
-                <div className="flex-1">
-                  <h1 className="text-2xl sm:text-3xl font-bold text-white mb-3">
-                    <span translate="no">{product.brand_name}</span> - {product.product_name}
-                  </h1>
-                  <div className="flex items-center gap-2 flex-wrap">
-                    {(product.is_barista || (product.property_names && product.property_names.length > 0) || (product.flavor_names && product.flavor_names.length > 0)) && (
-                      <ProductPropertyBadges 
-                        isBarista={product.is_barista}
-                        propertyNames={product.property_names}
-                        flavorNames={product.flavor_names}
-                        compact={true}
-                        displayType="all"
-                        inline={true}
-                      />
-                    )}
-                  </div>
+          {/* Product header card - matching results page style */}
+          <div className="bg-white/80 backdrop-blur-sm rounded-xl shadow-lg border-2 border-gray-300 p-4 animate-fade-in max-w-sm w-full mb-6">
+            <div className="space-y-2">
+              {/* Brand - Product with inline badges */}
+              <div className="flex items-center gap-2 flex-wrap">
+                <h2 className="text-sm font-semibold text-gray-900">
+                  <span translate="no">{product.brand_name}</span> - {product.product_name}
+                </h2>
+                {(product.is_barista || (product.property_names && product.property_names.length > 0) || (product.flavor_names && product.flavor_names.length > 0)) && (
+                  <ProductPropertyBadges 
+                    isBarista={product.is_barista}
+                    propertyNames={product.property_names}
+                    flavorNames={product.flavor_names}
+                    compact={true}
+                    displayType="all"
+                    inline={true}
+                  />
+                )}
+              </div>
+              
+              {/* Score and Tests in horizontal layout */}
+              <div className="flex items-center gap-4 text-sm">
+                <div className="flex items-center gap-1">
+                  <span className="text-gray-500">Score:</span>
+                  <Badge variant={getScoreBadgeVariant(Number(product.avg_rating))} className="px-2 py-1 sm:px-2 sm:py-0.5 text-xs font-bold min-w-[2.5rem] flex items-center justify-center">
+                    {formatScore(Number(product.avg_rating))}
+                  </Badge>
                 </div>
-                
-                {/* Score and Tests */}
-                <div className="flex sm:flex-col gap-6 sm:gap-2 sm:items-end">
-                  <div className="flex flex-col items-center sm:items-end">
-                    <span className="text-sm text-slate-300 mb-1">Score</span>
-                    <Badge 
-                      variant={getScoreBadgeVariant(Number(product.avg_rating))} 
-                      className="text-2xl font-bold px-4 py-2 min-w-[4rem] flex items-center justify-center"
-                    >
-                      {formatScore(Number(product.avg_rating))}
-                    </Badge>
-                  </div>
-                  <div className="flex flex-col items-center sm:items-end">
-                    <span className="text-sm text-slate-300 mb-1">Tests</span>
-                    <div className="text-2xl font-bold text-white">
-                      {product.count}
-                    </div>
-                  </div>
+                <div className="flex items-center gap-1">
+                  <span className="text-gray-500">Tests:</span>
+                  <Badge variant="testCount" className="px-1.5 py-1 sm:px-2 sm:py-0.5 text-xs font-medium min-w-[2rem] flex items-center justify-center">
+                    {product.count}
+                  </Badge>
                 </div>
               </div>
             </div>
+          </div>
 
-            {/* Test Results Section */}
-            <div className="bg-slate-800/40 p-6">
-              <h2 className="text-xl font-semibold text-white mb-4">Test Results</h2>
+          <Card className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg border border-white/20 overflow-hidden animate-fade-in">
+            <CardHeader className="bg-white/50 backdrop-blur-sm pt-6 px-6">
+              <CardTitle className="text-xl">Individual Tests</CardTitle>
+            </CardHeader>
+            <CardContent className="p-0">
               {isLoadingTests ? (
-                <div className="text-center py-12 text-slate-300">Loading test results...</div>
+                <div className="text-center py-8">Loading test results...</div>
               ) : (
                 <TestDetailsTable 
                   productTests={productTests} 
@@ -227,8 +223,8 @@ const ProductDetails = () => {
                   handleSort={handleSort}
                 />
               )}
-            </div>
-          </div>
+            </CardContent>
+          </Card>
         </div>
       </BackgroundPattern>
 

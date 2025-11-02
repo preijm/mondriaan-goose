@@ -191,7 +191,7 @@ const Results = () => {
   return <div className="min-h-screen">
       <MenuBar />
       <BackgroundPattern>
-        <div className="container max-w-7xl mx-auto px-4 sm:px-6 py-8 pt-24 pb-20 sm:pb-8 relative z-10">
+        <div className="container max-w-7xl mx-auto px-3 sm:px-6 py-8 pt-24 pb-20 sm:pb-8 relative z-10">
           {/* Desktop only: View switcher */}
           {!isMobile && <div className="flex justify-end mb-8">
               <Tabs value={view} onValueChange={(v: 'table' | 'charts' | 'map') => setView(v)} className="w-auto">

@@ -4,7 +4,6 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { Toaster } from "@/components/ui/toaster";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider } from "@/contexts/AuthContext";
-import { NotificationProvider } from "@/contexts/NotificationContext";
 import { ProtectedRoute } from "@/components/common/ProtectedRoute";
 import Home from "./pages/Home";
 import Results from "./pages/Results";
@@ -39,9 +38,8 @@ const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
-        <NotificationProvider>
-          <TooltipProvider>
-            <BrowserRouter>
+        <TooltipProvider>
+          <BrowserRouter>
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/dashboard" element={<Navigate to="/results" replace />} />
@@ -103,7 +101,6 @@ const App = () => {
             <Toaster />
           </BrowserRouter>
         </TooltipProvider>
-        </NotificationProvider>
       </AuthProvider>
     </QueryClientProvider>
   );

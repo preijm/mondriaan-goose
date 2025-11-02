@@ -1,4 +1,7 @@
-import { useNotificationContext } from '@/contexts/NotificationContext';
+import React, { useState, useEffect } from "react";
+import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/hooks/use-toast";
+import { ToastAction } from "@/components/ui/toast";
 
 export interface Notification {
   id: string;
@@ -24,10 +27,226 @@ export interface NotificationPreferences {
 }
 
 export function useNotifications() {
-  return useNotificationContext();
+  const [notifications, setNotifications] = useState<Notification[]>([]);
+  const [unreadCount, setUnreadCount] = useState(0);
+  const [loading, setLoading] = useState(true);
+  const { toast } = useToast();
+
+  const fetchNotifications = async () => {
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
+
+      const { data, error } = await supabase
+        .from('notifications')
+        .select('*')
+        .eq('user_id', user.id)
+        .order('created_at', { ascending: false });
+
+      if (error) throw error;
+
+      setNotifications(data || []);
+      setUnreadCount((data || []).filter(n => !n.is_read).length);
+    } catch (error: any) {
+      console.error('Error fetching notifications:', error);
+      toast({
+        title: "Error",
+        description: "Failed to load notifications",
+        variant: "destructive"
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const markAsRead = async (notificationId: string) => {
+    try {
+      const { error } = await supabase
+        .from('notifications')
+        .update({ is_read: true })
+        .eq('id', notificationId);
+
+      if (error) throw error;
+
+      setNotifications(prev => 
+        prev.map(n => n.id === notificationId ? { ...n, is_read: true } : n)
+      );
+      setUnreadCount(prev => Math.max(0, prev - 1));
+    } catch (error: any) {
+      console.error('Error marking notification as read:', error);
+      toast({
+        title: "Error",
+        description: "Failed to update notification",
+        variant: "destructive"
+      });
+    }
+  };
+
+  const markAllAsRead = async () => {
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
+
+      const { error } = await supabase
+        .from('notifications')
+        .update({ is_read: true })
+        .eq('user_id', user.id)
+        .eq('is_read', false);
+
+      if (error) throw error;
+
+      setNotifications(prev => prev.map(n => ({ ...n, is_read: true })));
+      setUnreadCount(0);
+    } catch (error: any) {
+      console.error('Error marking all notifications as read:', error);
+      toast({
+        title: "Error",
+        description: "Failed to update notifications",
+        variant: "destructive"
+      });
+    }
+  };
+
+  useEffect(() => {
+    fetchNotifications();
+
+    // Set up real-time subscription for new notifications
+    const setupSubscription = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
+
+      const channel = supabase
+        .channel('notifications-changes')
+        .on(
+          'postgres_changes',
+          {
+            event: 'INSERT',
+            schema: 'public',
+            table: 'notifications',
+            filter: `user_id=eq.${user.id}`
+          },
+          (payload) => {
+            const newNotification = payload.new as Notification;
+            setNotifications(prev => [newNotification, ...prev]);
+            setUnreadCount(prev => prev + 1);
+
+            // Show a toast with an action to open notifications
+            const title = newNotification.title || "New notification";
+            const description = newNotification.message || undefined;
+            // Use React.createElement since this is a .ts file
+            const actionEl = React.createElement(
+              ToastAction as any,
+              {
+                altText: "Open notifications",
+                onClick: () => {
+                  window.dispatchEvent(new Event("lov-open-notifications"));
+                },
+              },
+              "Open"
+            );
+            toast({ title, description, action: actionEl as any });
+          }
+        )
+        .subscribe();
+
+      return () => {
+        supabase.removeChannel(channel);
+      };
+    };
+
+    const cleanup = setupSubscription();
+    return () => {
+      cleanup.then(fn => fn && fn());
+    };
+  }, []);
+
+  return {
+    notifications,
+    unreadCount,
+    loading,
+    markAsRead,
+    markAllAsRead,
+    refetch: fetchNotifications
+  };
 }
 
 export function useNotificationPreferences() {
-  const { preferences, preferencesLoading, updatePreferences } = useNotificationContext();
-  return { preferences, loading: preferencesLoading, updatePreferences };
+  const [preferences, setPreferences] = useState<NotificationPreferences | null>(null);
+  const [loading, setLoading] = useState(true);
+  const { toast } = useToast();
+
+  const fetchPreferences = async () => {
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
+
+      const { data, error } = await supabase
+        .from('notification_preferences')
+        .select('*')
+        .eq('user_id', user.id)
+        .maybeSingle();
+
+      if (error) throw error;
+
+      setPreferences(data);
+    } catch (error: any) {
+      console.error('Error fetching notification preferences:', error);
+      toast({
+        title: "Error",
+        description: "Failed to load notification preferences",
+        variant: "destructive"
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const updatePreferences = async (updates: Partial<Pick<NotificationPreferences, 'likes_enabled' | 'comments_enabled' | 'newsletter_enabled'>>) => {
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
+
+      // First try to update existing record
+      const { data: updateData, error: updateError } = await supabase
+        .from('notification_preferences')
+        .update(updates)
+        .eq('user_id', user.id)
+        .select()
+        .single();
+
+      if (updateError && updateError.code === 'PGRST116') {
+        // No existing record found, create a new one
+        const { data: insertData, error: insertError } = await supabase
+          .from('notification_preferences')
+          .insert({
+            user_id: user.id,
+            likes_enabled: true,
+            comments_enabled: true,
+            newsletter_enabled: true,
+            ...updates
+          })
+          .select()
+          .single();
+
+        if (insertError) throw insertError;
+        setPreferences(insertData);
+      } else if (updateError) {
+        throw updateError;
+      } else {
+        setPreferences(updateData);
+      }
+    } catch (error: any) {
+      console.error('Error updating notification preferences:', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchPreferences();
+  }, []);
+
+  return {
+    preferences,
+    loading,
+    updatePreferences
+  };
 }
