@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Search, SlidersHorizontal, User, ArrowUpDown, X } from "lucide-react";
+import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
@@ -227,15 +228,14 @@ export const MobileFilterBar = ({
             <Button
               variant="outline"
               size="icon"
-              className={`h-11 w-11 flex-shrink-0 relative rounded-lg ${
-                activeFilterCount > 0
-                  ? 'bg-primary text-primary-foreground border-primary'
-                  : 'bg-background border-border'
-              }`}
+              className={cn(
+                "h-11 w-11 flex-shrink-0 relative rounded-lg transition-colors",
+                activeFilterCount > 0 && "bg-[hsl(var(--filter-active))] text-white border-[hsl(var(--filter-active))] hover:bg-[hsl(var(--filter-active))]/90"
+              )}
             >
               <SlidersHorizontal className="h-5 w-5" />
               {activeFilterCount > 0 && (
-                <span className="absolute -top-1 -right-1 bg-primary text-primary-foreground rounded-full w-5 h-5 text-xs font-semibold flex items-center justify-center border-2 border-background">
+                <span className="absolute -top-1 -right-1 bg-white text-[hsl(var(--filter-active))] rounded-full w-5 h-5 text-xs font-semibold flex items-center justify-center border-2 border-background">
                   {activeFilterCount}
                 </span>
               )}
@@ -272,11 +272,12 @@ export const MobileFilterBar = ({
                 </div>
                 <Badge
                   variant="barista"
-                  className={`cursor-pointer transition-all ${
+                  className={cn(
+                    "cursor-pointer transition-all",
                     filters.barista
-                      ? 'bg-amber-600 text-white border-amber-600 shadow-md'
-                      : 'hover:bg-amber-50'
-                  }`}
+                      ? "bg-[hsl(var(--filter-active))] text-white border-[hsl(var(--filter-active))] shadow-md"
+                      : "hover:bg-amber-50"
+                  )}
                   onClick={handleBaristaToggle}
                 >
                   Barista
@@ -304,11 +305,12 @@ export const MobileFilterBar = ({
                       <Badge
                       key={property.id}
                       variant="category"
-                      className={`cursor-pointer transition-all ${
+                      className={cn(
+                        "cursor-pointer transition-all",
                         filters.properties.includes(property.key)
-                          ? 'bg-primary text-primary-foreground border-primary'
-                          : 'bg-background text-foreground border-border hover:bg-muted'
-                      }`}
+                          ? "bg-[hsl(var(--filter-active))] text-white border-[hsl(var(--filter-active))]"
+                          : "bg-background text-foreground border-border hover:bg-muted"
+                      )}
                       onClick={() => handlePropertyToggle(property.key)}
                       >
                         {property.name}
@@ -339,11 +341,12 @@ export const MobileFilterBar = ({
                       <Badge
                       key={flavor.id}
                       variant="flavor"
-                      className={`cursor-pointer transition-all ${
+                      className={cn(
+                        "cursor-pointer transition-all",
                         filters.flavors.includes(flavor.key)
-                          ? 'bg-primary text-primary-foreground border-primary'
-                          : 'bg-background text-foreground border-border hover:bg-muted'
-                      }`}
+                          ? "bg-[hsl(var(--filter-active))] text-white border-[hsl(var(--filter-active))]"
+                          : "bg-background text-foreground border-border hover:bg-muted"
+                      )}
                       onClick={() => handleFlavorToggle(flavor.key)}
                       >
                         {flavor.name}
@@ -379,11 +382,10 @@ export const MobileFilterBar = ({
             variant="outline"
             size="icon"
             onClick={handleMyResultsToggle}
-            className={`h-11 w-11 flex-shrink-0 rounded-lg ${
-              filters.myResultsOnly
-                ? 'bg-primary text-primary-foreground border-primary'
-                : 'bg-background border-border'
-            }`}
+            className={cn(
+              "h-11 w-11 flex-shrink-0 rounded-lg transition-colors",
+              filters.myResultsOnly && "bg-[hsl(var(--filter-active))] text-white border-[hsl(var(--filter-active))] hover:bg-[hsl(var(--filter-active))]/90"
+            )}
           >
             <User className="h-5 w-5" />
           </Button>
