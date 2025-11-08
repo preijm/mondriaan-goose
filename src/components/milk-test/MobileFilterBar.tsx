@@ -227,15 +227,15 @@ export const MobileFilterBar = ({
           <PopoverTrigger asChild>
             <Button
               variant="outline"
-              size="icon"
               className={cn(
-                "h-11 w-11 flex-shrink-0 relative rounded-lg transition-colors",
+                "flex-1 h-11 flex items-center justify-center gap-2 rounded-lg transition-colors",
                 activeFilterCount > 0 && "bg-[hsl(var(--filter-active))] text-white border-[hsl(var(--filter-active))] hover:bg-[hsl(var(--filter-active))]/90"
               )}
             >
-              <SlidersHorizontal className="h-5 w-5" />
+              <SlidersHorizontal className="h-4 w-4" />
+              <span className="text-sm font-medium">Filter</span>
               {activeFilterCount > 0 && (
-                <span className="absolute -top-1 -right-1 bg-white text-[hsl(var(--filter-active))] rounded-full w-5 h-5 text-xs font-semibold flex items-center justify-center border-2 border-background">
+                <span className="ml-1 bg-white text-[hsl(var(--filter-active))] rounded-full min-w-[20px] h-5 px-1.5 text-xs font-semibold flex items-center justify-center">
                   {activeFilterCount}
                 </span>
               )}
@@ -380,14 +380,14 @@ export const MobileFilterBar = ({
         {user && (
           <Button
             variant="outline"
-            size="icon"
             onClick={handleMyResultsToggle}
             className={cn(
-              "h-11 w-11 flex-shrink-0 rounded-lg transition-colors",
+              "flex-1 h-11 flex items-center justify-center gap-2 rounded-lg transition-colors",
               filters.myResultsOnly && "bg-[hsl(var(--filter-active))] text-white border-[hsl(var(--filter-active))] hover:bg-[hsl(var(--filter-active))]/90"
             )}
           >
-            <User className="h-5 w-5" />
+            <User className="h-4 w-4" />
+            <span className="text-sm font-medium">My Results</span>
           </Button>
         )}
       </div>
