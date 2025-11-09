@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Search, SlidersHorizontal, User, ArrowUpDown, X, ArrowUp, ArrowDown } from "lucide-react";
+import { Search, SlidersHorizontal, User, ArrowUpDown, X, ArrowUp, ArrowDown, Star, Calendar, Tag, Package, Trophy } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -166,11 +166,11 @@ export const MobileFilterBar = ({
     filters.flavors.length;
 
   const sortOptions = [
-    { key: 'avg_rating', label: 'Score' },
-    { key: 'most_recent_date', label: 'Newest' },
-    { key: 'brand_name', label: 'Brand' },
-    { key: 'product_name', label: 'Product' },
-    { key: 'count', label: 'Tests' }
+    { key: 'avg_rating', label: 'Score', icon: Star },
+    { key: 'most_recent_date', label: 'Date', icon: Calendar },
+    { key: 'brand_name', label: 'Brand', icon: Tag },
+    { key: 'product_name', label: 'Product', icon: Package },
+    { key: 'count', label: 'Tests', icon: Trophy }
   ];
 
   const currentSort = sortOptions.find(option => option.key === sortConfig.column);
@@ -211,13 +211,25 @@ export const MobileFilterBar = ({
             </Button>
           </DrawerTrigger>
           <DrawerContent>
-            <DrawerHeader>
+            <DrawerHeader className="flex flex-row items-center justify-between">
               <DrawerTitle>Sort by</DrawerTitle>
-              <DrawerDescription>Choose how to sort the products</DrawerDescription>
+              {onClearSort && sortConfig.column !== 'avg_rating' && (
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => {
+                    onClearSort();
+                  }}
+                  className="text-primary font-medium h-auto p-0"
+                >
+                  Clear
+                </Button>
+              )}
             </DrawerHeader>
-            <div className="px-4 pb-4 space-y-2">
+            <div className="px-4 pb-4 space-y-3">
               {sortOptions.map((option) => {
                 const isActive = sortConfig.column === option.key;
+                const Icon = option.icon;
                 const getDirectionLabel = () => {
                   if (option.key === 'avg_rating') return sortConfig.direction === 'asc' ? 'Low' : 'High';
                   if (option.key === 'most_recent_date') return sortConfig.direction === 'asc' ? 'Old' : 'New';
@@ -230,9 +242,9 @@ export const MobileFilterBar = ({
                   <div
                     key={option.key}
                     className={cn(
-                      "flex items-center justify-between h-12 px-4 rounded-lg border cursor-pointer transition-colors",
+                      "flex items-center justify-between h-16 px-4 rounded-xl border-2 cursor-pointer transition-all",
                       isActive 
-                        ? "bg-primary/10 border-primary" 
+                        ? "bg-primary/5 border-primary" 
                         : "border-border hover:bg-muted"
                     )}
                     onClick={() => {
@@ -241,44 +253,56 @@ export const MobileFilterBar = ({
                       }
                     }}
                   >
-                    <span className={cn("font-medium", isActive && "text-primary")}>
-                      {option.label}
-                    </span>
-                    {isActive && (
+                    <div className="flex items-center gap-3">
+                      <div className={cn(
+                        "w-10 h-10 rounded-lg flex items-center justify-center",
+                        isActive ? "bg-primary/10" : "bg-muted"
+                      )}>
+                        <Icon className={cn(
+                          "h-5 w-5",
+                          isActive ? "text-primary" : "text-muted-foreground"
+                        )} />
+                      </div>
+                      <span className={cn(
+                        "text-base font-medium",
+                        isActive && "text-primary"
+                      )}>
+                        {option.label}
+                      </span>
+                    </div>
+                    {isActive ? (
                       <Button
                         size="sm"
-                        variant="default"
-                        className="h-8 px-3 gap-1.5"
+                        className="h-9 px-4 gap-2 rounded-lg"
                         onClick={(e) => {
                           e.stopPropagation();
                           onSort(option.key);
                         }}
                       >
                         {sortConfig.direction === 'asc' ? (
-                          <ArrowUp className="h-3.5 w-3.5" />
+                          <ArrowUp className="h-4 w-4" />
                         ) : (
-                          <ArrowDown className="h-3.5 w-3.5" />
+                          <ArrowDown className="h-4 w-4" />
                         )}
-                        <span className="text-xs font-medium">{getDirectionLabel()}</span>
+                        <span className="text-sm font-medium">{getDirectionLabel()}</span>
                       </Button>
+                    ) : (
+                      <span className="text-sm text-muted-foreground">
+                        {sortConfig.direction === 'asc' ? <ArrowDown className="h-4 w-4" /> : <ArrowUp className="h-4 w-4" />}
+                      </span>
                     )}
                   </div>
                 );
               })}
             </div>
-            {onClearSort && sortConfig.column !== 'avgRating' && (
-              <DrawerFooter>
-                <Button
-                  variant="outline"
-                  onClick={() => {
-                    onClearSort();
-                    setIsSortOpen(false);
-                  }}
-                >
-                  Clear Sort
-                </Button>
-              </DrawerFooter>
-            )}
+            <DrawerFooter>
+              <Button
+                onClick={() => setIsSortOpen(false)}
+                className="w-full h-12 text-base font-medium"
+              >
+                Apply Sort
+              </Button>
+            </DrawerFooter>
           </DrawerContent>
         </Drawer>
 
