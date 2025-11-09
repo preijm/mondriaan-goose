@@ -218,23 +218,51 @@ export const MobileFilterBar = ({
             <div className="px-4 pb-4 space-y-2">
               {sortOptions.map((option) => {
                 const isActive = sortConfig.column === option.key;
+                const getDirectionLabel = () => {
+                  if (option.key === 'avg_rating') return sortConfig.direction === 'asc' ? 'Low' : 'High';
+                  if (option.key === 'most_recent_date') return sortConfig.direction === 'asc' ? 'Old' : 'New';
+                  if (option.key === 'brand_name' || option.key === 'product_name') return sortConfig.direction === 'asc' ? 'A-Z' : 'Z-A';
+                  if (option.key === 'count') return sortConfig.direction === 'asc' ? 'Least' : 'Most';
+                  return sortConfig.direction === 'asc' ? 'Asc' : 'Desc';
+                };
+                
                 return (
-                  <Button
+                  <div
                     key={option.key}
-                    variant={isActive ? "default" : "outline"}
-                    className="w-full justify-between h-12"
+                    className={cn(
+                      "flex items-center justify-between h-12 px-4 rounded-lg border cursor-pointer transition-colors",
+                      isActive 
+                        ? "bg-primary/10 border-primary" 
+                        : "border-border hover:bg-muted"
+                    )}
                     onClick={() => {
-                      onSort(option.key);
-                      setIsSortOpen(false);
+                      if (!isActive) {
+                        onSort(option.key);
+                      }
                     }}
                   >
-                    <span>{option.label}</span>
+                    <span className={cn("font-medium", isActive && "text-primary")}>
+                      {option.label}
+                    </span>
                     {isActive && (
-                      sortConfig.direction === 'asc' 
-                        ? <ArrowUp className="h-4 w-4" />
-                        : <ArrowDown className="h-4 w-4" />
+                      <Button
+                        size="sm"
+                        variant="default"
+                        className="h-8 px-3 gap-1.5"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          onSort(option.key);
+                        }}
+                      >
+                        {sortConfig.direction === 'asc' ? (
+                          <ArrowUp className="h-3.5 w-3.5" />
+                        ) : (
+                          <ArrowDown className="h-3.5 w-3.5" />
+                        )}
+                        <span className="text-xs font-medium">{getDirectionLabel()}</span>
+                      </Button>
                     )}
-                  </Button>
+                  </div>
                 );
               })}
             </div>
