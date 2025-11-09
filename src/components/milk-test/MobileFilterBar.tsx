@@ -163,8 +163,7 @@ export const MobileFilterBar = ({
   const activeFilterCount = 
     (filters.barista ? 1 : 0) + 
     filters.properties.length + 
-    filters.flavors.length +
-    (filters.myResultsOnly ? 1 : 0);
+    filters.flavors.length;
 
   const sortOptions = [
     { key: 'avg_rating', label: 'Score' },
@@ -280,37 +279,6 @@ export const MobileFilterBar = ({
               <DrawerDescription>Filter products by type, properties, and flavors</DrawerDescription>
             </DrawerHeader>
             <div className="px-4 pb-4 overflow-y-auto space-y-4">
-              {/* My Results Filter */}
-              {user && (
-                <div>
-                  <div className="flex items-center justify-between mb-2">
-                    <h4 className="text-sm font-medium">Show</h4>
-                    {filters.myResultsOnly && (
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={handleMyResultsToggle}
-                        className="text-xs h-auto py-1 text-[hsl(var(--filter-active))]"
-                      >
-                        Clear
-                      </Button>
-                    )}
-                  </div>
-                  <Badge
-                    variant="default"
-                    className={cn(
-                      "cursor-pointer transition-all",
-                      filters.myResultsOnly
-                        ? "bg-[hsl(var(--filter-active))] text-white border-[hsl(var(--filter-active))] shadow-md"
-                        : "bg-background text-foreground border-border hover:bg-muted"
-                    )}
-                    onClick={handleMyResultsToggle}
-                  >
-                    My Results Only
-                  </Badge>
-                </div>
-              )}
-
               {/* Barista Filter */}
               <div>
                 <div className="flex items-center justify-between mb-2">
@@ -431,6 +399,21 @@ export const MobileFilterBar = ({
             </DrawerFooter>
           </DrawerContent>
         </Drawer>
+
+        {/* My Results Button */}
+        {user && (
+          <Button
+            variant="outline"
+            onClick={handleMyResultsToggle}
+            className={cn(
+              "flex-1 h-11 flex items-center justify-center gap-2 rounded-lg transition-colors",
+              filters.myResultsOnly && "bg-[hsl(var(--filter-active))] text-white border-[hsl(var(--filter-active))] hover:bg-[hsl(var(--filter-active))]/90"
+            )}
+          >
+            <User className="h-4 w-4" />
+            <span className="text-sm font-medium">My Results</span>
+          </Button>
+        )}
       </div>
 
       {/* Results Count */}
