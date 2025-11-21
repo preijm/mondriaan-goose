@@ -66,8 +66,14 @@ export const TestDetailsAccordion = ({ productTests, handleImageClick }: TestDet
                 </div>
               </div>
 
-              {/* Chevron aligned to right (score badge hidden on mobile) */}
+              {/* Score badge and chevron aligned to right */}
               <div className="flex items-center gap-2 flex-shrink-0">
+                <Badge 
+                  variant={getScoreBadgeVariant(Number(test.rating))}
+                  className="flex-shrink-0"
+                >
+                  {formatScore(Number(test.rating))}
+                </Badge>
                 <ChevronDown className="h-5 w-5 text-gray-400 transition-transform duration-200 group-data-[state=open]:rotate-180" />
               </div>
             </div>
