@@ -3,6 +3,7 @@ import MenuBar from "@/components/MenuBar";
 import MobileFooter from "@/components/MobileFooter";
 import { Coffee, TrendingUp, Users } from "lucide-react";
 import BackgroundPattern from "@/components/BackgroundPattern";
+import { motion } from "framer-motion";
 const About = () => {
   return <div className="min-h-screen">
       <MenuBar />
@@ -19,7 +20,13 @@ const About = () => {
               <div className="absolute left-6 sm:left-1/2 top-0 bottom-0 w-0.5 bg-primary/30 -translate-x-1/2 hidden sm:block" />
               
               {/* Timeline Item 1 */}
-              <div className="relative mb-12 sm:mb-16">
+              <motion.div 
+                className="relative mb-12 sm:mb-16"
+                initial={{ opacity: 0, y: 50 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-100px" }}
+                transition={{ duration: 0.6, ease: "easeOut" }}
+              >
                 <div className="flex items-start gap-4 sm:gap-8">
                   <div className="flex-shrink-0 w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-primary flex items-center justify-center relative z-10">
                     <Coffee className="w-6 h-6 sm:w-8 sm:h-8 text-primary-foreground" />
@@ -33,10 +40,16 @@ const About = () => {
                     </p>
                   </div>
                 </div>
-              </div>
+              </motion.div>
 
               {/* Timeline Item 2 */}
-              <div className="relative mb-12 sm:mb-16">
+              <motion.div 
+                className="relative mb-12 sm:mb-16"
+                initial={{ opacity: 0, y: 50 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-100px" }}
+                transition={{ duration: 0.6, ease: "easeOut", delay: 0.2 }}
+              >
                 <div className="flex items-start gap-4 sm:gap-8 sm:flex-row-reverse">
                   <div className="flex-shrink-0 w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-primary flex items-center justify-center relative z-10">
                     <TrendingUp className="w-6 h-6 sm:w-8 sm:h-8 text-primary-foreground" />
@@ -50,10 +63,16 @@ const About = () => {
                     </p>
                   </div>
                 </div>
-              </div>
+              </motion.div>
 
               {/* Timeline Item 3 */}
-              <div className="relative">
+              <motion.div 
+                className="relative"
+                initial={{ opacity: 0, y: 50 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-100px" }}
+                transition={{ duration: 0.6, ease: "easeOut", delay: 0.4 }}
+              >
                 <div className="flex items-start gap-4 sm:gap-8">
                   <div className="flex-shrink-0 w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-primary flex items-center justify-center relative z-10">
                     <Users className="w-6 h-6 sm:w-8 sm:h-8 text-primary-foreground" />
@@ -67,7 +86,7 @@ const About = () => {
                     </p>
                   </div>
                 </div>
-              </div>
+              </motion.div>
             </div>
           </div>
         </div>
