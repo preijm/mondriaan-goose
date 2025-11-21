@@ -4,21 +4,27 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
-import { Save, Lock, User, Shield, Bell } from "lucide-react";
+import { Save, Lock, User, Shield, Bell, Globe, HelpCircle, LogOut, ChevronRight, Moon } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Switch } from "@/components/ui/switch";
 import MenuBar from "@/components/MenuBar";
 import MobileFooter from "@/components/MobileFooter";
 import BackgroundPattern from "@/components/BackgroundPattern";
 import { CountrySelect } from "@/components/milk-test/CountrySelect";
 import NotificationSettings from "@/components/settings/NotificationSettings";
+import { useIsMobile } from "@/hooks/use-mobile";
 const Account = () => {
   const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [defaultCountry, setDefaultCountry] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [userId, setUserId] = useState<string | null>(null);
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [isChangingPassword, setIsChangingPassword] = useState(false);
+  const [darkMode, setDarkMode] = useState(false);
+  const isMobile = useIsMobile();
   const navigate = useNavigate();
   const {
     toast
@@ -35,6 +41,7 @@ const Account = () => {
         return;
       }
       setUserId(user.id);
+      setEmail(user.email || "");
       const {
         data: profile
       } = await supabase.from('profiles').select('username, default_country_code').eq('id', user.id).maybeSingle();
@@ -116,7 +123,184 @@ const Account = () => {
       setIsChangingPassword(false);
     }
   };
+  
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    navigate('/auth');
+  };
+  
+  const getInitials = (name: string) => {
+    return name
+      .split(' ')
+      .map(word => word[0])
+      .join('')
+      .toUpperCase()
+      .slice(0, 2);
+  };
+  
+  // Mobile view
+  if (isMobile) {
+    return (
+      <div className="min-h-screen bg-background">
+        <MenuBar />
+        
+        {/* Green Header */}
+        <div className="bg-primary pt-16 pb-6 px-4">
+          <h1 className="text-3xl font-bold text-primary-foreground">Settings</h1>
+        </div>
+        
+        {/* User Profile Card */}
+        <div className="bg-primary px-4 pb-6">
+          <div className="bg-card rounded-2xl p-4 flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <Avatar className="h-16 w-16">
+                <AvatarFallback className="bg-primary text-primary-foreground text-xl font-bold">
+                  {getInitials(username || "User")}
+                </AvatarFallback>
+              </Avatar>
+              <div>
+                <h2 className="font-bold text-lg text-foreground">{username || "User"}</h2>
+                <p className="text-sm text-muted-foreground">{email}</p>
+              </div>
+            </div>
+            <ChevronRight className="w-5 h-5 text-muted-foreground" />
+          </div>
+        </div>
+        
+        {/* Settings Content */}
+        <div className="px-4 pb-24">
+          {/* Account Section */}
+          <div className="mb-6">
+            <h3 className="text-xs font-semibold text-muted-foreground uppercase mb-3 px-1">
+              Account
+            </h3>
+            
+            <div className="bg-card rounded-2xl overflow-hidden divide-y divide-border">
+              <button 
+                onClick={() => navigate('/account/profile')}
+                className="w-full p-4 flex items-center gap-4 hover:bg-muted/50 transition-colors"
+              >
+                <div className="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0">
+                  <User className="w-6 h-6 text-blue-600" />
+                </div>
+                <div className="flex-1 text-left">
+                  <h4 className="font-semibold text-foreground">Profile</h4>
+                  <p className="text-sm text-muted-foreground">Edit your personal information</p>
+                </div>
+                <ChevronRight className="w-5 h-5 text-muted-foreground flex-shrink-0" />
+              </button>
+              
+              <button 
+                onClick={() => navigate('/account/security')}
+                className="w-full p-4 flex items-center gap-4 hover:bg-muted/50 transition-colors"
+              >
+                <div className="w-12 h-12 rounded-full bg-purple-100 flex items-center justify-center flex-shrink-0">
+                  <Shield className="w-6 h-6 text-purple-600" />
+                </div>
+                <div className="flex-1 text-left">
+                  <h4 className="font-semibold text-foreground">Security</h4>
+                  <p className="text-sm text-muted-foreground">Password and authentication</p>
+                </div>
+                <ChevronRight className="w-5 h-5 text-muted-foreground flex-shrink-0" />
+              </button>
+            </div>
+          </div>
+          
+          {/* Preferences Section */}
+          <div className="mb-6">
+            <h3 className="text-xs font-semibold text-muted-foreground uppercase mb-3 px-1">
+              Preferences
+            </h3>
+            
+            <div className="bg-card rounded-2xl overflow-hidden divide-y divide-border">
+              <button 
+                onClick={() => navigate('/account/notifications')}
+                className="w-full p-4 flex items-center gap-4 hover:bg-muted/50 transition-colors"
+              >
+                <div className="w-12 h-12 rounded-full bg-orange-100 flex items-center justify-center flex-shrink-0">
+                  <Bell className="w-6 h-6 text-orange-600" />
+                </div>
+                <div className="flex-1 text-left">
+                  <h4 className="font-semibold text-foreground">Notifications</h4>
+                  <p className="text-sm text-muted-foreground">Manage your alerts</p>
+                </div>
+                <ChevronRight className="w-5 h-5 text-muted-foreground flex-shrink-0" />
+              </button>
+              
+              <div className="w-full p-4 flex items-center gap-4">
+                <div className="w-12 h-12 rounded-full bg-indigo-100 flex items-center justify-center flex-shrink-0">
+                  <Moon className="w-6 h-6 text-indigo-600" />
+                </div>
+                <div className="flex-1 text-left">
+                  <h4 className="font-semibold text-foreground">Dark Mode</h4>
+                  <p className="text-sm text-muted-foreground">Toggle dark theme</p>
+                </div>
+                <Switch 
+                  checked={darkMode}
+                  onCheckedChange={setDarkMode}
+                  className="flex-shrink-0"
+                />
+              </div>
+              
+              <button className="w-full p-4 flex items-center gap-4 hover:bg-muted/50 transition-colors">
+                <div className="w-12 h-12 rounded-full bg-teal-100 flex items-center justify-center flex-shrink-0">
+                  <Globe className="w-6 h-6 text-teal-600" />
+                </div>
+                <div className="flex-1 text-left">
+                  <h4 className="font-semibold text-foreground">Language</h4>
+                  <p className="text-sm text-muted-foreground">English (US)</p>
+                </div>
+                <ChevronRight className="w-5 h-5 text-muted-foreground flex-shrink-0" />
+              </button>
+            </div>
+          </div>
+          
+          {/* Support Section */}
+          <div className="mb-6">
+            <h3 className="text-xs font-semibold text-muted-foreground uppercase mb-3 px-1">
+              Support
+            </h3>
+            
+            <div className="bg-card rounded-2xl overflow-hidden">
+              <button 
+                onClick={() => navigate('/contact')}
+                className="w-full p-4 flex items-center gap-4 hover:bg-muted/50 transition-colors"
+              >
+                <div className="w-12 h-12 rounded-full bg-yellow-100 flex items-center justify-center flex-shrink-0">
+                  <HelpCircle className="w-6 h-6 text-yellow-600" />
+                </div>
+                <div className="flex-1 text-left">
+                  <h4 className="font-semibold text-foreground">Help Center</h4>
+                  <p className="text-sm text-muted-foreground">FAQs and support</p>
+                </div>
+                <ChevronRight className="w-5 h-5 text-muted-foreground flex-shrink-0" />
+              </button>
+            </div>
+          </div>
+          
+          {/* Log Out Button */}
+          <button
+            onClick={handleLogout}
+            className="w-full py-4 flex items-center justify-center gap-2 text-destructive font-semibold"
+          >
+            <LogOut className="w-5 h-5" />
+            Log Out
+          </button>
+          
+          {/* Version */}
+          <p className="text-center text-sm text-muted-foreground mt-6">
+            Version 1.0.0
+          </p>
+        </div>
+        
+        <MobileFooter />
+      </div>
+    );
+  }
+  
+  // Desktop view
   return <div className="min-h-screen">
+...
       <MenuBar />
       <BackgroundPattern>
         <div className="flex items-center justify-center min-h-screen py-8 pt-20 pb-24 md:pb-8">
