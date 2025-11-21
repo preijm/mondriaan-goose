@@ -135,31 +135,13 @@ const Account = () => {
     return <div className="min-h-screen bg-background">
         <MenuBar />
         
-        {/* Green Header */}
+        {/* Header */}
         <div className="bg-[hsl(var(--primary))] pt-16 pb-6 px-4">
           <h1 className="text-3xl font-bold text-primary-foreground">Settings</h1>
         </div>
         
-        {/* User Profile Card */}
-        <div className="bg-[hsl(var(--primary))] px-4 pb-6">
-          <div className="bg-card rounded-2xl p-4 flex items-center justify-between shadow-md">
-            <div className="flex items-center gap-3">
-              <Avatar className="h-16 w-16">
-                <AvatarFallback className="bg-[hsl(var(--primary))] text-primary-foreground text-xl font-bold">
-                  {getInitials(username || "User")}
-                </AvatarFallback>
-              </Avatar>
-              <div>
-                <h2 className="font-bold text-lg text-foreground">{username || "User"}</h2>
-                <p className="text-sm text-muted-foreground">{email}</p>
-              </div>
-            </div>
-            <ChevronRight className="w-5 h-5 text-muted-foreground" />
-          </div>
-        </div>
-        
         {/* Settings Content */}
-        <div className="px-4 pb-24">
+        <div className="px-4 py-6 pb-24">
           {/* Account Section */}
           <div className="mb-6">
             <h3 className="text-xs font-semibold text-muted-foreground uppercase mb-3 px-1">
