@@ -1,6 +1,5 @@
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
-import { Heart, MessageCircle, Mail } from "lucide-react";
 import { useNotificationPreferences } from "@/hooks/useNotifications";
 export default function NotificationSettings() {
   const {
@@ -19,16 +18,13 @@ export default function NotificationSettings() {
       <div className="space-y-6">
         <div className="space-y-4">
           <div className="flex items-center justify-between p-4 border rounded-lg">
-            <div className="flex items-start space-x-3">
-              <Heart className="w-5 h-5 text-notification-like mt-1" />
-              <div>
-                <Label htmlFor="likes-notifications" className="font-medium">
-                  Like Notifications
-                </Label>
-                <p className="text-sm text-muted-foreground">
-                  Get notified when someone likes your test results
-                </p>
-              </div>
+            <div>
+              <Label htmlFor="likes-notifications" className="font-medium">
+                Likes
+              </Label>
+              <p className="text-sm text-muted-foreground">
+                Get notified when someone likes your test results
+              </p>
             </div>
             <Switch id="likes-notifications" checked={preferences?.likes_enabled ?? true} onCheckedChange={checked => updatePreferences({
             likes_enabled: checked
@@ -36,16 +32,13 @@ export default function NotificationSettings() {
           </div>
           
           <div className="flex items-center justify-between p-4 border rounded-lg">
-            <div className="flex items-start space-x-3">
-              <MessageCircle className="w-5 h-5 text-notification-comment mt-1" />
-              <div>
-                <Label htmlFor="comments-notifications" className="font-medium">
-                  Comment Notifications
-                </Label>
-                <p className="text-sm text-muted-foreground">
-                  Get notified when someone comments on your test results
-                </p>
-              </div>
+            <div>
+              <Label htmlFor="comments-notifications" className="font-medium">
+                Comments
+              </Label>
+              <p className="text-sm text-muted-foreground">
+                Get notified when someone comments on your test results
+              </p>
             </div>
             <Switch id="comments-notifications" checked={preferences?.comments_enabled ?? true} onCheckedChange={checked => updatePreferences({
             comments_enabled: checked
@@ -53,16 +46,13 @@ export default function NotificationSettings() {
           </div>
           
           <div className="flex items-center justify-between p-4 border rounded-lg">
-            <div className="flex items-start space-x-3">
-              <Mail className="w-5 h-5 text-notification-newsletter mt-1" />
-              <div>
-                <Label htmlFor="newsletter-notifications" className="font-medium">
-                  Newsletter
-                </Label>
-                <p className="text-sm text-muted-foreground">
-                  Receive updates about new features and product announcements
-                </p>
-              </div>
+            <div>
+              <Label htmlFor="newsletter-notifications" className="font-medium">
+                Newsletters
+              </Label>
+              <p className="text-sm text-muted-foreground">
+                Receive updates about new features and product announcements
+              </p>
             </div>
             <Switch 
               id="newsletter-notifications" 
