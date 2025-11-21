@@ -170,7 +170,7 @@ const MenuBar = () => {
               </Link>
             </div>
 
-            {/* Mobile/Tablet: Add test button on results and feed pages, Back button on product details and account, Close button on add page */}
+            {/* Mobile/Tablet: Add test button on results and feed pages, Back button on product details and account, Close button on add page, Settings button on profile */}
             {isProductDetailsPage && isMobileOrTablet ? <Button variant="outline" size="sm" onClick={() => navigate('/results')} className="gap-1">
                 <ArrowLeft className="h-4 w-4" />
                 {isMobile ? "Back" : "Back to results"}
@@ -187,7 +187,9 @@ const MenuBar = () => {
             color: '#00bf63'
           }}>
                 Mark all read
-              </button> : !isMobileOrTablet && <AuthButton />}
+              </button> : isProfilePage && isMobileOrTablet ? <Button variant="ghost" size="icon" onClick={() => navigate('/account')} className="h-10 w-10">
+                <Settings className="h-5 w-5" />
+              </Button> : !isMobileOrTablet && <AuthButton />}
           </div>
         </div>
       </div>
