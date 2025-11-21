@@ -47,11 +47,7 @@ export default function SecuritySettings() {
   };
   return <div className="pt-6">
       <div className="space-y-8">
-        
-
-        <div>
-          <h3 className="text-lg font-semibold mb-4">Change Password</h3>
-          <form onSubmit={handleUpdatePassword} className="space-y-4">
+        <form onSubmit={handleUpdatePassword} className="space-y-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 New Password
@@ -71,7 +67,6 @@ export default function SecuritySettings() {
               {isChangingPassword ? "Updating..." : "Update Password"}
             </Button>
           </form>
-        </div>
       </div>
     </div>;
 }
