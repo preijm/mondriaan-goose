@@ -17,6 +17,7 @@ import Account from "./pages/Account";
 import AccountSecurity from "./pages/AccountSecurity";
 import AccountNotifications from "./pages/AccountNotifications";
 import AccountCountry from "./pages/AccountCountry";
+import AccountProfile from "./pages/AccountProfile";
 import ProductDetails from "./pages/ProductDetails";
 import ResetPassword from "./pages/ResetPassword";
 import Feed from "./pages/Feed";
@@ -78,6 +79,11 @@ const App = () => {
               <Route path="/account/country" element={
                 <ProtectedRoute>
                   <AccountCountry />
+                </ProtectedRoute>
+              } />
+              <Route path="/account/profile" element={
+                <ProtectedRoute>
+                  <AccountProfile />
                 </ProtectedRoute>
               } />
               <Route path="/feed" element={<Feed />} />

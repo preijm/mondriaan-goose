@@ -83,6 +83,7 @@ const MenuBar = () => {
   const isAccountNotificationsPage = location.pathname === '/account/notifications';
   const isAccountSecurityPage = location.pathname === '/account/security';
   const isAccountCountryPage = location.pathname === '/account/country';
+  const isAccountProfilePage = location.pathname === '/account/profile';
   const isContactPage = location.pathname === '/contact';
   const isAboutPage = location.pathname === '/about';
   const isMobileOrTablet = typeof window !== 'undefined' && window.innerWidth < 1024;
@@ -146,6 +147,13 @@ const MenuBar = () => {
                   <Globe className="w-5 h-5 text-white" />
                 </div>
                 <h1 className="text-lg font-semibold text-gray-900">Country</h1>
+              </div> : isAccountProfilePage && isMobileOrTablet ? <div className="flex items-center gap-3">
+                <div className="h-10 w-10 rounded-full flex items-center justify-center flex-shrink-0" style={{
+              backgroundColor: '#00bf63'
+            }}>
+                  <User className="w-5 h-5 text-white" />
+                </div>
+                <h1 className="text-lg font-semibold text-gray-900">Profile</h1>
               </div> : isAccountPage && isMobileOrTablet ? <div className="flex items-center gap-3">
                 <div className="h-10 w-10 rounded-full flex items-center justify-center flex-shrink-0" style={{
               backgroundColor: '#00bf63'
@@ -207,6 +215,9 @@ const MenuBar = () => {
                 <ArrowLeft className="h-4 w-4" />
                 Back
               </Button> : isAccountCountryPage && isMobileOrTablet ? <Button variant="outline" size="sm" onClick={() => navigate('/account')} className="gap-1">
+                <ArrowLeft className="h-4 w-4" />
+                Back
+              </Button> : isAccountProfilePage && isMobileOrTablet ? <Button variant="outline" size="sm" onClick={() => navigate('/account')} className="gap-1">
                 <ArrowLeft className="h-4 w-4" />
                 Back
               </Button> : isContactPage && isMobileOrTablet ? <Button variant="outline" size="sm" onClick={() => navigate(-1)} className="gap-1">
