@@ -82,8 +82,6 @@ export default function ProfileSettings() {
 
   return (
     <div className="pt-6">
-      <h2 className="text-2xl font-bold mb-6 text-foreground">Edit Profile</h2>
-      
       <form onSubmit={handleUpdateProfile} className="space-y-6">
         <div>
           <label className="block text-sm font-medium text-foreground mb-2">
