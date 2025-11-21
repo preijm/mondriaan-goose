@@ -145,16 +145,16 @@ const Account = () => {
         <MenuBar />
         
         {/* Green Header */}
-        <div className="bg-primary pt-16 pb-6 px-4">
+        <div className="bg-[hsl(var(--primary))] pt-16 pb-6 px-4">
           <h1 className="text-3xl font-bold text-primary-foreground">Settings</h1>
         </div>
         
         {/* User Profile Card */}
-        <div className="bg-primary px-4 pb-6">
-          <div className="bg-card rounded-2xl p-4 flex items-center justify-between">
+        <div className="bg-[hsl(var(--primary))] px-4 pb-6">
+          <div className="bg-card rounded-2xl p-4 flex items-center justify-between shadow-md">
             <div className="flex items-center gap-3">
               <Avatar className="h-16 w-16">
-                <AvatarFallback className="bg-primary text-primary-foreground text-xl font-bold">
+                <AvatarFallback className="bg-[hsl(var(--primary))] text-primary-foreground text-xl font-bold">
                   {getInitials(username || "User")}
                 </AvatarFallback>
               </Avatar>
@@ -175,13 +175,13 @@ const Account = () => {
               Account
             </h3>
             
-            <div className="bg-card rounded-2xl overflow-hidden divide-y divide-border">
+            <div className="bg-card rounded-2xl overflow-hidden divide-y divide-border shadow-sm">
               <button 
                 onClick={() => navigate('/account/profile')}
                 className="w-full p-4 flex items-center gap-4 hover:bg-muted/50 transition-colors"
               >
-                <div className="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0">
-                  <User className="w-6 h-6 text-blue-600" />
+                <div className="w-12 h-12 rounded-full bg-accent flex items-center justify-center flex-shrink-0">
+                  <User className="w-6 h-6 text-accent-foreground" />
                 </div>
                 <div className="flex-1 text-left">
                   <h4 className="font-semibold text-foreground">Profile</h4>
@@ -194,8 +194,8 @@ const Account = () => {
                 onClick={() => navigate('/account/security')}
                 className="w-full p-4 flex items-center gap-4 hover:bg-muted/50 transition-colors"
               >
-                <div className="w-12 h-12 rounded-full bg-purple-100 flex items-center justify-center flex-shrink-0">
-                  <Shield className="w-6 h-6 text-purple-600" />
+                <div className="w-12 h-12 rounded-full bg-accent flex items-center justify-center flex-shrink-0">
+                  <Shield className="w-6 h-6 text-accent-foreground" />
                 </div>
                 <div className="flex-1 text-left">
                   <h4 className="font-semibold text-foreground">Security</h4>
@@ -212,13 +212,13 @@ const Account = () => {
               Preferences
             </h3>
             
-            <div className="bg-card rounded-2xl overflow-hidden divide-y divide-border">
+            <div className="bg-card rounded-2xl overflow-hidden divide-y divide-border shadow-sm">
               <button 
                 onClick={() => navigate('/account/notifications')}
                 className="w-full p-4 flex items-center gap-4 hover:bg-muted/50 transition-colors"
               >
-                <div className="w-12 h-12 rounded-full bg-orange-100 flex items-center justify-center flex-shrink-0">
-                  <Bell className="w-6 h-6 text-orange-600" />
+                <div className="w-12 h-12 rounded-full bg-accent flex items-center justify-center flex-shrink-0">
+                  <Bell className="w-6 h-6 text-accent-foreground" />
                 </div>
                 <div className="flex-1 text-left">
                   <h4 className="font-semibold text-foreground">Notifications</h4>
@@ -228,8 +228,8 @@ const Account = () => {
               </button>
               
               <div className="w-full p-4 flex items-center gap-4">
-                <div className="w-12 h-12 rounded-full bg-indigo-100 flex items-center justify-center flex-shrink-0">
-                  <Moon className="w-6 h-6 text-indigo-600" />
+                <div className="w-12 h-12 rounded-full bg-accent flex items-center justify-center flex-shrink-0">
+                  <Moon className="w-6 h-6 text-accent-foreground" />
                 </div>
                 <div className="flex-1 text-left">
                   <h4 className="font-semibold text-foreground">Dark Mode</h4>
@@ -243,8 +243,8 @@ const Account = () => {
               </div>
               
               <button className="w-full p-4 flex items-center gap-4 hover:bg-muted/50 transition-colors">
-                <div className="w-12 h-12 rounded-full bg-teal-100 flex items-center justify-center flex-shrink-0">
-                  <Globe className="w-6 h-6 text-teal-600" />
+                <div className="w-12 h-12 rounded-full bg-accent flex items-center justify-center flex-shrink-0">
+                  <Globe className="w-6 h-6 text-accent-foreground" />
                 </div>
                 <div className="flex-1 text-left">
                   <h4 className="font-semibold text-foreground">Language</h4>
@@ -261,13 +261,13 @@ const Account = () => {
               Support
             </h3>
             
-            <div className="bg-card rounded-2xl overflow-hidden">
+            <div className="bg-card rounded-2xl overflow-hidden shadow-sm">
               <button 
                 onClick={() => navigate('/contact')}
                 className="w-full p-4 flex items-center gap-4 hover:bg-muted/50 transition-colors"
               >
-                <div className="w-12 h-12 rounded-full bg-yellow-100 flex items-center justify-center flex-shrink-0">
-                  <HelpCircle className="w-6 h-6 text-yellow-600" />
+                <div className="w-12 h-12 rounded-full bg-accent flex items-center justify-center flex-shrink-0">
+                  <HelpCircle className="w-6 h-6 text-accent-foreground" />
                 </div>
                 <div className="flex-1 text-left">
                   <h4 className="font-semibold text-foreground">Help Center</h4>
