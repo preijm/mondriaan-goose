@@ -6,7 +6,8 @@ import { Coffee, TrendingUp, Users } from "lucide-react";
 import BackgroundPattern from "@/components/BackgroundPattern";
 import { motion } from "framer-motion";
 import spreadsheetImage from "@/assets/milk-tests-spreadsheet.png";
-import soyMilkDrawing from "@/assets/soy-milk-drawing.jpg";
+import soySauceMilkPhoto from "@/assets/soy-sauce-milk-photo.jpg";
+import milkSoySaucePhoto from "@/assets/milk-soy-sauce-photo.jpg";
 import testingSessionImage from "@/assets/milk-testing-session.jpg";
 import communityPlatformImage from "@/assets/community-platform.jpg";
 const About = () => {
@@ -49,14 +50,22 @@ const About = () => {
                         </p>
                       </div>
                       <div className="flex-shrink-0 w-full sm:w-64 space-y-2">
-                        <img 
-                          src={soyMilkDrawing} 
-                          alt="Original post-it note drawing showing 'SOYAMELK' - a humorous sketch of soy sauce bottle, glass, and milk carton representing the origin joke" 
-                          className="rounded-lg w-full border border-border/50 shadow-sm cursor-pointer hover:shadow-lg transition-shadow object-cover"
-                          onClick={() => setSelectedImage(soyMilkDrawing)}
-                        />
+                        <div className="grid grid-cols-2 gap-2 mb-2">
+                          <img 
+                            src={soySauceMilkPhoto} 
+                            alt="Photo of Alpro plant-based milk carton next to Shoyu soy sauce bottle with a glass showing the terrible mixture" 
+                            className="rounded-lg w-full border border-border/50 shadow-sm cursor-pointer hover:shadow-lg transition-shadow object-cover aspect-[3/4]"
+                            onClick={() => setSelectedImage(soySauceMilkPhoto)}
+                          />
+                          <img 
+                            src={milkSoySaucePhoto} 
+                            alt="Photo of Magere Melk dairy-free milk carton and soy sauce bottle showing the products that inspired the joke" 
+                            className="rounded-lg w-full border border-border/50 shadow-sm cursor-pointer hover:shadow-lg transition-shadow object-cover aspect-[3/4]"
+                            onClick={() => setSelectedImage(milkSoySaucePhoto)}
+                          />
+                        </div>
                         <p className="text-sm text-muted-foreground text-center italic">
-                          The infamous "SOYAMELK" sketch that started it all
+                          The actual culprits: plant milk meets soy sauce
                         </p>
                       </div>
                     </div>
