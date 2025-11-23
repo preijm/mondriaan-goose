@@ -4,6 +4,7 @@ import MobileFooter from "@/components/MobileFooter";
 import { Coffee, TrendingUp, Users } from "lucide-react";
 import BackgroundPattern from "@/components/BackgroundPattern";
 import { motion } from "framer-motion";
+import spreadsheetImage from "@/assets/milk-tests-spreadsheet.png";
 const About = () => {
   return <div className="min-h-screen">
       <MenuBar />
@@ -70,9 +71,14 @@ const About = () => {
                     <h2 className="text-xl sm:text-2xl font-bold text-foreground mb-3">
                       How it All Escalated
                     </h2>
-                    <p className="text-muted-foreground leading-relaxed">
+                    <p className="text-muted-foreground leading-relaxed mb-4">
                       After having recorded and rated more than 100 milk-alternatives, and showed our sheet to many friends, we knew what we had to do: make it public. Our data scientist got to work and created a website, available to all, and published all of our results so far and ready to receive more from the original founders but of course everyone else who is keen to test.
                     </p>
+                    <img 
+                      src={spreadsheetImage} 
+                      alt="Original milk testing spreadsheet with ratings and data" 
+                      className="rounded-lg w-full border border-border/50 shadow-sm"
+                    />
                   </div>
                 </div>
               </motion.div>
