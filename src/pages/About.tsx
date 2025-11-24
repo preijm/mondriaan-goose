@@ -5,7 +5,7 @@ import MobileFooter from "@/components/MobileFooter";
 import { Coffee, TrendingUp, Users } from "lucide-react";
 import BackgroundPattern from "@/components/BackgroundPattern";
 import { motion } from "framer-motion";
-import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel";
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import Autoplay from "embla-carousel-autoplay";
 import spreadsheetImage from "@/assets/milk-tests-spreadsheet.png";
 import soySauceMilkPhoto from "@/assets/soy-sauce-milk-photo.jpg";
@@ -173,6 +173,8 @@ const About = () => {
                           </CarouselItem>
                         ))}
                       </CarouselContent>
+                      <CarouselPrevious className="left-0 sm:-left-12" />
+                      <CarouselNext className="right-0 sm:-right-12" />
                     </Carousel>
                     <p className="text-sm text-muted-foreground text-center italic mt-3">
                       Some of the first milk alternatives tested
