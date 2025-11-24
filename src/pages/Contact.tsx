@@ -3,6 +3,7 @@ import MenuBar from "@/components/MenuBar";
 import MobileFooter from "@/components/MobileFooter";
 import { Phone, Mail, MessageSquare, ChevronDown, Bird } from "lucide-react";
 import BackgroundPattern from "@/components/BackgroundPattern";
+import AnimatedBirds from "@/components/AnimatedBirds";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -14,6 +15,7 @@ import {
 
 const Contact = () => {
   return <div className="min-h-screen">
+      <AnimatedBirds />
       <MenuBar />
       <BackgroundPattern>
         <div className="flex items-center justify-center min-h-screen pt-16 pb-20 sm:pb-8">
