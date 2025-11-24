@@ -6,13 +6,7 @@ import BackgroundPattern from "@/components/BackgroundPattern";
 import AnimatedBirds from "@/components/AnimatedBirds";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
-
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 const Contact = () => {
   return <div className="min-h-screen">
       <AnimatedBirds />
@@ -20,7 +14,7 @@ const Contact = () => {
       <BackgroundPattern>
         <div className="flex items-center justify-center min-h-screen pt-16 pb-20 sm:pb-8">
           <div className="container max-w-4xl mx-auto px-4 py-4 sm:py-8 relative z-10">
-            <h2 className="text-3xl font-bold text-gray-900 mb-6 text-center">Our contact options</h2>
+            <h2 className="text-3xl font-bold text-gray-900 mb-6 text-center">Get in Touch</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6 mb-12">
               {/* Phone Card */}
               <div className="bg-white rounded-2xl shadow-sm p-6 hover:shadow-md transition-all flex flex-col">
@@ -40,10 +34,7 @@ const Contact = () => {
                     </p>
                   </div>
                 </div>
-                <Button 
-                  disabled 
-                  className="mt-4 w-full bg-rose-100 hover:bg-rose-100 text-rose-700 cursor-not-allowed"
-                >
+                <Button disabled className="mt-4 w-full bg-rose-100 hover:bg-rose-100 text-rose-700 cursor-not-allowed">
                   Currently Unreachable
                 </Button>
               </div>
@@ -66,10 +57,7 @@ const Contact = () => {
                     </p>
                   </div>
                 </div>
-                <Button 
-                  asChild
-                  className="mt-4 w-full bg-blue-500 hover:bg-blue-600 text-white"
-                >
+                <Button asChild className="mt-4 w-full bg-blue-500 hover:bg-blue-600 text-white">
                   <a href="mailto:info@milkmenot.com">Send us an Email</a>
                 </Button>
               </div>
@@ -92,10 +80,7 @@ const Contact = () => {
                     </p>
                   </div>
                 </div>
-                <Button 
-                  disabled 
-                  className="mt-4 w-full bg-rose-100 hover:bg-rose-100 text-rose-700 cursor-not-allowed"
-                >
+                <Button disabled className="mt-4 w-full bg-rose-100 hover:bg-rose-100 text-rose-700 cursor-not-allowed">
                   Currently Unreachable
                 </Button>
               </div>
@@ -118,10 +103,7 @@ const Contact = () => {
                     </p>
                   </div>
                 </div>
-                <Button 
-                  disabled 
-                  className="mt-4 w-full bg-rose-100 hover:bg-rose-100 text-rose-700 cursor-not-allowed"
-                >
+                <Button disabled className="mt-4 w-full bg-rose-100 hover:bg-rose-100 text-rose-700 cursor-not-allowed">
                   Currently Unreachable
                 </Button>
               </div>
@@ -188,5 +170,4 @@ const Contact = () => {
       <MobileFooter />
     </div>;
 };
-
 export default Contact;
