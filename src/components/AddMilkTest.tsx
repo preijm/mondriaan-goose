@@ -39,14 +39,17 @@ export const AddMilkTest = () => {
             handleSubmit(e);
           }
         }} className="space-y-6 md:space-y-8">
-          {/* Product Information Section */}
-          <div className="bg-gradient-to-br from-emerald-50/30 to-blue-50/30 p-4 rounded-lg">
-            <ProductInformation 
-              brandId={formState.brandId} 
-              setBrandId={formSetters.setBrandId} 
-              productId={formState.productId} 
-              setProductId={formSetters.setProductId} 
-            />
+          {/* Product Section */}
+          <div className="space-y-3 md:space-y-4">
+            <h2 className="text-xl font-semibold text-gray-900">Product</h2>
+            <div className="bg-gradient-to-br from-emerald-50/30 to-blue-50/30 p-4 rounded-lg">
+              <ProductInformation 
+                brandId={formState.brandId} 
+                setBrandId={formSetters.setBrandId} 
+                productId={formState.productId} 
+                setProductId={formSetters.setProductId} 
+              />
+            </div>
           </div>
 
           {/* Separator */}
