@@ -12,7 +12,6 @@ import soySauceMilkPhoto from "@/assets/soy-sauce-milk-photo.jpg";
 import milkSoySaucePhoto from "@/assets/milk-soy-sauce-photo.jpg";
 import erwtenDrink from "@/assets/community/erwten-drink.jpg";
 import gutBioBarista from "@/assets/community/gut-bio-barista.jpg";
-import sproudMilk from "@/assets/community/sproud-milk.jpg";
 import abbotKinneyAmandel from "@/assets/community/abbot-kinney-amandel.jpg";
 import rudeHealthPotato from "@/assets/community/rude-health-potato.jpg";
 import broseOat from "@/assets/community/brose-oat.jpg";
@@ -153,7 +152,6 @@ const About = () => {
                         {[
                           { src: erwtenDrink, alt: "AH Erwten Drink - Pea-based milk alternative" },
                           { src: gutBioBarista, alt: "Gut Bio Barista Hafer Drink - Oat barista milk with latte" },
-                          { src: sproudMilk, alt: "Sproud plant-based unsweetened pea milk" },
                           { src: abbotKinneyAmandel, alt: "Abbot Kinney's Barista Amandel and Best of Plants milk alternatives" },
                           { src: rudeHealthPotato, alt: "Rude Health Tiger Nut and Potato Barista dairy-free milk" },
                           { src: broseOat, alt: "Brose Scottish Goodness Fresh Oat Drink Barista Style" },
