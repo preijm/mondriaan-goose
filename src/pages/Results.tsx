@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useEffect } from "react";
 import { useAggregatedResults, SortConfig } from "@/hooks/useAggregatedResults";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, useSearchParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import MenuBar from "@/components/MenuBar";
 import BackgroundPattern from "@/components/BackgroundPattern";
@@ -22,7 +22,8 @@ interface FilterOptions {
   myResultsOnly: boolean;
 }
 const Results = () => {
-  const [searchTerm, setSearchTerm] = useState("");
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchTerm, setSearchTerm] = useState(searchParams.get('search') || "");
   const [sortConfig, setSortConfig] = useState<SortConfig>({
     column: 'avg_rating',
     direction: 'desc'
@@ -45,6 +46,17 @@ const Results = () => {
   const location = useLocation();
   const isMobile = useIsMobile();
   const { user } = useAuth();
+
+  // Update URL when search term changes
+  useEffect(() => {
+    const params = new URLSearchParams(searchParams);
+    if (searchTerm) {
+      params.set('search', searchTerm);
+    } else {
+      params.delete('search');
+    }
+    setSearchParams(params, { replace: true });
+  }, [searchTerm]);
 
   // Check if we should enable myResultsOnly filter from navigation state
   useEffect(() => {
