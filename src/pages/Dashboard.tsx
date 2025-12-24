@@ -54,7 +54,7 @@ const Dashboard = () => {
           <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/5 to-white/10 backdrop-blur-[1px] animate-pulse" />
 
           <div className="container max-w-6xl mx-auto space-y-8 px-4 py-8 pt-24 relative z-10">
-            <div className="text-center mt-8 text-red-500">Error loading data</div>
+            <div className="text-center mt-8 text-score-poor">Error loading data</div>
           </div>
         </div>
       </div>
@@ -71,7 +71,7 @@ const Dashboard = () => {
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/5 to-white/10 backdrop-blur-[1px] animate-pulse" />
 
         <div className="container max-w-6xl mx-auto space-y-8 px-4 py-8 pt-24 pb-20 sm:pb-8 relative z-10">
-          <h1 className="text-4xl font-bold text-gray-900 mb-8 animate-fade-in">
+          <h1 className="text-4xl font-bold text-foreground mb-8 animate-fade-in">
             Milk Insights Dashboard
           </h1>
           
