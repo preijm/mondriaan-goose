@@ -248,7 +248,8 @@ export const MobileFilterBar = ({
                         ? "bg-brand-secondary/5 border-brand-secondary" 
                         : "border-border hover:bg-muted"
                     )}
-                    onClick={() => {
+                    onClick={(e) => {
+                      e.preventDefault();
                       if (!isActive) {
                         onSort(option.key);
                       }
