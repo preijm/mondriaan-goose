@@ -1,14 +1,13 @@
 import MenuBar from "@/components/MenuBar";
 import MobileFooter from "@/components/MobileFooter";
 import BackgroundPattern from "@/components/BackgroundPattern";
-import { Download, ExternalLink, Smartphone } from "lucide-react";
+import { Download, Smartphone, Clock } from "lucide-react";
 import { FaAndroid } from "react-icons/fa";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 
 const MobileApp = () => {
   const androidDownloadUrl = "https://median.co/share/nmxqdbd#apk";
-  const androidStoreUrl = "#";
 
   return (
     <div className="min-h-screen">
@@ -50,15 +49,13 @@ const MobileApp = () => {
                       </a>
                     </Button>
                     <Button 
-                      asChild 
+                      disabled
                       variant="outline" 
-                      className="w-full border-2 border-brand-primary text-brand-primary hover:bg-brand-primary/5" 
+                      className="w-full border-2 border-muted-foreground/30 text-muted-foreground cursor-not-allowed" 
                       size="lg"
                     >
-                      <a href={androidStoreUrl} target="_blank" rel="noopener noreferrer">
-                        <ExternalLink className="mr-2 h-5 w-5" />
-                        Google Play Store
-                      </a>
+                      <Clock className="mr-2 h-5 w-5" />
+                      Google Play — Coming Soon
                     </Button>
                   </div>
                 </div>
