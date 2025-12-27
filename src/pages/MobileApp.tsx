@@ -75,15 +75,6 @@ const MobileApp = () => {
               </div>
             </div>
 
-            <p className="text-sm text-muted-foreground text-center mt-8">
-              Need help? Check our{" "}
-              <Link 
-                to="/install-guide"
-                className="text-brand-secondary hover:underline"
-              >
-                installation guide
-              </Link>
-            </p>
           </div>
         </div>
       </BackgroundPattern>
