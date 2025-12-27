@@ -25,6 +25,7 @@ import MobileApp from "./pages/MobileApp";
 import Notifications from "./pages/Notifications";
 import Profile from "./pages/Profile";
 import AddProduct from "./pages/AddProduct";
+import DesignSystem from "./pages/DesignSystem";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -96,8 +97,9 @@ const App = () => {
               <Route path="/profile" element={
                 <ProtectedRoute>
                   <Profile />
-                </ProtectedRoute>
+              </ProtectedRoute>
               } />
+              <Route path="/design-system" element={<DesignSystem />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
             <Toaster />
