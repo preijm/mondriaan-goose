@@ -38,14 +38,14 @@ const MobileApp = () => {
                   </p>
                   
                   {/* QR Code - Hidden on mobile and tablet */}
-                  <div className="hidden lg:block bg-white p-4 rounded-lg shadow-sm">
+                  <div className="hidden lg:block bg-white p-3 rounded-lg shadow-sm">
                     <QRCodeSVG 
                       value={androidDownloadUrl} 
-                      size={140}
+                      size={100}
                       level="M"
                       className="mx-auto"
                     />
-                    <p className="text-xs text-muted-foreground mt-2">
+                    <p className="text-xs text-muted-foreground mt-1.5">
                       Scan to download
                     </p>
                   </div>
