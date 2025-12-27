@@ -45,7 +45,7 @@ export const AddMilkTest = () => {
               <h2 className="text-xl font-semibold text-gray-900 whitespace-nowrap">Product</h2>
               <div className="flex-1 h-px bg-gray-200"></div>
             </div>
-            <div className="bg-gradient-to-br from-emerald-50/30 to-blue-50/30 p-4 rounded-lg">
+            <div className="bg-muted/30 p-4 rounded-lg">
               <ProductInformation 
                 brandId={formState.brandId} 
                 setBrandId={formSetters.setBrandId} 
@@ -61,7 +61,7 @@ export const AddMilkTest = () => {
               <h2 className="text-xl font-semibold text-gray-900 whitespace-nowrap">Rating</h2>
               <div className="flex-1 h-px bg-gray-200"></div>
             </div>
-            <div className="bg-gradient-to-br from-blue-50/30 to-purple-50/30 p-4 rounded-lg">
+            <div className="bg-muted/30 p-4 rounded-lg">
               <RatingSelect rating={formState.rating} setRating={formSetters.setRating} />
               <div className="mt-4">
                 <ResponsiveNotesArea 
@@ -82,7 +82,7 @@ export const AddMilkTest = () => {
               <h2 className="text-xl font-semibold text-gray-900 whitespace-nowrap">Price-to-Quality Ratio</h2>
               <div className="flex-1 h-px bg-gray-200"></div>
             </div>
-            <div className="bg-gradient-to-br from-amber-50/30 to-orange-50/30 p-4 rounded-lg">
+            <div className="bg-muted/30 p-4 rounded-lg">
               <PriceInput 
                 price={formState.price} 
                 setPrice={formSetters.setPrice} 
@@ -98,7 +98,7 @@ export const AddMilkTest = () => {
               <h2 className="text-xl font-semibold text-gray-900 whitespace-nowrap">Buying Location</h2>
               <div className="flex-1 h-px bg-gray-200"></div>
             </div>
-            <div className="bg-gradient-to-br from-green-50/30 to-emerald-50/30 p-4 rounded-lg space-y-3">
+            <div className="bg-muted/30 p-4 rounded-lg space-y-3">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Country <span className="text-red-500">*</span>
@@ -127,7 +127,7 @@ export const AddMilkTest = () => {
               <h2 className="text-xl font-semibold text-gray-900 whitespace-nowrap">Drinking Style</h2>
               <div className="flex-1 h-px bg-gray-200"></div>
             </div>
-            <div className="bg-gradient-to-br from-purple-50/30 to-pink-50/30 p-4 rounded-lg">
+            <div className="bg-muted/30 p-4 rounded-lg">
               <DrinkPreference 
                 preference={formState.drinkPreference} 
                 setPreference={formSetters.setDrinkPreference} 
