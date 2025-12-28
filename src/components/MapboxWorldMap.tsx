@@ -41,6 +41,19 @@ const MapboxWorldMap = () => {
     },
   });
 
+  // Fetch total countries count for discovery percentage
+  const { data: totalCountries = 195 } = useQuery({
+    queryKey: ['total-countries-count'],
+    queryFn: async () => {
+      const { count, error } = await supabase
+        .from('countries')
+        .select('*', { count: 'exact', head: true });
+      
+      if (error) throw error;
+      return count || 195;
+    },
+  });
+
   // Fetch Mapbox token from Supabase Edge Function
   const fetchMapboxToken = async () => {
     try {
@@ -224,6 +237,7 @@ const MapboxWorldMap = () => {
   }, [isMapInitialized, countryData]);
 
   const totalTests = countryData.reduce((sum, country) => sum + country.test_count, 0);
+  const discoveryPercentage = Math.round((countryData.length / totalCountries) * 100);
 
   if (isLoading) {
     return (
@@ -235,11 +249,15 @@ const MapboxWorldMap = () => {
 
   return (
     <div className="w-full space-y-6">
-      {/* Header */}
-      <div className="text-center">
-        <h2 className="text-3xl font-bold text-foreground mb-2">Global Milk Test Activity Map</h2>
-        <p className="text-lg text-muted-foreground">
-          {countryData.length} countries with {totalTests.toLocaleString()} total tests
+      {/* Discovery Message */}
+      <div className="text-center bg-gradient-to-r from-primary/10 via-accent/10 to-primary/10 rounded-2xl p-6 border border-primary/20">
+        <p className="text-2xl md:text-3xl font-bold text-foreground">
+          Together we've discovered{' '}
+          <span className="text-primary">{discoveryPercentage}%</span>{' '}
+          of the world of milk 🌍
+        </p>
+        <p className="text-muted-foreground mt-2">
+          {countryData.length} out of {totalCountries} countries explored with {totalTests.toLocaleString()} tests
         </p>
       </div>
 
@@ -282,19 +300,22 @@ const MapboxWorldMap = () => {
 
       {/* Top Countries Stats */}
       <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-        {countryData.slice(0, 10).map((country, index) => (
+        {countryData
+          .sort((a, b) => b.test_count - a.test_count)
+          .slice(0, 10)
+          .map((country, index) => (
           <div
             key={country.country_code}
-            className="bg-white p-4 rounded-lg border-2 text-center shadow-sm hover:shadow-md transition-shadow"
+            className="bg-card p-4 rounded-lg border-2 text-center shadow-sm hover:shadow-md transition-shadow"
             style={{ borderColor: getCountryColor(country.test_count) }}
           >
             <div className="text-lg font-bold mb-1" style={{ color: getCountryColor(country.test_count) }}>
               #{index + 1} {country.country_code}
             </div>
-            <div className="text-2xl font-bold text-gray-800">
+            <div className="text-2xl font-bold text-foreground">
               {country.test_count}
             </div>
-            <div className="text-xs text-gray-500">
+            <div className="text-xs text-muted-foreground">
               {country.test_count === 1 ? 'test' : 'tests'}
             </div>
           </div>

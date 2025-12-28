@@ -254,13 +254,7 @@ const Results = () => {
               </p>
             </div>
           ) : (
-            <div className="flex flex-col items-center justify-center min-h-[60vh] text-center space-y-4">
-              <MapPin className="w-16 h-16 text-muted-foreground/50" />
-              <h2 className="text-3xl font-semibold text-foreground">Coming Soon</h2>
-              <p className="text-muted-foreground max-w-md">
-                We're working on bringing you a global map of taste tests. Check back soon!
-              </p>
-            </div>
+            <MapboxWorldMap />
           )}
         </div>
       </BackgroundPattern>
