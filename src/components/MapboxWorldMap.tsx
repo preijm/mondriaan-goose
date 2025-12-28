@@ -42,18 +42,22 @@ const MapboxWorldMap = () => {
     },
   });
 
-  // Fetch total countries count for discovery percentage
-  const { data: totalCountries = 195 } = useQuery({
-    queryKey: ['total-countries-count'],
+  // Fetch countries with names for display
+  const { data: countriesData = [] } = useQuery({
+    queryKey: ['countries-list'],
     queryFn: async () => {
-      const { count, error } = await supabase
+      const { data, error } = await supabase
         .from('countries')
-        .select('*', { count: 'exact', head: true });
+        .select('code, name');
       
       if (error) throw error;
-      return count || 195;
+      return data || [];
     },
   });
+
+  // Create a map from country code to country name
+  const countryCodeToName = new Map(countriesData.map(c => [c.code, c.name]));
+  const totalCountries = countriesData.length || 195;
 
   // Fetch Mapbox token from Supabase Edge Function
   const fetchMapboxToken = async () => {
@@ -333,11 +337,11 @@ const MapboxWorldMap = () => {
               index === 0 ? 'border-primary border-2 bg-primary/5' : 'border-border'
             }`}
           >
-            <div className={`text-lg font-bold mb-1 flex items-center justify-center gap-1.5 ${index === 0 ? 'text-primary' : 'text-muted-foreground'}`}>
-              {index === 0 && <Trophy className="w-5 h-5 text-yellow-500" />}
-              {index === 1 && <Medal className="w-5 h-5 text-slate-400" />}
-              {index === 2 && <Medal className="w-5 h-5 text-amber-600" />}
-              #{index + 1} {country.country_code}
+            <div className={`text-sm font-bold mb-1 flex items-center justify-center gap-1.5 ${index === 0 ? 'text-primary' : 'text-muted-foreground'}`}>
+              {index === 0 && <Trophy className="w-4 h-4 text-yellow-500 flex-shrink-0" />}
+              {index === 1 && <Medal className="w-4 h-4 text-slate-400 flex-shrink-0" />}
+              {index === 2 && <Medal className="w-4 h-4 text-amber-600 flex-shrink-0" />}
+              <span className="truncate">#{index + 1} {countryCodeToName.get(country.country_code) || country.country_code}</span>
             </div>
             <div className="text-2xl font-bold text-foreground">
               {country.test_count}
