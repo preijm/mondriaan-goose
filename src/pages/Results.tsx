@@ -209,63 +209,41 @@ const Results = () => {
         </BackgroundPattern>
       </div>;
   }
-  // Show blurred preview for unauthenticated users
-  if (!user) {
-    return (
-      <div className="min-h-screen">
-        <MenuBar />
-        <BackgroundPattern>
-          <div className="container max-w-7xl mx-auto px-4 sm:px-6 py-8 pt-24 pb-20 sm:pb-8 relative z-10">
-            {/* Blurred preview overlay */}
-            <div className="relative">
-              {/* Blurred content */}
-              <div className="blur-sm pointer-events-none select-none">
-                <div className="flex justify-end mb-8">
-                  <div className="w-[300px] h-10 bg-muted/50 rounded-lg" />
-                </div>
-                <div className="bg-card rounded-lg border border-border p-6 space-y-4">
-                  {[1, 2, 3, 4, 5].map((i) => (
-                    <div key={i} className="flex items-center gap-4">
-                      <div className="w-12 h-12 bg-muted rounded-full" />
-                      <div className="flex-1 space-y-2">
-                        <div className="h-4 bg-muted rounded w-1/3" />
-                        <div className="h-3 bg-muted/70 rounded w-1/2" />
-                      </div>
-                      <div className="w-16 h-8 bg-muted rounded" />
-                    </div>
-                  ))}
-                </div>
-              </div>
 
-              {/* Login CTA overlay */}
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="bg-card/95 backdrop-blur-sm border border-border rounded-2xl p-8 shadow-2xl text-center max-w-md mx-4">
-                  <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <Lock className="w-8 h-8 text-primary" />
-                  </div>
-                  <h2 className="text-2xl font-bold text-foreground mb-2">
-                    Explore Plant Milk Data
-                  </h2>
-                  <p className="text-muted-foreground mb-6">
-                    Sign in to access detailed results, charts, and our interactive world map showing milk tests from around the globe.
-                  </p>
-                  <div className="flex flex-col sm:flex-row gap-3 justify-center">
-                    <Button asChild size="lg">
-                      <Link to="/auth">Sign In</Link>
-                    </Button>
-                    <Button asChild variant="outline" size="lg">
-                      <Link to="/auth?mode=signup">Create Account</Link>
-                    </Button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </BackgroundPattern>
-        <MobileFooter />
+  // Map login overlay component for unauthenticated users
+  const MapLoginOverlay = () => (
+    <div className="relative min-h-[600px]">
+      {/* Blurred map placeholder */}
+      <div className="blur-sm pointer-events-none select-none">
+        <div className="w-full h-[600px] rounded-lg border border-border bg-muted/30 flex items-center justify-center">
+          <MapPin className="w-24 h-24 text-muted-foreground/30" />
+        </div>
       </div>
-    );
-  }
+
+      {/* Login CTA overlay */}
+      <div className="absolute inset-0 flex items-center justify-center">
+        <div className="bg-card/95 backdrop-blur-sm border border-border rounded-2xl p-8 shadow-2xl text-center max-w-md mx-4">
+          <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+            <Lock className="w-8 h-8 text-primary" />
+          </div>
+          <h2 className="text-2xl font-bold text-foreground mb-2">
+            Explore the World Map
+          </h2>
+          <p className="text-muted-foreground mb-6">
+            Sign in to access our interactive world map showing milk tests from around the globe.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-3 justify-center">
+            <Button asChild size="lg">
+              <Link to="/auth">Sign In</Link>
+            </Button>
+            <Button asChild variant="outline" size="lg">
+              <Link to="/auth?mode=signup">Create Account</Link>
+            </Button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 
   return <div className="min-h-screen">
       <MenuBar />
@@ -312,8 +290,10 @@ const Results = () => {
                 We're working on bringing you insightful charts and analytics. Check back soon!
               </p>
             </div>
-          ) : (
+          ) : user ? (
             <MapboxWorldMap />
+          ) : (
+            <MapLoginOverlay />
           )}
         </div>
       </BackgroundPattern>
