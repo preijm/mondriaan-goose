@@ -52,7 +52,7 @@ export const FeedEngagement = ({
               >
                 <Heart className={cn("h-4 w-4", isLiked && "fill-current")} />
                 <span className="font-semibold text-sm">{likes.length}</span>
-                <span className="text-xs hidden sm:inline">Likes</span>
+                <span className="text-xs hidden lg:inline">Likes</span>
               </Button>
             </TooltipTrigger>
             {likes.length > 0 && (
@@ -76,7 +76,7 @@ export const FeedEngagement = ({
         >
           <MessageCircle className="h-4 w-4" />
           <span className="font-semibold text-sm">{commentsCount}</span>
-          <span className="text-xs hidden sm:inline">Comments</span>
+          <span className="text-xs hidden lg:inline">Comments</span>
         </Button>
         
         <Button 
@@ -86,7 +86,7 @@ export const FeedEngagement = ({
           className="flex items-center space-x-1 px-2 py-1.5 rounded-full hover:bg-gray-50 transition-all duration-200"
         >
           <BarChart3 className="h-4 w-4" />
-          <span className="text-xs hidden sm:inline">View All</span>
+          <span className="text-xs hidden lg:inline">View All</span>
         </Button>
       </div>
 
