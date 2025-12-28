@@ -1,7 +1,8 @@
 
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/components/ui/use-toast";
+import { ToastAction, ToastActionElement } from "@/components/ui/toast";
 import { MilkTestResult } from "@/types/milk-test";
 import { sanitizeFileName } from "@/lib/fileValidation";
 import { validateMilkTestInput, sanitizeInput } from "@/lib/security";
@@ -194,13 +195,6 @@ export const useEditMilkTest = ({ test, onSuccess, onClose }: UseEditMilkTestPro
         return;
       }
 
-      // Delete the picture from storage if it exists
-      if (test.picture_path) {
-        await supabase.storage
-          .from('milk-pictures')
-          .remove([test.picture_path]);
-      }
-
       // Verify user owns this test before deletion
       if (test.user_id !== userData.user.id) {
         toast({
@@ -211,18 +205,65 @@ export const useEditMilkTest = ({ test, onSuccess, onClose }: UseEditMilkTestPro
         return;
       }
 
-      // Delete the milk test record
+      // Store the test data for potential undo
+      const deletedTestData = {
+        product_id: test.product_id,
+        rating: test.rating,
+        notes: test.notes,
+        shop_name: test.shop_name,
+        country_code: test.country_code,
+        price_quality_ratio: test.price_quality_ratio,
+        drink_preference: test.drink_preference,
+        picture_path: test.picture_path,
+        user_id: test.user_id,
+      };
+
+      // Delete the milk test record (keep picture for potential restore)
       const { error: deleteError } = await supabase
         .from('milk_tests')
         .delete()
         .eq('id', test.id)
-        .eq('user_id', userData.user.id); // Extra security check
+        .eq('user_id', userData.user.id);
 
       if (deleteError) throw deleteError;
 
+      // Create restore function
+      const restoreTest = async () => {
+        try {
+          const { error: restoreError } = await supabase
+            .from('milk_tests')
+            .insert(deletedTestData);
+
+          if (restoreError) throw restoreError;
+
+          toast({
+            title: "Restored",
+            description: "Your milk test has been restored.",
+          });
+          onSuccess();
+        } catch (error) {
+          console.error('Error restoring milk test:', error);
+          toast({
+            title: "Error",
+            description: "Failed to restore the milk test.",
+            variant: "destructive",
+          });
+        }
+      };
+
+      // Show toast with undo option
       toast({
-        title: "Success",
+        title: "Test deleted",
         description: "Your milk test record has been deleted.",
+        action: React.createElement(
+          ToastAction,
+          {
+            altText: "Undo delete",
+            onClick: restoreTest,
+          },
+          "Undo"
+        ) as unknown as ToastActionElement,
+        duration: 8000,
       });
 
       onSuccess();
