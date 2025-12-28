@@ -427,7 +427,7 @@ export const MobileFilterBar = ({
             variant="outline"
             onClick={handleMyResultsToggle}
             className={cn(
-              "h-11 flex items-center justify-center gap-2 rounded-lg transition-colors flex-shrink-0 w-[120px]",
+              "h-11 flex items-center justify-center gap-2 rounded-lg transition-colors flex-shrink-0 px-4",
               filters.myResultsOnly && "bg-brand-secondary text-white border-brand-secondary hover:bg-brand-secondary/90"
             )}
           >
