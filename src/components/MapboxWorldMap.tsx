@@ -408,7 +408,7 @@ const MapboxWorldMap = () => {
                     </span>
                   </div>
                   <span className={`relative text-lg font-bold ${index === 0 ? 'text-emerald-600' : 'text-foreground'}`}>
-                    {country.test_count}
+                    {country.test_count} <span className="text-sm font-normal text-muted-foreground">({Math.round(percentage)}%)</span>
                   </span>
                 </div>
               );
