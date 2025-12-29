@@ -333,14 +333,11 @@ const MapboxWorldMap = () => {
   return (
     <div className="w-full space-y-6">
       {/* Discovery Message */}
-      <div className="text-center bg-gradient-to-r from-primary/10 via-accent/10 to-primary/10 rounded-2xl p-6 border border-primary/20">
-        <p className="text-2xl md:text-3xl font-bold text-foreground">
+      <div className="text-center py-4">
+        <p className="text-xl md:text-2xl font-semibold text-foreground">
           Together we've discovered{' '}
-          <span className="text-primary">{discoveryPercentage}%</span>{' '}
+          <span className="text-primary font-bold">{discoveryPercentage}%</span>{' '}
           of the world of milk 🌍
-        </p>
-        <p className="text-muted-foreground mt-2">
-          {countryData.length} out of {totalCountries} countries explored with {totalTests.toLocaleString()} tests
         </p>
       </div>
 
