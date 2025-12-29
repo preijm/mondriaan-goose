@@ -1,9 +1,8 @@
-import React, { useEffect, useRef, useState } from 'react';
-import mapboxgl from 'mapbox-gl';
-import 'mapbox-gl/dist/mapbox-gl.css';
-import { supabase } from '@/integrations/supabase/client';
-import { useQuery } from '@tanstack/react-query';
-
+import React, { useEffect, useRef, useState } from "react";
+import mapboxgl from "mapbox-gl";
+import "mapbox-gl/dist/mapbox-gl.css";
+import { supabase } from "@/integrations/supabase/client";
+import { useQuery } from "@tanstack/react-query";
 
 interface CountryTestCount {
   country_code: string;
@@ -18,60 +17,55 @@ const MapboxWorldMap = () => {
 
   // Fetch test counts per country
   const { data: countryData = [], isLoading } = useQuery({
-    queryKey: ['country-test-counts'],
+    queryKey: ["country-test-counts"],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from('milk_tests')
-        .select('country_code')
-        .not('country_code', 'is', null);
-      
+      const { data, error } = await supabase.from("milk_tests").select("country_code").not("country_code", "is", null);
+
       if (error) throw error;
-      
+
       // Count tests per country
       const counts: Record<string, number> = {};
-      data.forEach(test => {
+      data.forEach((test) => {
         if (test.country_code) {
           counts[test.country_code] = (counts[test.country_code] || 0) + 1;
         }
       });
-      
+
       return Object.entries(counts).map(([country_code, test_count]) => ({
         country_code,
-        test_count
+        test_count,
       })) as CountryTestCount[];
     },
   });
 
   // Fetch countries with names for display
   const { data: countriesData = [] } = useQuery({
-    queryKey: ['countries-list'],
+    queryKey: ["countries-list"],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from('countries')
-        .select('code, name');
-      
+      const { data, error } = await supabase.from("countries").select("code, name");
+
       if (error) throw error;
       return data || [];
     },
   });
 
   // Create a map from country code to country name
-  const countryCodeToName = new Map(countriesData.map(c => [c.code, c.name]));
+  const countryCodeToName = new Map(countriesData.map((c) => [c.code, c.name]));
   const totalCountries = countriesData.length || 195;
 
   // Fetch Mapbox token from Supabase Edge Function
   const fetchMapboxToken = async () => {
     try {
-      console.log('Fetching Mapbox token...');
-      const { data, error } = await supabase.functions.invoke('get-mapbox-token');
+      console.log("Fetching Mapbox token...");
+      const { data, error } = await supabase.functions.invoke("get-mapbox-token");
       if (error) {
-        console.error('Error invoking function:', error);
+        console.error("Error invoking function:", error);
         throw error;
       }
-      console.log('Token fetched successfully:', data);
+      console.log("Token fetched successfully:", data);
       return data.token;
     } catch (error) {
-      console.error('Error fetching Mapbox token:', error);
+      console.error("Error fetching Mapbox token:", error);
       return null;
     }
   };
@@ -81,21 +75,21 @@ const MapboxWorldMap = () => {
     // Normalize value between 0 and 1 using logarithmic scale for better distribution
     const normalized = Math.log(value + 1) / Math.log(max + 1);
     const clamped = Math.max(0, Math.min(1, normalized));
-    
+
     // Heatmap gradient: light teal -> green -> yellow -> orange -> red
     const stops = [
-      { pos: 0, color: [200, 230, 201] },    // Light mint green
-      { pos: 0.2, color: [129, 199, 132] },  // Green
-      { pos: 0.4, color: [255, 241, 118] },  // Yellow
-      { pos: 0.6, color: [255, 183, 77] },   // Orange
-      { pos: 0.8, color: [255, 112, 67] },   // Deep orange
-      { pos: 1, color: [229, 57, 53] },      // Red
+      { pos: 0, color: [200, 230, 201] }, // Light mint green
+      { pos: 0.2, color: [129, 199, 132] }, // Green
+      { pos: 0.4, color: [255, 241, 118] }, // Yellow
+      { pos: 0.6, color: [255, 183, 77] }, // Orange
+      { pos: 0.8, color: [255, 112, 67] }, // Deep orange
+      { pos: 1, color: [229, 57, 53] }, // Red
     ];
-    
+
     // Find the two stops to interpolate between
     let lower = stops[0];
     let upper = stops[stops.length - 1];
-    
+
     for (let i = 0; i < stops.length - 1; i++) {
       if (clamped >= stops[i].pos && clamped <= stops[i + 1].pos) {
         lower = stops[i];
@@ -103,79 +97,79 @@ const MapboxWorldMap = () => {
         break;
       }
     }
-    
+
     // Interpolate between the two colors
     const range = upper.pos - lower.pos;
     const factor = range === 0 ? 0 : (clamped - lower.pos) / range;
-    
+
     const r = Math.round(lower.color[0] + factor * (upper.color[0] - lower.color[0]));
     const g = Math.round(lower.color[1] + factor * (upper.color[1] - lower.color[1]));
     const b = Math.round(lower.color[2] + factor * (upper.color[2] - lower.color[2]));
-    
+
     return `rgb(${r}, ${g}, ${b})`;
   };
 
   const getCountryColor = (testCount: number): string => {
-    if (testCount === 0) return '#e5e7eb'; // Light gray for no data
-    
+    if (testCount === 0) return "#e5e7eb"; // Light gray for no data
+
     // Find max for scaling (use 150 as reasonable max for good distribution)
     const maxForScale = 150;
     return interpolateColor(testCount, 1, maxForScale);
   };
 
   const initializeMap = async () => {
-    console.log('MapboxWorldMap: initializeMap called');
-    console.log('MapboxWorldMap: mapContainer.current:', !!mapContainer.current);
-    console.log('MapboxWorldMap: map.current:', !!map.current);
-    
+    console.log("MapboxWorldMap: initializeMap called");
+    console.log("MapboxWorldMap: mapContainer.current:", !!mapContainer.current);
+    console.log("MapboxWorldMap: map.current:", !!map.current);
+
     if (!mapContainer.current || map.current) {
-      console.log('MapboxWorldMap: Early return - container missing or map already exists');
+      console.log("MapboxWorldMap: Early return - container missing or map already exists");
       return;
     }
 
     const token = await fetchMapboxToken();
-    console.log('MapboxWorldMap: Token received:', token ? 'yes (length: ' + token.length + ')' : 'no');
-    
+    console.log("MapboxWorldMap: Token received:", token ? "yes (length: " + token.length + ")" : "no");
+
     if (!token) {
-      console.error('No Mapbox token available');
-      setMapError('Unable to load map token. Please check the MAPBOX_KEY secret.');
+      console.error("No Mapbox token available");
+      setMapError("Unable to load map token. Please check the MAPBOX_KEY secret.");
       return;
     }
 
     try {
-      console.log('MapboxWorldMap: Setting access token and creating map...');
+      console.log("MapboxWorldMap: Setting access token and creating map...");
       mapboxgl.accessToken = token;
-      
+
       map.current = new mapboxgl.Map({
         container: mapContainer.current,
-        style: 'mapbox://styles/mapbox/light-v11',
+        style: "mapbox://styles/mapbox/light-v11",
         zoom: 2,
         center: [0, 30],
-        projection: 'globe',
+        projection: "globe",
       });
 
-      console.log('MapboxWorldMap: Map instance created');
+      console.log("MapboxWorldMap: Map instance created");
 
-      map.current.on('error', (e) => {
-        console.error('Mapbox map error event:', e);
-        setMapError('Map failed to load. Check browser console for details.');
+      map.current.on("error", (e) => {
+        console.error("Mapbox map error event:", e);
+        setMapError("Map failed to load. Check browser console for details.");
       });
 
-      map.current.addControl(new mapboxgl.NavigationControl(), 'top-right');
+      map.current.addControl(new mapboxgl.NavigationControl(), "top-right");
 
-      map.current.on('load', () => {
-        console.log('MapboxWorldMap: Map loaded successfully!');
+      map.current.on("load", () => {
+        console.log("MapboxWorldMap: Map loaded successfully!");
         setIsMapInitialized(true);
         setMapError(null);
-        
+
         // Add atmosphere for globe
         if (map.current) {
           map.current.setFog({
-            color: 'rgb(186, 210, 235)',
-            'high-color': 'rgb(36, 92, 223)',
-            'horizon-blend': 0.02,
-            'space-color': 'rgb(11, 11, 25)',
-            'star-intensity': 0.6,
+            color: "rgb(186, 210, 235)",
+            "high-color": "rgb(36, 92, 223)",
+            "horizon-blend": 0.02,
+            "space-color": "rgb(11, 11, 25)",
+            "star-intensity": 0.6,
           });
         }
       });
@@ -192,81 +186,94 @@ const MapboxWorldMap = () => {
         }
       };
 
-      map.current.on('mousedown', () => { userInteracting = true; });
-      map.current.on('mouseup', () => { userInteracting = false; spinGlobe(); });
-      map.current.on('dragend', () => { spinGlobe(); });
-      map.current.on('pitchend', () => { spinGlobe(); });
-      map.current.on('rotateend', () => { spinGlobe(); });
-      map.current.on('moveend', () => { spinGlobe(); });
+      map.current.on("mousedown", () => {
+        userInteracting = true;
+      });
+      map.current.on("mouseup", () => {
+        userInteracting = false;
+        spinGlobe();
+      });
+      map.current.on("dragend", () => {
+        spinGlobe();
+      });
+      map.current.on("pitchend", () => {
+        spinGlobe();
+      });
+      map.current.on("rotateend", () => {
+        spinGlobe();
+      });
+      map.current.on("moveend", () => {
+        spinGlobe();
+      });
 
       spinGlobe();
     } catch (error) {
-      console.error('Error initializing map:', error);
-      setMapError('Map initialization failed');
+      console.error("Error initializing map:", error);
+      setMapError("Map initialization failed");
     }
   };
 
   const addCountryData = () => {
     if (!map.current || !isMapInitialized || !countryData.length) return;
 
-    const sourceId = 'country-boundaries';
+    const sourceId = "country-boundaries";
 
     // Ensure source exists
     if (!map.current.getSource(sourceId)) {
       map.current.addSource(sourceId, {
-        type: 'vector',
-        url: 'mapbox://mapbox.country-boundaries-v1',
+        type: "vector",
+        url: "mapbox://mapbox.country-boundaries-v1",
       });
     }
 
     // If layers already exist (e.g., react-query refetch), remove them to re-add with new data
-    if (map.current.getLayer('country-fills')) map.current.removeLayer('country-fills');
-    if (map.current.getLayer('country-borders')) map.current.removeLayer('country-borders');
+    if (map.current.getLayer("country-fills")) map.current.removeLayer("country-fills");
+    if (map.current.getLayer("country-borders")) map.current.removeLayer("country-borders");
 
     // Create country data expression for fill-color
-    const countryColorExpression: any = ['case'];
+    const countryColorExpression: any = ["case"];
 
     countryData.forEach((country) => {
       countryColorExpression.push(
-        ['==', ['get', 'iso_3166_1'], country.country_code],
-        getCountryColor(country.test_count)
+        ["==", ["get", "iso_3166_1"], country.country_code],
+        getCountryColor(country.test_count),
       );
     });
 
     // Default color for countries with no data
-    countryColorExpression.push('#f3f4f6');
+    countryColorExpression.push("#f3f4f6");
 
     map.current.addLayer({
-      id: 'country-fills',
-      type: 'fill',
+      id: "country-fills",
+      type: "fill",
       source: sourceId,
-      'source-layer': 'country_boundaries',
+      "source-layer": "country_boundaries",
       paint: {
-        'fill-color': countryColorExpression,
-        'fill-opacity': 0.7,
+        "fill-color": countryColorExpression,
+        "fill-opacity": 0.7,
       },
     });
 
     map.current.addLayer({
-      id: 'country-borders',
-      type: 'line',
+      id: "country-borders",
+      type: "line",
       source: sourceId,
-      'source-layer': 'country_boundaries',
+      "source-layer": "country_boundaries",
       paint: {
-        'line-color': '#ffffff',
-        'line-width': 1,
+        "line-color": "#ffffff",
+        "line-width": 1,
       },
     });
 
     // Add click handler for countries (avoid stacking listeners)
-    map.current.off('click', 'country-fills', onCountryClick as any);
-    map.current.on('click', 'country-fills', onCountryClick as any);
+    map.current.off("click", "country-fills", onCountryClick as any);
+    map.current.on("click", "country-fills", onCountryClick as any);
 
     // Change cursor on hover
-    map.current.off('mouseenter', 'country-fills', onCountryEnter as any);
-    map.current.off('mouseleave', 'country-fills', onCountryLeave as any);
-    map.current.on('mouseenter', 'country-fills', onCountryEnter as any);
-    map.current.on('mouseleave', 'country-fills', onCountryLeave as any);
+    map.current.off("mouseenter", "country-fills", onCountryEnter as any);
+    map.current.off("mouseleave", "country-fills", onCountryLeave as any);
+    map.current.on("mouseenter", "country-fills", onCountryEnter as any);
+    map.current.on("mouseleave", "country-fills", onCountryLeave as any);
   };
 
   const onCountryClick = (e: mapboxgl.MapLayerMouseEvent) => {
@@ -278,33 +285,35 @@ const MapboxWorldMap = () => {
       const country = countryData.find((c) => c.country_code === countryCode);
       const testCount = country ? country.test_count : 0;
 
-      new mapboxgl.Popup({ closeButton: true, className: 'custom-popup' })
+      new mapboxgl.Popup({ closeButton: true, className: "custom-popup" })
         .setLngLat(e.lngLat)
-        .setHTML(`
+        .setHTML(
+          `
             <div style="padding: 16px; min-width: 140px;">
               <h3 style="font-weight: 700; font-size: 18px; margin: 0 0 8px 0; color: #1f2937;">${countryName || countryCode}</h3>
               <p style="font-size: 20px; font-weight: 600; margin: 0; color: ${getCountryColor(testCount)};">
-                ${testCount} milk ${testCount === 1 ? 'test' : 'tests'}
+                ${testCount} milk ${testCount === 1 ? "test" : "tests"}
               </p>
             </div>
-          `)
+          `,
+        )
         .addTo(map.current);
     }
   };
 
   const onCountryEnter = () => {
     if (!map.current) return;
-    map.current.getCanvas().style.cursor = 'pointer';
+    map.current.getCanvas().style.cursor = "pointer";
   };
 
   const onCountryLeave = () => {
     if (!map.current) return;
-    map.current.getCanvas().style.cursor = '';
+    map.current.getCanvas().style.cursor = "";
   };
 
   useEffect(() => {
     initializeMap();
-    
+
     return () => {
       if (map.current) {
         map.current.remove();
@@ -333,24 +342,35 @@ const MapboxWorldMap = () => {
   return (
     <div className="w-full space-y-6">
       {/* Discovery Message */}
-      <div className="text-center py-4">
-        <p className="text-xl md:text-2xl font-semibold text-foreground">
-          Together we've discovered{' '}
-          <span className="text-primary font-bold">{discoveryPercentage}%</span>{' '}
-          of the world of milk 🌍
+      <div className="text-center bg-gradient-to-r from-primary/10 via-accent/10 to-primary/10 rounded-2xl p-6 border border-primary/20">
+        <p className="text-2xl md:text-3xl font-bold text-foreground">
+          Together we've discovered <span className="text-primary">{discoveryPercentage}%</span> of the world of
+          alternative milk 🌍
+        </p>
+        <p className="text-muted-foreground mt-2">
+          {countryData.length} out of {totalCountries} countries explored with {totalTests.toLocaleString()} tests
         </p>
       </div>
 
       {/* Legend - Gradient bar */}
-      <div className="flex items-center justify-center gap-4 mb-6">
-        <span className="text-sm text-muted-foreground">No tests</span>
-        <div 
-          className="w-96 h-4 rounded-full"
-          style={{
-            background: 'linear-gradient(to right, rgb(200, 230, 201), rgb(129, 199, 132), rgb(255, 241, 118), rgb(255, 183, 77), rgb(255, 112, 67), rgb(229, 57, 53))'
-          }}
-        />
-        <span className="text-sm text-muted-foreground">More tests</span>
+      <div className="flex flex-col items-center gap-2 mb-6">
+        <div className="flex items-center gap-3">
+          <span className="text-sm text-muted-foreground">Fewer tests</span>
+          <div
+            className="w-64 h-4 rounded-full"
+            style={{
+              background:
+                "linear-gradient(to right, rgb(200, 230, 201), rgb(129, 199, 132), rgb(255, 241, 118), rgb(255, 183, 77), rgb(255, 112, 67), rgb(229, 57, 53))",
+            }}
+          />
+          <span className="text-sm text-muted-foreground">More tests</span>
+        </div>
+        <div className="flex items-center gap-4">
+          <div className="flex items-center gap-1.5">
+            <div className="w-3 h-3 rounded bg-gray-200"></div>
+            <span className="text-xs text-muted-foreground">No data</span>
+          </div>
+        </div>
       </div>
 
       {/* Mapbox Map */}
@@ -360,9 +380,7 @@ const MapboxWorldMap = () => {
           <div className="absolute inset-0 flex items-center justify-center bg-muted/80 backdrop-blur-sm">
             <div className="text-center p-6">
               <p className="text-muted-foreground mb-2">{mapError}</p>
-              <p className="text-sm text-muted-foreground">
-                The interactive map works best in the published app.
-              </p>
+              <p className="text-sm text-muted-foreground">The interactive map works best in the published app.</p>
             </div>
           </div>
         )}
@@ -377,27 +395,30 @@ const MapboxWorldMap = () => {
         <div className="divide-y divide-border">
           {(() => {
             const sortedData = [...countryData].sort((a, b) => b.test_count - a.test_count);
+            const maxCount = sortedData[0]?.test_count || 1;
             return sortedData.map((country, index) => {
-              const percentage = (country.test_count / totalTests) * 100;
+              const percentage = (country.test_count / maxCount) * 100;
               return (
                 <div
                   key={country.country_code}
                   className="relative flex items-center justify-between px-6 py-4 hover:bg-muted/50 transition-colors"
                 >
-                  <div 
+                  <div
                     className="absolute inset-y-0 left-0 bg-emerald-500/15 transition-all"
                     style={{ width: `${percentage}%` }}
                   />
                   <div className="relative flex items-center gap-4">
-                    <span className="text-sm font-medium w-6 text-foreground">
+                    <span className={`text-sm font-medium w-6 ${index === 0 ? "text-emerald-600" : "text-foreground"}`}>
                       {index + 1}
                     </span>
                     <span className="font-medium text-foreground">
                       {countryCodeToName.get(country.country_code) || country.country_code}
                     </span>
                   </div>
-                  <span className="relative text-lg font-bold text-foreground">
-                    {country.test_count} <span className="text-sm font-normal text-muted-foreground">({Math.round(percentage)}%)</span>
+                  <span
+                    className={`relative text-lg font-bold ${index === 0 ? "text-emerald-600" : "text-foreground"}`}
+                  >
+                    {country.test_count}
                   </span>
                 </div>
               );
