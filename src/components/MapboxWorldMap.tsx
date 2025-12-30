@@ -134,11 +134,10 @@ const MapboxWorldMap = () => {
         attributionControl: false,
       });
 
-      // Add minimal attribution without the "Improve this map" link
+      // Add compact attribution control (no duplicates, no "Improve this map" link)
       map.current.addControl(new mapboxgl.AttributionControl({
         compact: true,
-        customAttribution: '© Mapbox © OpenStreetMap'
-      }));
+      }), 'bottom-right');
 
       console.log('MapboxWorldMap: Map instance created');
 
