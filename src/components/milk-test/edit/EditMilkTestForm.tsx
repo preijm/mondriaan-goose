@@ -1,7 +1,6 @@
-
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
 import { Trash2 } from "lucide-react";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { RatingSelect } from "../RatingSelect";
@@ -52,6 +51,7 @@ export const EditMilkTestForm = ({
   onCancel,
   onDelete,
 }: EditMilkTestFormProps) => {
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const isFormValid = formState.rating > 0 && formState.country && formState.country.trim() !== '';
 
   return (
@@ -150,19 +150,19 @@ export const EditMilkTestForm = ({
         </Button>
         
         {/* Delete Button with Confirmation */}
-        <AlertDialog>
-          <AlertDialogTrigger asChild>
-            <Button
-              type="button"
-              variant="outline"
-              disabled={formState.isSubmitting}
-              className="px-4 py-2 border-destructive text-destructive hover:bg-destructive/10"
-            >
-              <Trash2 className="h-4 w-4 mr-2" />
-              Delete
-            </Button>
-          </AlertDialogTrigger>
-          <AlertDialogContent>
+        <Button
+          type="button"
+          variant="outline"
+          disabled={formState.isSubmitting}
+          onClick={() => setShowDeleteConfirm(true)}
+          className="px-4 py-2 border-destructive text-destructive hover:bg-destructive/10"
+        >
+          <Trash2 className="h-4 w-4 mr-2" />
+          Delete
+        </Button>
+        
+        <AlertDialog open={showDeleteConfirm} onOpenChange={setShowDeleteConfirm}>
+          <AlertDialogContent className="z-[200]">
             <AlertDialogHeader>
               <AlertDialogTitle>Delete Test Record</AlertDialogTitle>
               <AlertDialogDescription>
