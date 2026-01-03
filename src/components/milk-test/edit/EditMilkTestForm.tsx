@@ -166,7 +166,7 @@ export const EditMilkTestForm = ({
             <AlertDialogHeader>
               <AlertDialogTitle>Delete Test Record</AlertDialogTitle>
               <AlertDialogDescription>
-                Are you sure you want to delete this milk test record? This action cannot be undone.
+                Are you sure you want to delete this test? This action cannot be undone.
               </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>
