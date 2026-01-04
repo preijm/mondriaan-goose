@@ -1,70 +1,68 @@
-# Welcome to your Lovable project
+# Mondriaan Goose 🪿
 
-## Project info
+**Project codename:** mondriaan-goose  
+**Live site:** [milkmenot.com](https://milkmenot.com)
 
-**URL**: https://lovable.dev/projects/534a6b8e-9504-4d1c-9f7f-e02ff5b37b5b
-**Site**: https://milkmenot.com
+## What is MilkMeNot?
 
-## How can I edit this code?
+MilkMeNot is a community-driven platform for discovering and rating plant-based milk alternatives. We're building a comprehensive database of dairy-free milks tested by real people, helping you find the perfect plant milk for your coffee, cereal, or cooking needs.
 
-There are several ways of editing your application.
+## The Goal
 
-**Use Lovable**
+Together, we're mapping the world of plant-based milk alternatives. With hundreds of products across dozens of brands and countless flavor variations, finding the right plant milk can be overwhelming. MilkMeNot makes it easy by crowdsourcing taste tests and ratings from our community.
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/534a6b8e-9504-4d1c-9f7f-e02ff5b37b5b) and start prompting.
+## How It Works
 
-Changes made via Lovable will be committed automatically to this repo.
+1. **Discover** – Browse our database of plant milks, filtered by base (oat, soy, almond, etc.), brand, flavor, and properties (barista, organic, sugar-free).
 
-**Use your preferred IDE**
+2. **Test** – Try a plant milk and log your experience. Rate it, add notes about taste and texture, and share whether it works for your preferred drink.
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+3. **Share** – Your tests contribute to aggregate ratings, helping others discover the best plant milks for their needs.
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+4. **Explore** – See what the community is testing through our feed, discover trending products, and find hidden gems from around the world.
 
-Follow these steps:
+## Features
+
+- 🔍 **Product Search** – Find plant milks by brand, base type, flavor, and properties
+- ⭐ **Community Ratings** – See aggregate scores from real user tests
+- 📊 **Detailed Results** – Filter and sort by rating, price-quality ratio, and more
+- 🌍 **Global Coverage** – Track products and tests from countries worldwide
+- 📱 **Mobile App** – Available as a Progressive Web App with native Android support
+- 🗺️ **World Map** – Visualize global plant milk discovery progress
+
+## Tech Stack
+
+- **Frontend:** React, TypeScript, Vite, Tailwind CSS
+- **UI Components:** shadcn/ui, Radix UI, Framer Motion
+- **Backend:** Supabase (PostgreSQL, Auth, Edge Functions, Storage)
+- **Maps:** Mapbox GL JS
+- **Mobile:** Capacitor (Android/iOS)
+
+## Development
 
 ```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+# Install dependencies
+npm install
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
+# Start development server
 npm run dev
+
+# Build for production
+npm run build
+
+# Sync with Capacitor for mobile
+npx cap sync
 ```
 
-**Edit a file directly in GitHub**
+## Contributing
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+We welcome contributions! Whether it's adding new features, fixing bugs, or improving documentation, feel free to open a pull request.
 
-**Use GitHub Codespaces**
+## Links
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+- **Website:** [milkmenot.com](https://milkmenot.com)
+- **Lovable Project:** [lovable.dev/projects/534a6b8e-9504-4d1c-9f7f-e02ff5b37b5b](https://lovable.dev/projects/534a6b8e-9504-4d1c-9f7f-e02ff5b37b5b)
 
-## What technologies are used for this project?
+---
 
-This project is built with .
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/534a6b8e-9504-4d1c-9f7f-e02ff5b37b5b) and click on Share -> Publish.
-
-## I want to use a custom domain - is that possible?
-
-We don't support custom domains (yet). If you want to deploy your project under your own domain then we recommend using Netlify. Visit our docs for more details: [Custom domains](https://docs.lovable.dev/tips-tricks/custom-domain/)
+*Built with [Lovable](https://lovable.dev)*
