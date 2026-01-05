@@ -7,16 +7,13 @@
 [![Vite](https://img.shields.io/badge/Vite-5.4-646cff)](https://vitejs.dev/)
 [![Website](https://img.shields.io/website?url=https%3A%2F%2Fmilkmenot.com)](https://milkmenot.com)
 
-**Project codename:** mondriaan-goose  
-**Live site:** [milkmenot.com](https://milkmenot.com)
+## What is Milk Me Not?
 
-## What is MilkMeNot?
-
-MilkMeNot is a community-driven platform for discovering and rating plant-based milk alternatives. We're building a comprehensive database of dairy-free milks tested by real people, helping you find the perfect plant milk for your coffee, cereal, or cooking needs.
+Milk Me Not is a community-driven platform for discovering and rating plant-based milk alternatives. We're building a comprehensive database of dairy-free milks tested by real people, helping you find the perfect plant milk for your coffee, cereal, or cooking needs.
 
 ## The Goal
 
-Together, we're mapping the world of plant-based milk alternatives. With hundreds of products across dozens of brands and countless flavor variations, finding the right plant milk can be overwhelming. MilkMeNot makes it easy by crowdsourcing taste tests and ratings from our community.
+Together, we're mapping the world of plant-based milk alternatives. With hundreds of products across dozens of brands and countless flavor variations, finding the right plant milk can be overwhelming. Milk Me Not makes it easy by crowdsourcing taste tests and ratings from our community.
 
 ## How It Works
 
