@@ -1,0 +1,38 @@
+# CODEOWNERS - Automatically assign reviewers to pull requests
+# https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+
+# Default owners for everything in the repo
+*                                   @your-username
+
+# Frontend components
+/src/components/                    @your-username
+/src/pages/                         @your-username
+
+# Core application logic
+/src/hooks/                         @your-username
+/src/contexts/                      @your-username
+/src/lib/                           @your-username
+
+# Supabase & Backend
+/supabase/                          @your-username
+
+# Styling & Design System
+/src/index.css                      @your-username
+/src/styles/                        @your-username
+/tailwind.config.ts                 @your-username
+
+# Mobile (Capacitor)
+/capacitor.config.ts                @your-username
+/android/                           @your-username
+/ios/                               @your-username
+
+# Configuration & Build
+/vite.config.ts                     @your-username
+/tsconfig*.json                     @your-username
+
+# Documentation
+/*.md                               @your-username
+/email-templates/                   @your-username
+
+# GitHub workflows & templates
+/.github/                           @your-username
