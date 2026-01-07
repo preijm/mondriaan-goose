@@ -60,7 +60,7 @@ npx cap sync
 
 ## Contributing
 
-We welcome contributions! Please read our [Contributing Guide](./CONTRIBUTING.md) for details on our development process, code style, and how to submit pull requests.
+We welcome contributions! Please read our [Contributing Guide](./CONTRIBUTING.md) for details on our development process, code style, and how to submit pull requests. All contributors are expected to follow our [Code of Conduct](./CODE_OF_CONDUCT.md).
 
 ## Changelog
 
