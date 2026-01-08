@@ -10,6 +10,12 @@ const NativeSplashScreen = ({ onComplete }: NativeSplashScreenProps) => {
   const [isVisible, setIsVisible] = useState(true);
 
   useEffect(() => {
+    // Hide the HTML splash screen when React splash takes over
+    const htmlSplash = document.getElementById('native-splash');
+    if (htmlSplash) {
+      htmlSplash.style.display = 'none';
+    }
+    
     const timer = setTimeout(() => {
       setIsVisible(false);
     }, 2000);
