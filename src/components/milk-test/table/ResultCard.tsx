@@ -40,19 +40,12 @@ export const ResultCard = ({
       onClick={handleClick}
     >
       <div className="space-y-1.5">
-        {/* Top row: Product name and Score badge */}
+        {/* Top row: Product name, badges, and Score */}
         <div className="flex items-start justify-between gap-2">
-          <h2 className="text-sm font-semibold text-gray-900 flex-1 leading-tight">
-            <span translate="no">{result.brand_name || "Unknown Brand"}</span> - {result.product_name || "Unknown Product"}
-          </h2>
-          <Badge variant={getScoreBadgeVariant(result.avg_rating)} className="flex-shrink-0 text-xs">
-            {formatScore(result.avg_rating)}
-          </Badge>
-        </div>
-        
-        {/* Bottom row: Badges, test count, and date all together */}
-        <div className="flex items-center justify-between gap-2 text-xs">
-          <div className="flex items-center gap-1.5 flex-wrap flex-1">
+          <div className="flex-1 flex flex-wrap items-center gap-1.5">
+            <h2 className="text-sm font-semibold text-gray-900 leading-tight">
+              <span translate="no">{result.brand_name || "Unknown Brand"}</span> - {result.product_name || "Unknown Product"}
+            </h2>
             {(result.is_barista || (result.property_names && result.property_names.length > 0) || (result.flavor_names && result.flavor_names.length > 0)) && (
               <ProductPropertyBadges 
                 isBarista={result.is_barista}
@@ -65,13 +58,20 @@ export const ResultCard = ({
                 onFiltersChange={onFiltersChange}
               />
             )}
-            <div className="flex items-center gap-1 text-gray-500">
-              <ClipboardList className="w-3.5 h-3.5" />
-              <span>{result.count}</span>
-            </div>
           </div>
-          <div className="text-gray-400 flex-shrink-0">
-            {format(new Date(result.most_recent_date), 'MMM dd')}
+          <Badge variant={getScoreBadgeVariant(result.avg_rating)} className="flex-shrink-0 text-xs">
+            {formatScore(result.avg_rating)}
+          </Badge>
+        </div>
+        
+        {/* Bottom row: Test count and date */}
+        <div className="flex items-center justify-between text-xs">
+          <div className="flex items-center gap-1 text-gray-500">
+            <ClipboardList className="w-3.5 h-3.5" />
+            <span>{result.count} test{result.count !== 1 ? 's' : ''}</span>
+          </div>
+          <div className="text-gray-400">
+            {format(new Date(result.most_recent_date), 'MMM dd, yyyy')}
           </div>
         </div>
       </div>
