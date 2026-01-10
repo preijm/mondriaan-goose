@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Search, SlidersHorizontal, User, ArrowUpDown, X, ArrowUp, ArrowDown, Star, Calendar, Tag, Package, Trophy } from "lucide-react";
+import { Search, SlidersHorizontal, User, ArrowUpDown, X, ArrowUp, ArrowDown, Star, Calendar, Tag, Package, Trophy, Coffee, Droplet } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -393,7 +393,10 @@ export const MobileFilterBar = ({
             <div className="px-4 pb-4 overflow-y-auto space-y-6">
               {/* Type Section */}
               <div>
-                <h4 className="text-sm font-medium mb-3">Type</h4>
+                <h4 className="text-sm font-medium mb-3 flex items-center gap-1.5">
+                  <Coffee className="w-3.5 h-3.5 text-amber-600" />
+                  Type
+                </h4>
                 <div className="flex flex-wrap gap-2">
                   <Badge
                     variant="barista"
@@ -412,7 +415,10 @@ export const MobileFilterBar = ({
               {/* Properties Section */}
               {properties.length > 0 && (
                 <div>
-                  <h4 className="text-sm font-medium mb-3">Properties</h4>
+                  <h4 className="text-sm font-medium mb-3 flex items-center gap-1.5">
+                    <Tag className="w-3.5 h-3.5 text-slate-600" />
+                    Properties
+                  </h4>
                   <div className="flex flex-wrap gap-2">
                     {properties.map(property => (
                       <Badge
@@ -435,7 +441,10 @@ export const MobileFilterBar = ({
               {/* Flavors Section */}
               {flavors.length > 0 && (
                 <div>
-                  <h4 className="text-sm font-medium mb-3">Flavors</h4>
+                  <h4 className="text-sm font-medium mb-3 flex items-center gap-1.5">
+                    <Droplet className="w-3.5 h-3.5 text-purple-600" />
+                    Flavors
+                  </h4>
                   <div className="flex flex-wrap gap-2">
                     {flavors.map(flavor => (
                       <Badge
