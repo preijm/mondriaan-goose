@@ -175,7 +175,17 @@ export const useMilkTestForm = (editTest?: MilkTestResult) => {
       console.log(testId ? "Updating milk test..." : "Inserting milk test with user_id:", userData.user.id);
       
       // Base milk test data with sanitized inputs
-      const milkTestData: any = {
+      const milkTestData: {
+        product_id: string;
+        country_code: string | null;
+        shop_name: string | null;
+        rating: number;
+        notes: string | null;
+        drink_preference: string;
+        user_id: string;
+        picture_path: string | null;
+        price_quality_ratio?: string;
+      } = {
         product_id: productId,
         country_code: country ? sanitizeInput(country) : null,
         shop_name: shop ? sanitizeForDatabase(shop) : null,

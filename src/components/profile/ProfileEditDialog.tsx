@@ -100,10 +100,11 @@ export const ProfileEditDialog = ({
 
       onSuccess();
       onOpenChange(false);
-    } catch (error: any) {
+    } catch (error: unknown) {
+      const err = error as Error;
       toast({
         title: "Error updating profile",
-        description: error.message,
+        description: err.message,
         variant: "destructive",
       });
     } finally {

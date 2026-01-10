@@ -33,8 +33,9 @@ const useProtectedQuery = <T>(
     async () => {
       try {
         return await queryFn();
-      } catch (error: any) {
-        if (error?.message?.includes('JWT') || error?.status === 401) {
+      } catch (error: unknown) {
+        const err = error as { message?: string; status?: number };
+        if (err?.message?.includes('JWT') || err?.status === 401) {
           navigate('/auth');
         }
         throw error;
@@ -140,23 +141,39 @@ export const useAggregatedResults = (sortConfig: { column: string; direction: 'a
       if (error) throw error;
       if (!data) return [];
 
+      // Type for grouped data
+      interface GroupedProduct {
+        product_id: string;
+        brand_id: string;
+        brand_name: string;
+        product_name: string;
+        property_names: string[] | null;
+        is_barista: boolean;
+        flavor_names: string[] | null;
+        ratings: number[];
+        price_quality_ratios: string[];
+      }
+
       // Group by product and calculate averages
-      const groupedData = data.reduce((acc: any, test: any) => {
+      const groupedData = data.reduce<Record<string, GroupedProduct>>((acc, test) => {
         const key = test.product_id;
+        if (!key) return acc;
         if (!acc[key]) {
           acc[key] = {
-            product_id: test.product_id,
-            brand_id: test.brand_id,
-            brand_name: test.brand_name,
-            product_name: test.product_name,
+            product_id: test.product_id!,
+            brand_id: test.brand_id!,
+            brand_name: test.brand_name!,
+            product_name: test.product_name!,
             property_names: test.property_names,
-            is_barista: test.is_barista,
+            is_barista: test.is_barista!,
             flavor_names: test.flavor_names,
             ratings: [],
             price_quality_ratios: []
           };
         }
-        acc[key].ratings.push(test.rating);
+        if (test.rating !== null) {
+          acc[key].ratings.push(test.rating);
+        }
         if (test.price_quality_ratio) {
           acc[key].price_quality_ratios.push(test.price_quality_ratio);
         }
@@ -164,7 +181,7 @@ export const useAggregatedResults = (sortConfig: { column: string; direction: 'a
       }, {});
 
       // Calculate averages and format results
-      const results = Object.values(groupedData).map((group: any) => ({
+      const results = Object.values(groupedData).map((group) => ({
         product_id: group.product_id,
         brand_id: group.brand_id,
         brand_name: group.brand_name,
@@ -172,14 +189,15 @@ export const useAggregatedResults = (sortConfig: { column: string; direction: 'a
         property_names: group.property_names,
         is_barista: group.is_barista,
         flavor_names: group.flavor_names,
-        avg_rating: group.ratings.reduce((sum: number, rating: number) => sum + rating, 0) / group.ratings.length,
+        avg_rating: group.ratings.reduce((sum, rating) => sum + rating, 0) / group.ratings.length,
         count: group.ratings.length
       }));
 
       // Sort results
-      return results.sort((a: any, b: any) => {
-        const aValue = a[sortConfig.column];
-        const bValue = b[sortConfig.column];
+      type ResultItem = typeof results[number];
+      return results.sort((a: ResultItem, b: ResultItem) => {
+        const aValue = a[sortConfig.column as keyof ResultItem];
+        const bValue = b[sortConfig.column as keyof ResultItem];
         
         if (sortConfig.direction === 'asc') {
           return aValue > bValue ? 1 : -1;

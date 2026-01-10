@@ -209,7 +209,7 @@ const MapboxWorldMap = () => {
     if (map.current.getLayer('country-borders')) map.current.removeLayer('country-borders');
 
     // Create country data expression for fill-color
-    const countryColorExpression: any = ['case'];
+    const countryColorExpression: mapboxgl.ExpressionSpecification = ['case'];
 
     countryData.forEach((country) => {
       countryColorExpression.push(
@@ -244,22 +244,23 @@ const MapboxWorldMap = () => {
     });
 
     // Add click handler for countries (avoid stacking listeners)
-    map.current.off('click', 'country-fills', onCountryClick as any);
-    map.current.on('click', 'country-fills', onCountryClick as any);
+    map.current.off('click', 'country-fills', onCountryClick);
+    map.current.on('click', 'country-fills', onCountryClick);
 
     // Change cursor on hover
-    map.current.off('mouseenter', 'country-fills', onCountryEnter as any);
-    map.current.off('mouseleave', 'country-fills', onCountryLeave as any);
-    map.current.on('mouseenter', 'country-fills', onCountryEnter as any);
-    map.current.on('mouseleave', 'country-fills', onCountryLeave as any);
+    map.current.off('mouseenter', 'country-fills', onCountryEnter);
+    map.current.off('mouseleave', 'country-fills', onCountryLeave);
+    map.current.on('mouseenter', 'country-fills', onCountryEnter);
+    map.current.on('mouseleave', 'country-fills', onCountryLeave);
   };
 
   const onCountryClick = (e: mapboxgl.MapLayerMouseEvent) => {
     if (!map.current) return;
     if (e.features && e.features[0]) {
       const feature = e.features[0];
-      const countryCode = (feature.properties as any)?.iso_3166_1;
-      const countryName = (feature.properties as any)?.name;
+      const properties = feature.properties as { iso_3166_1?: string; name?: string } | null;
+      const countryCode = properties?.iso_3166_1;
+      const countryName = properties?.name;
       const country = countryData.find((c) => c.country_code === countryCode);
       const testCount = country ? country.test_count : 0;
 

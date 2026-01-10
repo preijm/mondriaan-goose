@@ -58,10 +58,11 @@ export const useAuthForm = () => {
       }
 
       navigate(fromAdd ? "/add" : "/results");
-    } catch (error: any) {
+    } catch (error: unknown) {
+      const err = error as Error;
       toast({
         title: "Error",
-        description: error.message,
+        description: err.message,
         variant: "destructive",
       });
       setLoading(false);
@@ -209,11 +210,12 @@ export const useAuthForm = () => {
           variant: "destructive"
         });
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
+      const err = error as Error;
       console.error("Caught error during signup:", error);
       toast({
         title: "Error",
-        description: error.message,
+        description: err.message,
         variant: "destructive",
       });
     } finally {
