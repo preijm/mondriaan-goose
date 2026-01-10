@@ -182,7 +182,7 @@ export const searchRateLimit = new ClientSideRateLimit(30, 60 * 1000); // 30 sea
 /**
  * Security logging helper
  */
-export const logSecurityEvent = async (eventType: string, eventData?: any) => {
+export const logSecurityEvent = async (eventType: string, eventData?: Record<string, unknown>) => {
   try {
     // This would integrate with your security logging system
     console.warn(`Security Event: ${eventType}`, eventData);

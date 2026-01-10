@@ -103,7 +103,7 @@ export const useAuthFlow = () => {
           // Clean up the URL
           window.history.replaceState(null, '', window.location.pathname);
           
-        } catch (error: any) {
+        } catch (error: unknown) {
           console.error("Password reset setup failed:", error);
           toast({
             title: "Invalid reset link",
@@ -216,11 +216,12 @@ export const useAuthFlow = () => {
         description: "Use your new password to log in",
       });
       
-    } catch (error: any) {
+    } catch (error: unknown) {
+      const err = error as Error;
       console.error("Password update failed:", error);
       toast({
         title: "Error updating password",
-        description: error.message || "Please request a new password reset link",
+        description: err.message || "Please request a new password reset link",
         variant: "destructive"
       });
     } finally {

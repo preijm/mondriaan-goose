@@ -82,7 +82,7 @@ const ResetPasswordDialog = ({
       });
       onOpenChange(false);
       setResetEmail("");
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error("Password reset error:", error);
       toast({
         title: "Reset password failed",

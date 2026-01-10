@@ -1,10 +1,20 @@
 
+export interface ProductDetails {
+  brand_id?: string;
+  brand_name?: string;
+  product_name?: string;
+  product_name_id?: string | null;
+  is_barista?: boolean;
+  property_names?: string[];
+  flavor_names?: string[];
+}
+
 export interface UseProductRegistrationFormProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   onSuccess: (productId: string, brandId: string) => void;
   editProductId?: string;
-  productDetails?: any;
+  productDetails?: ProductDetails;
 }
 
 export interface FormState {
@@ -33,6 +43,10 @@ export interface Flavor {
   key: string;
 }
 
+export interface ToastFunction {
+  (props: { title: string; description?: string; variant?: "default" | "destructive" }): void;
+}
+
 export interface ProductSubmitParams {
   brandId: string;
   productName: string;
@@ -40,7 +54,7 @@ export interface ProductSubmitParams {
   selectedProductTypes: string[];
   isBarista: boolean;
   selectedFlavors: string[];
-  toast: any;
+  toast: ToastFunction;
   onSuccess: (productId: string, brandId: string) => void;
   onOpenChange: (open: boolean) => void;
   editProductId?: string;

@@ -140,7 +140,15 @@ export const useEditMilkTest = ({ test, onSuccess, onClose }: UseEditMilkTestPro
       }
 
       // Create the base update data with sanitized inputs
-      const updateData: any = {
+      const updateData: {
+        shop_name: string | null;
+        country_code: string | null;
+        rating: number;
+        notes: string | null;
+        picture_path: string | null;
+        drink_preference: string;
+        price_quality_ratio?: string | null;
+      } = {
         shop_name: shop ? sanitizeInput(shop) : null,
         country_code: country || null,
         rating: Number(rating),

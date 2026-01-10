@@ -49,10 +49,11 @@ export default function CountrySettings() {
         title: "Success",
         description: "Country updated successfully."
       });
-    } catch (error: any) {
+    } catch (error: unknown) {
+      const err = error as Error;
       toast({
         title: "Error",
-        description: error.message,
+        description: err.message,
         variant: "destructive"
       });
     } finally {

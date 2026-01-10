@@ -26,8 +26,29 @@ const chartConfig = {
   }
 };
 
+// Custom tooltip props interface
+interface TooltipProps {
+  active?: boolean;
+  payload?: Array<{
+    payload: {
+      propertyNames?: string[];
+      flavorNames?: string[];
+      isBarista?: boolean;
+      productName?: string;
+      rating: number;
+      date?: string;
+      username?: string;
+      shopName?: string;
+      name?: string;
+      tests?: number;
+      products?: string[];
+    };
+  }>;
+  label?: string;
+}
+
 // Custom tooltip component for individual test results
-const TestResultTooltip = ({ active, payload, label }: any) => {
+const TestResultTooltip = ({ active, payload }: TooltipProps) => {
   if (active && payload && payload.length) {
     const data = payload[0].payload;
     return (
@@ -270,11 +291,13 @@ export const MilkCharts = ({
         .sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
     };
 
-    const handleBarClick = (data: any) => {
-      setSelectedBrand(data.name);
+    const handleBarClick = (data: { name?: string }) => {
+      if (data.name) {
+        setSelectedBrand(data.name);
+      }
     };
 
-    const CustomTooltip = ({ active, payload }: any) => {
+    const CustomTooltip = ({ active, payload }: TooltipProps) => {
       if (active && payload && payload.length) {
         const data = payload[0].payload;
         return (

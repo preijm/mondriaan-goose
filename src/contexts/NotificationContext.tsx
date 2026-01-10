@@ -43,7 +43,7 @@ export function NotificationProvider({ children }: { children: ReactNode }) {
         setNotifications(data);
         setUnreadCount(data.filter(n => !n.is_read).length);
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Error fetching notifications:', error);
       toast({
         title: "Error",
@@ -72,7 +72,7 @@ export function NotificationProvider({ children }: { children: ReactNode }) {
       if (error && error.code !== 'PGRST116') throw error;
 
       setPreferences(data);
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Error fetching notification preferences:', error);
     } finally {
       setPreferencesLoading(false);
@@ -92,7 +92,7 @@ export function NotificationProvider({ children }: { children: ReactNode }) {
         prev.map(n => n.id === notificationId ? { ...n, is_read: true } : n)
       );
       setUnreadCount(prev => Math.max(0, prev - 1));
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Error marking notification as read:', error);
       toast({
         title: "Error",
@@ -119,7 +119,7 @@ export function NotificationProvider({ children }: { children: ReactNode }) {
 
       setNotifications(prev => prev.map(n => ({ ...n, is_read: true })));
       setUnreadCount(0);
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Error marking all notifications as read:', error);
       toast({
         title: "Error",
@@ -163,7 +163,7 @@ export function NotificationProvider({ children }: { children: ReactNode }) {
         title: "Success",
         description: "Notification preferences updated",
       });
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Error updating notification preferences:', error);
       toast({
         title: "Error",
