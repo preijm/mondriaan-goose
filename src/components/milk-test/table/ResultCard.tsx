@@ -32,52 +32,46 @@ export const ResultCard = ({
 
   return (
     <div
-      className={`bg-white/80 backdrop-blur-sm rounded-xl shadow-lg p-4 cursor-pointer hover:shadow-xl transition-all max-w-sm w-full ${
+      className={`bg-white/80 backdrop-blur-sm rounded-xl shadow-lg p-3 cursor-pointer hover:shadow-xl transition-all max-w-sm w-full ${
         isClicked 
           ? 'border-2 border-primary animate-pulse' 
           : 'border border-white/20'
       } animate-fade-in`}
       onClick={handleClick}
     >
-      <div className="space-y-2">
+      <div className="space-y-1.5">
         {/* Top row: Product name and Score badge */}
-        <div className="flex items-start justify-between gap-3">
-          <div className="flex-1">
-            <h2 className="text-base font-semibold text-gray-900">
-              <span translate="no">{result.brand_name || "Unknown Brand"}</span> - {result.product_name || "Unknown Product"}
-            </h2>
-            {/* Property badges directly below name */}
-            {(result.is_barista || (result.property_names && result.property_names.length > 0) || (result.flavor_names && result.flavor_names.length > 0)) && (
-              <div className="flex flex-wrap gap-2 mt-2">
-                <ProductPropertyBadges 
-                  isBarista={result.is_barista}
-                  propertyNames={result.property_names}
-                  flavorNames={result.flavor_names}
-                  compact={true}
-                  displayType="all"
-                  inline={true}
-                  filters={filters}
-                  onFiltersChange={onFiltersChange}
-                />
-              </div>
-            )}
-          </div>
-          <Badge variant={getScoreBadgeVariant(result.avg_rating)} className="flex-shrink-0">
+        <div className="flex items-start justify-between gap-2">
+          <h2 className="text-sm font-semibold text-gray-900 flex-1 leading-tight">
+            <span translate="no">{result.brand_name || "Unknown Brand"}</span> - {result.product_name || "Unknown Product"}
+          </h2>
+          <Badge variant={getScoreBadgeVariant(result.avg_rating)} className="flex-shrink-0 text-xs">
             {formatScore(result.avg_rating)}
           </Badge>
         </div>
         
-        {/* Separator line */}
-        <div className="border-t border-gray-200 pt-2">
-          {/* Bottom row: Test count and Date */}
-          <div className="flex items-center justify-between text-sm">
-            <div className="flex items-center gap-1.5 text-gray-600">
-              <ClipboardList className="w-4 h-4" />
-              <span>{result.count} test{result.count !== 1 ? 's' : ''}</span>
+        {/* Bottom row: Badges, test count, and date all together */}
+        <div className="flex items-center justify-between gap-2 text-xs">
+          <div className="flex items-center gap-1.5 flex-wrap flex-1">
+            {(result.is_barista || (result.property_names && result.property_names.length > 0) || (result.flavor_names && result.flavor_names.length > 0)) && (
+              <ProductPropertyBadges 
+                isBarista={result.is_barista}
+                propertyNames={result.property_names}
+                flavorNames={result.flavor_names}
+                compact={true}
+                displayType="all"
+                inline={true}
+                filters={filters}
+                onFiltersChange={onFiltersChange}
+              />
+            )}
+            <div className="flex items-center gap-1 text-gray-500">
+              <ClipboardList className="w-3.5 h-3.5" />
+              <span>{result.count}</span>
             </div>
-            <div className="text-gray-500">
-              {format(new Date(result.most_recent_date), 'MMM dd, yyyy')}
-            </div>
+          </div>
+          <div className="text-gray-400 flex-shrink-0">
+            {format(new Date(result.most_recent_date), 'MMM dd')}
           </div>
         </div>
       </div>
