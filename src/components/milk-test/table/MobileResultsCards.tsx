@@ -18,7 +18,7 @@ export const MobileResultsCards = ({
           </div>
         </div>
       ) : (
-        <div className="md:hidden space-y-2 flex flex-col">
+        <div className="md:hidden space-y-1.5 flex flex-col">
           {results.map((result) => (
             <ResultCard
               key={result.product_id}
