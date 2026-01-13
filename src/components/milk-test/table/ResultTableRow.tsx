@@ -7,6 +7,12 @@ import { getScoreBadgeVariant } from "@/lib/scoreUtils";
 import { formatScore } from "@/lib/scoreFormatter";
 import { format } from "date-fns";
 import { AggregatedResult, FilterOptions } from "./types";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 interface ResultTableRowProps {
   result: AggregatedResult;
@@ -27,7 +33,26 @@ export const ResultTableRow = ({
       onClick={() => onProductClick(result.product_id)}
     >
       <TableCell className="font-medium text-gray-900">
-        <span translate="no">{result.brand_name || "Unknown Brand"}</span>
+        {/* Desktop: show full brand name */}
+        <span translate="no" className="hidden lg:inline">
+          {result.brand_name || "Unknown Brand"}
+        </span>
+        {/* Tablet: truncate with tooltip */}
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <span 
+                translate="no" 
+                className="lg:hidden block truncate max-w-[120px]"
+              >
+                {result.brand_name || "Unknown Brand"}
+              </span>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p translate="no">{result.brand_name || "Unknown Brand"}</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
       </TableCell>
       <TableCell className="pr-0">
         <div className="flex items-center gap-2 flex-wrap">
