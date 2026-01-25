@@ -229,7 +229,9 @@ export const sanitizeForDatabase = (input: string): string => {
   sanitized = sanitized.replace(/\bon(click|load|error|mouse\w+|key\w+|focus|blur|change|submit|reset|select|input|scroll|resize|unload|beforeunload|abort|canplay\w*|durationchange|emptied|ended|loadeddata|loadedmetadata|pause|play|playing|progress|ratechange|seeked|seeking|stalled|suspend|timeupdate|volumechange|waiting|copy|cut|paste|drag\w*|drop|wheel|contextmenu|invalid|search|toggle|animationend|animationiteration|animationstart|transitionend|pointerdown|pointermove|pointerup|pointercancel|pointerover|pointerout|pointerenter|pointerleave|gotpointercapture|lostpointercapture|touchstart|touchend|touchmove|touchcancel)\b/gi, '');
   
   // Remove SQL-related patterns (defense in depth - always use parameterized queries)
-  sanitized = sanitized.replace(/['";]/g, ''); // Remove quotes and semicolons
+  // Note: We preserve single and double quotes as they are safe with parameterized queries
+  // and users need them for legitimate content like: "this is a 'fake' milk"
+  sanitized = sanitized.replace(/;/g, ''); // Remove semicolons
   sanitized = sanitized.replace(/(\/\*)|(\*\/)/g, ''); // Remove SQL comments
   sanitized = sanitized.replace(/\b(hex|waitfor|count|union|select|insert|update|delete|drop|alter|create|truncate|exec|execute|xp_|sp_|0x)\b/gi, '');
   
