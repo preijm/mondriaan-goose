@@ -56,11 +56,21 @@ export const FeedEngagement = ({
               </Button>
             </TooltipTrigger>
             {likes.length > 0 && (
-              <TooltipContent>
-                <div className="space-y-1">
-                  <p className="font-medium">Liked by:</p>
+              <TooltipContent 
+                side="top" 
+                className="p-0 bg-card border border-border shadow-lg rounded-xl overflow-hidden"
+              >
+                <div className="px-4 py-3 bg-muted/50 border-b border-border">
+                  <p className="font-semibold text-sm text-foreground flex items-center gap-1.5">
+                    <Heart className="h-3.5 w-3.5 text-red-500 fill-red-500" />
+                    Liked by
+                  </p>
+                </div>
+                <div className="px-4 py-2 space-y-1.5 max-h-48 overflow-y-auto">
                   {likes.map(like => (
-                    <p key={like.id} className="text-sm">{like.username}</p>
+                    <p key={like.id} className="text-sm text-foreground/90 py-0.5">
+                      {like.username}
+                    </p>
                   ))}
                 </div>
               </TooltipContent>
