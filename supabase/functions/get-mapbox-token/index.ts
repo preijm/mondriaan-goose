@@ -3,7 +3,7 @@ import { createClient } from "https://esm.sh/@supabase/supabase-js@2.38.4";
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version',
 };
 
 serve(async (req) => {
@@ -13,17 +13,14 @@ serve(async (req) => {
   }
 
   try {
-    // Verify authentication
+    // Verify authentication (manual JWT verification; verify_jwt is disabled)
     const authHeader = req.headers.get('Authorization');
-    if (!authHeader) {
-      console.error('No authorization header provided');
-      return new Response(
-        JSON.stringify({ error: 'Authentication required' }),
-        {
-          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-          status: 401,
-        }
-      );
+    if (!authHeader?.startsWith('Bearer ')) {
+      console.error('No Bearer token provided');
+      return new Response(JSON.stringify({ error: 'Authentication required' }), {
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        status: 401,
+      });
     }
 
     const supabaseUrl = Deno.env.get('SUPABASE_URL') ?? '';
@@ -33,18 +30,18 @@ serve(async (req) => {
       global: { headers: { Authorization: authHeader } }
     });
 
-    const { data: { user }, error: authError } = await supabase.auth.getUser();
+    const token = authHeader.replace('Bearer ', '');
+    const { data: claimsData, error: claimsError } = await supabase.auth.getClaims(token);
 
-    if (authError || !user) {
-      console.error('Authentication failed:', authError?.message);
-      return new Response(
-        JSON.stringify({ error: 'Invalid authentication' }),
-        {
-          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-          status: 401,
-        }
-      );
+    if (claimsError || !claimsData?.claims?.sub) {
+      console.error('Authentication failed (claims):', claimsError?.message);
+      return new Response(JSON.stringify({ error: 'Invalid authentication' }), {
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        status: 401,
+      });
     }
+
+    const userId = claimsData.claims.sub;
 
     // Get the Mapbox token from Supabase secrets
     const mapboxToken = Deno.env.get('MAPBOX_KEY');
@@ -54,7 +51,7 @@ serve(async (req) => {
       throw new Error('Mapbox token not configured');
     }
 
-    console.log(`Mapbox token retrieved successfully for user: ${user.id}`);
+    console.log(`Mapbox token retrieved successfully for user: ${userId}`);
 
     return new Response(
       JSON.stringify({ token: mapboxToken }),
