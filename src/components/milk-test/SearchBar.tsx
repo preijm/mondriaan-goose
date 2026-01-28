@@ -17,11 +17,8 @@ export const SearchBar = ({
   placeholder = "Search by brand or product..." 
 }: SearchBarProps) => {
   const handleSearchChange = (value: string) => {
-    // Sanitize dangerous characters without trimming so spaces are preserved
-    const sanitized = value
-      .replace(/[<>]/g, '')
-      .replace(/javascript:/gi, '')
-      .replace(/on\w+=/gi, '');
+    // Use centralized sanitization helper to avoid incomplete multi-character sanitization
+    const sanitized = sanitizeInput(value);
 
     // Basic length guard only
     if (sanitized.length <= 100) {
