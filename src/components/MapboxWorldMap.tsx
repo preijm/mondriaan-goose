@@ -360,30 +360,8 @@ const MapboxWorldMap = () => {
     });
   };
 
+  // Cleanup on unmount
   useEffect(() => {
-    // Prevent double initialization in development (React StrictMode)
-    if (initAttempted.current) {
-      console.log('MapboxWorldMap: Skipping duplicate initialization');
-      return;
-    }
-    
-    console.log('MapboxWorldMap: Starting initialization...');
-    initAttempted.current = true;
-    setIsInitializing(true);
-    
-    const init = async () => {
-      try {
-        await initializeMap();
-      } catch (error) {
-        console.error('MapboxWorldMap: Failed to initialize:', error);
-        setMapError('Failed to initialize map. Please try again.');
-      } finally {
-        setIsInitializing(false);
-      }
-    };
-    
-    init();
-    
     return () => {
       console.log('MapboxWorldMap: Cleanup');
       if (loadTimeoutRef.current) {
@@ -396,6 +374,48 @@ const MapboxWorldMap = () => {
       }
     };
   }, []);
+
+  // Initialize once data is loaded and the container ref exists.
+  // Important: keep the map container mounted while initializing; otherwise the ref is null
+  // and initialization will bail out and never retry.
+  useEffect(() => {
+    if (isLoading) return;
+    if (map.current) return;
+    if (initAttempted.current) {
+      console.log('MapboxWorldMap: Skipping duplicate initialization');
+      return;
+    }
+
+    let cancelled = false;
+
+    const attemptInit = async () => {
+      if (cancelled) return;
+      if (!mapContainer.current) {
+        // Wait until after first paint / tab content mount
+        requestAnimationFrame(attemptInit);
+        return;
+      }
+
+      console.log('MapboxWorldMap: Starting initialization...');
+      initAttempted.current = true;
+      setIsInitializing(true);
+
+      try {
+        await initializeMap();
+      } catch (error) {
+        console.error('MapboxWorldMap: Failed to initialize:', error);
+        setMapError('Failed to initialize map. Please try again.');
+      } finally {
+        if (!cancelled) setIsInitializing(false);
+      }
+    };
+
+    attemptInit();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [isLoading]);
 
   useEffect(() => {
     if (isMapInitialized && countryData.length > 0) {
@@ -426,16 +446,6 @@ const MapboxWorldMap = () => {
     }
   }, [discoveryPercentage]);
 
-  if (isLoading || isInitializing) {
-    return (
-      <div className="flex items-center justify-center h-96">
-        <div className="text-lg text-muted-foreground">
-          {isLoading ? 'Loading map data...' : 'Initializing map...'}
-        </div>
-      </div>
-    );
-  }
-
   return (
     <div className="w-full space-y-6">
       {/* Discovery Message */}
@@ -462,6 +472,15 @@ const MapboxWorldMap = () => {
       {/* Mapbox Map */}
       <div className="w-full h-[600px] rounded-lg border border-border shadow-lg overflow-hidden relative">
         <div ref={mapContainer} className="w-full h-full" />
+
+        {(isLoading || isInitializing) && !mapError && (
+          <div className="absolute inset-0 flex items-center justify-center bg-background/70 backdrop-blur-sm">
+            <div className="text-sm text-muted-foreground">
+              {isLoading ? 'Loading map data…' : 'Initializing map…'}
+            </div>
+          </div>
+        )}
+
         {mapError && (
           <div className="absolute inset-0 flex items-center justify-center bg-muted/80 backdrop-blur-sm">
             <div className="text-center p-6 max-w-md">
