@@ -87,9 +87,3 @@ export function shouldShowVersion(version: string): boolean {
   return new Date() >= remindAfter;
 }
 
-/**
- * Clear all dismissed versions
- */
-export function clearDismissedVersions(): void {
-  localStorage.removeItem(VERSION_STORAGE_KEY);
-}
