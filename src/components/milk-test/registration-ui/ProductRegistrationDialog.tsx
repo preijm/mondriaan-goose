@@ -256,7 +256,7 @@ const ProductRegistrationContainer: React.FC<ProductRegistrationDialogProps> = (
                     Warning: This product has {testCount} linked test{testCount !== 1 ? 's' : ''}.
                   </div>
                   <div className="text-destructive/80 text-sm mt-1">
-                    Deleting this product will also delete all linked tests. This action cannot be undone.
+                    Deleting this product will also delete all linked tests.
                   </div>
                 </div>
               ) : (
