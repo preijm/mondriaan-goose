@@ -8,6 +8,7 @@ import MobileFooter from "@/components/MobileFooter";
 import BackgroundPattern from "@/components/BackgroundPattern";
 import { FeedContent } from "@/components/feed/FeedContent";
 import { MilkTestResult } from "@/types/milk-test";
+import { useIsMobileOrTablet } from "@/hooks/use-mobile";
 
 const Feed = () => {
   const { user } = useAuth();
@@ -69,9 +70,7 @@ const Feed = () => {
     }
   }, [highlightTestId, feedItems]);
 
-  // Check if device is mobile or tablet (up to 1024px for tablet support)
-  const isMobileOrTablet =
-    typeof window !== "undefined" && window.innerWidth < 1024;
+  const isMobileOrTablet = useIsMobileOrTablet();
 
   // Mobile/Tablet layout with white background
   if (isMobileOrTablet) {

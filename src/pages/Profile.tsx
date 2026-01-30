@@ -8,6 +8,7 @@ import { useUserMilkTests } from "@/hooks/useUserMilkTests";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import { useIsMobileOrTablet } from "@/hooks/use-mobile";
 import { format } from "date-fns";
 import { ProfileEditDialog } from "@/components/profile/ProfileEditDialog";
 import { ProfileContent } from "@/components/profile/ProfileContent";
@@ -21,6 +22,7 @@ const Profile = () => {
   });
   const navigate = useNavigate();
   const { toast } = useToast();
+  const isMobileOrTablet = useIsMobileOrTablet();
   const [editDialogOpen, setEditDialogOpen] = useState(false);
 
   const handleSignOut = async () => {
@@ -45,9 +47,6 @@ const Profile = () => {
     ? format(new Date(profile.created_at), "MMM yyyy")
     : "Recently";
 
-  // Check if device is mobile or tablet (up to 1024px for tablet support)
-  const isMobileOrTablet =
-    typeof window !== "undefined" && window.innerWidth < 1024;
 
   const profileProps = {
     username: profile?.username || "User",
