@@ -9,7 +9,6 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { CountrySelect } from "@/components/milk-test/CountrySelect";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { useQueryClient } from "@tanstack/react-query";
@@ -28,7 +27,6 @@ export const EditShopDialog = ({
   onSuccess,
 }: EditShopDialogProps) => {
   const [name, setName] = useState("");
-  const [countryCode, setCountryCode] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
   const queryClient = useQueryClient();
@@ -36,7 +34,6 @@ export const EditShopDialog = ({
   useEffect(() => {
     if (shop) {
       setName(shop.name);
-      setCountryCode(shop.country_code);
     }
   }, [shop]);
 
@@ -49,7 +46,6 @@ export const EditShopDialog = ({
         .from("shops")
         .update({
           name: name.trim(),
-          country_code: countryCode,
         })
         .eq("name", shop.name);
 
@@ -89,13 +85,7 @@ export const EditShopDialog = ({
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder="Enter shop name..."
-            />
-          </div>
-          <div className="grid gap-2">
-            <Label>Country (optional)</Label>
-            <CountrySelect
-              country={countryCode}
-              setCountry={setCountryCode}
+              autoFocus
             />
           </div>
         </div>
