@@ -131,7 +131,45 @@ const ProductRegistrationContainer: React.FC<ProductRegistrationDialogProps> = (
     try {
       setIsSubmitting(true);
       
-      // Delete the product from the database
+      // First, delete any linked milk tests
+      if (testCount > 0) {
+        const { error: testsError } = await supabase
+          .from('milk_tests')
+          .delete()
+          .eq('product_id', editProductId);
+        
+        if (testsError) {
+          console.error('Error deleting linked tests:', testsError);
+          toast({
+            title: "Error",
+            description: "Failed to delete linked tests. Please try again.",
+            variant: "destructive"
+          });
+          return;
+        }
+      }
+      
+      // Delete product properties
+      const { error: propsError } = await supabase
+        .from('product_properties')
+        .delete()
+        .eq('product_id', editProductId);
+      
+      if (propsError) {
+        console.error('Error deleting product properties:', propsError);
+      }
+      
+      // Delete product flavors
+      const { error: flavorsError } = await supabase
+        .from('product_flavors')
+        .delete()
+        .eq('product_id', editProductId);
+      
+      if (flavorsError) {
+        console.error('Error deleting product flavors:', flavorsError);
+      }
+      
+      // Finally, delete the product itself
       const { error } = await supabase
         .from('products')
         .delete()
@@ -149,7 +187,9 @@ const ProductRegistrationContainer: React.FC<ProductRegistrationDialogProps> = (
       
       toast({
         title: "Success",
-        description: "Product deleted successfully.",
+        description: testCount > 0 
+          ? `Product and ${testCount} linked test${testCount !== 1 ? 's' : ''} deleted successfully.`
+          : "Product deleted successfully.",
       });
       
       setDeleteConfirmOpen(false);
@@ -211,16 +251,16 @@ const ProductRegistrationContainer: React.FC<ProductRegistrationDialogProps> = (
             <AlertDialogDescription>
               Are you sure you want to delete this product?
               {testCount > 0 ? (
-                <div className="mt-2 p-3 bg-red-50 border border-red-200 rounded-md">
-                  <div className="text-red-800 font-medium">
+                <div className="mt-2 p-3 bg-destructive/10 border border-destructive/20 rounded-md">
+                  <div className="text-destructive font-medium">
                     Warning: This product has {testCount} linked test{testCount !== 1 ? 's' : ''}.
                   </div>
-                  <div className="text-red-600 text-sm mt-1">
-                    Deleting this product will not delete the tests, but they will lose their product association.
+                  <div className="text-destructive/80 text-sm mt-1">
+                    Deleting this product will also delete all linked tests. This action cannot be undone.
                   </div>
                 </div>
               ) : (
-                <div className="mt-2 text-gray-600">
+                <div className="mt-2 text-muted-foreground">
                   This product has no linked tests.
                 </div>
               )}
