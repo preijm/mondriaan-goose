@@ -22,7 +22,7 @@ const ResetPassword = () => {
           <div className="flex items-center justify-center min-h-screen">
             <div className="container max-w-md mx-auto px-4 relative z-10">
               <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg p-8 border border-white/20 animate-fade-up text-center">
-                <h1 className="text-3xl font-bold mb-4 text-[#00BF63]">
+                <h1 className="text-3xl font-bold mb-4 text-brand-primary">
                   Password Updated!
                 </h1>
                 <p className="text-gray-600">
@@ -51,7 +51,7 @@ const ResetPassword = () => {
                 />
               ) : (
                 <>
-                  <h1 className="text-3xl font-bold text-center mb-8 text-[#00BF63]">
+                  <h1 className="text-3xl font-bold text-center mb-8 text-brand-primary">
                     Invalid Reset Link
                   </h1>
                   <p className="text-center text-gray-600 mb-6">
