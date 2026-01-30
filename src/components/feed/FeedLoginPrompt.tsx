@@ -30,10 +30,8 @@ export const FeedLoginPrompt = ({ className }: FeedLoginPromptProps) => {
                   state: { from: "/feed" },
                 })
               }
-              variant="brand"
-              className="border-0"
+              className="border-0 bg-primary text-primary-foreground hover:bg-primary/90"
               size="lg"
-              style={{ backgroundColor: "#2144ff", color: "white" }}
             >
               <LogIn className="mr-2 h-4 w-4" />
               Log In

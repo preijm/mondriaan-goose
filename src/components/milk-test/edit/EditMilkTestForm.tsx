@@ -68,7 +68,7 @@ export const EditMilkTestForm = ({
 
       {/* Rating and Notes */}
       <div className="space-y-4">
-        <h2 className="text-xl font-semibold text-gray-900">Rating</h2>
+        <h2 className="text-xl font-semibold text-foreground">Rating</h2>
         <RatingSelect 
           rating={formState.rating} 
           setRating={formSetters.setRating} 
@@ -85,7 +85,7 @@ export const EditMilkTestForm = ({
 
       {/* Price-to-Quality Ratio */}
       <div className="space-y-4">
-        <h2 className="text-xl font-semibold text-gray-900">Price-to-Quality Ratio</h2>
+        <h2 className="text-xl font-semibold text-foreground">Price-to-Quality Ratio</h2>
         <PriceInput 
           price={formState.priceQualityRatio} 
           setPrice={formSetters.setPriceQualityRatio}
@@ -96,11 +96,11 @@ export const EditMilkTestForm = ({
 
       {/* Buying Location */}
       <div className="space-y-4">
-        <h2 className="text-xl font-semibold text-gray-900">Buying Location</h2>
+        <h2 className="text-xl font-semibold text-foreground">Buying Location</h2>
         <div className="space-y-3">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Country <span className="text-red-500">*</span>
+            <label className="block text-sm font-medium text-muted-foreground mb-1">
+              Country <span className="text-destructive">*</span>
             </label>
             <CountrySelect 
               country={formState.country} 
@@ -108,7 +108,7 @@ export const EditMilkTestForm = ({
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-medium text-muted-foreground mb-1">
               Shop (optional)
             </label>
             <ShopSelect 
@@ -122,7 +122,7 @@ export const EditMilkTestForm = ({
 
       {/* Drinking Style */}
       <div className="space-y-4">
-        <h2 className="text-xl font-semibold text-gray-900">Drinking Style</h2>
+        <h2 className="text-xl font-semibold text-foreground">Drinking Style</h2>
         <DrinkPreference
           preference={formState.drinkPreference}
           setPreference={formSetters.setDrinkPreference}
