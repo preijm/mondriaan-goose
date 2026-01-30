@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { Milk, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Heading } from "@/components/ui/typography";
 
 interface HeroSectionProps {
   onStartJourney: () => void;
@@ -11,13 +12,13 @@ export const HeroSection = ({ onStartJourney }: HeroSectionProps) => {
     <div className="flex flex-col items-center justify-center text-center relative z-10">
       {/* Hero title with fully fluid responsive scaling */}
       <div className="mb-4 md:mb-6 relative">
-        <h1 className="text-[clamp(1.5rem,4vw+1rem,6rem)] font-bold mb-3 md:mb-4 max-w-4xl animate-fade-in relative text-brand-primary leading-[1.1]">
+        <Heading as="h1" fluid="hero" className="mb-3 md:mb-4 max-w-4xl animate-fade-in relative text-brand-primary">
           Ditch the Moo.
           <br />
           <span className="flex items-center justify-center gap-4">
             Find Your New!
           </span>
-        </h1>
+        </Heading>
       </div>
 
       {/* Enhanced description with better spacing */}

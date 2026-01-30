@@ -6,6 +6,7 @@ import { Coffee, TrendingUp, Users } from "lucide-react";
 import BackgroundPattern from "@/components/BackgroundPattern";
 import { TimelineContainer } from "@/components/about/TimelineContainer";
 import { TimelineItem } from "@/components/about/TimelineItem";
+import { Heading } from "@/components/ui/typography";
 import {
   TimelineImageGrid,
   TimelineSingleImage,
@@ -72,9 +73,9 @@ const About = () => {
       <BackgroundPattern>
         <div className="flex items-center justify-center min-h-screen pt-16 pb-20 sm:pb-8">
           <div className="container max-w-4xl mx-auto px-4 py-8 sm:py-12 relative z-10">
-            <h1 className="text-3xl sm:text-4xl font-bold text-center mb-12 text-foreground">
+            <Heading as="h1" fluid="page" className="text-center mb-12 text-foreground">
               Our Journey
-            </h1>
+            </Heading>
 
             <TimelineContainer>
               {/* Timeline Item 1: How It All Started */}

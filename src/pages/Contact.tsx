@@ -6,6 +6,7 @@ import BackgroundPattern from "@/components/BackgroundPattern";
 import { ContactCard } from "@/components/contact/ContactCard";
 import { FlyingBird } from "@/components/contact/FlyingBird";
 import { FAQSection } from "@/components/contact/FAQSection";
+import { Heading } from "@/components/ui/typography";
 
 const faqItems = [
   {
@@ -57,9 +58,9 @@ const Contact = () => {
       <BackgroundPattern>
         <div className="flex items-center justify-center min-h-screen pt-16 pb-20 sm:pb-8">
           <div className="container max-w-4xl mx-auto px-4 py-8 sm:py-12 relative z-10">
-            <h1 className="hidden lg:block text-3xl sm:text-4xl font-bold text-center mb-12 text-foreground">
+            <Heading as="h1" fluid="page" className="hidden lg:block text-center mb-12 text-foreground">
               Get in Touch
-            </h1>
+            </Heading>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6 mb-12 lg:mb-12 mt-0 lg:mt-0">
               <ContactCard
                 icon={Phone}

@@ -18,9 +18,19 @@ const headingVariants = cva(
         h5: "text-heading-5",
         h6: "text-heading-6",
       },
+      fluid: {
+        // Fluid hero heading: scales from 1.5rem at small viewports to 6rem at large
+        hero: "text-[clamp(1.5rem,4vw+1rem,6rem)] leading-[1.1] font-bold",
+        // Fluid page heading: scales from 1.5rem to 3rem for secondary pages
+        page: "text-[clamp(1.5rem,3vw+0.5rem,3rem)] leading-[1.2] font-bold",
+        // Fluid section heading: scales from 1.25rem to 2rem
+        section: "text-[clamp(1.25rem,2vw+0.5rem,2rem)] leading-[1.25] font-semibold",
+        none: "",
+      },
     },
     defaultVariants: {
       level: "h2",
+      fluid: "none",
     },
   }
 )
@@ -32,12 +42,15 @@ export interface HeadingProps
 }
 
 const Heading = React.forwardRef<HTMLHeadingElement, HeadingProps>(
-  ({ className, level, as, children, ...props }, ref) => {
+  ({ className, level, fluid, as, children, ...props }, ref) => {
     const Component = as || level || "h2"
+    // When fluid is set, don't apply the level-based text size classes
+    const levelClass = fluid && fluid !== "none" ? "" : headingVariants({ level: level || as, fluid: "none" })
+    const fluidClass = fluid && fluid !== "none" ? headingVariants({ fluid }) : ""
     return React.createElement(
       Component,
       {
-        className: cn(headingVariants({ level: level || as }), className),
+        className: cn(levelClass, fluidClass, className),
         ref,
         ...props,
       },
