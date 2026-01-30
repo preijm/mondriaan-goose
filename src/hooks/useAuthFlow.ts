@@ -17,6 +17,7 @@ export const useAuthFlow = () => {
   const [isEmailPending, setIsEmailPending] = useState(false);
   const [userEmail, setUserEmail] = useState("");
   const [isResetting, setIsResetting] = useState(false);
+  const [isPasswordResetSuccess, setIsPasswordResetSuccess] = useState(false);
   const { toast } = useToast();
   const location = useLocation();
 
@@ -167,15 +168,18 @@ export const useAuthFlow = () => {
       // Clear the recovery mode flag
       clearRecoveryMode();
       
+      // Set success state BEFORE changing isPasswordReset to prevent flash
+      setIsPasswordResetSuccess(true);
+      
       toast({
         title: "Password updated successfully",
         description: "You can now log in with your new password"
       });
 
-      setIsPasswordReset(false);
-      
-      // Redirect to auth page
-      window.location.href = '/auth';
+      // Redirect to auth page after a brief delay
+      setTimeout(() => {
+        window.location.href = '/auth';
+      }, 500);
       
     } catch (error: unknown) {
       const err = error as Error;
@@ -192,6 +196,7 @@ export const useAuthFlow = () => {
 
   return {
     isPasswordReset,
+    isPasswordResetSuccess,
     isEmailConfirmed,
     isEmailPending,
     userEmail,
