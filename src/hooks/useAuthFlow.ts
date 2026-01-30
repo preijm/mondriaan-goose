@@ -8,7 +8,7 @@ import {
   getStoredRecoveryAccessToken,
   isRecoveryMode,
   setRecoveryMode,
-  updatePasswordWithAccessToken,
+  updatePasswordWithRecoveryToken,
 } from "@/lib/auth/recovery";
 
 export const useAuthFlow = () => {
@@ -154,9 +154,9 @@ export const useAuthFlow = () => {
         }
 
         console.log(
-          "No session, using stored recovery access token to update password"
+          "No session, using stored recovery token to verify OTP and update password"
         );
-        await updatePasswordWithAccessToken({
+        await updatePasswordWithRecoveryToken({
           accessToken: token,
           password: newPassword,
         });

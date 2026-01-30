@@ -1,8 +1,4 @@
-import { createClient } from "@supabase/supabase-js";
-
-const SUPABASE_URL = "https://jtabjndnietpewvknjrm.supabase.co";
-const SUPABASE_ANON_KEY =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp0YWJqbmRuaWV0cGV3dmtuanJtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mzg1MTY4MjIsImV4cCI6MjA1NDA5MjgyMn0.NrVqEaLRyCt4ut8-9potmOH_3JsSbMr8aq8XyKv-Q7s";
+import { supabase } from "@/integrations/supabase/client";
 
 const RECOVERY_MODE_KEY = "passwordRecoveryMode";
 const RECOVERY_ACCESS_TOKEN_KEY = "passwordRecoveryAccessToken";
@@ -39,26 +35,39 @@ export function getStoredRecoveryAccessToken(): string | null {
 }
 
 /**
- * Fallback for recovery links where refresh_token is missing.
- * Uses the access token directly to call Auth updateUser.
+ * Use verifyOtp to establish a session from the recovery token,
+ * then update the password.
  */
-export async function updatePasswordWithAccessToken(params: {
+export async function updatePasswordWithRecoveryToken(params: {
   accessToken: string;
   password: string;
 }) {
-  const client = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
-    global: {
-      headers: {
-        Authorization: `Bearer ${params.accessToken}`,
-      },
-    },
-    auth: {
-      persistSession: false,
-      autoRefreshToken: false,
-      detectSessionInUrl: false,
-    },
+  // First, try to verify the OTP token to establish a session
+  const { data, error: verifyError } = await supabase.auth.verifyOtp({
+    token_hash: params.accessToken,
+    type: "recovery",
   });
 
-  const { error } = await client.auth.updateUser({ password: params.password });
-  if (error) throw error;
+  if (verifyError) {
+    console.error("OTP verification failed:", verifyError);
+    // If verifyOtp fails, the token may already be used or expired
+    throw new Error(
+      "This password reset link has expired or already been used. Please request a new one."
+    );
+  }
+
+  if (!data.session) {
+    throw new Error(
+      "Could not establish a session. Please request a new password reset link."
+    );
+  }
+
+  // Now we have a valid session, update the password
+  const { error: updateError } = await supabase.auth.updateUser({
+    password: params.password,
+  });
+
+  if (updateError) {
+    throw updateError;
+  }
 }
