@@ -140,8 +140,8 @@ const Account = () => {
 
           <Button
             onClick={handleLogout}
-            className="w-full mt-8 text-white shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group"
-            style={{ backgroundColor: "#ef4444" }}
+            variant="destructive"
+            className="w-full mt-8 shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group"
           >
             <LogOut className="w-6 h-6 mr-2 group-hover:rotate-12 transition-transform duration-300" />
             Log Out
@@ -162,8 +162,8 @@ const Account = () => {
           <div className="container max-w-4xl mx-auto px-4 relative z-10">
             <div className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-lg overflow-hidden border border-white/20 animate-fade-up">
               {/* Header Section */}
-              <div className="bg-[#f3f4f6] px-8 py-6">
-                <h1 className="text-3xl font-bold mb-2 text-[#01bd71]">
+              <div className="bg-muted px-8 py-6">
+                <h1 className="text-3xl font-bold mb-2 text-[hsl(var(--brand-primary))]">
                   Account Settings
                 </h1>
                 <p className="text-gray-600">

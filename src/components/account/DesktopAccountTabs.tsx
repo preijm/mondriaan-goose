@@ -66,7 +66,7 @@ export const DesktopAccountTabs = ({
           <TabsContent value="profile" className="space-y-6 mt-0 h-full">
             <form onSubmit={onUpdateProfile} className="space-y-6">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-muted-foreground mb-2">
                   Username
                 </label>
                 <Input
@@ -79,19 +79,19 @@ export const DesktopAccountTabs = ({
                   maxLength={30}
                   pattern="^[a-zA-Z0-9_-]+$"
                   title="Username can only contain letters, numbers, underscores, and hyphens"
-                  className="bg-white/80 border-black/20 backdrop-blur-sm rounded-sm"
+                  className="bg-card/80 border-border backdrop-blur-sm rounded-sm"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-muted-foreground mb-2">
                   Default Country (optional)
                 </label>
                 <CountrySelect
                   country={defaultCountry}
                   setCountry={setDefaultCountry}
                 />
-                <p className="text-xs text-gray-500 mt-1">
+                <p className="text-xs text-muted-foreground mt-1">
                   This will be pre-selected when adding new milk tests
                 </p>
               </div>
@@ -111,7 +111,7 @@ export const DesktopAccountTabs = ({
           <TabsContent value="security" className="space-y-6 mt-0 h-full">
             <form onSubmit={onUpdatePassword} className="space-y-6">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-muted-foreground mb-2">
                   New Password
                 </label>
                 <Input
@@ -122,12 +122,12 @@ export const DesktopAccountTabs = ({
                   required
                   minLength={6}
                   showPasswordToggle
-                  className="bg-white/80 border-black/20 backdrop-blur-sm rounded-sm"
+                  className="bg-card/80 border-border backdrop-blur-sm rounded-sm"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-muted-foreground mb-2">
                   Confirm New Password
                 </label>
                 <Input
@@ -138,7 +138,7 @@ export const DesktopAccountTabs = ({
                   required
                   minLength={6}
                   showPasswordToggle
-                  className="bg-white/80 border-black/20 backdrop-blur-sm rounded-sm"
+                  className="bg-card/80 border-border backdrop-blur-sm rounded-sm"
                 />
               </div>
 

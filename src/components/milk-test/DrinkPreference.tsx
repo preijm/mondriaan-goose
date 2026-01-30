@@ -122,7 +122,7 @@ export const DrinkPreference = ({ preference, setPreference }: DrinkPreferencePr
           className={`flex flex-col items-center p-3 rounded-lg border transition-all ${
             preference === value
               ? `${activeClass} shadow-sm`
-              : "bg-white border-gray-200 text-gray-600 hover:border-gray-300"
+              : "bg-card border-border text-muted-foreground hover:border-muted-foreground/50"
           }`}
         >
           <Icon className="w-8 h-8 mb-1" />

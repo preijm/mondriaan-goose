@@ -59,7 +59,7 @@ function NotificationItem({
 
   const { username, productInfo, isBarista, properties, flavors } = parseMessage(notification.message);
 
-  return <div className={cn("relative flex items-start gap-3 p-4 border-b cursor-pointer transition-colors", !notification.is_read && "bg-blue-50/50")} onClick={handleClick}>
+  return <div className={cn("relative flex items-start gap-3 p-4 border-b cursor-pointer transition-colors", !notification.is_read && "bg-primary/5")} onClick={handleClick}>
       {/* Blue indicator for unread */}
       {!notification.is_read && <div className="absolute left-0 top-0 bottom-0 w-1 bg-brand-secondary" />}
       
@@ -70,7 +70,7 @@ function NotificationItem({
       
       {/* Content */}
       <div className="flex-1 min-w-0 space-y-1.5">
-        <p className="text-sm text-gray-900">
+        <p className="text-sm text-foreground">
           <span className="font-semibold">{username}</span>
           {' '}
           {notification.type === 'like' ? 'liked your test' : 'commented on your test'}
@@ -78,7 +78,7 @@ function NotificationItem({
         
         {productInfo && (
           <div className="flex flex-wrap items-center gap-1.5">
-            <span className="text-sm text-gray-900 font-semibold">{productInfo}</span>
+            <span className="text-sm text-foreground font-semibold">{productInfo}</span>
             {isBarista && (
               <Badge variant="barista" className="text-xs">Barista</Badge>
             )}
@@ -95,7 +95,7 @@ function NotificationItem({
           </div>
         )}
         
-        <p className="text-xs text-gray-500">
+        <p className="text-xs text-muted-foreground">
           {formatDistanceToNow(new Date(notification.created_at), {
             addSuffix: true
           }).replace('about ', '')}
@@ -103,8 +103,8 @@ function NotificationItem({
       </div>
       
       {/* Icon based on notification type */}
-      <div className={cn("flex-shrink-0 w-12 h-12 rounded-full flex items-center justify-center", notification.type === 'like' ? 'bg-pink-100' : 'bg-blue-100')}>
-        {notification.type === 'like' ? <Heart className="h-6 w-6 text-pink-600" /> : <MessageCircle className="h-6 w-6 text-blue-600" />}
+      <div className={cn("flex-shrink-0 w-12 h-12 rounded-full flex items-center justify-center", notification.type === 'like' ? 'bg-destructive/10' : 'bg-primary/10')}>
+        {notification.type === 'like' ? <Heart className="h-6 w-6 text-destructive" /> : <MessageCircle className="h-6 w-6 text-primary" />}
       </div>
       
       {/* Menu button */}
@@ -145,9 +145,9 @@ export function MobileNotificationList() {
       {lastWeekNotifications.length > 0 && (
         <Collapsible open={lastWeekOpen} onOpenChange={setLastWeekOpen}>
           <CollapsibleTrigger className="w-full">
-            <div className="px-4 py-3 bg-gray-100 flex items-center justify-between">
-              <h3 className="text-xs font-semibold text-gray-600 uppercase tracking-wide">Last Week</h3>
-              <ChevronDown className={cn("h-4 w-4 text-gray-600 transition-transform", lastWeekOpen && "rotate-180")} />
+            <div className="px-4 py-3 bg-muted flex items-center justify-between">
+              <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">Last Week</h3>
+              <ChevronDown className={cn("h-4 w-4 text-muted-foreground transition-transform", lastWeekOpen && "rotate-180")} />
             </div>
           </CollapsibleTrigger>
           <CollapsibleContent>
@@ -159,9 +159,9 @@ export function MobileNotificationList() {
       {lastMonthNotifications.length > 0 && (
         <Collapsible open={lastMonthOpen} onOpenChange={setLastMonthOpen}>
           <CollapsibleTrigger className="w-full">
-            <div className="px-4 py-3 bg-gray-100 flex items-center justify-between">
-              <h3 className="text-xs font-semibold text-gray-600 uppercase tracking-wide">Last Month</h3>
-              <ChevronDown className={cn("h-4 w-4 text-gray-600 transition-transform", lastMonthOpen && "rotate-180")} />
+            <div className="px-4 py-3 bg-muted flex items-center justify-between">
+              <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">Last Month</h3>
+              <ChevronDown className={cn("h-4 w-4 text-muted-foreground transition-transform", lastMonthOpen && "rotate-180")} />
             </div>
           </CollapsibleTrigger>
           <CollapsibleContent>
@@ -173,9 +173,9 @@ export function MobileNotificationList() {
       {earlierNotifications.length > 0 && (
         <Collapsible open={earlierOpen} onOpenChange={setEarlierOpen}>
           <CollapsibleTrigger className="w-full">
-            <div className="px-4 py-3 bg-gray-100 flex items-center justify-between">
-              <h3 className="text-xs font-semibold text-gray-600 uppercase tracking-wide">Earlier</h3>
-              <ChevronDown className={cn("h-4 w-4 text-gray-600 transition-transform", earlierOpen && "rotate-180")} />
+            <div className="px-4 py-3 bg-muted flex items-center justify-between">
+              <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">Earlier</h3>
+              <ChevronDown className={cn("h-4 w-4 text-muted-foreground transition-transform", earlierOpen && "rotate-180")} />
             </div>
           </CollapsibleTrigger>
           <CollapsibleContent>

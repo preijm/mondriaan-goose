@@ -44,10 +44,7 @@ export const LoginPrompt = ({
         </DialogHeader>
         
         <div className="flex flex-col sm:flex-row gap-3 justify-center mt-6">
-          <Button onClick={handleLogin} variant="brand" className="border-0" size="lg" style={{
-            backgroundColor: '#2144ff',
-            color: 'white'
-          }}>
+          <Button onClick={handleLogin} variant="brand" className="border-0 bg-primary text-primary-foreground hover:bg-primary/90" size="lg">
             <LogIn className="mr-2 h-4 w-4" />
             Log In
           </Button>
