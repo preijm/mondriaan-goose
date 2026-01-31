@@ -41,8 +41,19 @@ export const ShopSuggestions = ({
     }
   }, [editingShopName]);
 
+  // Always render the delete dialog, even when dropdown is hidden
+  // This prevents the dialog from being unmounted by the blur timeout
+  const deleteDialog = (
+    <DeleteShopDialog
+      open={!!deletingShopName}
+      onOpenChange={(open) => !open && setDeletingShopName(null)}
+      shopName={deletingShopName}
+      onSuccess={() => setDeletingShopName(null)}
+    />
+  );
+
   if (!isVisible || (suggestions.length === 0 && !showAddNew)) {
-    return null;
+    return deleteDialog;
   }
 
   const handleEditClick = (
@@ -204,12 +215,7 @@ export const ShopSuggestions = ({
         )}
       </div>
 
-      <DeleteShopDialog
-        open={!!deletingShopName}
-        onOpenChange={(open) => !open && setDeletingShopName(null)}
-        shopName={deletingShopName}
-        onSuccess={() => setDeletingShopName(null)}
-      />
+      {deleteDialog}
     </>
   );
 };
