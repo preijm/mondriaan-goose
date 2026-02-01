@@ -379,7 +379,7 @@ export const MobileFilterBar = ({
             onClick={handleMyResultsToggle}
             className={cn(
               "h-9 flex-1 flex items-center justify-center gap-1.5 rounded-lg transition-colors min-w-0",
-              filters.myResultsOnly && "bg-brand-secondary text-white border-brand-secondary hover:bg-brand-secondary/90"
+              filters.myResultsOnly && "bg-primary text-primary-foreground border-primary hover:bg-primary/90 hover:text-primary-foreground hover:border-primary/90"
             )}
           >
             <User className="h-3.5 w-3.5 flex-shrink-0" />
