@@ -145,7 +145,7 @@ export const ProductPropertyBadges: React.FC<ProductPropertyBadgesProps> = ({
         <Badge 
           variant="barista"
           className={`${filters && onFiltersChange ? 'cursor-pointer hover:shadow-md transition-shadow' : 'cursor-default hover:shadow-none'} ${
-            filters?.barista ? 'bg-amber-600 text-white border-amber-600 shadow-md' : ''
+            filters?.barista ? 'bg-badge-barista text-badge-barista-foreground border-badge-barista shadow-md' : ''
           }`}
           onClick={filters && onFiltersChange ? handleBaristaClick : undefined}
         >
@@ -162,7 +162,7 @@ export const ProductPropertyBadges: React.FC<ProductPropertyBadgesProps> = ({
             key={`property-${index}`} 
             variant="category"
             className={`${filters && onFiltersChange ? 'cursor-pointer hover:shadow-md transition-shadow' : 'cursor-default hover:shadow-none'} ${
-              propertyKey && filters?.properties.includes(propertyKey) ? 'bg-slate-600 text-white border-slate-600 shadow-md' : ''
+              propertyKey && filters?.properties.includes(propertyKey) ? 'bg-badge-property text-badge-property-foreground border-badge-property shadow-md' : ''
             }`}
             onClick={filters && onFiltersChange ? handlePropertyClick(property) : undefined}
           >
@@ -180,7 +180,7 @@ export const ProductPropertyBadges: React.FC<ProductPropertyBadgesProps> = ({
             key={`flavor-${index}`} 
             variant="flavor"
             className={`${filters && onFiltersChange ? 'cursor-pointer hover:shadow-md transition-shadow' : 'cursor-default hover:shadow-none'} ${
-              flavorKey && filters?.flavors.includes(flavorKey) ? 'bg-purple-600 text-white border-purple-600 shadow-md' : ''
+              flavorKey && filters?.flavors.includes(flavorKey) ? 'bg-badge-flavor text-badge-flavor-foreground border-badge-flavor shadow-md' : ''
             }`}
             onClick={filters && onFiltersChange ? handleFlavorClick(flavor) : undefined}
           >
