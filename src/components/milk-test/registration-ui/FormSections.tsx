@@ -71,7 +71,7 @@ export const ProductForm = forwardRef<HTMLInputElement, ProductFormProps>(({ onS
 
         <div className="space-y-2">
           <span className="block font-medium text-foreground flex items-center gap-1.5">
-            <Coffee className="w-4 h-4 text-amber-600" />
+            <Coffee className="w-4 h-4 text-badge-barista" />
             Type
           </span>
           <BaristaToggle isBarista={isBarista} onToggle={setIsBarista} />
@@ -79,7 +79,7 @@ export const ProductForm = forwardRef<HTMLInputElement, ProductFormProps>(({ onS
 
         <div className="space-y-2">
           <span className="block font-medium text-foreground flex items-center gap-1.5">
-            <Tag className="w-4 h-4 text-slate-600" />
+            <Tag className="w-4 h-4 text-badge-property" />
             Properties
           </span>
           <ProductOptions
@@ -90,7 +90,7 @@ export const ProductForm = forwardRef<HTMLInputElement, ProductFormProps>(({ onS
 
         <div className="space-y-2">
           <span className="block font-medium text-foreground flex items-center gap-1.5">
-            <Droplet className="w-4 h-4 text-purple-600" />
+            <Droplet className="w-4 h-4 text-badge-flavor" />
             Flavors
           </span>
           <FlavorSelector

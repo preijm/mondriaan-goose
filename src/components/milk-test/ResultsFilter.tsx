@@ -117,10 +117,10 @@ export const ResultsFilter = ({
             {/* Barista Filter */}
             <div>
               <h4 className="text-sm font-medium mb-2 flex items-center gap-1.5">
-                <Coffee className="w-3.5 h-3.5 text-amber-600" />
+                <Coffee className="w-3.5 h-3.5 text-badge-barista" />
                 Type
               </h4>
-              <Badge variant="barista" className={`cursor-pointer transition-all ${filters.barista ? 'bg-amber-600 text-white border-amber-600 shadow-md hover:bg-amber-700 hover:text-white' : 'hover:bg-amber-50'}`} onClick={handleBaristaToggle}>
+              <Badge variant="barista" className={`cursor-pointer transition-all ${filters.barista ? 'bg-badge-barista text-badge-barista-foreground border-badge-barista shadow-md hover:bg-badge-barista/90 hover:text-badge-barista-foreground' : 'hover:bg-badge-barista/10'}`} onClick={handleBaristaToggle}>
                 Barista
               </Badge>
             </div>
@@ -128,11 +128,11 @@ export const ResultsFilter = ({
             {/* Properties Filter */}
             {properties.length > 0 && <div>
                 <h4 className="text-sm font-medium mb-2 flex items-center gap-1.5">
-                  <Tag className="w-3.5 h-3.5 text-slate-600" />
+                  <Tag className="w-3.5 h-3.5 text-badge-property" />
                   Properties
                 </h4>
                 <div className="flex flex-wrap gap-2">
-                  {properties.map(property => <Badge key={property.id} variant="category" className={`cursor-pointer transition-all ${filters.properties.includes(property.key) ? 'bg-slate-600 text-white border-slate-600 shadow-md hover:bg-slate-700 hover:text-white' : 'hover:bg-slate-50'}`} onClick={() => handlePropertyToggle(property.key)}>
+                  {properties.map(property => <Badge key={property.id} variant="category" className={`cursor-pointer transition-all ${filters.properties.includes(property.key) ? 'bg-badge-property text-badge-property-foreground border-badge-property shadow-md hover:bg-badge-property/90 hover:text-badge-property-foreground' : 'hover:bg-badge-property/10'}`} onClick={() => handlePropertyToggle(property.key)}>
                       {property.name}
                     </Badge>)}
                 </div>
@@ -141,11 +141,11 @@ export const ResultsFilter = ({
             {/* Flavors Filter */}
             {flavors.length > 0 && <div>
                 <h4 className="text-sm font-medium mb-2 flex items-center gap-1.5">
-                  <Droplet className="w-3.5 h-3.5 text-purple-600" />
+                  <Droplet className="w-3.5 h-3.5 text-badge-flavor" />
                   Flavors
                 </h4>
                 <div className="flex flex-wrap gap-2">
-                  {flavors.map(flavor => <Badge key={flavor.id} variant="flavor" className={`cursor-pointer transition-all ${filters.flavors.includes(flavor.key) ? 'bg-purple-600 text-white border-purple-600 shadow-md hover:bg-purple-700 hover:text-white' : 'hover:bg-purple-50'}`} onClick={() => handleFlavorToggle(flavor.key)}>
+                  {flavors.map(flavor => <Badge key={flavor.id} variant="flavor" className={`cursor-pointer transition-all ${filters.flavors.includes(flavor.key) ? 'bg-badge-flavor text-badge-flavor-foreground border-badge-flavor shadow-md hover:bg-badge-flavor/90 hover:text-badge-flavor-foreground' : 'hover:bg-badge-flavor/10'}`} onClick={() => handleFlavorToggle(flavor.key)}>
                       {flavor.name}
                     </Badge>)}
                 </div>
