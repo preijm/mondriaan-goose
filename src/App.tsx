@@ -33,6 +33,7 @@ import Profile from "./pages/Profile";
 import AddProduct from "./pages/AddProduct";
 import DesignSystem from "./pages/DesignSystem";
 import InstallGuide from "./pages/InstallGuide";
+import FAQ from "./pages/FAQ";
 
 const isNative = isNativeApp();
 
@@ -120,6 +121,7 @@ const App = () => {
               </ProtectedRoute>
               } />
               <Route path="/design-system" element={<DesignSystem />} />
+              <Route path="/faq" element={<FAQ />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
               <Toaster />
