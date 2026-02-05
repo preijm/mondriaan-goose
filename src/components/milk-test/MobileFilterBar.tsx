@@ -268,7 +268,7 @@ export const MobileFilterBar = ({
             <Button
               variant="outline"
               className={cn(
-                "h-9 flex-1 flex items-center justify-center gap-1.5 rounded-lg transition-colors min-w-0",
+                "h-9 px-3 flex items-center justify-center gap-1.5 rounded-lg transition-colors",
                 activeFilterCount > 0 && "bg-primary text-primary-foreground border-primary hover:bg-primary/90 hover:text-primary-foreground hover:border-primary/90"
               )}
             >
@@ -378,7 +378,7 @@ export const MobileFilterBar = ({
             variant="outline"
             onClick={handleMyResultsToggle}
             className={cn(
-              "h-9 flex-1 flex items-center justify-center gap-1.5 rounded-lg transition-colors min-w-0",
+              "h-9 px-3 flex items-center justify-center gap-1.5 rounded-lg transition-colors",
               filters.myResultsOnly && "bg-primary text-primary-foreground border-primary hover:bg-primary/90 hover:text-primary-foreground hover:border-primary/90"
             )}
           >
