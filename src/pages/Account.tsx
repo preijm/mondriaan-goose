@@ -11,6 +11,9 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import { MobileSettingsMenu, MenuSection } from "@/components/account/MobileSettingsMenu";
 import { DesktopAccountTabs } from "@/components/account/DesktopAccountTabs";
 import { ProfileEditDialog } from "@/components/profile/ProfileEditDialog";
+import { SecurityDialog } from "@/components/settings/SecurityDialog";
+import { NotificationDialog } from "@/components/settings/NotificationDialog";
+import { CountryDialog } from "@/components/settings/CountryDialog";
 import { useUserProfile } from "@/hooks/useUserProfile";
 
 const Account = () => {
@@ -23,6 +26,9 @@ const Account = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [isChangingPassword, setIsChangingPassword] = useState(false);
   const [editDialogOpen, setEditDialogOpen] = useState(false);
+  const [securityDialogOpen, setSecurityDialogOpen] = useState(false);
+  const [notificationDialogOpen, setNotificationDialogOpen] = useState(false);
+  const [countryDialogOpen, setCountryDialogOpen] = useState(false);
   const isMobile = useIsMobile();
   const navigate = useNavigate();
   const { toast } = useToast();
@@ -52,7 +58,7 @@ const Account = () => {
     getProfile();
   }, [navigate]);
 
-  // Build menu sections with Profile onClick handler
+  // Build menu sections with onClick handlers for dialogs (mobile)
   const accountMenuSections: MenuSection[] = useMemo(() => [
     {
       title: "Account",
@@ -71,7 +77,7 @@ const Account = () => {
           iconColor: "#9333ea",
           title: "Security",
           description: "Password and authentication",
-          path: "/account/security",
+          onClick: () => setSecurityDialogOpen(true),
         },
       ],
     },
@@ -84,7 +90,7 @@ const Account = () => {
           iconColor: "#ea580c",
           title: "Notifications",
           description: "Manage your alerts",
-          path: "/account/notifications",
+          onClick: () => setNotificationDialogOpen(true),
         },
         {
           icon: Globe,
@@ -92,7 +98,7 @@ const Account = () => {
           iconColor: "#16a34a",
           title: "Country",
           description: "Set your default location",
-          path: "/account/country",
+          onClick: () => setCountryDialogOpen(true),
         },
       ],
     },
@@ -226,7 +232,7 @@ const Account = () => {
           </Button>
         </div>
 
-        {/* Profile Edit Dialog */}
+        {/* Dialogs */}
         {profile && userId && (
           <ProfileEditDialog
             open={editDialogOpen}
@@ -237,6 +243,18 @@ const Account = () => {
             onSuccess={refetchProfile}
           />
         )}
+        <SecurityDialog
+          open={securityDialogOpen}
+          onOpenChange={setSecurityDialogOpen}
+        />
+        <NotificationDialog
+          open={notificationDialogOpen}
+          onOpenChange={setNotificationDialogOpen}
+        />
+        <CountryDialog
+          open={countryDialogOpen}
+          onOpenChange={setCountryDialogOpen}
+        />
 
         <MobileFooter />
       </div>
