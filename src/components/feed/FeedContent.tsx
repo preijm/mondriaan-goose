@@ -33,13 +33,11 @@ export const FeedContent = ({
     <>
       {items.length > 0 ? (
         <>
-          <div className={gridClassName}>
-            <FeedGrid
-              items={items}
-              isAuthenticated={isAuthenticated}
-              className={gridClassName}
-            />
-          </div>
+          <FeedGrid
+            items={items}
+            isAuthenticated={isAuthenticated}
+            variant={variant}
+          />
 
           {!isAuthenticated && <FeedLoginPrompt className="mt-6" />}
         </>
