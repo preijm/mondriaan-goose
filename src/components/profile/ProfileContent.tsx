@@ -99,15 +99,15 @@ export const ProfileContent = ({
       },
       {
         icon: TrendingUp,
-        iconBgColor: "#dcfce7",
-        iconColor: "#16a34a",
+        iconBgColor: "#dbeafe",
+        iconColor: "#2563eb",
         title: "Average Rating",
         value: avgRating,
       },
       {
         icon: Calendar,
-        iconBgColor: "#f3e8ff",
-        iconColor: "#9333ea",
+        iconBgColor: "#dcfce7",
+        iconColor: "#16a34a",
         title: "Member Since",
         value: memberSince,
       },
@@ -116,8 +116,8 @@ export const ProfileContent = ({
     const actionItems: MobileMenuItem[] = [
       {
         icon: ListPlus,
-        iconBgColor: "#ffedd5",
-        iconColor: "#ea580c",
+        iconBgColor: "#e0e7ff",
+        iconColor: "#4f46e5",
         title: "My Results",
         value: "View all your milk tests",
         path: "/results",
@@ -125,8 +125,8 @@ export const ProfileContent = ({
       },
       {
         icon: PlusCircle,
-        iconBgColor: "#e0e7ff",
-        iconColor: "#4f46e5",
+        iconBgColor: "#ffedd5",
+        iconColor: "#ea580c",
         title: "Add Test",
         value: "Log a new milk test",
         path: "/add",
