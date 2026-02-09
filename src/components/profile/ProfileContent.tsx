@@ -99,8 +99,8 @@ export const ProfileContent = ({
       },
       {
         icon: Star,
-        iconBgColor: "#dbeafe",
-        iconColor: "#2563eb",
+        iconBgColor: "#fef3c7",
+        iconColor: "#d97706",
         title: "Average Rating",
         value: avgRating,
       },
