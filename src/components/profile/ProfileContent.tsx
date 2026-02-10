@@ -93,27 +93,6 @@ export const ProfileContent = ({
   if (variant === "mobile") {
     
 
-    const actionItems: MobileMenuItem[] = [
-      {
-        icon: ListPlus,
-        iconBgColor: "#e0e7ff",
-        iconColor: "#4f46e5",
-        title: "My Results",
-        value: "View all your milk tests",
-        path: "/results",
-        action: () => navigate("/results", { state: { myResultsOnly: true } }),
-      },
-      {
-        icon: PlusCircle,
-        iconBgColor: "#ffedd5",
-        iconColor: "#ea580c",
-        title: "Add Test",
-        value: "Log a new milk test",
-        path: "/add",
-        action: () => navigate("/add"),
-      },
-    ];
-
     return (
       <div className="space-y-6">
         {/* Profile Header Card */}
@@ -181,10 +160,27 @@ export const ProfileContent = ({
           <h3 className="text-sm font-bold text-foreground uppercase mb-4 px-1 tracking-wide">
             Quick Actions
           </h3>
-          <div className="bg-card rounded-2xl overflow-hidden divide-y divide-border shadow-sm">
-            {actionItems.map((item) => (
-              <MobileProfileMenuItem key={item.title} item={item} showChevron />
-            ))}
+          <div className="grid grid-cols-2 gap-3">
+            <button
+              onClick={() => navigate("/results", { state: { myResultsOnly: true } })}
+              className="bg-card rounded-2xl p-4 shadow-sm border border-border text-left hover:bg-muted/50 transition-colors"
+            >
+              <div className="flex items-center gap-2 mb-1">
+                <ListPlus className="w-4 h-4 text-primary" />
+                <span className="text-xs text-muted-foreground">Browse</span>
+              </div>
+              <p className="text-sm font-bold text-foreground">My Results</p>
+            </button>
+            <button
+              onClick={() => navigate("/add")}
+              className="bg-card rounded-2xl p-4 shadow-sm border border-border text-left hover:bg-muted/50 transition-colors"
+            >
+              <div className="flex items-center gap-2 mb-1">
+                <PlusCircle className="w-4 h-4 text-primary" />
+                <span className="text-xs text-muted-foreground">New</span>
+              </div>
+              <p className="text-sm font-bold text-foreground">Add Test</p>
+            </button>
           </div>
         </div>
       </div>
