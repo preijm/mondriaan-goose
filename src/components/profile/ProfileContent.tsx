@@ -111,7 +111,7 @@ export const ProfileContent = ({
                 </div>
               </button>
               <div className="text-left min-w-0">
-                <h1 className="text-xl font-bold text-foreground truncate">{username}</h1>
+                <h1 className="text-xl font-semibold text-foreground truncate">{username}</h1>
                 <p className="text-sm text-muted-foreground truncate">{email}</p>
               </div>
             </div>
@@ -120,7 +120,7 @@ export const ProfileContent = ({
 
         {/* Activity Stats Section - Compact Grid */}
         <div>
-          <h3 className="text-sm font-bold text-foreground uppercase mb-4 px-1 tracking-wide">
+          <h3 className="text-sm font-medium text-muted-foreground uppercase mb-4 px-1 tracking-wide">
             Your Activity
           </h3>
           <div className="grid grid-cols-2 gap-3">
@@ -129,35 +129,35 @@ export const ProfileContent = ({
                 <TrendingUp className="w-4 h-4 text-primary" />
                 <span className="text-xs text-muted-foreground">Tests</span>
               </div>
-              <p className="text-2xl font-bold text-foreground">{totalTests}</p>
+              <p className="text-2xl font-semibold text-foreground">{totalTests}</p>
             </div>
             <div className="bg-card rounded-2xl p-4 shadow-sm border border-border">
               <div className="flex items-center gap-2 mb-1">
                 <Star className="w-4 h-4 text-amber-500" />
                 <span className="text-xs text-muted-foreground">Avg Rating</span>
               </div>
-              <p className="text-2xl font-bold text-foreground">{avgRating}</p>
+              <p className="text-2xl font-semibold text-foreground">{avgRating}</p>
             </div>
             <div className="bg-card rounded-2xl p-4 shadow-sm border border-border">
               <div className="flex items-center gap-2 mb-1">
                 <TrendingUp className="w-4 h-4 text-emerald-500" />
                 <span className="text-xs text-muted-foreground">Best Score</span>
               </div>
-              <p className="text-2xl font-bold text-foreground">{bestScore > 0 ? bestScore : "—"}</p>
+              <p className="text-2xl font-semibold text-foreground">{bestScore > 0 ? bestScore : "—"}</p>
             </div>
             <div className="bg-card rounded-2xl p-4 shadow-sm border border-border">
               <div className="flex items-center gap-2 mb-1">
                 <Calendar className="w-4 h-4 text-muted-foreground" />
                 <span className="text-xs text-muted-foreground">Joined</span>
               </div>
-              <p className="text-sm font-bold text-foreground mt-1">{memberSince}</p>
+              <p className="text-sm font-semibold text-foreground mt-1">{memberSince}</p>
             </div>
           </div>
         </div>
 
         {/* Quick Actions Section */}
         <div>
-          <h3 className="text-sm font-bold text-foreground uppercase mb-4 px-1 tracking-wide">
+          <h3 className="text-sm font-medium text-muted-foreground uppercase mb-4 px-1 tracking-wide">
             Quick Actions
           </h3>
           <div className="grid grid-cols-2 gap-3">
@@ -169,7 +169,7 @@ export const ProfileContent = ({
                 <ListPlus className="w-4 h-4 text-primary" />
                 <span className="text-xs text-muted-foreground">Browse</span>
               </div>
-              <p className="text-sm font-bold text-foreground">My Results</p>
+              <p className="text-sm font-semibold text-foreground">My Results</p>
             </button>
             <button
               onClick={() => navigate("/add")}
@@ -179,7 +179,7 @@ export const ProfileContent = ({
                 <PlusCircle className="w-4 h-4 text-primary" />
                 <span className="text-xs text-muted-foreground">New</span>
               </div>
-              <p className="text-sm font-bold text-foreground">Add Test</p>
+              <p className="text-sm font-semibold text-foreground">Add Test</p>
             </button>
           </div>
         </div>
