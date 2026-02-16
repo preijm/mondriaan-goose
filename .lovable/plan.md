@@ -1,88 +1,72 @@
 
-# Plan: Harmonize Profile Page Colors with Settings Page Design
 
-## Problem Identified
-The Profile page uses a different color scheme than the Settings page, creating visual inconsistency. Looking at both screens:
-- **Settings page** follows a structured color pattern by item category
-- **Profile page** uses arbitrary color assignments that don't follow the same semantic logic
+# Improving Product & Brand Naming Consistency
 
-## Solution Approach
-Align the Profile page's icon colors with a consistent semantic color scheme that matches the established Settings page patterns, organized by item purpose.
+## What changes
 
-## Color Mapping Strategy
+### 1. Input normalization on save (trim + collapse spaces)
+- Trim whitespace and collapse multiple spaces for both brand and product names before saving
+- No automatic title-casing -- brand names are kept as the user types them
 
-### Your Activity Section
-| Item | Current Colors | Proposed Colors | Rationale |
-|------|---------------|-----------------|-----------|
-| Total Tests | Blue bg + Blue icon | Blue bg + Blue icon | Keep - represents data/stats |
-| Average Rating | Green bg + Green icon | Blue bg + Blue icon | Match Total Tests - both are stats |
-| Member Since | Purple bg + Purple icon | Green bg + Green icon | Match Country (location/profile info) |
+### 2. Case-insensitive duplicate prevention for brands
+- The `addNewBrand` function in `useBrandData.ts` currently checks for duplicates using in-memory comparison, but the DB insert can still create duplicates if the local cache is stale
+- Add an `ilike` check against the database before inserting (matching what `nameResolver.ts` already does for product names)
 
-### Quick Actions Section
-| Item | Current Colors | Proposed Colors | Rationale |
-|------|---------------|-----------------|-----------|
-| My Results | Orange bg + Orange icon | Indigo bg + Indigo icon | Match FAQ (viewing content) |
-| Add Test | Indigo bg + Indigo icon | Orange bg + Orange icon | Match Notifications (action-oriented) |
+### 3. Fuzzy/close-match detection in suggestions
+- When typing a brand or product name, detect near-matches (e.g., "Oatlly" vs "Oatly") using a simple similarity function
+- Show close matches more prominently in the suggestion dropdown
+- Only show "Add new" when no close match exists above a similarity threshold
 
-## Technical Changes
+### 4. "Did you mean...?" confirmation
+- When the user clicks "Add new" and a similar (but not exact) entry exists, show a confirmation prompt before creating
 
-**File: `src/components/profile/ProfileContent.tsx`**
+---
 
-Update the color definitions for mobile stats and action items (lines 92-135):
+## Technical Details
 
-```tsx
-const statsItems: MobileMenuItem[] = [
-  {
-    icon: TrendingUp,
-    iconBgColor: "#dbeafe",  // blue-100 (unchanged)
-    iconColor: "#2563eb",    // blue-600 (unchanged)
-    title: "Total Tests",
-    value: totalTests.toString(),
-  },
-  {
-    icon: TrendingUp,
-    iconBgColor: "#dbeafe",  // Changed from green to blue
-    iconColor: "#2563eb",    // Match Total Tests - both are stats
-    title: "Average Rating",
-    value: avgRating,
-  },
-  {
-    icon: Calendar,
-    iconBgColor: "#dcfce7",  // Changed from purple to green
-    iconColor: "#16a34a",    // Match Country setting
-    title: "Member Since",
-    value: memberSince,
-  },
-];
+### New file: `src/lib/nameNormalization.ts`
+- `normalizeName(name)` -- trims and collapses multiple spaces
+- `isSimilar(a, b, threshold?)` -- simple similarity check (lowercase + stripped, basic edit distance or startsWith/includes logic)
 
-const actionItems: MobileMenuItem[] = [
-  {
-    icon: ListPlus,
-    iconBgColor: "#e0e7ff",  // Changed from orange to indigo
-    iconColor: "#4f46e5",    // Match FAQ (viewing/reading content)
-    title: "My Results",
-    // ...
-  },
-  {
-    icon: PlusCircle,
-    iconBgColor: "#ffedd5",  // Changed from indigo to orange
-    iconColor: "#ea580c",    // Match Notifications (action/alert oriented)
-    title: "Add Test",
-    // ...
-  },
-];
+### Modified files
+
+**`src/hooks/useBrandData.ts`**
+- Normalize input with `normalizeName()` before inserting
+- Replace in-memory duplicate check with `ilike` DB query before insert
+- Improve suggestion filtering to flag close matches using `isSimilar()`
+
+**`src/components/milk-test/NameSelect.tsx`**
+- Normalize input with `normalizeName()` before inserting
+- Add close-match detection in suggestion filtering
+- Only show "Add new" when no close match found
+
+**`src/components/milk-test/hooks/product-registration/nameResolver.ts`**
+- Apply `normalizeName()` before the existing `ilike` check
+
+**`src/components/milk-test/BrandSuggestions.tsx`**
+- Visually distinguish close matches (e.g., "Did you mean...?" label)
+- Hide "Add new" when a close match exists
+
+**`src/components/milk-test/ProductSelect.tsx`**
+- Normalize product name input before inserting into the `names` table
+
+### Flow
+
+```text
+User types brand/product name
+        |
+Show suggestions (substring + fuzzy match)
+        |
+User clicks "Add new"
+        |
+Normalize input (trim, collapse spaces)
+        |
+Check DB with ilike for exact match
+   |
+   Match found --> Reuse existing
+   |
+   No match, but similar entry exists --> Show "Did you mean...?" confirmation
+   |
+   No similar entry --> Insert new
 ```
 
-## Visual Consistency Achieved
-After these changes:
-- **Blue icons** = Data/statistics (Total Tests, Average Rating)
-- **Green icons** = Profile/location info (Member Since, Country)
-- **Orange icons** = Primary actions (Add Test, Notifications)
-- **Indigo icons** = View/browse content (My Results, FAQ)
-- **Purple icons** = Security-related (Security setting only)
-- **Yellow icons** = Support/help (Contact)
-
-## Impact
-- Single file change: `src/components/profile/ProfileContent.tsx`
-- No new dependencies
-- Maintains the established design patterns from the Settings page
