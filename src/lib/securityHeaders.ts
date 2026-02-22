@@ -82,15 +82,8 @@ export const isSecureContext = (): boolean => {
 export const initializeSecurity = () => {
   setSecurityHeaders();
   
-  // Log security context information
-  console.log('Security context initialized:', {
-    origin: window.location.origin,
-    isSecure: isSecureContext(),
-    protocol: window.location.protocol
-  });
-
-  // Warn if not in secure context in production
+  // Only warn in non-secure production contexts
   if (!isSecureContext() && window.location.hostname !== 'localhost') {
-    console.warn('Application is not running in a secure context. Some features may be limited.');
+    console.warn('Application is not running in a secure context.');
   }
 };
