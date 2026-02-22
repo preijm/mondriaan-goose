@@ -58,12 +58,14 @@ export const FeedEngagement = ({
               variant="ghost" 
               size="sm" 
               onClick={handleLikeClick}
-              disabled={isLikePending}
+              disabled={isLikePending || isOwnPost}
               className={cn(
                 "flex items-center gap-2.5 sm:gap-1.5 px-3 sm:px-2 py-1.5 rounded-full transition-all duration-200",
-                isLiked 
-                  ? "text-destructive hover:bg-destructive/10" 
-                  : "hover:bg-muted"
+                isOwnPost
+                  ? "opacity-50 cursor-not-allowed"
+                  : isLiked 
+                    ? "text-destructive hover:bg-destructive/10" 
+                    : "hover:bg-muted"
               )}
             >
               <Heart className={cn("h-4 w-4", isLiked && "fill-current")} />
