@@ -1,7 +1,8 @@
 import { useLocation, useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, lazy, Suspense } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { AddMilkTest } from "@/components/AddMilkTest";
+
+const AddMilkTest = lazy(() => import("@/components/AddMilkTest").then(m => ({ default: m.AddMilkTest })));
 import { useAuth } from "@/contexts/AuthContext";
 import { useNotifications } from "@/hooks/useNotifications";
 import { Logo } from "@/components/menu/Logo";
@@ -88,7 +89,9 @@ const MenuBar = () => {
           <DialogHeader>
             <DialogTitle className="text-2xl font-bold text-brand-primary">Add New Test</DialogTitle>
           </DialogHeader>
-          <AddMilkTest />
+          <Suspense fallback={<div className="flex items-center justify-center p-8"><div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" /></div>}>
+            <AddMilkTest />
+          </Suspense>
         </DialogContent>
       </Dialog>
     </nav>
