@@ -109,8 +109,8 @@ export const FeedEngagement = ({
               className="p-0 w-36 bg-card border border-border shadow-lg rounded-lg overflow-hidden"
             >
               <div className="px-3 py-1.5 bg-muted/50 border-b border-border">
-                <p className="font-semibold text-xs text-foreground flex items-center gap-1.5">
-                  <Heart className="h-3 w-3 text-destructive fill-destructive" />
+                <p className="font-semibold text-sm text-foreground flex items-center gap-1.5">
+                  <Heart className="h-3.5 w-3.5 text-destructive fill-destructive" />
                   Liked by
                 </p>
               </div>
@@ -118,7 +118,7 @@ export const FeedEngagement = ({
                 {likes.map(like => (
                   <div 
                     key={like.id} 
-                    className="px-3 py-1 text-xs text-foreground hover:bg-muted/50 transition-colors"
+                    className="px-3 py-1.5 text-sm text-foreground hover:bg-muted/50 transition-colors"
                   >
                     {like.username}
                   </div>
