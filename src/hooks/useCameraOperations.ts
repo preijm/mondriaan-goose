@@ -10,13 +10,15 @@ interface UseCameraOperationsProps {
   setPicturePreview: (url: string | null) => void;
   isNativeApp: boolean;
   isSamsungBrowser: boolean;
+  isMobile: boolean;
 }
 
 export const useCameraOperations = ({
   setPicture,
   setPicturePreview,
   isNativeApp,
-  isSamsungBrowser
+  isSamsungBrowser,
+  isMobile
 }: UseCameraOperationsProps) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const cameraInputRef = useRef<HTMLInputElement>(null);
@@ -50,7 +52,7 @@ export const useCameraOperations = ({
     }
   };
 
-  const takePictureWithNativeCamera = async () => {
+  const takePictureWithNativeCamera = async (): Promise<boolean> => {
     try {
       const image = await CapacitorCamera.getPhoto({
         quality: 90,
@@ -59,31 +61,30 @@ export const useCameraOperations = ({
         source: CameraSource.Camera,
       });
 
-      if (image.dataUrl) {
-        const response = await fetch(image.dataUrl);
-        const blob = await response.blob();
-        const file = new File([blob], 'camera-photo.jpg', { type: 'image/jpeg' });
-        
-        const validationResult = await validateFile(file);
-        
-        if (!validationResult.isValid) {
-          toast({
-            title: "Invalid File",
-            description: validationResult.error,
-            variant: "destructive",
-          });
-          return;
-        }
-
-        await processAndSetFile(file, image.dataUrl);
+      if (!image.dataUrl) {
+        return false;
       }
+
+      const response = await fetch(image.dataUrl);
+      const blob = await response.blob();
+      const file = new File([blob], 'camera-photo.jpg', { type: 'image/jpeg' });
+
+      const validationResult = await validateFile(file);
+
+      if (!validationResult.isValid) {
+        toast({
+          title: "Invalid File",
+          description: validationResult.error,
+          variant: "destructive",
+        });
+        return false;
+      }
+
+      await processAndSetFile(file, image.dataUrl);
+      return true;
     } catch (error) {
-      console.error('Camera error:', error);
-      toast({
-        title: "Camera Error",
-        description: "Failed to capture photo. Please try again.",
-        variant: "destructive",
-      });
+      console.warn('[Camera] Native camera unavailable, falling back to web capture:', error);
+      return false;
     }
   };
 
@@ -150,40 +151,38 @@ export const useCameraOperations = ({
     }
   };
 
-  const handleTakePhoto = () => {
-    if (isNativeApp && isCapacitorAvailable()) {
-      takePictureWithNativeCamera();
-    } else {
-      // For web browsers and webview wrappers (e.g. Median), use web APIs
-      // On mobile webviews, file input with capture is most reliable
-      if (isSamsungBrowser || (isNativeApp && !isCapacitorAvailable())) {
-        // Webview wrappers like Median: use file input with capture attribute
-        if (cameraInputRef.current) {
-          cameraInputRef.current.click();
-        }
-      } else if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-        setShowDesktopCamera(true);
-      } else {
-        if (cameraInputRef.current) {
-          cameraInputRef.current.click();
-        }
-      }
+  const handleTakePhoto = async () => {
+    // Always attempt native camera first in native app environments.
+    if (isNativeApp) {
+      const captured = await takePictureWithNativeCamera();
+      if (captured) return;
     }
+
+    // On mobile/webview, rely on file input capture directly from user gesture.
+    if (isMobile || isSamsungBrowser || (isNativeApp && !isCapacitorAvailable())) {
+      cameraInputRef.current?.click();
+      return;
+    }
+
+    // Desktop web fallback.
+    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+      setShowDesktopCamera(true);
+      return;
+    }
+
+    cameraInputRef.current?.click();
   };
 
-  const handleChooseFromGallery = () => {
-    if (isNativeApp && isCapacitorAvailable()) {
-      // Use native gallery picker
-      takePictureWithGallery();
-    } else {
-      // For web browsers and webview wrappers, use file input
-      if (fileInputRef.current) {
-        fileInputRef.current.click();
-      }
+  const handleChooseFromGallery = async () => {
+    if (isNativeApp) {
+      const selected = await takePictureWithGallery();
+      if (selected) return;
     }
+
+    fileInputRef.current?.click();
   };
 
-  const takePictureWithGallery = async () => {
+  const takePictureWithGallery = async (): Promise<boolean> => {
     try {
       const image = await CapacitorCamera.getPhoto({
         quality: 90,
@@ -192,31 +191,30 @@ export const useCameraOperations = ({
         source: CameraSource.Photos,
       });
 
-      if (image.dataUrl) {
-        const response = await fetch(image.dataUrl);
-        const blob = await response.blob();
-        const file = new File([blob], 'gallery-photo.jpg', { type: 'image/jpeg' });
-        
-        const validationResult = await validateFile(file);
-        
-        if (!validationResult.isValid) {
-          toast({
-            title: "Invalid File",
-            description: validationResult.error,
-            variant: "destructive",
-          });
-          return;
-        }
-
-        await processAndSetFile(file, image.dataUrl);
+      if (!image.dataUrl) {
+        return false;
       }
+
+      const response = await fetch(image.dataUrl);
+      const blob = await response.blob();
+      const file = new File([blob], 'gallery-photo.jpg', { type: 'image/jpeg' });
+
+      const validationResult = await validateFile(file);
+
+      if (!validationResult.isValid) {
+        toast({
+          title: "Invalid File",
+          description: validationResult.error,
+          variant: "destructive",
+        });
+        return false;
+      }
+
+      await processAndSetFile(file, image.dataUrl);
+      return true;
     } catch (error) {
-      console.error('Gallery error:', error);
-      toast({
-        title: "Gallery Error",
-        description: "Failed to select photo. Please try again.",
-        variant: "destructive",
-      });
+      console.warn('[Camera] Native gallery unavailable, falling back to file picker:', error);
+      return false;
     }
   };
 
