@@ -32,8 +32,7 @@ export const ProductForm = forwardRef<HTMLInputElement, ProductFormProps>(({ onS
     isSubmitting,
     refetchFlavors,
     isEditMode,
-    isAdmin,
-    editProductId
+    isAdmin
   } = useProductRegistration();
 
   // Form validation logic

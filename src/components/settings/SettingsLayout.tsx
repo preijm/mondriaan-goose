@@ -71,9 +71,6 @@ export default function SettingsLayout({ children, title }: SettingsLayoutProps)
   const currentPath = location.pathname;
   const isMobileOrTablet = typeof window !== 'undefined' && window.innerWidth < 1024;
   
-  // Find the current section's icon
-  const currentItem = settingsItems.find(item => item.url === currentPath);
-  const CurrentIcon = currentItem?.icon || User;
   
   // Mobile/Tablet layout
   if (isMobileOrTablet) {

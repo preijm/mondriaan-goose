@@ -12,8 +12,6 @@ const AddProductForm = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const {
-    brandId,
-    productName,
     originalHandleSubmit,
     setIsSubmitting
   } = useProductRegistration();
