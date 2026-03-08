@@ -1,7 +1,7 @@
 
 import React, { useState } from "react";
 import * as SliderPrimitive from "@radix-ui/react-slider";
-import { cn } from "@/lib/utils";
+
 import { Badge } from "@/components/ui/badge";
 import { getScoreBadgeVariant } from "@/lib/scoreUtils";
 import { formatScore } from "@/lib/scoreFormatter";

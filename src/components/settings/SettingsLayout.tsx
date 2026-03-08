@@ -1,4 +1,4 @@
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { User, Shield, Bell, Database, HelpCircle, Menu } from "lucide-react";
 
 import {
@@ -28,10 +28,8 @@ const settingsItems = [
 
 function SettingsSidebar() {
   const { state } = useSidebar();
-  const location = useLocation();
-  const currentPath = location.pathname;
 
-  
+
   const getNavCls = ({ isActive }: { isActive: boolean }) =>
     isActive ? "bg-primary/10 text-primary font-medium" : "hover:bg-muted/50";
 
@@ -67,8 +65,6 @@ interface SettingsLayoutProps {
 }
 
 export default function SettingsLayout({ children, title }: SettingsLayoutProps) {
-  const location = useLocation();
-  const currentPath = location.pathname;
   const isMobileOrTablet = typeof window !== 'undefined' && window.innerWidth < 1024;
   
   

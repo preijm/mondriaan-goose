@@ -18,7 +18,7 @@ import { useUserProfile } from "@/hooks/useUserProfile";
 
 const Account = () => {
   const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
+  const [_email, setEmail] = useState("");
   const [defaultCountry, setDefaultCountry] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [userId, setUserId] = useState<string | null>(null);

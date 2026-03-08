@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { SearchBox } from "./product-search/SearchBox";
 import { SearchResults } from "./product-search/SearchResults";
 import { useProductSearch } from "./product-search/useProductSearch";

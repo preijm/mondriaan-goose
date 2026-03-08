@@ -6,7 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { getScoreBadgeVariant } from "@/lib/scoreUtils";
 import { formatScore } from "@/lib/scoreFormatter";
 import { DrinkPreferenceIcon } from "./DrinkPreferenceIcon";
-import { PriceQualityBadge } from "./PriceQualityBadge";
+
 import { supabase } from "@/integrations/supabase/client";
 import { ImageIcon, MapPin, DollarSign, Globe, ChevronDown, Edit3, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";

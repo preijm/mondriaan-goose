@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import { useToast } from "@/hooks/use-toast";
+
 import AuthFormInputs from "./AuthFormInputs";
 import AuthFormButtons from "./AuthFormButtons";
 import { useAuthOperations } from "@/hooks/auth/useAuthOperations";
@@ -30,7 +30,7 @@ const AuthForm = ({
   const [usernameError, setUsernameError] = useState("");
   
   const { loading, signIn, signUp } = useAuthOperations();
-  const { toast } = useToast();
+  
 
   // Check if we should start in signup mode based on location state
   useEffect(() => {

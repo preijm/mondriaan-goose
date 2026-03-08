@@ -89,8 +89,6 @@ export const ProductPropertyBadges: React.FC<ProductPropertyBadgesProps> = ({
     return null;
   }
 
-  // Use consistent badge sizing regardless of compact mode
-  const badgeBaseClasses = "text-xs px-2 py-0.5 font-medium";
     
   const shouldRenderBarista = displayType === 'all' || displayType === 'barista';
   const shouldRenderProperties = displayType === 'all' || displayType === 'properties';

@@ -114,14 +114,6 @@ export const TestDetailsTable = ({
     return <TestDetailsAccordion productTests={productTests} handleImageClick={handleImageClick} />;
   }
 
-  const getCountryFlag = (code: string) => {
-    if (!code) return '';
-    const codePoints = code
-      .toUpperCase()
-      .split('')
-      .map(char => 127397 + char.charCodeAt(0));
-    return String.fromCodePoint(...codePoints);
-  };
 
 
   return (
