@@ -77,7 +77,7 @@ export const useAggregatedResults = (sortConfig: SortConfig) => {
         }
       });
       
-      let results = Array.from(productMap.values());
+      const results = Array.from(productMap.values());
       console.log("Aggregated results before sorting:", results.length);
       
       // Manual sorting based on sortConfig
