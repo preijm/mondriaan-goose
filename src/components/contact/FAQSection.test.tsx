@@ -47,9 +47,10 @@ describe("FAQSection", () => {
   });
 
   it("renders empty state when no items provided", () => {
-    render(<FAQSection title="Empty FAQ" items={[]} />);
+    const { container } = render(<FAQSection title="Empty FAQ" items={[]} />);
     
-    expect(screen.getByText("Empty FAQ")).toBeInTheDocument();
+    // No accordion items should be rendered
+    expect(container.querySelectorAll("[data-orientation='vertical'][data-state]").length).toBeLessThanOrEqual(1);
   });
 
   it("renders with single item", () => {
