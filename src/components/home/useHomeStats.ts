@@ -4,7 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 interface Stats {
   totalTests: number;
   brandsCovered: number;
-  activeMembers: number;
+  uniqueProducts: number;
 }
 
 export const useHomeStats = () => {
