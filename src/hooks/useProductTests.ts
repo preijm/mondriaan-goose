@@ -36,7 +36,7 @@ export const useProductTests = (productId: string | null, sortConfig: SortConfig
           'shop_name', 'notes', 'picture_path'
         ];
         
-        let sortedTests = [...productTests];
+        const sortedTests = [...productTests];
         
         if (detailSortableColumns.includes(sortConfig.column)) {
           sortedTests.sort((a, b) => {
