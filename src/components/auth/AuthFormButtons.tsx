@@ -15,7 +15,7 @@ const AuthFormButtons = ({
   onForgotPassword,
   onToggleMode
 }: AuthFormButtonsProps) => {
-  const isMobile = useIsMobile();
+  
   
   // Check if device is mobile or tablet (up to 1024px)
   const isMobileOrTablet = typeof window !== 'undefined' && window.innerWidth < 1024;

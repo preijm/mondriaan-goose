@@ -13,7 +13,7 @@ import { useAuth } from "@/contexts/AuthContext";
 export const AuthButton = () => {
   const { user, loading, signOut } = useAuth();
   const navigate = useNavigate();
-  const { toast } = useToast();
+  
   const isMobile = useIsMobile();
   const { unreadCount } = useNotifications();
 
