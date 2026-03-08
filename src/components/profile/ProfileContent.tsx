@@ -34,6 +34,8 @@ export const ProfileContent = ({
   onSignOut,
   variant,
 }: ProfileContentProps) => {
+  const navigate = useNavigate();
+  
   if (variant === "mobile") {
     return (
       <div className="space-y-6">
