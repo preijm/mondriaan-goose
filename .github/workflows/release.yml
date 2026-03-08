@@ -203,7 +203,19 @@ jobs:
             echo "[$NEW_VERSION]: https://github.com/milkmenot/mondriaan-goose/releases/tag/v$NEW_VERSION" >> CHANGELOG.md
           fi
 
+      - name: Check if tag exists
+        id: tag_check
+        run: |
+          NEW_VERSION="${{ steps.new_version.outputs.version }}"
+          if git rev-parse "v$NEW_VERSION" >/dev/null 2>&1; then
+            echo "exists=true" >> $GITHUB_OUTPUT
+            echo "Tag v$NEW_VERSION already exists, skipping release"
+          else
+            echo "exists=false" >> $GITHUB_OUTPUT
+          fi
+
       - name: Commit and tag
+        if: steps.tag_check.outputs.exists == 'false'
         run: |
           NEW_VERSION="${{ steps.new_version.outputs.version }}"
           
