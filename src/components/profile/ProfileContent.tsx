@@ -34,6 +34,7 @@ export const ProfileContent = ({
   onSignOut,
   variant,
 }: ProfileContentProps) => {
+  if (variant === "mobile") {
     return (
       <div className="space-y-6">
         {/* Profile Header Card */}
