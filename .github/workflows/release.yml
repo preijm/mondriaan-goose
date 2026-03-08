@@ -66,8 +66,15 @@ jobs:
       - name: Get current version
         id: current_version
         run: |
-          VERSION=$(node -p "require('./package.json').version")
+          # Prefer latest git tag over package.json
+          LATEST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
+          if [ -n "$LATEST_TAG" ]; then
+            VERSION="${LATEST_TAG#v}"
+          else
+            VERSION=$(node -p "require('./package.json').version")
+          fi
           echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "Current version: $VERSION"
 
       - name: Determine version bump
         id: version_bump
@@ -196,7 +203,19 @@ jobs:
             echo "[$NEW_VERSION]: https://github.com/milkmenot/mondriaan-goose/releases/tag/v$NEW_VERSION" >> CHANGELOG.md
           fi
 
+      - name: Check if tag exists
+        id: tag_check
+        run: |
+          NEW_VERSION="${{ steps.new_version.outputs.version }}"
+          if git rev-parse "v$NEW_VERSION" >/dev/null 2>&1; then
+            echo "exists=true" >> $GITHUB_OUTPUT
+            echo "Tag v$NEW_VERSION already exists, skipping release"
+          else
+            echo "exists=false" >> $GITHUB_OUTPUT
+          fi
+
       - name: Commit and tag
+        if: steps.tag_check.outputs.exists == 'false'
         run: |
           NEW_VERSION="${{ steps.new_version.outputs.version }}"
           
@@ -207,6 +226,7 @@ jobs:
           git push origin main --follow-tags
 
       - name: Create GitHub Release
+        if: steps.tag_check.outputs.exists == 'false'
         uses: softprops/action-gh-release@v2
         with:
           tag_name: v${{ steps.new_version.outputs.version }}
