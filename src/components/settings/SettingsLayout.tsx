@@ -65,8 +65,6 @@ interface SettingsLayoutProps {
 }
 
 export default function SettingsLayout({ children, title }: SettingsLayoutProps) {
-  const location = useLocation();
-  const currentPath = location.pathname;
   const isMobileOrTablet = typeof window !== 'undefined' && window.innerWidth < 1024;
   
   
