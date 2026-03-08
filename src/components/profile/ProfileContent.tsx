@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { LogOut, TrendingUp, Star, Calendar, ListPlus, PlusCircle, ChevronRight } from "lucide-react";
+import { LogOut, TrendingUp, Star, Calendar, ListPlus, PlusCircle } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ProfileHeader } from "./ProfileHeader";

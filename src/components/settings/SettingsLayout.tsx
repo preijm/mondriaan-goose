@@ -1,4 +1,4 @@
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { User, Shield, Bell, Database, HelpCircle, Menu } from "lucide-react";
 
 import {

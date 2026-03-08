@@ -30,7 +30,7 @@ const AuthForm = ({
   const [usernameError, setUsernameError] = useState("");
   
   const { loading, signIn, signUp } = useAuthOperations();
-  const { toast } = useToast();
+  
 
   // Check if we should start in signup mode based on location state
   useEffect(() => {

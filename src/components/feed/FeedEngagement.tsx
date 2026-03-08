@@ -41,12 +41,6 @@ export const FeedEngagement = ({
     onLike();
   };
 
-  const handleShowLikes = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    if (likes.length > 0) {
-      setShowLikesPopover(true);
-    }
-  };
 
   return (
     <div className="flex items-center justify-between pt-3 border-t border-border/50">

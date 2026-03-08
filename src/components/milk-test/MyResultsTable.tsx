@@ -48,14 +48,6 @@ export const MyResultsTable = ({
   onImageClick 
 }: MyResultsTableProps) => {
   
-  const getCountryFlag = (code: string) => {
-    if (!code) return '';
-    const codePoints = code
-      .toUpperCase()
-      .split('')
-      .map(char => 127397 + char.charCodeAt(0));
-    return String.fromCodePoint(...codePoints);
-  };
 
   return (
     <div className="overflow-x-auto">
