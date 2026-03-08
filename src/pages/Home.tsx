@@ -40,8 +40,8 @@ const Home = () => {
       delayClass: "delay-300",
     },
     {
-      value: stats.activeMembers,
-      label: "Members",
+      value: stats.uniqueProducts,
+      label: "Products",
       colorClass: "bg-primary",
       delayClass: "delay-500",
     },
