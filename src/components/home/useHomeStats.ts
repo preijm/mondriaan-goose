@@ -23,7 +23,7 @@ export const useHomeStats = () => {
           setStats({
             totalTests: Number(stat.total_tests) || 0,
             brandsCovered: Number(stat.total_brands) || 0,
-            activeMembers: Number(stat.total_members) || 0,
+            uniqueProducts: Number(stat.total_products) || 0,
           });
         }
       } catch (error) {
