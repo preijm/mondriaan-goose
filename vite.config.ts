@@ -16,6 +16,11 @@ export default defineConfig(({ mode }) => ({
     mode === 'development' &&
     componentTagger(),
   ].filter(Boolean),
+  css: {
+    postcss: {
+      plugins: [],
+    },
+  },
   build: {
     sourcemap: true,
     rollupOptions: {
