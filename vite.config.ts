@@ -1,6 +1,5 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react-swc";
-import tailwindcss from "@tailwindcss/postcss";
 import path from "path";
 import { componentTagger } from "lovable-tagger";
 
@@ -15,11 +14,6 @@ export default defineConfig(({ mode }) => ({
     mode === 'development' &&
     componentTagger(),
   ].filter(Boolean),
-  css: {
-    postcss: {
-      plugins: [tailwindcss()],
-    },
-  },
   build: {
     sourcemap: true,
     rollupOptions: {
