@@ -6,6 +6,7 @@ import { Lock } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { sanitizeInput, validateEmail, passwordResetRateLimit } from "@/lib/security";
+import { checkServerRateLimit } from "@/lib/rateLimitCheck";
 interface ResetPasswordDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
