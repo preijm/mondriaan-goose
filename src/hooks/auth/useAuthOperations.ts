@@ -13,6 +13,7 @@ import {
   passwordResetRateLimit,
   logSecurityEvent
 } from '@/lib/security';
+import { checkServerRateLimit } from '@/lib/rateLimitCheck';
 
 export interface AuthFormData {
   email: string;
@@ -56,6 +57,18 @@ export const useAuthOperations = () => {
     setLoading(true);
     loginRateLimit.recordAttempt(rateLimitKey);
 
+    // Server-side rate limit check
+    const serverCheck = await checkServerRateLimit('login', sanitizedEmail);
+    if (!serverCheck.allowed) {
+      const retryMinutes = Math.ceil(serverCheck.retry_after_seconds / 60);
+      toast({
+        title: "Too many attempts",
+        description: `Please wait ${retryMinutes} minute${retryMinutes !== 1 ? 's' : ''} before trying again.`,
+        variant: "destructive"
+      });
+      setLoading(false);
+      return { success: false };
+    }
     try {
       const { error } = await supabase.auth.signInWithPassword({
         email: sanitizedEmail,
@@ -132,6 +145,18 @@ export const useAuthOperations = () => {
     setLoading(true);
     signupRateLimit.recordAttempt(rateLimitKey);
 
+    // Server-side rate limit check
+    const serverCheck = await checkServerRateLimit('signup', sanitizedEmail);
+    if (!serverCheck.allowed) {
+      const retryMinutes = Math.ceil(serverCheck.retry_after_seconds / 60);
+      toast({
+        title: "Too many attempts",
+        description: `Please wait ${retryMinutes} minute${retryMinutes !== 1 ? 's' : ''} before trying again.`,
+        variant: "destructive"
+      });
+      setLoading(false);
+      return { success: false };
+    }
     try {
       // Check if username is available using secure function
       const { data: usernameExists } = await supabase
@@ -236,6 +261,18 @@ export const useAuthOperations = () => {
     passwordResetRateLimit.recordAttempt(rateLimitKey);
     setLoading(true);
 
+    // Server-side rate limit check
+    const serverCheck = await checkServerRateLimit('password_reset', sanitizedEmail);
+    if (!serverCheck.allowed) {
+      const retryMinutes = Math.ceil(serverCheck.retry_after_seconds / 60);
+      toast({
+        title: "Too many attempts",
+        description: `Please wait ${retryMinutes} minute${retryMinutes !== 1 ? 's' : ''} before trying again.`,
+        variant: "destructive"
+      });
+      setLoading(false);
+      return { success: false };
+    }
     try {
       const { error } = await supabase.auth.resetPasswordForEmail(sanitizedEmail, {
         redirectTo: `${window.location.origin}/auth/reset-password`
