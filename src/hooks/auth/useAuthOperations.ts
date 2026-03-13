@@ -57,6 +57,18 @@ export const useAuthOperations = () => {
     setLoading(true);
     loginRateLimit.recordAttempt(rateLimitKey);
 
+    // Server-side rate limit check
+    const serverCheck = await checkServerRateLimit('login', sanitizedEmail);
+    if (!serverCheck.allowed) {
+      const retryMinutes = Math.ceil(serverCheck.retry_after_seconds / 60);
+      toast({
+        title: "Too many attempts",
+        description: `Please wait ${retryMinutes} minute${retryMinutes !== 1 ? 's' : ''} before trying again.`,
+        variant: "destructive"
+      });
+      setLoading(false);
+      return { success: false };
+    }
     try {
       const { error } = await supabase.auth.signInWithPassword({
         email: sanitizedEmail,
