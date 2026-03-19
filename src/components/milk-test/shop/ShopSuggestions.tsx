@@ -163,29 +163,31 @@ export const ShopSuggestions = ({
                   value={editValue}
                   onChange={(e) => setEditValue(e.target.value)}
                   onKeyDown={(e) => handleKeyDown(e, suggestion.name)}
-                  className="h-7 text-sm"
+                  className="h-7 text-sm flex-1"
                   disabled={isUpdating}
                 />
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="h-6 w-6 shrink-0"
-                  onMouseDown={(e) => handleCancelEdit(e)}
-                  disabled={isUpdating}
-                  title="Cancel"
-                >
-                  <X className="h-3 w-3" />
-                </Button>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="h-6 w-6 shrink-0 text-primary hover:text-primary"
-                  onMouseDown={(e) => handleSaveEdit(e, suggestion.name)}
-                  disabled={isUpdating || !editValue.trim()}
-                  title="Save"
-                >
-                  <Check className="h-3 w-3" />
-                </Button>
+                <div className="flex gap-1 shrink-0">
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="h-6 w-6"
+                    onMouseDown={(e) => handleCancelEdit(e)}
+                    disabled={isUpdating}
+                    title="Cancel"
+                  >
+                    <X className="h-3 w-3" />
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="h-6 w-6 text-primary hover:text-primary"
+                    onMouseDown={(e) => handleSaveEdit(e, suggestion.name)}
+                    disabled={isUpdating || !editValue.trim()}
+                    title="Save"
+                  >
+                    <Check className="h-3 w-3" />
+                  </Button>
+                </div>
               </div>
             ) : (
               <>
