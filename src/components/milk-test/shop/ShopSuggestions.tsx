@@ -66,6 +66,7 @@ export const ShopSuggestions = ({
     e.stopPropagation();
     setEditingShopName(shop.name);
     setEditValue(shop.name);
+    onEditingChange?.(true);
   };
 
   const handleCancelEdit = (e: React.MouseEvent) => {
