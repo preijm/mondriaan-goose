@@ -15,6 +15,7 @@ interface ShopSuggestionsProps {
   onSelect: (shop: { name: string; country_code: string | null }) => void;
   onAddNew: () => void;
   isVisible: boolean;
+  onEditingChange?: (editing: boolean) => void;
 }
 
 export const ShopSuggestions = ({
