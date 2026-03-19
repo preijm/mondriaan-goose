@@ -48,9 +48,17 @@ export const ShopSuggestions = ({
   const deleteDialog = (
     <DeleteShopDialog
       open={!!deletingShopName}
-      onOpenChange={(open) => !open && setDeletingShopName(null)}
+      onOpenChange={(open) => {
+        if (!open) {
+          setDeletingShopName(null);
+          onEditingChange?.(false);
+        }
+      }}
       shopName={deletingShopName}
-      onSuccess={() => setDeletingShopName(null)}
+      onSuccess={() => {
+        setDeletingShopName(null);
+        onEditingChange?.(false);
+      }}
     />
   );
 
