@@ -157,16 +157,18 @@ export const ShopSuggestions = ({
             }}
           >
             {editingShopName === suggestion.name ? (
-              <div className="flex items-center gap-2 w-full" onMouseDown={(e) => e.stopPropagation()}>
-                <Input
-                  ref={editInputRef}
-                  value={editValue}
-                  onChange={(e) => setEditValue(e.target.value)}
-                  onKeyDown={(e) => handleKeyDown(e, suggestion.name)}
-                  className="h-7 text-sm flex-1"
-                  disabled={isUpdating}
-                />
-                <div className="flex gap-1 shrink-0">
+              <>
+                <div className="flex-1 min-w-0" onMouseDown={(e) => e.stopPropagation()}>
+                  <Input
+                    ref={editInputRef}
+                    value={editValue}
+                    onChange={(e) => setEditValue(e.target.value)}
+                    onKeyDown={(e) => handleKeyDown(e, suggestion.name)}
+                    className="h-7 text-sm"
+                    disabled={isUpdating}
+                  />
+                </div>
+                <div className="flex gap-1 shrink-0" onMouseDown={(e) => e.stopPropagation()}>
                   <Button
                     variant="ghost"
                     size="icon"
@@ -188,7 +190,7 @@ export const ShopSuggestions = ({
                     <Check className="h-3 w-3" />
                   </Button>
                 </div>
-              </div>
+              </>
             ) : (
               <>
                 <span>{suggestion.name}</span>
