@@ -15,6 +15,7 @@ interface ShopSuggestionsProps {
   onSelect: (shop: { name: string; country_code: string | null }) => void;
   onAddNew: () => void;
   isVisible: boolean;
+  onEditingChange?: (editing: boolean) => void;
 }
 
 export const ShopSuggestions = ({
@@ -24,6 +25,7 @@ export const ShopSuggestions = ({
   onSelect,
   onAddNew,
   isVisible,
+  onEditingChange,
 }: ShopSuggestionsProps) => {
   const { data: isAdmin } = useAdminCheck();
   const [editingShopName, setEditingShopName] = useState<string | null>(null);
@@ -64,6 +66,7 @@ export const ShopSuggestions = ({
     e.stopPropagation();
     setEditingShopName(shop.name);
     setEditValue(shop.name);
+    onEditingChange?.(true);
   };
 
   const handleCancelEdit = (e: React.MouseEvent) => {
@@ -71,6 +74,7 @@ export const ShopSuggestions = ({
     e.stopPropagation();
     setEditingShopName(null);
     setEditValue("");
+    onEditingChange?.(false);
   };
 
   const handleSaveEdit = async (e: React.MouseEvent, originalName: string) => {
@@ -99,6 +103,7 @@ export const ShopSuggestions = ({
       queryClient.invalidateQueries({ queryKey: ["shops"] });
       setEditingShopName(null);
       setEditValue("");
+      onEditingChange?.(false);
     } catch (error) {
       console.error("Error updating shop:", error);
       toast({
@@ -124,6 +129,7 @@ export const ShopSuggestions = ({
     } else if (e.key === "Escape") {
       setEditingShopName(null);
       setEditValue("");
+      onEditingChange?.(false);
     }
   };
 
