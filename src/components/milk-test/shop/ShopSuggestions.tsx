@@ -25,6 +25,7 @@ export const ShopSuggestions = ({
   onSelect,
   onAddNew,
   isVisible,
+  onEditingChange,
 }: ShopSuggestionsProps) => {
   const { data: isAdmin } = useAdminCheck();
   const [editingShopName, setEditingShopName] = useState<string | null>(null);
