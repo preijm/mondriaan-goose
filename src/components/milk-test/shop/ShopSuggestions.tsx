@@ -129,6 +129,7 @@ export const ShopSuggestions = ({
     } else if (e.key === "Escape") {
       setEditingShopName(null);
       setEditValue("");
+      onEditingChange?.(false);
     }
   };
 
