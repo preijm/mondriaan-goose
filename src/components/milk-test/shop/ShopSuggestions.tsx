@@ -103,6 +103,7 @@ export const ShopSuggestions = ({
       queryClient.invalidateQueries({ queryKey: ["shops"] });
       setEditingShopName(null);
       setEditValue("");
+      onEditingChange?.(false);
     } catch (error) {
       console.error("Error updating shop:", error);
       toast({
