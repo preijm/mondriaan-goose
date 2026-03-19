@@ -207,7 +207,7 @@ export const ShopSuggestions = ({
             )}
           </div>
         ))}
-        {showAddNew && (
+        {showAddNew && !editingShopName && (
           <div
             className="px-4 py-2 cursor-pointer hover:bg-muted flex items-center text-muted-foreground"
             onMouseDown={(e) => {
