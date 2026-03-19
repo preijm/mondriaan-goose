@@ -119,6 +119,7 @@ export const ShopSuggestions = ({
   const handleDeleteClick = (e: React.MouseEvent, shopName: string) => {
     e.preventDefault();
     e.stopPropagation();
+    onEditingChange?.(true);
     setDeletingShopName(shopName);
   };
 
