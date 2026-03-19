@@ -126,7 +126,11 @@ export const ShopSelect = ({ shop, setShop, selectedCountry }: ShopSelectProps) 
         value={inputValue}
         onChange={handleInputChange}
         onFocus={() => setIsDropdownVisible(true)}
-        onBlur={() => setTimeout(() => setIsDropdownVisible(false), 200)}
+        onBlur={() => {
+          if (!isEditing) {
+            setTimeout(() => setIsDropdownVisible(false), 200);
+          }
+        }}
       />
       <ShopSuggestions
         suggestions={suggestions}
@@ -135,6 +139,7 @@ export const ShopSelect = ({ shop, setShop, selectedCountry }: ShopSelectProps) 
         onSelect={handleSelectShop}
         onAddNew={handleAddNewShop}
         isVisible={isDropdownVisible}
+        onEditingChange={setIsEditing}
       />
     </div>
   );
