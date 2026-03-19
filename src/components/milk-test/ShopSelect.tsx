@@ -17,6 +17,7 @@ export const ShopSelect = ({ shop, setShop, selectedCountry }: ShopSelectProps) 
   const [suggestions, setSuggestions] = useState<{ name: string; country_code: string }[]>([]);
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
   const [showAddNew, setShowAddNew] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
   const { toast } = useToast();
 
   const { data: shops = [], refetch: refetchShops } = useQuery({
