@@ -74,6 +74,7 @@ export const ShopSuggestions = ({
     e.stopPropagation();
     setEditingShopName(null);
     setEditValue("");
+    onEditingChange?.(false);
   };
 
   const handleSaveEdit = async (e: React.MouseEvent, originalName: string) => {
