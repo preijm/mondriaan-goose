@@ -148,34 +148,34 @@ export const ShopSuggestions = ({
             }}
           >
             {editingShopName === suggestion.name ? (
-              <div className="flex items-center gap-2 w-full" onMouseDown={(e) => e.stopPropagation()}>
+              <div className="flex items-center gap-1.5 w-full" onMouseDown={(e) => e.stopPropagation()}>
                 <Input
                   ref={editInputRef}
                   value={editValue}
                   onChange={(e) => setEditValue(e.target.value)}
                   onKeyDown={(e) => handleKeyDown(e, suggestion.name)}
-                  className="h-7 text-sm"
+                  className="h-8 text-sm flex-1 border-primary/30 focus-visible:ring-primary/20"
                   disabled={isUpdating}
                 />
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="h-6 w-6 shrink-0"
+                  className="h-7 w-7 shrink-0 text-muted-foreground hover:text-destructive hover:bg-destructive/10 rounded-full"
                   onMouseDown={(e) => handleCancelEdit(e)}
                   disabled={isUpdating}
                   title="Cancel"
                 >
-                  <X className="h-3 w-3" />
+                  <X className="h-3.5 w-3.5" />
                 </Button>
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="h-6 w-6 shrink-0 text-primary hover:text-primary"
+                  className="h-7 w-7 shrink-0 text-primary hover:text-primary hover:bg-primary/10 rounded-full"
                   onMouseDown={(e) => handleSaveEdit(e, suggestion.name)}
                   disabled={isUpdating || !editValue.trim()}
                   title="Save"
                 >
-                  <Check className="h-3 w-3" />
+                  <Check className="h-3.5 w-3.5" />
                 </Button>
               </div>
             ) : (
