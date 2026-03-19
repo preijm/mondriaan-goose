@@ -220,8 +220,6 @@ export const ShopSuggestions = ({
           </div>
         )}
       </div>
-
-      {deleteDialog}
     </>
   );
 };
