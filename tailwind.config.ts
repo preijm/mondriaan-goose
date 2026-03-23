@@ -95,10 +95,26 @@ export default {
 				'low': 'hsl(var(--heatmap-low))',
 				'none': 'hsl(var(--heatmap-none))'
 			},
-			// Surface colors
+			// Surface hierarchy
 			surface: {
+				DEFAULT: 'hsl(var(--surface))',
+				'container-lowest': 'hsl(var(--surface-container-lowest))',
+				'container-low': 'hsl(var(--surface-container-low))',
+				'container': 'hsl(var(--surface-container))',
+				'container-high': 'hsl(var(--surface-container-high))',
+				'container-highest': 'hsl(var(--surface-container-highest))',
+				'bright': 'hsl(var(--surface-bright))',
+				// Legacy
 				warm: 'hsl(var(--surface-warm))',
 				cream: 'hsl(var(--surface-cream))'
+			},
+			'on-surface': 'hsl(var(--on-surface))',
+			'outline-variant': 'hsl(var(--outline-variant))',
+			'primary-container': 'hsl(var(--primary-container))',
+			'tertiary': {
+				DEFAULT: 'hsl(var(--tertiary))',
+				foreground: 'hsl(var(--tertiary-foreground))',
+				fixed: 'hsl(var(--tertiary-fixed))'
 			},
 			// Legacy milk colors (keeping for backwards compatibility)
 			milk: {
@@ -134,6 +150,7 @@ export default {
 		},
 		// Typography scale
 		fontSize: {
+			'display-lg': ['3.5rem', { lineHeight: '1.1', fontWeight: '700', letterSpacing: '-0.02em' }],
 			'heading-1': ['var(--font-size-5xl)', { lineHeight: 'var(--line-height-tight)', fontWeight: 'var(--font-weight-bold)' }],
 			'heading-2': ['var(--font-size-4xl)', { lineHeight: 'var(--line-height-tight)', fontWeight: 'var(--font-weight-bold)' }],
 			'heading-3': ['var(--font-size-3xl)', { lineHeight: 'var(--line-height-tight)', fontWeight: 'var(--font-weight-semibold)' }],
@@ -146,6 +163,8 @@ export default {
 			'body-xs': ['var(--font-size-xs)', { lineHeight: 'var(--line-height-normal)' }]
 		},
   		borderRadius: {
+  			'2xl': '3rem',
+  			xl: '1.5rem',
   			lg: 'var(--radius)',
   			md: 'calc(var(--radius) - 2px)',
   			sm: 'calc(var(--radius) - 4px)'
@@ -229,7 +248,14 @@ export default {
   			'bounce-subtle': 'bounce-subtle 0.2s ease-out'
   		},
   		fontFamily: {
+  			display: [
+  				'Epilogue',
+  				'ui-serif',
+  				'Georgia',
+  				'serif'
+  			],
   			sans: [
+  				'Manrope',
   				'ui-sans-serif',
   				'system-ui',
   				'sans-serif',

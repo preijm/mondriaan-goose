@@ -7,25 +7,30 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 224 71.4% 4.1%;
-    --card: 0 0% 100%;
-    --card-foreground: 224 71.4% 4.1%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 224 71.4% 4.1%;
-    --primary: 231 100% 56.4706%; /* #2144ff */
-    --primary-foreground: 210 20% 98%;
-    --secondary: 240 9.0909% 97.8431%;
-    --secondary-foreground: 220.9 39.3% 11%;
-    --muted: 220 14.3% 95.9%;
-    --muted-foreground: 220 8.9% 46.1%;
-    --accent: 220 14.3% 95.9%;
-    --accent-foreground: 220.9 39.3% 11%;
+    --background: 136 28% 97%;      /* #f6faf7 - surface "Fresh Air" */
+    --foreground: 166 9% 19%;       /* #2b3432 - on-surface, soft near-black */
+    --card: 0 0% 100%;              /* surface-container-lowest */
+    --card-foreground: 166 9% 19%;
+    --popover: 0 0% 100%;           /* surface-bright */
+    --popover-foreground: 166 9% 19%;
+    --primary: 151 100% 22%;        /* #006e37 - Deep botanical green */
+    --primary-foreground: 0 0% 100%;
+    --primary-container: 140 95% 70%; /* #68fb99 - Light green for gradients */
+    --on-primary-container: 151 100% 15%;
+    --secondary: 225 91% 50%;       /* #0b45f2 - Action blue (conversion CTA) */
+    --secondary-foreground: 0 0% 100%;
+    --tertiary: 38 100% 26%;        /* #865400 - Earth brown accent */
+    --tertiary-foreground: 0 0% 100%;
+    --tertiary-fixed: 37 99% 55%;   /* #fea619 - Accent bar/highlight */
+    --muted: 138 14% 92%;
+    --muted-foreground: 166 6% 46%;
+    --accent: 138 14% 92%;
+    --accent-foreground: 166 9% 19%;
     --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 20% 98%;
-    --border: 0 0% 85%; /* Light grey for borders */
-    --input: 0 0% 85%; /* Light grey for input borders */
-    --ring: 0 0% 75%; /* Light grey for focus rings */
+    --destructive-foreground: 0 0% 100%;
+    --border: 138 12% 88%;          /* subtle ghost border */
+    --input: 138 12% 88%;
+    --ring: 151 100% 22%;           /* primary green for focus rings */
     --radius: 0.5rem;
     
     /* ========================================
@@ -51,11 +56,11 @@
     /* ========================================
        BRAND COLORS
        ======================================== */
-    --brand-primary: 151 100% 37%;      /* #00bf63 - Green */
+    --brand-primary: 151 100% 22%;      /* #006e37 - Deep botanical green */
     --brand-primary-foreground: 0 0% 100%;
-    --brand-secondary: 231 100% 63%;    /* #2144ff - Blue */
+    --brand-secondary: 225 91% 50%;     /* #0b45f2 - Action blue */
     --brand-secondary-foreground: 0 0% 100%;
-    --brand-tertiary: 38 92% 50%;       /* #f59e0b - Amber */
+    --brand-tertiary: 38 100% 26%;      /* #865400 - Earth brown */
     --brand-tertiary-foreground: 0 0% 100%;
     
     /* ========================================
@@ -70,8 +75,19 @@
     --heatmap-none: 220 13% 91%;
     
     /* ========================================
-       SURFACE COLORS
+       SURFACE HIERARCHY (4 levels per design system)
        ======================================== */
+    --surface: 136 28% 97%;                  /* #f6faf7 - Base "Fresh Air" */
+    --surface-container-lowest: 0 0% 100%;   /* #ffffff - Cards */
+    --surface-container-low: 140 24% 95%;    /* #eff5f1 - Sections */
+    --surface-container: 138 14% 92%;        /* #e6ede8 */
+    --surface-container-high: 138 10% 89%;   /* #dde6df - Input backgrounds */
+    --surface-container-highest: 138 8% 85%; /* #d3ddd5 */
+    --surface-bright: 0 0% 100%;             /* #ffffff - Popovers */
+    --on-surface: 166 9% 19%;                /* #2b3432 - Soft near-black */
+    --outline-variant: 166 9% 19%;           /* Base for ghost borders (use at 15% opacity) */
+
+    /* Legacy warm/cream surfaces */
     --surface-warm: 33 100% 97%;
     --surface-cream: 33 100% 94%;
     
@@ -126,47 +142,57 @@
   }
 
   .dark {
-    --background: 224 71.4% 4.1%;
-    --foreground: 210 20% 98%;
-    --card: 224 71.4% 4.1%;
-    --card-foreground: 210 20% 98%;
-    --popover: 224 71.4% 4.1%;
-    --popover-foreground: 210 20% 98%;
-    --primary: 225 100% 63%; /* #2144ff */
-    --primary-foreground: 210 20% 98%;
-    --secondary: 215 27.9% 16.9%;
-    --secondary-foreground: 210 20% 98%;
-    --muted: 215 27.9% 16.9%;
-    --muted-foreground: 217.9 10.6% 64.9%;
-    --accent: 215 27.9% 16.9%;
-    --accent-foreground: 210 20% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 20% 98%;
-    --border: 0 0% 25%; /* Light grey for dark mode borders */
-    --input: 0 0% 25%; /* Light grey for dark mode input borders */
-    --ring: 0 0% 35%; /* Light grey for dark mode focus rings */
-    
+    --background: 168 14% 8%;
+    --foreground: 136 18% 90%;
+    --card: 168 12% 12%;
+    --card-foreground: 136 18% 90%;
+    --popover: 168 12% 12%;
+    --popover-foreground: 136 18% 90%;
+    --primary: 151 80% 45%;         /* Lighter green for dark mode */
+    --primary-foreground: 0 0% 100%;
+    --primary-container: 151 60% 20%;
+    --on-primary-container: 140 95% 70%;
+    --secondary: 225 91% 65%;       /* Lighter blue for dark mode */
+    --secondary-foreground: 0 0% 100%;
+    --tertiary: 38 80% 55%;
+    --tertiary-foreground: 0 0% 100%;
+    --muted: 168 12% 16%;
+    --muted-foreground: 136 8% 60%;
+    --accent: 168 12% 16%;
+    --accent-foreground: 136 18% 90%;
+    --destructive: 0 62.8% 50%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 168 8% 22%;
+    --input: 168 8% 22%;
+    --ring: 151 80% 45%;
+    --surface: 168 14% 8%;
+    --surface-container-lowest: 168 12% 6%;
+    --surface-container-low: 168 12% 12%;
+    --surface-container: 168 10% 16%;
+    --surface-container-high: 168 10% 20%;
+    --surface-container-highest: 168 8% 25%;
+    --surface-bright: 168 12% 18%;
+    --on-surface: 136 18% 90%;
+    --outline-variant: 136 8% 70%;
+
     /* Score colors - slightly brighter for dark mode */
     --score-excellent: 151 100% 42%;
     --score-good: 231 100% 68%;
     --score-fair: 38 92% 55%;
     --score-poor: 0 100% 70%;
-    
+
     --success: 151 100% 42%;
     --warning: 38 92% 55%;
     --error: 0 100% 70%;
     --info: 231 100% 68%;
-    
-    --brand-primary: 151 100% 42%;
-    --brand-secondary: 231 100% 68%;
-    --brand-tertiary: 38 92% 55%;
+
+    --brand-primary: 151 80% 45%;
+    --brand-secondary: 225 91% 65%;
+    --brand-tertiary: 38 80% 55%;
   }
 }
 
 @layer base {
-  * {
-    @apply border-border;
-  }
   html {
     scrollbar-gutter: stable;
   }
@@ -177,6 +203,27 @@
 }
 
 @layer components {
+  /* ========================================
+     DESIGN SYSTEM UTILITIES
+     ======================================== */
+  .glass-surface {
+    background: hsl(var(--surface) / 0.85);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+  }
+
+  .ghost-border {
+    border: 1px solid hsl(var(--outline-variant) / 0.15);
+  }
+
+  .ambient-shadow {
+    box-shadow: var(--shadow-ambient-md);
+  }
+
+  .gradient-primary {
+    background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-container)));
+  }
+
   .btn-brand {
     @apply bg-[hsl(var(--brand-blue))] text-white transition-all duration-200 ease-in-out rounded-lg py-3 px-6 font-medium;
   }

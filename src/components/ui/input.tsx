@@ -31,7 +31,7 @@ const Input = React.forwardRef<
       <input
         type={inputType}
         className={cn(
-          "flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-base text-left ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground placeholder:text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 md:text-sm",
+          "flex h-10 w-full rounded-none border-0 border-b border-[hsl(var(--outline-variant)/0.2)] bg-[hsl(var(--surface-container-high))] px-3 py-2 text-base text-left file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground placeholder:text-left focus-visible:outline-none focus-visible:border-b-2 focus-visible:border-primary disabled:cursor-not-allowed disabled:opacity-50 md:text-sm transition-colors",
           type === 'password' && showPasswordToggle ? "pr-10" : "",
           className
         )}
