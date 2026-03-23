@@ -57,12 +57,12 @@ We achieve depth through **Tonal Layering** rather than traditional drop shadows
 ## 5. Components
 
 ### Buttons
-- **Primary:** `secondary` (#0b45f2) background with `on-secondary` text. Use `rounded-full` (9999px) for a friendly, approachable feel.
+- **Primary:** `secondary` (#0b45f2) background with `on-secondary` text. Use `rounded-md` for a clean, modern feel. Avoid overly rounded pill shapes.
 - **Secondary:** `surface-container-lowest` background with a "Ghost Border."
 - **Tertiary:** Pure text using `primary` color, with `spacing-2` (0.7rem) horizontal padding for hit-state affordance.
 
 ### Chips
-- Use for categories like "Coffee" or "Baking." Use `primary-container` for the background and `on-primary-container` for text. Corner radius should be `rounded-md` (1.5rem).
+- Use for categories like "Barista" or "Coconut." Use `primary-container` for the background and `on-primary-container` for text. Corner radius should be `rounded-lg` (0.75rem).
 
 ### Input Fields
 - Avoid boxes. Use a `surface-container-high` background with a bottom-only `outline` (#737d79) at 20% opacity. This feels more "open" and less like a form to be "filled out."
@@ -78,11 +78,12 @@ We achieve depth through **Tonal Layering** rather than traditional drop shadows
 ### Do:
 - **Do** use `spacing-16` (5.5rem) and `spacing-20` (7rem) to create dramatic, editorial breaks between major sections.
 - **Do** overlap typography over organic background "blobs" to create depth.
-- **Do** use the `rounded-xl` (3rem) scale for large card containers to maintain the "soft" brand character.
+- **Do** use `rounded-lg` (0.75rem) for card containers and `rounded-md` (0.375rem) for buttons and inputs to maintain a clean, modern aesthetic.
 
 ### Don't:
 - **Don't** use pure black (#000000). Always use `on-surface` (#2b3432) for text to maintain a natural, soft-contrast look.
-- **Don't** use 90-degree corners. Everything in a greenhouse is organic; maintain at least a `rounded-sm` (0.5rem) radius even on the smallest elements.
+- **Don't** use 90-degree corners. Maintain at least a `rounded-sm` (0.25rem) radius on the smallest elements.
+- **Don't** overuse `rounded-full` pill shapes — reserve for badges and status indicators only.
 - **Don't** align everything to a center axis. Use the editorial "Golden Ratio" to place elements off-center for a more bespoke feel.
 
 ### Accessibility Note:
