@@ -28,14 +28,14 @@ export const HeroSection = ({ onStartJourney }: HeroSectionProps) => {
       {/* ── MOBILE LAYOUT (< md) ── */}
       <div className="md:hidden relative overflow-hidden">
         {/* Background blobs */}
-        <div className="absolute -top-20 -right-20 w-72 h-72 bg-primary/[0.08] rounded-full pointer-events-none" />
+        <div className="absolute -top-16 -right-12 w-80 h-80 bg-primary/[0.07] rounded-full pointer-events-none" />
         <div className="absolute top-72 -left-16 w-48 h-48 bg-secondary/[0.07] rounded-full pointer-events-none" />
 
         {/* Hero content */}
-        <div className="relative z-10 pt-6 px-6 min-h-[290px]">
+        <div className="relative z-10 pt-6 px-6 min-h-[340px]">
           {/* Floating milk drop */}
           <div
-            className="absolute top-2 right-1 pointer-events-none z-0"
+            className="absolute top-16 -right-2 pointer-events-none z-0"
             style={{ animation: "heroFloat 4.5s ease-in-out infinite" }}
           >
             <MilkDrop />
@@ -59,14 +59,14 @@ export const HeroSection = ({ onStartJourney }: HeroSectionProps) => {
             style={{ animation: "heroFadeUp 0.55s ease 0.28s both" }}
           >
             <h1
-              className="font-display font-extrabold leading-[1.0] tracking-[-0.045em] text-foreground mb-0.5"
-              style={{ fontSize: "43px" }}
+              className="font-display font-extrabold leading-[1.05] tracking-[-0.045em] text-foreground mb-0.5 max-w-[220px]"
+              style={{ fontSize: "52px" }}
             >
               Ditch the Moo.
             </h1>
             <h1
-              className="font-display font-extrabold leading-[1.0] tracking-[-0.045em] text-primary"
-              style={{ fontSize: "43px" }}
+              className="font-display font-extrabold leading-[1.05] tracking-[-0.045em] text-primary max-w-[280px]"
+              style={{ fontSize: "52px" }}
             >
               Find Your New!
             </h1>
@@ -74,7 +74,7 @@ export const HeroSection = ({ onStartJourney }: HeroSectionProps) => {
 
           {/* Subtext */}
           <p
-            className="text-[13.5px] leading-relaxed text-muted-foreground mb-5 max-w-[185px] relative z-10"
+            className="text-[14px] leading-relaxed text-muted-foreground mb-5 max-w-[210px] relative z-10"
             style={{ animation: "heroFadeUp 0.55s ease 0.28s both" }}
           >
             Rate, discover & share plant milks with people obsessed with taste.
