@@ -13,11 +13,11 @@
     --card-foreground: 166 9% 19%;
     --popover: 0 0% 100%;           /* surface-bright */
     --popover-foreground: 166 9% 19%;
-    --primary: 151 100% 22%;        /* #006e37 - Deep botanical green */
+    --primary: 151 100% 37%;        /* #00bf63 - Botanical green */
     --primary-foreground: 0 0% 100%;
     --primary-container: 140 95% 70%; /* #68fb99 - Light green for gradients */
-    --on-primary-container: 151 100% 15%;
-    --secondary: 225 91% 50%;       /* #0b45f2 - Action blue (conversion CTA) */
+    --on-primary-container: 151 100% 22%;
+    --secondary: 231 100% 56%;      /* #2144ff - Action blue (conversion CTA) */
     --secondary-foreground: 0 0% 100%;
     --tertiary: 38 100% 26%;        /* #865400 - Earth brown accent */
     --tertiary-foreground: 0 0% 100%;
@@ -30,14 +30,14 @@
     --destructive-foreground: 0 0% 100%;
     --border: 138 12% 88%;          /* subtle ghost border */
     --input: 138 12% 88%;
-    --ring: 151 100% 22%;           /* primary green for focus rings */
+    --ring: 151 100% 37%;           /* primary green for focus rings */
     --radius: 0.5rem;
     
     /* ========================================
        SEMANTIC SCORE COLORS
        ======================================== */
     --score-excellent: 151 100% 37%;    /* #00bf63 - Green */
-    --score-good: 231 100% 63%;         /* #2144ff - Blue */
+    --score-good: 231 100% 56%;         /* #2144ff - Blue */
     --score-fair: 38 92% 50%;           /* #f59e0b - Amber */
     --score-poor: 0 100% 65%;           /* #ff4b51 - Red */
     
@@ -56,9 +56,9 @@
     /* ========================================
        BRAND COLORS
        ======================================== */
-    --brand-primary: 151 100% 22%;      /* #006e37 - Deep botanical green */
+    --brand-primary: 151 100% 37%;      /* #00bf63 - Botanical green */
     --brand-primary-foreground: 0 0% 100%;
-    --brand-secondary: 225 91% 50%;     /* #0b45f2 - Action blue */
+    --brand-secondary: 231 100% 56%;    /* #2144ff - Action blue */
     --brand-secondary-foreground: 0 0% 100%;
     --brand-tertiary: 38 100% 26%;      /* #865400 - Earth brown */
     --brand-tertiary-foreground: 0 0% 100%;
@@ -118,7 +118,7 @@
     
     /* Notification icon colors */
     --notification-like: 0 65% 64%; /* #e45959 */
-    --notification-comment: 225 100% 63%; /* #2144ff */
+    --notification-comment: 231 100% 56%; /* #2144ff */
     --notification-newsletter: 151 100% 38%; /* #00bf63 */
     
     /* Badge category colors */
@@ -130,10 +130,10 @@
     --badge-flavor-foreground: 0 0% 100%;
     
     /* Filter active color */
-    --filter-active: 225 100% 63%; /* #2144ff */
+    --filter-active: 231 100% 56%; /* #2144ff */
     
     /* Switch colors */
-    --switch-enabled: 225 100% 63%; /* #2144ff */
+    --switch-enabled: 231 100% 56%; /* #2144ff */
     
     /* Shadow colors */
     --shadow-brand: 0 10px 30px -10px hsl(151 100% 38% / 0.2);
@@ -152,7 +152,7 @@
     --primary-foreground: 0 0% 100%;
     --primary-container: 151 60% 20%;
     --on-primary-container: 140 95% 70%;
-    --secondary: 225 91% 65%;       /* Lighter blue for dark mode */
+    --secondary: 231 100% 68%;      /* #2144ff lighter for dark mode */
     --secondary-foreground: 0 0% 100%;
     --tertiary: 38 80% 55%;
     --tertiary-foreground: 0 0% 100%;
@@ -187,7 +187,7 @@
     --info: 231 100% 68%;
 
     --brand-primary: 151 80% 45%;
-    --brand-secondary: 225 91% 65%;
+    --brand-secondary: 231 100% 68%;
     --brand-tertiary: 38 80% 55%;
   }
 }

@@ -14,8 +14,8 @@ To move beyond a "template" look, designers must embrace **Intentional Asymmetry
 Our palette is rooted in the "Digital Greenhouse" concept: deep botanical greens, sky blues, and sun-drenched earth tones.
 
 ### The Palette
-- **Primary & Earth Tones:** Use `primary` (#006e37) for core brand moments and `tertiary` (#865400) for earthy accents that ground the playful greens.
-- **Vibrancy:** `secondary` (#0b45f2) serves as our high-energy "Action Blue." Use it sparingly for primary conversion points to provide a professional, energetic contrast to the organic greens.
+- **Primary & Earth Tones:** Use `primary` (#00bf63) for core brand moments and `tertiary` (#865400) for earthy accents that ground the playful greens.
+- **Vibrancy:** `secondary` (#2144ff) serves as our high-energy "Action Blue." Use it sparingly for primary conversion points to provide a professional, energetic contrast to the organic greens.
 - **Surface Neutrals:** `surface` (#f6faf7) is our "Fresh Air"—it is a tinted neutral that feels warmer and more organic than pure white.
 
 ### The "No-Line" Rule

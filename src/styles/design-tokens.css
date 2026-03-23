@@ -8,7 +8,7 @@
        SEMANTIC SCORE COLORS
        ======================================== */
     --score-excellent: 145 100% 37%;    /* #00bf63 - Green */
-    --score-good: 231 100% 63%;         /* #2144ff - Blue */
+    --score-good: 231 100% 56%;         /* #2144ff - Blue */
     --score-fair: 38 92% 50%;           /* #f59e0b - Amber */
     --score-poor: 0 100% 65%;           /* #ff4b51 - Red */
     
@@ -29,7 +29,7 @@
        ======================================== */
     --brand-primary: 145 100% 37%;      /* #00bf63 - Green */
     --brand-primary-foreground: 0 0% 100%;
-    --brand-secondary: 231 100% 63%;    /* #2144ff - Blue */
+    --brand-secondary: 231 100% 56%;    /* #2144ff - Blue */
     --brand-secondary-foreground: 0 0% 100%;
     --brand-tertiary: 38 92% 50%;       /* #f59e0b - Amber */
     --brand-tertiary-foreground: 0 0% 100%;
