@@ -91,13 +91,6 @@
     --surface-warm: 33 100% 97%;
     --surface-cream: 33 100% 94%;
     
-    /* Chip/badge tinted backgrounds */
-    --chip-primary-bg: 150 100% 95%;        /* #e6fff3 */
-    --chip-secondary-bg: 220 100% 95%;      /* #e6f0ff */
-    --chip-tertiary-bg: 42 100% 95%;        /* #fff8e6 */
-    --stats-bg: 210 40% 96%;               /* #f1f5f9 */
-    --nav-inactive: 218 12% 80%;           /* #c4c9d4 */
-    
     /* Custom colors for milk app */
     --milk-100: 0 0% 96%; /* #F5F5F5 */
     --milk-200: 0 0% 90%; /* #E5E5E5 */

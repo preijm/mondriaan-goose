@@ -87,10 +87,10 @@ export const HeroSection = ({ onStartJourney, recentReviews = 0 }: HeroSectionPr
             className="flex gap-2 flex-wrap relative z-10"
             style={{ animation: "heroFadeUp 0.55s ease 0.42s both" }}
           >
-            <Link to="/results?barista=true" className="bg-chip-primary-bg rounded-full px-3 py-1 text-xs text-primary font-medium no-underline border border-primary/25">Barista</Link>
-            <Link to="/results?search=Oatly" className="bg-chip-secondary-bg rounded-full px-3 py-1 text-xs text-secondary font-medium no-underline border border-secondary/25">Oatly</Link>
-            <Link to="/results?search=Alpro" className="bg-chip-tertiary-bg rounded-full px-3 py-1 text-xs text-tertiary font-medium no-underline border border-tertiary/25">Alpro</Link>
-            <Link to="/results?search=Coconut" className="bg-chip-primary-bg rounded-full px-3 py-1 text-xs text-primary font-medium no-underline border border-primary/25">Coconut</Link>
+            <Link to="/results?barista=true" className="rounded-full px-3 py-1 text-xs text-primary font-medium no-underline border border-primary/25" style={{ backgroundColor: '#e6fff3' }}>Barista</Link>
+            <Link to="/results?search=Oatly" className="rounded-full px-3 py-1 text-xs text-secondary font-medium no-underline border border-secondary/25" style={{ backgroundColor: '#e6f0ff' }}>Oatly</Link>
+            <Link to="/results?search=Alpro" className="rounded-full px-3 py-1 text-xs text-tertiary font-medium no-underline border border-tertiary/25" style={{ backgroundColor: '#fff8e6' }}>Alpro</Link>
+            <Link to="/results?search=Coconut" className="rounded-full px-3 py-1 text-xs text-primary font-medium no-underline border border-primary/25" style={{ backgroundColor: '#e6fff3' }}>Coconut</Link>
           </div>
         </div>
 

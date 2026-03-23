@@ -15,8 +15,8 @@ export const TrustIndicators = ({ items, formatNumber }: TrustIndicatorsProps) =
     <>
       {/* Mobile: stats card with colored accent bars */}
       <div
-        className="md:hidden mx-6 mt-5 mb-6 rounded-lg py-5 px-2 grid grid-cols-3 bg-stats-bg"
-        style={{ animation: "heroFadeUp 0.55s ease 0.70s both" }}
+        className="md:hidden mx-6 mt-5 mb-6 rounded-[17px] py-5 px-2 grid grid-cols-3"
+        style={{ backgroundColor: '#f1f5f9', animation: "heroFadeUp 0.55s ease 0.70s both" }}
       >
         {items.map((item, index) => {
           const accentColors = ['bg-primary', 'bg-secondary', 'bg-tertiary-fixed'];
