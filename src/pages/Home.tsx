@@ -57,7 +57,7 @@ const Home = () => {
         <div className="flex-1 flex flex-col min-h-dvh lg:min-h-[calc(100dvh-64px)]">
           {/* Mobile: full-bleed layout */}
           <div className="md:hidden flex-1">
-            <HeroSection onStartJourney={handleStartJourney} />
+            <HeroSection onStartJourney={handleStartJourney} recentReviews={stats.recentReviews} />
             <TrustIndicators
               items={trustIndicatorItems}
               formatNumber={formatNumber}
