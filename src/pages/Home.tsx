@@ -49,10 +49,12 @@ const Home = () => {
 
   return (
     <div className="min-h-dvh overflow-hidden flex flex-col">
-      <MenuBar />
+      <div className="hidden lg:block">
+        <MenuBar />
+      </div>
 
       <BackgroundPattern>
-        <div className="flex-1 flex flex-col min-h-[calc(100dvh-64px)]">
+        <div className="flex-1 flex flex-col min-h-dvh lg:min-h-[calc(100dvh-64px)]">
           {/* Mobile: full-bleed layout */}
           <div className="md:hidden flex-1">
             <HeroSection onStartJourney={handleStartJourney} />
