@@ -31,7 +31,7 @@
     --border: 138 12% 88%;          /* subtle ghost border */
     --input: 138 12% 88%;
     --ring: 151 100% 37%;           /* primary green for focus rings */
-    --radius: 0.5rem;
+    --radius: 0.375rem;
     
     /* ========================================
        SEMANTIC SCORE COLORS
