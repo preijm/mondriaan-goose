@@ -90,6 +90,9 @@
     /* Legacy warm/cream surfaces */
     --surface-warm: 33 100% 97%;
     --surface-cream: 33 100% 94%;
+
+    /* Stats card */
+    --stats-card: 210 40% 98%;   /* #f8fafc */
     
     /* Custom colors for milk app */
     --milk-100: 0 0% 96%; /* #F5F5F5 */

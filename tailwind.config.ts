@@ -108,6 +108,7 @@ export default {
 				warm: 'hsl(var(--surface-warm))',
 				cream: 'hsl(var(--surface-cream))'
 			},
+			'stats-card': 'hsl(var(--stats-card))',
 			'on-surface': 'hsl(var(--on-surface))',
 			'outline-variant': 'hsl(var(--outline-variant))',
 			'primary-container': 'hsl(var(--primary-container))',
