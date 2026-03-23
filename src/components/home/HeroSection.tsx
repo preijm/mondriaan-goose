@@ -79,7 +79,7 @@ export const HeroSection = ({ onStartJourney, recentReviews = 0 }: HeroSectionPr
             className="text-[14px] leading-relaxed text-muted-foreground mb-5 max-w-[210px] relative z-10"
             style={{ animation: "heroFadeUp 0.55s ease 0.28s both" }}
           >
-            Rate, discover & share plant milks<br />with people obsessed with taste.
+            Rate, discover & share plant milks <br />with people obsessed with taste.
           </p>
 
           {/* Use-case chips */}
