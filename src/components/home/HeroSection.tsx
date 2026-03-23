@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 
 interface HeroSectionProps {
   onStartJourney: () => void;
+  recentReviews?: number;
 }
 
 const MilkDrop = () => (
