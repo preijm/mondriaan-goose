@@ -29,12 +29,12 @@ export const ProductInfo = ({ brand, productName }: ProductInfoProps) => {
 
       try {
         const { data, error } = await supabase
-          .from('milk_tests_view')
-          .select('*')
+          .from('milk_tests_private_view' as any)
+          .select('brand_name, product_name, is_barista, property_names, flavor_names')
           .eq('brand_name', brand)
           .eq('product_name', productName)
           .limit(1)
-          .single();
+          .single() as unknown as { data: ProductDetails | null; error: Error | null };
 
         if (error) {
           console.error('Error fetching product details:', error);

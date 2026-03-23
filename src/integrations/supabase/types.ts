@@ -433,6 +433,13 @@ export type Database = {
             foreignKeyName: "products_brand_id_fkey"
             columns: ["brand_id"]
             isOneToOne: false
+            referencedRelation: "milk_tests_private_view"
+            referencedColumns: ["brand_id"]
+          },
+          {
+            foreignKeyName: "products_brand_id_fkey"
+            columns: ["brand_id"]
+            isOneToOne: false
             referencedRelation: "milk_tests_view"
             referencedColumns: ["brand_id"]
           },
@@ -631,7 +638,7 @@ export type Database = {
           },
         ]
       }
-      milk_tests_view: {
+      milk_tests_private_view: {
         Row: {
           brand_id: string | null
           brand_name: string | null
@@ -667,6 +674,39 @@ export type Database = {
             referencedRelation: "profiles_public"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "milk_tests_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "product_search_view"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "milk_tests_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      milk_tests_view: {
+        Row: {
+          brand_id: string | null
+          brand_name: string | null
+          country_code: string | null
+          created_at: string | null
+          drink_preference: string | null
+          flavor_names: string[] | null
+          id: string | null
+          is_barista: boolean | null
+          price_quality_ratio: string | null
+          product_id: string | null
+          product_name: string | null
+          property_names: string[] | null
+          rating: number | null
+        }
+        Relationships: [
           {
             foreignKeyName: "milk_tests_product_id_fkey"
             columns: ["product_id"]
