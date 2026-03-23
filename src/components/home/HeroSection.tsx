@@ -23,7 +23,7 @@ const MilkDrop = () => (
   </svg>
 );
 
-export const HeroSection = ({ onStartJourney }: HeroSectionProps) => {
+export const HeroSection = ({ onStartJourney, recentReviews = 0 }: HeroSectionProps) => {
   return (
     <>
       {/* ── MOBILE LAYOUT (< md) ── */}
