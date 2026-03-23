@@ -144,7 +144,7 @@ export function useResultsFiltering(
     queryFn: async () => {
       if (!user) return [];
       const { data } = await supabase
-        .from("milk_tests_view")
+        .from("milk_tests_private_view" as any)
         .select("product_id")
         .eq("user_id", user.id);
       return data || [];

@@ -18,7 +18,7 @@ export const useUserMilkTests = (sortConfig: SortConfig) => {
       
       // Cast to unknown first, then to our specific type
       const { data, error } = await supabase
-        .from('milk_tests_view')
+        .from('milk_tests_private_view' as any)
         .select('*')
         .eq('user_id', user.id)
         .order(sortConfig.column, { ascending: sortConfig.direction === 'asc' }) as unknown as {
