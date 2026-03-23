@@ -7,7 +7,7 @@
 
 @layer base {
   :root {
-    --background: 136 28% 97%;      /* #f6faf7 - surface "Fresh Air" */
+    --background: 46 100% 98%;      /* #fffef7 - warm off-white */
     --foreground: 166 9% 19%;       /* #2b3432 - on-surface, soft near-black */
     --card: 0 0% 100%;              /* surface-container-lowest */
     --card-foreground: 166 9% 19%;
