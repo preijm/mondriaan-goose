@@ -19,7 +19,7 @@ export const TrustIndicators = ({ items, formatNumber }: TrustIndicatorsProps) =
         style={{ backgroundColor: '#f1f5f9', animation: "heroFadeUp 0.55s ease 0.70s both" }}
       >
         {items.map((item, index) => {
-          const colors = ['#00bf63', '#2144ff', '#f59e0b'];
+          const accentColors = ['bg-primary', 'bg-secondary', 'bg-tertiary-fixed'];
           return (
             <div
               key={index}
@@ -31,7 +31,7 @@ export const TrustIndicators = ({ items, formatNumber }: TrustIndicatorsProps) =
               <div className="text-[10px] text-muted-foreground mt-1.5 font-semibold uppercase tracking-[1px]">
                 {item.label}
               </div>
-              <div className="w-6 h-[3px] mx-auto mt-2 rounded-full" style={{ backgroundColor: colors[index] }} />
+              <div className={`w-6 h-[3px] ${accentColors[index]} mx-auto mt-2 rounded-full`} />
             </div>
           );
         })}
