@@ -250,7 +250,7 @@ export default {
   		},
   		fontFamily: {
   			display: [
-  				'Epilogue',
+  				'Newsreader',
   				'ui-serif',
   				'Georgia',
   				'serif'

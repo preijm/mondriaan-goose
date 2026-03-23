@@ -7,7 +7,7 @@
 
 @layer base {
   :root {
-    --background: 136 28% 97%;      /* #f6faf7 - surface "Fresh Air" */
+    --background: 46 100% 98%;      /* #fffef7 - warm off-white */
     --foreground: 166 9% 19%;       /* #2b3432 - on-surface, soft near-black */
     --card: 0 0% 100%;              /* surface-container-lowest */
     --card-foreground: 166 9% 19%;
@@ -77,7 +77,7 @@
     /* ========================================
        SURFACE HIERARCHY (4 levels per design system)
        ======================================== */
-    --surface: 136 28% 97%;                  /* #f6faf7 - Base "Fresh Air" */
+    --surface: 46 100% 98%;                  /* #fffef7 - warm off-white */
     --surface-container-lowest: 0 0% 100%;   /* #ffffff - Cards */
     --surface-container-low: 140 24% 95%;    /* #eff5f1 - Sections */
     --surface-container: 138 14% 92%;        /* #e6ede8 */
