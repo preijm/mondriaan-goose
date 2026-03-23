@@ -28,7 +28,7 @@ export const HeroSection = ({ onStartJourney }: HeroSectionProps) => {
       {/* ── MOBILE LAYOUT (< md) ── */}
       <div className="md:hidden relative overflow-hidden">
         {/* Background blobs */}
-        <div className="absolute -top-20 -right-20 w-72 h-72 bg-primary/[0.08] rounded-full pointer-events-none" />
+        <div className="absolute -top-16 -right-12 w-80 h-80 bg-primary/[0.07] rounded-full pointer-events-none" />
         <div className="absolute top-72 -left-16 w-48 h-48 bg-secondary/[0.07] rounded-full pointer-events-none" />
 
         {/* Hero content */}
