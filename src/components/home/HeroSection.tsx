@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 
 interface HeroSectionProps {
   onStartJourney: () => void;
+  recentReviews?: number;
 }
 
 const MilkDrop = () => (
@@ -22,7 +23,7 @@ const MilkDrop = () => (
   </svg>
 );
 
-export const HeroSection = ({ onStartJourney }: HeroSectionProps) => {
+export const HeroSection = ({ onStartJourney, recentReviews = 0 }: HeroSectionProps) => {
   return (
     <>
       {/* ── MOBILE LAYOUT (< md) ── */}
@@ -51,7 +52,7 @@ export const HeroSection = ({ onStartJourney }: HeroSectionProps) => {
               className="w-2 h-2 bg-primary rounded-full flex-shrink-0"
               style={{ animation: "pulseDot 2.2s ease-in-out infinite" }}
             />
-            <span className="text-xs text-primary font-medium">12 new reviews today</span>
+            <span className="text-xs text-primary font-medium">{recentReviews} new review{recentReviews !== 1 ? 's' : ''} this week</span>
           </Link>
 
           {/* Headline */}
