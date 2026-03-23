@@ -86,10 +86,10 @@ export const HeroSection = ({ onStartJourney }: HeroSectionProps) => {
             className="flex gap-2 flex-wrap relative z-10"
             style={{ animation: "heroFadeUp 0.55s ease 0.42s both" }}
           >
-            <span className="bg-primary/10 border border-primary/30 rounded-full px-3 py-1 text-xs text-primary font-medium">Coffee</span>
-            <span className="bg-secondary/10 border border-secondary/30 rounded-full px-3 py-1 text-xs text-secondary font-medium">Cereal</span>
-            <span className="bg-tertiary/10 border border-tertiary/30 rounded-full px-3 py-1 text-xs text-tertiary font-medium">Cooking</span>
-            <span className="bg-primary/10 border border-primary/30 rounded-full px-3 py-1 text-xs text-primary font-medium">Baking</span>
+            <Link to="/results?barista=true" className="bg-primary/10 border border-primary/30 rounded-full px-3 py-1 text-xs text-primary font-medium no-underline">Barista</Link>
+            <Link to="/results?search=Oatly" className="bg-secondary/10 border border-secondary/30 rounded-full px-3 py-1 text-xs text-secondary font-medium no-underline">Oatly</Link>
+            <Link to="/results?search=Alpro" className="bg-tertiary/10 border border-tertiary/30 rounded-full px-3 py-1 text-xs text-tertiary font-medium no-underline">Alpro</Link>
+            <Link to="/results?search=Coconut" className="bg-primary/10 border border-primary/30 rounded-full px-3 py-1 text-xs text-primary font-medium no-underline">Coconut</Link>
           </div>
         </div>
 
