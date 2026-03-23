@@ -15,8 +15,8 @@ export const TrustIndicators = ({ items, formatNumber }: TrustIndicatorsProps) =
     <>
       {/* Mobile: stats card with colored accent bars */}
       <div
-        className="md:hidden mx-6 mt-5 mb-6 bg-surface-container rounded-2xl py-[18px] px-2 grid grid-cols-3"
-        style={{ animation: "heroFadeUp 0.55s ease 0.70s both" }}
+        className="md:hidden mx-6 mt-5 mb-6 rounded-2xl py-[18px] px-2 grid grid-cols-3"
+        style={{ backgroundColor: '#f8fafc', animation: "heroFadeUp 0.55s ease 0.70s both" }}
       >
         {items.map((item, index) => (
           <div
