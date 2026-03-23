@@ -7,21 +7,21 @@ interface HeroSectionProps {
   recentReviews?: number;
 }
 
-const MilkDrop = () => (
-  <svg viewBox="0 0 158 218" width="158" height="218" fill="none" aria-hidden="true">
-    <path d="M79 8 C114 58 130 100 130 138 C130 175 107 196 79 200 C51 196 28 175 28 138 C28 100 44 58 79 8Z" fill="#00bf63" opacity="0.08"/>
-    <path d="M79 22 C110 66 124 104 124 136 C124 170 103 189 79 193 C55 189 34 170 34 136 C34 104 48 66 79 22Z" fill="#00bf63" opacity="0.16"/>
-    <path d="M79 40 C106 76 118 108 118 134 C118 165 99 182 79 186 C59 182 40 165 40 134 C40 108 52 76 79 40Z" fill="#00bf63" opacity="0.30"/>
-    <ellipse cx="64" cy="102" rx="7" ry="14" fill="white" opacity="0.55" transform="rotate(-14 64 102)"/>
-    <ellipse cx="68" cy="82" rx="3" ry="5" fill="white" opacity="0.35" transform="rotate(-14 68 82)"/>
-    <circle cx="136" cy="162" r="9" fill="#00bf63" opacity="0.14"/>
-    <circle cx="148" cy="147" r="6" fill="#f59e0b" opacity="0.55"/>
-    <circle cx="20" cy="168" r="7" fill="#00bf63" opacity="0.12"/>
-    <circle cx="12" cy="154" r="4.5" fill="#2144ff" opacity="0.36"/>
-    <circle cx="140" cy="178" r="3.5" fill="#00bf63" opacity="0.26"/>
-    <circle cx="148" cy="168" r="2.5" fill="#f59e0b" opacity="0.4"/>
-  </svg>
-);
+const MilkDrop = () =>
+<svg viewBox="0 0 158 218" width="158" height="218" fill="none" aria-hidden="true">
+    <path d="M79 8 C114 58 130 100 130 138 C130 175 107 196 79 200 C51 196 28 175 28 138 C28 100 44 58 79 8Z" fill="#00bf63" opacity="0.08" />
+    <path d="M79 22 C110 66 124 104 124 136 C124 170 103 189 79 193 C55 189 34 170 34 136 C34 104 48 66 79 22Z" fill="#00bf63" opacity="0.16" />
+    <path d="M79 40 C106 76 118 108 118 134 C118 165 99 182 79 186 C59 182 40 165 40 134 C40 108 52 76 79 40Z" fill="#00bf63" opacity="0.30" />
+    <ellipse cx="64" cy="102" rx="7" ry="14" fill="white" opacity="0.55" transform="rotate(-14 64 102)" />
+    <ellipse cx="68" cy="82" rx="3" ry="5" fill="white" opacity="0.35" transform="rotate(-14 68 82)" />
+    <circle cx="136" cy="162" r="9" fill="#00bf63" opacity="0.14" />
+    <circle cx="148" cy="147" r="6" fill="#f59e0b" opacity="0.55" />
+    <circle cx="20" cy="168" r="7" fill="#00bf63" opacity="0.12" />
+    <circle cx="12" cy="154" r="4.5" fill="#2144ff" opacity="0.36" />
+    <circle cx="140" cy="178" r="3.5" fill="#00bf63" opacity="0.26" />
+    <circle cx="148" cy="168" r="2.5" fill="#f59e0b" opacity="0.4" />
+  </svg>;
+
 
 export const HeroSection = ({ onStartJourney, recentReviews = 0 }: HeroSectionProps) => {
   return (
@@ -37,8 +37,8 @@ export const HeroSection = ({ onStartJourney, recentReviews = 0 }: HeroSectionPr
           {/* Floating milk drop */}
           <div
             className="absolute top-16 -right-2 pointer-events-none z-0"
-            style={{ animation: "heroFloat 4.5s ease-in-out infinite" }}
-          >
+            style={{ animation: "heroFloat 4.5s ease-in-out infinite" }}>
+            
             <MilkDrop />
           </div>
 
@@ -46,30 +46,30 @@ export const HeroSection = ({ onStartJourney, recentReviews = 0 }: HeroSectionPr
           <Link
             to="/feed"
             className="inline-flex items-center gap-2 bg-primary/10 border border-primary/30 rounded-full px-3 py-1.5 mb-5 no-underline"
-            style={{ animation: "heroFadeUp 0.55s ease 0.15s both" }}
-          >
+            style={{ animation: "heroFadeUp 0.55s ease 0.15s both" }}>
+            
             <span
               className="w-2 h-2 bg-primary rounded-full flex-shrink-0"
-              style={{ animation: "pulseDot 2.2s ease-in-out infinite" }}
-            />
+              style={{ animation: "pulseDot 2.2s ease-in-out infinite" }} />
+            
             <span className="text-xs text-primary font-medium">{recentReviews} new review{recentReviews !== 1 ? 's' : ''} this week</span>
           </Link>
 
           {/* Headline */}
           <div
             className="mb-4 relative z-10"
-            style={{ animation: "heroFadeUp 0.55s ease 0.28s both" }}
-          >
+            style={{ animation: "heroFadeUp 0.55s ease 0.28s both" }}>
+            
             <h1
               className="font-display font-extrabold leading-[1.05] tracking-[-0.045em] text-foreground mb-0.5 max-w-[220px]"
-              style={{ fontSize: "52px" }}
-            >
+              style={{ fontSize: "52px" }}>
+              
               Ditch the Moo.
             </h1>
             <h1
               className="font-display font-extrabold leading-[1.05] tracking-[-0.045em] text-primary max-w-[280px]"
-              style={{ fontSize: "52px" }}
-            >
+              style={{ fontSize: "52px" }}>
+              
               Find Your New!
             </h1>
           </div>
@@ -77,16 +77,16 @@ export const HeroSection = ({ onStartJourney, recentReviews = 0 }: HeroSectionPr
           {/* Subtext */}
           <p
             className="text-[14px] leading-relaxed text-muted-foreground mb-5 max-w-[260px] relative z-10"
-            style={{ animation: "heroFadeUp 0.55s ease 0.28s both" }}
-          >
-            Rate, discover & share plant milks <br />with people obsessed with taste.
+            style={{ animation: "heroFadeUp 0.55s ease 0.28s both" }}>
+            
+            Rate, discover & share plant milks with people obsessed with taste. 
+            <br />with people obsessed with taste.
           </p>
 
           {/* Use-case chips */}
-          <div
-            className="flex gap-2 flex-wrap relative z-10"
-            style={{ animation: "heroFadeUp 0.55s ease 0.42s both" }}
-          >
+          <div className="flex gap-2 flex-wrap relative z-10"
+          style={{ animation: "heroFadeUp 0.55s ease 0.42s both" }}>
+            
             <Link to="/results?barista=true" className="rounded-full px-3 py-1 text-xs text-primary font-medium no-underline border border-primary/25" style={{ backgroundColor: '#e6fff3' }}>Barista</Link>
             <Link to="/results?search=Oatly" className="rounded-full px-3 py-1 text-xs text-secondary font-medium no-underline border border-secondary/25" style={{ backgroundColor: '#e6f0ff' }}>Oatly</Link>
             <Link to="/results?search=Alpro" className="rounded-full px-3 py-1 text-xs text-tertiary font-medium no-underline border border-tertiary/25" style={{ backgroundColor: '#fff8e6' }}>Alpro</Link>
@@ -97,29 +97,29 @@ export const HeroSection = ({ onStartJourney, recentReviews = 0 }: HeroSectionPr
         {/* CTA buttons */}
         <div
           className="px-6 pt-6 flex flex-col gap-3 relative z-10"
-          style={{ animation: "heroFadeUp 0.55s ease 0.56s both" }}
-        >
+          style={{ animation: "heroFadeUp 0.55s ease 0.56s both" }}>
+          
           <button
             onClick={onStartJourney}
-            className="w-full bg-secondary text-white rounded-[17px] px-5 py-[17px] text-[15px] font-semibold flex items-center justify-between tracking-[-0.2px] transition-[filter,transform] hover:brightness-110 active:scale-[0.98] font-sans"
-          >
+            className="w-full bg-secondary text-white rounded-[17px] px-5 py-[17px] text-[15px] font-semibold flex items-center justify-between tracking-[-0.2px] transition-[filter,transform] hover:brightness-110 active:scale-[0.98] font-sans">
+            
             <div className="flex items-center gap-3">
               <div className="w-7 h-7 bg-white/20 rounded-lg flex items-center justify-center flex-shrink-0">
                 <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                  <path d="M7 1.5C7 1.5 4 5.5 4 8.5C4 10.4 5.3 12 7 12C8.7 12 10 10.4 10 8.5C10 5.5 7 1.5 7 1.5Z" fill="white"/>
+                  <path d="M7 1.5C7 1.5 4 5.5 4 8.5C4 10.4 5.3 12 7 12C8.7 12 10 10.4 10 8.5C10 5.5 7 1.5 7 1.5Z" fill="white" />
                 </svg>
               </div>
               Start Your Taste Journey
             </div>
             <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-              <path d="M4 9H14M14 9L10 5M14 9L10 13" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+              <path d="M4 9H14M14 9L10 5M14 9L10 13" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           </button>
 
           <Link
             to="/results"
-            className="w-full text-center text-foreground rounded-[17px] px-5 py-4 text-[15px] font-medium ghost-border transition-colors hover:bg-surface-container-low font-sans block"
-          >
+            className="w-full text-center text-foreground rounded-[17px] px-5 py-4 text-[15px] font-medium ghost-border transition-colors hover:bg-surface-container-low font-sans block">
+            
             Explore Results
           </Link>
         </div>
@@ -160,10 +160,10 @@ export const HeroSection = ({ onStartJourney, recentReviews = 0 }: HeroSectionPr
           <Button
             onClick={onStartJourney}
             size="lg"
-            className="text-base md:text-lg px-6 md:px-8 py-3 md:py-4 text-white shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300"
-          >
+            className="text-base md:text-lg px-6 md:px-8 py-3 md:py-4 text-white shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300">
+            
             <svg width="20" height="20" viewBox="0 0 14 14" fill="none" className="mr-2 flex-shrink-0">
-              <path d="M7 1.5C7 1.5 4 5.5 4 8.5C4 10.4 5.3 12 7 12C8.7 12 10 10.4 10 8.5C10 5.5 7 1.5 7 1.5Z" fill="white"/>
+              <path d="M7 1.5C7 1.5 4 5.5 4 8.5C4 10.4 5.3 12 7 12C8.7 12 10 10.4 10 8.5C10 5.5 7 1.5 7 1.5Z" fill="white" />
             </svg>
             Start Your Taste Journey
             <ArrowRight className="ml-2 h-5 w-5" />
@@ -174,6 +174,6 @@ export const HeroSection = ({ onStartJourney, recentReviews = 0 }: HeroSectionPr
           </Button>
         </div>
       </div>
-    </>
-  );
+    </>);
+
 };
