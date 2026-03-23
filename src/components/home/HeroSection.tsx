@@ -9,28 +9,30 @@ interface HeroSectionProps {
 
 const MilkDrop = () =>
 <svg viewBox="0 0 158 218" width="158" height="218" fill="none" aria-hidden="true">
-    <path d="M79 8 C114 58 130 100 130 138 C130 175 107 196 79 200 C51 196 28 175 28 138 C28 100 44 58 79 8Z" fill="#00bf63" opacity="0.08" />
-    <path d="M79 22 C110 66 124 104 124 136 C124 170 103 189 79 193 C55 189 34 170 34 136 C34 104 48 66 79 22Z" fill="#00bf63" opacity="0.16" />
-    <path d="M79 40 C106 76 118 108 118 134 C118 165 99 182 79 186 C59 182 40 165 40 134 C40 108 52 76 79 40Z" fill="#00bf63" opacity="0.30" />
+    <path d="M79 8 C114 58 130 100 130 138 C130 175 107 196 79 200 C51 196 28 175 28 138 C28 100 44 58 79 8Z" fill="currentColor" className="text-primary" opacity="0.08" />
+    <path d="M79 22 C110 66 124 104 124 136 C124 170 103 189 79 193 C55 189 34 170 34 136 C34 104 48 66 79 22Z" fill="currentColor" className="text-primary" opacity="0.16" />
+    <path d="M79 40 C106 76 118 108 118 134 C118 165 99 182 79 186 C59 182 40 165 40 134 C40 108 52 76 79 40Z" fill="currentColor" className="text-primary" opacity="0.30" />
     <ellipse cx="64" cy="102" rx="7" ry="14" fill="white" opacity="0.55" transform="rotate(-14 64 102)" />
     <ellipse cx="68" cy="82" rx="3" ry="5" fill="white" opacity="0.35" transform="rotate(-14 68 82)" />
-    <circle cx="136" cy="162" r="9" fill="#00bf63" opacity="0.14" />
-    <circle cx="148" cy="147" r="6" fill="#f59e0b" opacity="0.55" />
-    <circle cx="20" cy="168" r="7" fill="#00bf63" opacity="0.12" />
-    <circle cx="12" cy="154" r="4.5" fill="#2144ff" opacity="0.36" />
-    <circle cx="140" cy="178" r="3.5" fill="#00bf63" opacity="0.26" />
-    <circle cx="148" cy="168" r="2.5" fill="#f59e0b" opacity="0.4" />
+    <circle cx="136" cy="162" r="9" fill="currentColor" className="text-primary" opacity="0.14" />
+    <circle cx="148" cy="147" r="6" fill="currentColor" className="text-tertiary-fixed" opacity="0.55" />
+    <circle cx="20" cy="168" r="7" fill="currentColor" className="text-primary" opacity="0.12" />
+    <circle cx="140" cy="178" r="3.5" fill="currentColor" className="text-primary" opacity="0.26" />
+    <circle cx="148" cy="168" r="2.5" fill="currentColor" className="text-tertiary-fixed" opacity="0.4" />
   </svg>;
 
 
 export const HeroSection = ({ onStartJourney, recentReviews = 0 }: HeroSectionProps) => {
+  const showBadge = recentReviews > 0;
+  const badgeText = `${recentReviews} new review${recentReviews !== 1 ? 's' : ''} this week`;
+  const fallbackText = "Be the first to review this week";
+
   return (
     <>
       {/* ── MOBILE LAYOUT (< md) ── */}
       <div className="md:hidden relative overflow-hidden">
-        {/* Background blobs */}
-        <div className="absolute -top-16 -right-12 w-80 h-80 bg-primary/[0.07] rounded-full pointer-events-none" />
-        <div className="absolute top-72 -left-16 w-48 h-48 bg-secondary/[0.07] rounded-full pointer-events-none" />
+        {/* Background blob — primary only, larger and purposeful */}
+        <div className="absolute -top-16 -right-12 w-80 h-80 bg-primary/[0.06] rounded-full pointer-events-none" />
 
         {/* Hero content */}
         <div className="relative z-10 pt-6 px-6 min-h-[340px]">
@@ -52,7 +54,9 @@ export const HeroSection = ({ onStartJourney, recentReviews = 0 }: HeroSectionPr
               className="w-2 h-2 bg-primary rounded-full flex-shrink-0"
               style={{ animation: "pulseDot 2.2s ease-in-out infinite" }} />
             
-            <span className="text-xs text-primary font-medium">{recentReviews} new review{recentReviews !== 1 ? 's' : ''} this week</span>
+            <span className="text-xs text-primary font-medium">
+              {showBadge ? badgeText : fallbackText}
+            </span>
           </Link>
 
           {/* Headline */}
@@ -83,14 +87,14 @@ export const HeroSection = ({ onStartJourney, recentReviews = 0 }: HeroSectionPr
             with people obsessed with taste.
           </p>
 
-          {/* Use-case chips */}
+          {/* Use-case chips — unified primary treatment */}
           <div className="flex gap-2 flex-wrap relative z-10"
           style={{ animation: "heroFadeUp 0.55s ease 0.42s both" }}>
             
-            <Link to="/results?barista=true" className="rounded-full px-3 py-1 text-xs text-primary font-medium no-underline border border-primary/25" style={{ backgroundColor: '#e6fff3' }}>Barista</Link>
-            <Link to="/results?search=Oatly" className="rounded-full px-3 py-1 text-xs text-secondary font-medium no-underline border border-secondary/25" style={{ backgroundColor: '#e6f0ff' }}>Oatly</Link>
-            <Link to="/results?search=Alpro" className="rounded-full px-3 py-1 text-xs text-tertiary font-medium no-underline border border-tertiary/25" style={{ backgroundColor: '#fff8e6' }}>Alpro</Link>
-            <Link to="/results?search=Coconut" className="rounded-full px-3 py-1 text-xs text-primary font-medium no-underline border border-primary/25" style={{ backgroundColor: '#e6fff3' }}>Coconut</Link>
+            <Link to="/results?barista=true" className="rounded-md px-3 py-1 text-xs text-primary font-medium no-underline border border-primary/20 bg-primary/[0.06]">Barista</Link>
+            <Link to="/results?search=Oatly" className="rounded-md px-3 py-1 text-xs text-primary font-medium no-underline border border-primary/20 bg-primary/[0.06]">Oatly</Link>
+            <Link to="/results?search=Alpro" className="rounded-md px-3 py-1 text-xs text-primary font-medium no-underline border border-primary/20 bg-primary/[0.06]">Alpro</Link>
+            <Link to="/results?search=Coconut" className="rounded-md px-3 py-1 text-xs text-primary font-medium no-underline border border-primary/20 bg-primary/[0.06]">Coconut</Link>
           </div>
         </div>
 
@@ -101,10 +105,10 @@ export const HeroSection = ({ onStartJourney, recentReviews = 0 }: HeroSectionPr
           
           <button
             onClick={onStartJourney}
-            className="w-full bg-secondary text-white rounded-[17px] px-5 py-[17px] text-[15px] font-semibold flex items-center justify-between tracking-[-0.2px] transition-[filter,transform] hover:brightness-110 active:scale-[0.98] font-sans">
+            className="w-full bg-secondary text-secondary-foreground rounded-lg px-5 py-[17px] text-[15px] font-semibold flex items-center justify-between tracking-[-0.2px] transition-[filter,transform] hover:brightness-110 active:scale-[0.98] font-sans">
             
             <div className="flex items-center gap-3">
-              <div className="w-7 h-7 bg-white/20 rounded-lg flex items-center justify-center flex-shrink-0">
+              <div className="w-7 h-7 bg-white/20 rounded-md flex items-center justify-center flex-shrink-0">
                 <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
                   <path d="M7 1.5C7 1.5 4 5.5 4 8.5C4 10.4 5.3 12 7 12C8.7 12 10 10.4 10 8.5C10 5.5 7 1.5 7 1.5Z" fill="white" />
                 </svg>
@@ -118,7 +122,7 @@ export const HeroSection = ({ onStartJourney, recentReviews = 0 }: HeroSectionPr
 
           <Link
             to="/results"
-            className="w-full text-center text-foreground rounded-[17px] px-5 py-4 text-[15px] font-medium ghost-border transition-colors hover:bg-surface-container-low font-sans block">
+            className="w-full text-center text-foreground rounded-lg px-5 py-4 text-[15px] font-medium border border-border transition-colors hover:bg-muted font-sans block">
             
             Explore Results
           </Link>
