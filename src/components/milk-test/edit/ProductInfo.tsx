@@ -34,7 +34,7 @@ export const ProductInfo = ({ brand, productName }: ProductInfoProps) => {
           .eq('brand_name', brand)
           .eq('product_name', productName)
           .limit(1)
-          .single();
+          .single() as unknown as { data: ProductDetails | null; error: Error | null };
 
         if (error) {
           console.error('Error fetching product details:', error);
