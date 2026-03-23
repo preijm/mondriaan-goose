@@ -15,21 +15,21 @@ export const TrustIndicators = ({ items, formatNumber }: TrustIndicatorsProps) =
     <>
       {/* Mobile: stats card with colored accent bars */}
       <div
-        className="md:hidden mx-6 mt-5 mb-6 rounded-2xl py-[18px] px-2 grid grid-cols-3"
-        style={{ backgroundColor: '#f8fafc', animation: "heroFadeUp 0.55s ease 0.70s both" }}
+        className="md:hidden mx-6 mt-5 mb-6 rounded-2xl py-5 px-2 grid grid-cols-3"
+        style={{ backgroundColor: '#f1f5f9', animation: "heroFadeUp 0.55s ease 0.70s both" }}
       >
         {items.map((item, index) => (
           <div
             key={index}
-            className={`text-center px-2 ${index > 0 ? "border-l border-[hsl(var(--outline-variant)/0.15)]" : ""}`}
+            className={`text-center px-2 ${index > 0 ? "border-l border-gray-300/30" : ""}`}
           >
-            <div className="text-[26px] font-bold text-foreground tracking-[-0.8px] leading-none font-display">
+            <div className="text-[32px] font-extrabold text-foreground tracking-[-1px] leading-none font-display">
               {formatNumber(item.value)}
             </div>
-            <div className="text-[11px] text-muted-foreground mt-1 font-medium uppercase tracking-[0.5px]">
+            <div className="text-[10px] text-muted-foreground mt-1.5 font-semibold uppercase tracking-[1px]">
               {item.label}
             </div>
-            <div className={`w-[22px] h-[2.5px] ${item.colorClass} mx-auto mt-[7px] rounded-full`} />
+            <div className={`w-6 h-[3px] ${item.colorClass} mx-auto mt-2 rounded-full`} />
           </div>
         ))}
       </div>
