@@ -16,6 +16,8 @@ const MobileFooter = () => {
     }
   }, [location.pathname]);
   
+  const isHomePage = location.pathname === '/';
+
   const isActive = (path: string) => {
     if (path === "/" && location.pathname === "/") return true;
     if (path !== "/" && location.pathname.startsWith(path)) return true;
@@ -30,7 +32,7 @@ const MobileFooter = () => {
 
   return (
     <div className="lg:hidden fixed bottom-0 left-0 right-0 z-50">
-      <div className="bg-transparent border-t border-gray-200/40">
+      <div className={isHomePage ? "bg-transparent border-t border-gray-200/40" : "bg-white border-t border-gray-200 shadow-lg"}>
         <div className="px-2 py-2">
           <div className="grid grid-cols-5 gap-1">
             <Link 
