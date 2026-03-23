@@ -53,8 +53,17 @@ const Home = () => {
 
       <BackgroundPattern>
         <div className="flex-1 flex flex-col min-h-[calc(100dvh-64px)]">
-          {/* Hero content - centered */}
-          <div className="container max-w-4xl mx-auto px-4 pt-8 lg:pt-16 flex items-center justify-center flex-1">
+          {/* Mobile: full-bleed layout */}
+          <div className="md:hidden flex-1">
+            <HeroSection onStartJourney={handleStartJourney} />
+            <TrustIndicators
+              items={trustIndicatorItems}
+              formatNumber={formatNumber}
+            />
+          </div>
+
+          {/* Desktop: centered layout */}
+          <div className="hidden md:flex container max-w-4xl mx-auto px-4 pt-8 lg:pt-16 items-center justify-center flex-1">
             <div className="flex flex-col items-center">
               <HeroSection onStartJourney={handleStartJourney} />
               <TrustIndicators

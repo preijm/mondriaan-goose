@@ -25,11 +25,11 @@ export default {
 			background: 'hsl(var(--background))',
 			foreground: 'hsl(var(--foreground))',
 			primary: {
-				DEFAULT: 'hsl(var(--primary))',
+				DEFAULT: 'hsl(var(--primary) / <alpha-value>)',
 				foreground: 'hsl(var(--primary-foreground))'
 			},
 			secondary: {
-				DEFAULT: 'hsl(var(--secondary))',
+				DEFAULT: 'hsl(var(--secondary) / <alpha-value>)',
 				foreground: 'hsl(var(--secondary-foreground))'
 			},
 			destructive: {
@@ -112,7 +112,7 @@ export default {
 			'outline-variant': 'hsl(var(--outline-variant))',
 			'primary-container': 'hsl(var(--primary-container))',
 			'tertiary': {
-				DEFAULT: 'hsl(var(--tertiary))',
+				DEFAULT: 'hsl(var(--tertiary) / <alpha-value>)',
 				foreground: 'hsl(var(--tertiary-foreground))',
 				fixed: 'hsl(var(--tertiary-fixed))'
 			},
