@@ -42,8 +42,9 @@ export const HeroSection = ({ onStartJourney }: HeroSectionProps) => {
           </div>
 
           {/* Live badge */}
-          <div
-            className="inline-flex items-center gap-2 bg-primary/10 border border-primary/30 rounded-full px-3 py-1.5 mb-5"
+          <Link
+            to="/feed"
+            className="inline-flex items-center gap-2 bg-primary/10 border border-primary/30 rounded-full px-3 py-1.5 mb-5 no-underline"
             style={{ animation: "heroFadeUp 0.55s ease 0.15s both" }}
           >
             <span
@@ -51,7 +52,7 @@ export const HeroSection = ({ onStartJourney }: HeroSectionProps) => {
               style={{ animation: "pulseDot 2.2s ease-in-out infinite" }}
             />
             <span className="text-xs text-primary font-medium">12 new reviews today</span>
-          </div>
+          </Link>
 
           {/* Headline */}
           <div
