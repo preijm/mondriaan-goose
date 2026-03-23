@@ -57,12 +57,12 @@ We achieve depth through **Tonal Layering** rather than traditional drop shadows
 ## 5. Components
 
 ### Buttons
-- **Primary:** `secondary` (#0b45f2) background with `on-secondary` text. Use `rounded-full` (9999px) for a friendly, approachable feel.
+- **Primary:** `secondary` (#0b45f2) background with `on-secondary` text. Use `rounded-md` for a clean, modern feel. Avoid overly rounded pill shapes.
 - **Secondary:** `surface-container-lowest` background with a "Ghost Border."
 - **Tertiary:** Pure text using `primary` color, with `spacing-2` (0.7rem) horizontal padding for hit-state affordance.
 
 ### Chips
-- Use for categories like "Coffee" or "Baking." Use `primary-container` for the background and `on-primary-container` for text. Corner radius should be `rounded-md` (1.5rem).
+- Use for categories like "Barista" or "Coconut." Use `primary-container` for the background and `on-primary-container` for text. Corner radius should be `rounded-lg` (0.75rem).
 
 ### Input Fields
 - Avoid boxes. Use a `surface-container-high` background with a bottom-only `outline` (#737d79) at 20% opacity. This feels more "open" and less like a form to be "filled out."
