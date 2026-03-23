@@ -110,6 +110,14 @@ export default {
 			},
 			'on-surface': 'hsl(var(--on-surface))',
 			'outline-variant': 'hsl(var(--outline-variant))',
+			// Chip/badge tinted backgrounds
+			chip: {
+				'primary-bg': 'hsl(var(--chip-primary-bg))',
+				'secondary-bg': 'hsl(var(--chip-secondary-bg))',
+				'tertiary-bg': 'hsl(var(--chip-tertiary-bg))'
+			},
+			'stats-bg': 'hsl(var(--stats-bg))',
+			'nav-inactive': 'hsl(var(--nav-inactive))',
 			'primary-container': 'hsl(var(--primary-container))',
 			'tertiary': {
 				DEFAULT: 'hsl(var(--tertiary) / <alpha-value>)',
