@@ -105,7 +105,7 @@ export const HeroSection = ({ onStartJourney, recentReviews = 0 }: HeroSectionPr
           
           <button
             onClick={onStartJourney}
-            className="w-full bg-secondary text-secondary-foreground rounded-lg px-5 py-[17px] text-[15px] font-semibold flex items-center justify-between tracking-[-0.2px] transition-[filter,transform] hover:brightness-110 active:scale-[0.98] font-sans">
+            className="w-full bg-primary text-primary-foreground rounded-lg px-5 py-[17px] text-[15px] font-semibold flex items-center justify-between tracking-[-0.2px] transition-[filter,transform] hover:brightness-110 active:scale-[0.98] font-sans">
             
             <div className="flex items-center gap-3">
               <div className="w-7 h-7 bg-white/20 rounded-md flex items-center justify-center flex-shrink-0">
