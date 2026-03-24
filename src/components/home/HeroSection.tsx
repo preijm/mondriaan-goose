@@ -146,36 +146,61 @@ export const HeroSection = ({ onStartJourney, recentReviews = 0 }: HeroSectionPr
 
       {/* ── DESKTOP LAYOUT (md+) ── */}
       <div className="hidden md:flex flex-col items-center justify-center text-center relative z-10">
-        <div className="mb-4 md:mb-6">
-          <h1 className="font-display text-5xl lg:text-6xl font-extrabold tracking-tight mb-3 text-primary animate-fade-in">
+        {/* Live badge */}
+        <Link
+          to="/feed"
+          className="inline-flex items-center gap-2 bg-primary/10 border border-primary/30 rounded-full px-4 py-1.5 mb-6 no-underline animate-fade-in">
+          <span
+            className="w-2 h-2 bg-primary rounded-full flex-shrink-0"
+            style={{ animation: "pulseDot 2.2s ease-in-out infinite" }} />
+          <span className="text-sm text-primary font-medium">
+            {showBadge ? badgeText : fallbackText}
+          </span>
+        </Link>
+
+        {/* Headline */}
+        <div className="mb-4 md:mb-6 animate-fade-in">
+          <h1 className="font-display text-5xl lg:text-6xl font-extrabold leading-[1.05] tracking-[-0.045em] text-foreground mb-1">
             Ditch the Moo.
-            <br />
+          </h1>
+          <h1 className="font-display text-5xl lg:text-6xl font-extrabold leading-[1.05] tracking-[-0.045em] text-primary">
             Find Your New!
           </h1>
         </div>
 
-        <p className="text-base md:text-lg lg:text-xl text-muted-foreground mb-6 md:mb-8 max-w-2xl animate-fade-in leading-relaxed">
-          Tired of tasteless plant milks? Rate, discover, and share your faves
-          with a community that{"'"}s just as obsessed. Whether it{"'"}s for
-          coffee, cereal, or cooking—find the dairy-free match that actually delivers.
+        {/* Subtitle */}
+        <p className="text-base lg:text-lg text-muted-foreground mb-6 max-w-lg animate-fade-in leading-relaxed">
+          Rate, discover & share plant milks<br />
+          with people obsessed with taste.
         </p>
 
-        <div className="flex flex-col sm:flex-row gap-3 md:gap-4 animate-fade-in mb-8 md:mb-12">
-          <Button
-            onClick={onStartJourney}
-            size="lg"
-            className="text-base md:text-lg px-6 md:px-8 py-3 md:py-4 text-white shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300">
-            
-            <svg width="20" height="20" viewBox="0 0 14 14" fill="none" className="mr-2 flex-shrink-0">
-              <path d="M7 1.5C7 1.5 4 5.5 4 8.5C4 10.4 5.3 12 7 12C8.7 12 10 10.4 10 8.5C10 5.5 7 1.5 7 1.5Z" fill="white" />
-            </svg>
-            Start Your Taste Journey
-            <ArrowRight className="ml-2 h-5 w-5" />
-          </Button>
+        {/* Use-case chips */}
+        <div className="flex gap-2 flex-wrap justify-center mb-8 animate-fade-in">
+          <Link to="/results?barista=true" className="rounded-md px-4 py-1.5 text-sm text-primary font-medium no-underline border border-primary/20 bg-primary/[0.06] hover:bg-primary/[0.12] transition-colors">Barista</Link>
+          <Link to="/results?search=Oatly" className="rounded-md px-4 py-1.5 text-sm text-primary font-medium no-underline border border-primary/20 bg-primary/[0.06] hover:bg-primary/[0.12] transition-colors">Oatly</Link>
+          <Link to="/results?search=Alpro" className="rounded-md px-4 py-1.5 text-sm text-primary font-medium no-underline border border-primary/20 bg-primary/[0.06] hover:bg-primary/[0.12] transition-colors">Alpro</Link>
+          <Link to="/results?search=Coconut" className="rounded-md px-4 py-1.5 text-sm text-primary font-medium no-underline border border-primary/20 bg-primary/[0.06] hover:bg-primary/[0.12] transition-colors">Coconut</Link>
+        </div>
 
-          <Button asChild variant="outline" size="lg" className="text-base md:text-lg px-6 md:px-8">
-            <Link to="/results">Explore Results</Link>
-          </Button>
+        {/* CTA buttons */}
+        <div className="flex flex-row gap-4 animate-fade-in mb-10">
+          <button
+            onClick={onStartJourney}
+            className="bg-secondary text-secondary-foreground rounded-lg px-7 py-4 text-base font-semibold flex items-center gap-3 tracking-[-0.2px] transition-[filter,transform] hover:brightness-110 active:scale-[0.98] font-sans">
+            <div className="w-7 h-7 bg-white/20 rounded-md flex items-center justify-center flex-shrink-0">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                <path d="M7 1.5C7 1.5 4 5.5 4 8.5C4 10.4 5.3 12 7 12C8.7 12 10 10.4 10 8.5C10 5.5 7 1.5 7 1.5Z" fill="white" />
+              </svg>
+            </div>
+            Start Your Taste Journey
+            <ArrowRight className="h-5 w-5" />
+          </button>
+
+          <Link
+            to="/results"
+            className="text-center text-foreground rounded-lg px-7 py-4 text-base font-medium border border-border transition-colors hover:bg-muted font-sans flex items-center">
+            Explore Results
+          </Link>
         </div>
       </div>
     </>);

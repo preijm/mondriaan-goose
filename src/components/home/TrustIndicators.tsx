@@ -37,16 +37,25 @@ export const TrustIndicators = ({ items, formatNumber }: TrustIndicatorsProps) =
         })}
       </div>
 
-      {/* Desktop: inline dot list */}
-      <div className="hidden md:flex items-center justify-center gap-4 md:gap-8 text-sm text-muted-foreground animate-fade-in">
-        {items.map((item, index) => (
-          <div key={index} className="flex items-center gap-2">
-            <div className={`w-2 h-2 rounded-full ${item.colorClass}`} />
-            <span>
-              {formatNumber(item.value)} {item.label}
-            </span>
-          </div>
-        ))}
+      {/* Desktop: stats card matching mobile style */}
+      <div className="hidden md:grid grid-cols-3 rounded-lg py-6 px-8 bg-stats-card animate-fade-in max-w-md mx-auto w-full">
+        {items.map((item, index) => {
+          const accentColors = ['bg-primary', 'bg-secondary', 'bg-tertiary-fixed'];
+          return (
+            <div
+              key={index}
+              className={`text-center px-4 ${index > 0 ? "border-l border-border" : ""}`}
+            >
+              <div className="text-4xl font-extrabold text-foreground tracking-[-1px] leading-none font-display">
+                {formatNumber(item.value)}
+              </div>
+              <div className="text-xs text-muted-foreground mt-2 font-semibold uppercase tracking-[1px]">
+                {item.label}
+              </div>
+              <div className={`w-6 h-[3px] ${accentColors[index]} mx-auto mt-2.5 rounded-full`} />
+            </div>
+          );
+        })}
       </div>
     </>
   );
