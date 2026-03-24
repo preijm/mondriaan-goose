@@ -105,7 +105,7 @@ export const HeroSection = ({ onStartJourney, recentReviews = 0 }: HeroSectionPr
           
           <button
             onClick={onStartJourney}
-            className="w-full bg-secondary text-secondary-foreground rounded-lg px-5 py-[17px] text-[15px] font-semibold flex items-center justify-between tracking-[-0.2px] transition-[filter,transform] hover:brightness-110 active:scale-[0.98] font-sans">
+            className="w-full bg-primary text-primary-foreground rounded-lg px-5 py-[17px] text-[15px] font-semibold flex items-center justify-between tracking-[-0.2px] transition-[filter,transform] hover:brightness-110 active:scale-[0.98] font-sans">
             
             <div className="flex items-center gap-3">
               <div className="w-7 h-7 bg-white/20 rounded-md flex items-center justify-center flex-shrink-0">
@@ -186,7 +186,7 @@ export const HeroSection = ({ onStartJourney, recentReviews = 0 }: HeroSectionPr
         <div className="flex flex-row gap-4 animate-fade-in mb-10">
           <button
             onClick={onStartJourney}
-            className="bg-secondary text-secondary-foreground rounded-lg px-7 py-4 text-base font-semibold flex items-center gap-3 tracking-[-0.2px] transition-[filter,transform] hover:brightness-110 active:scale-[0.98] font-sans">
+            className="bg-primary text-primary-foreground rounded-lg px-7 py-4 text-base font-semibold flex items-center gap-3 tracking-[-0.2px] transition-[filter,transform] hover:brightness-110 active:scale-[0.98] font-sans">
             <div className="w-7 h-7 bg-white/20 rounded-md flex items-center justify-center flex-shrink-0">
               <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
                 <path d="M7 1.5C7 1.5 4 5.5 4 8.5C4 10.4 5.3 12 7 12C8.7 12 10 10.4 10 8.5C10 5.5 7 1.5 7 1.5Z" fill="white" />
