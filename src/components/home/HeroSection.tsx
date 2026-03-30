@@ -1,5 +1,8 @@
 import { Link } from "react-router-dom";
-import { ArrowRight, Search, Plus } from "lucide-react";
+import { ArrowRight, Search, Plus, Droplets } from "lucide-react";
+import { GiWheat, GiAlmond, GiCoconuts } from "react-icons/gi";
+import { LuBean, LuMilk } from "react-icons/lu";
+import { TbMilk } from "react-icons/tb";
 
 interface HeroSectionProps {
   onStartJourney: () => void;
@@ -8,7 +11,6 @@ interface HeroSectionProps {
 
 const MilkDrop = () => (
   <svg viewBox="0 0 120 160" width="120" height="160" fill="none" aria-hidden="true">
-    {/* Clean, minimal milk drop shape */}
     <defs>
       <linearGradient id="dropGrad" x1="60" y1="0" x2="60" y2="160" gradientUnits="userSpaceOnUse">
         <stop offset="0%" stopColor="hsl(var(--primary))" stopOpacity="0.06" />
@@ -19,20 +21,25 @@ const MilkDrop = () => (
       d="M60 12 C88 52 100 84 100 108 C100 136 82 152 60 152 C38 152 20 136 20 108 C20 84 32 52 60 12Z"
       fill="url(#dropGrad)"
     />
-    {/* Highlight */}
     <ellipse cx="48" cy="80" rx="5" ry="12" fill="white" opacity="0.4" transform="rotate(-12 48 80)" />
     <ellipse cx="51" cy="65" rx="2.5" ry="4" fill="white" opacity="0.25" transform="rotate(-12 51 65)" />
   </svg>
 );
 
-const quickLinks = [
-  { label: "Oat", to: "/results?search=Oat" },
-  { label: "Almond", to: "/results?search=Almond" },
-  { label: "Soy", to: "/results?search=Soy" },
-  { label: "Coconut", to: "/results?search=Coconut" },
-  { label: "Barista", to: "/results?barista=true" },
-  { label: "Oatly", to: "/results?search=Oatly" },
-  { label: "Alpro", to: "/results?search=Alpro" },
+interface CategoryCard {
+  label: string;
+  to: string;
+  icon: React.ReactNode;
+}
+
+const categories: CategoryCard[] = [
+  { label: "Oat", to: "/results?search=Oat", icon: <GiWheat className="w-5 h-5" /> },
+  { label: "Almond", to: "/results?search=Almond", icon: <GiAlmond className="w-5 h-5" /> },
+  { label: "Soy", to: "/results?search=Soy", icon: <LuBean className="w-5 h-5" /> },
+  { label: "Coconut", to: "/results?search=Coconut", icon: <GiCoconuts className="w-5 h-5" /> },
+  { label: "Barista", to: "/results?barista=true", icon: <LuMilk className="w-5 h-5" /> },
+  { label: "Oatly", to: "/results?search=Oatly", icon: <TbMilk className="w-5 h-5" /> },
+  { label: "Alpro", to: "/results?search=Alpro", icon: <Droplets className="w-5 h-5" /> },
 ];
 
 export const HeroSection = ({ onStartJourney, recentReviews = 0 }: HeroSectionProps) => {
@@ -48,7 +55,7 @@ export const HeroSection = ({ onStartJourney, recentReviews = 0 }: HeroSectionPr
         <div className="absolute -top-20 -right-16 w-72 h-72 bg-primary/[0.04] rounded-full pointer-events-none" />
 
         <div className="relative z-10 pt-6 px-6">
-          {/* Floating milk drop — cleaner version */}
+          {/* Floating milk drop */}
           <div
             className="absolute top-14 -right-1 pointer-events-none z-0 opacity-80"
             style={{ animation: "heroFloat 5s ease-in-out infinite" }}
@@ -77,13 +84,13 @@ export const HeroSection = ({ onStartJourney, recentReviews = 0 }: HeroSectionPr
             style={{ animation: "heroFadeUp 0.55s ease 0.28s both" }}
           >
             <h1
-              className="font-display font-extrabold leading-[1.05] tracking-[-0.045em] text-foreground mb-0.5 max-w-[220px]"
+              className="font-display font-extrabold leading-[1.05] tracking-[-0.02em] text-foreground mb-0.5 max-w-[240px]"
               style={{ fontSize: "48px" }}
             >
               Ditch the Moo.
             </h1>
             <h1
-              className="font-display font-extrabold leading-[1.05] tracking-[-0.045em] text-primary max-w-[280px]"
+              className="font-display font-extrabold leading-[1.05] tracking-[-0.02em] text-primary max-w-[300px]"
               style={{ fontSize: "48px" }}
             >
               Find Your New!
@@ -100,27 +107,27 @@ export const HeroSection = ({ onStartJourney, recentReviews = 0 }: HeroSectionPr
           </p>
         </div>
 
-        {/* Two clear action cards */}
+        {/* Two matched CTA buttons */}
         <div
           className="px-6 flex flex-col gap-3 relative z-10"
           style={{ animation: "heroFadeUp 0.55s ease 0.45s both" }}
         >
-          {/* Primary action: Find the best milk */}
+          {/* Find the best milk — secondary (blue) */}
           <Link
             to="/results"
-            className="w-full bg-card border border-border rounded-xl px-5 py-4 no-underline flex items-center gap-4 transition-colors hover:bg-muted active:scale-[0.98] transition-transform"
+            className="w-full bg-secondary text-secondary-foreground rounded-xl px-5 py-4 no-underline flex items-center gap-4 transition-[filter,transform] hover:brightness-110 active:scale-[0.98]"
           >
-            <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0">
-              <Search className="w-5 h-5 text-primary" />
+            <div className="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center flex-shrink-0">
+              <Search className="w-5 h-5 text-secondary-foreground" />
             </div>
             <div className="flex-1 min-w-0">
-              <span className="text-[15px] font-semibold text-foreground block">Find the best milk</span>
-              <span className="text-xs text-muted-foreground">Browse ratings & reviews</span>
+              <span className="text-[15px] font-semibold block">Find the best milk</span>
+              <span className="text-xs text-secondary-foreground/70">Browse ratings & reviews</span>
             </div>
-            <ArrowRight className="w-4 h-4 text-muted-foreground flex-shrink-0" />
+            <ArrowRight className="w-4 h-4 text-secondary-foreground/70 flex-shrink-0" />
           </Link>
 
-          {/* Secondary action: Rate a milk */}
+          {/* Rate a milk — primary (green) */}
           <button
             onClick={onStartJourney}
             className="w-full bg-primary text-primary-foreground rounded-xl px-5 py-4 flex items-center gap-4 transition-[filter,transform] hover:brightness-110 active:scale-[0.98] font-sans text-left"
@@ -136,22 +143,24 @@ export const HeroSection = ({ onStartJourney, recentReviews = 0 }: HeroSectionPr
           </button>
         </div>
 
-        {/* Quick discovery chips */}
+        {/* Category cards — horizontal scroll */}
         <div
-          className="px-6 pt-5 pb-2 relative z-10"
+          className="pt-5 pb-2 relative z-10"
           style={{ animation: "heroFadeUp 0.55s ease 0.55s both" }}
         >
-          <span className="text-[11px] font-medium text-muted-foreground uppercase tracking-wider mb-2 block">
-            Popular
-          </span>
-          <div className="flex gap-2 flex-wrap">
-            {quickLinks.map((link) => (
+          <div className="flex gap-2.5 overflow-x-auto px-6 pb-2 scrollbar-hide">
+            {categories.map((cat) => (
               <Link
-                key={link.label}
-                to={link.to}
-                className="rounded-full px-3 py-1 text-xs text-primary font-medium no-underline border border-primary/20 bg-primary/[0.06] active:bg-primary/[0.12] transition-colors"
+                key={cat.label}
+                to={cat.to}
+                className="flex-shrink-0 flex flex-col items-center gap-1.5 w-[72px] py-3 px-2 rounded-xl bg-card border border-border no-underline transition-colors active:bg-muted"
               >
-                {link.label}
+                <div className="w-9 h-9 rounded-lg bg-primary/[0.08] flex items-center justify-center text-primary">
+                  {cat.icon}
+                </div>
+                <span className="text-[11px] font-semibold text-foreground text-center leading-tight">
+                  {cat.label}
+                </span>
               </Link>
             ))}
           </div>
@@ -169,6 +178,13 @@ export const HeroSection = ({ onStartJourney, recentReviews = 0 }: HeroSectionPr
           @keyframes heroFadeUp {
             from { opacity: 0; transform: translateY(18px); }
             to { opacity: 1; transform: translateY(0); }
+          }
+          .scrollbar-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+          }
+          .scrollbar-hide::-webkit-scrollbar {
+            display: none;
           }
         `}</style>
       </div>
@@ -189,10 +205,10 @@ export const HeroSection = ({ onStartJourney, recentReviews = 0 }: HeroSectionPr
 
         {/* Headline */}
         <div className="mb-4 md:mb-6 animate-fade-in">
-          <h1 className="font-display text-5xl lg:text-6xl font-extrabold leading-[1.05] tracking-[-0.045em] text-foreground mb-1">
+          <h1 className="font-display text-5xl lg:text-6xl font-extrabold leading-[1.05] tracking-[-0.02em] text-foreground mb-1">
             Ditch the Moo.
           </h1>
-          <h1 className="font-display text-5xl lg:text-6xl font-extrabold leading-[1.05] tracking-[-0.045em] text-primary">
+          <h1 className="font-display text-5xl lg:text-6xl font-extrabold leading-[1.05] tracking-[-0.02em] text-primary">
             Find Your New!
           </h1>
         </div>
@@ -203,34 +219,36 @@ export const HeroSection = ({ onStartJourney, recentReviews = 0 }: HeroSectionPr
           with people obsessed with taste.
         </p>
 
-        {/* Use-case chips */}
-        <div className="flex gap-2 flex-wrap justify-center mb-8 animate-fade-in">
-          {quickLinks.map((link) => (
+        {/* Category cards — desktop */}
+        <div className="flex gap-3 flex-wrap justify-center mb-8 animate-fade-in">
+          {categories.map((cat) => (
             <Link
-              key={link.label}
-              to={link.to}
-              className="rounded-md px-4 py-1.5 text-sm text-primary font-medium no-underline border border-primary/20 bg-primary/[0.06] hover:bg-primary/[0.12] transition-colors"
+              key={cat.label}
+              to={cat.to}
+              className="flex items-center gap-2.5 rounded-xl px-4 py-2.5 bg-card border border-border no-underline hover:bg-muted transition-colors"
             >
-              {link.label}
+              <div className="w-8 h-8 rounded-lg bg-primary/[0.08] flex items-center justify-center text-primary">
+                {cat.icon}
+              </div>
+              <span className="text-sm font-semibold text-foreground">{cat.label}</span>
             </Link>
           ))}
         </div>
 
-        {/* CTA buttons */}
+        {/* CTA buttons — matched pair */}
         <div className="flex flex-row gap-4 animate-fade-in mb-10">
           <Link
             to="/results"
-            className="text-center text-foreground rounded-lg px-7 py-4 text-base font-medium border border-border transition-colors hover:bg-muted font-sans flex items-center gap-2">
-            <Search className="w-4 h-4" />
+            className="bg-secondary text-secondary-foreground rounded-xl px-7 py-4 text-base font-semibold flex items-center gap-3 tracking-[-0.2px] transition-[filter,transform] hover:brightness-110 active:scale-[0.98] font-sans">
+            <Search className="w-5 h-5" />
             Find the Best Milk
           </Link>
 
           <button
             onClick={onStartJourney}
-            className="bg-primary text-primary-foreground rounded-lg px-7 py-4 text-base font-semibold flex items-center gap-3 tracking-[-0.2px] transition-[filter,transform] hover:brightness-110 active:scale-[0.98] font-sans">
+            className="bg-primary text-primary-foreground rounded-xl px-7 py-4 text-base font-semibold flex items-center gap-3 tracking-[-0.2px] transition-[filter,transform] hover:brightness-110 active:scale-[0.98] font-sans">
             <Plus className="w-5 h-5" />
             Rate a Milk
-            <ArrowRight className="h-5 w-5" />
           </button>
         </div>
       </div>
