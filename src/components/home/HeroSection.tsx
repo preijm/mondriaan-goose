@@ -1,8 +1,5 @@
 import { Link } from "react-router-dom";
-import { ArrowRight, Search, Plus, Droplets } from "lucide-react";
-import { GiWheat, GiAlmond, GiCoconuts } from "react-icons/gi";
-import { LuBean, LuMilk } from "react-icons/lu";
-import { TbMilk } from "react-icons/tb";
+import { ArrowRight, Search, Plus, Wheat, TreePalm, Bean, Coffee, Droplets, Leaf, Milk } from "lucide-react";
 
 interface HeroSectionProps {
   onStartJourney: () => void;
