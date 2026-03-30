@@ -250,10 +250,10 @@ export default {
   		},
   		fontFamily: {
 			display: [
-				'Newsreader',
-				'ui-serif',
-				'Georgia',
-				'serif'
+				'Epilogue',
+				'ui-sans-serif',
+				'system-ui',
+				'sans-serif'
 			],
   			sans: [
   				'Manrope',
