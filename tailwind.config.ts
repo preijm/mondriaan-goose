@@ -249,12 +249,12 @@ export default {
   			'bounce-subtle': 'bounce-subtle 0.2s ease-out'
   		},
   		fontFamily: {
-			display: [
-				'Epilogue',
-				'ui-sans-serif',
-				'system-ui',
-				'sans-serif'
-			],
+  			display: [
+  				'Epilogue',
+  				'ui-sans-serif',
+  				'system-ui',
+  				'sans-serif'
+  			],
   			sans: [
   				'Manrope',
   				'ui-sans-serif',

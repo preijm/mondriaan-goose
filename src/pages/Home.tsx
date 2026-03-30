@@ -1,4 +1,3 @@
-// Home page
 import { useNavigate } from "react-router-dom";
 import MenuBar from "@/components/MenuBar";
 import BackgroundPattern from "@/components/BackgroundPattern";
