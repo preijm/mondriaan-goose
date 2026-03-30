@@ -7,7 +7,7 @@ const BackgroundPattern = ({ children }: BackgroundPatternProps) => {
     <div 
       className="min-h-screen w-full max-w-full relative overflow-hidden"
       style={{
-        background: 'linear-gradient(135deg, #fffef7, #fffef7, rgba(0, 191, 99, 0.02), rgba(33, 68, 255, 0.015), #fffef7, #fffef7)'
+        background: 'linear-gradient(135deg, #ffffff, #ffffff, rgba(0, 191, 99, 0.02), rgba(33, 68, 255, 0.015), #ffffff, #ffffff)'
       }}
     >
       {/* Oat grains pattern - CSS only */}
