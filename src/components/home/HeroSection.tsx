@@ -87,45 +87,55 @@ export const HeroSection = ({ onStartJourney, recentReviews = 0 }: HeroSectionPr
             with people obsessed with taste.
           </p>
 
-          {/* Use-case chips — unified primary treatment */}
-          <div className="flex gap-2 flex-wrap relative z-10"
-          style={{ animation: "heroFadeUp 0.55s ease 0.42s both" }}>
-            
-            <Link to="/results?barista=true" className="rounded-md px-3 py-1 text-xs text-primary font-medium no-underline border border-primary/20 bg-primary/[0.06]">Barista</Link>
-            <Link to="/results?search=Oatly" className="rounded-md px-3 py-1 text-xs text-primary font-medium no-underline border border-primary/20 bg-primary/[0.06]">Oatly</Link>
-            <Link to="/results?search=Alpro" className="rounded-md px-3 py-1 text-xs text-primary font-medium no-underline border border-primary/20 bg-primary/[0.06]">Alpro</Link>
-            <Link to="/results?search=Coconut" className="rounded-md px-3 py-1 text-xs text-primary font-medium no-underline border border-primary/20 bg-primary/[0.06]">Coconut</Link>
-          </div>
         </div>
 
-        {/* CTA buttons */}
+        {/* Rate a milk CTA card */}
         <div
-          className="px-6 pt-6 flex flex-col gap-3 relative z-10"
-          style={{ animation: "heroFadeUp 0.55s ease 0.56s both" }}>
-          
+          className="px-6 pt-6 relative z-10"
+          style={{ animation: "heroFadeUp 0.55s ease 0.42s both" }}>
           <button
             onClick={onStartJourney}
-            className="w-full bg-primary text-primary-foreground rounded-lg px-5 py-[17px] text-[15px] font-semibold flex items-center justify-between tracking-[-0.2px] transition-[filter,transform] hover:brightness-110 active:scale-[0.98] font-sans">
-            
-            <div className="flex items-center gap-3">
-              <div className="w-7 h-7 bg-white/20 rounded-md flex items-center justify-center flex-shrink-0">
-                <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                  <path d="M7 1.5C7 1.5 4 5.5 4 8.5C4 10.4 5.3 12 7 12C8.7 12 10 10.4 10 8.5C10 5.5 7 1.5 7 1.5Z" fill="white" />
-                </svg>
-              </div>
-              Start Your Taste Journey
+            className="w-full bg-primary text-primary-foreground rounded-2xl px-5 py-4 flex items-center justify-between transition-[filter,transform] hover:brightness-110 active:scale-[0.98] font-sans">
+            <div className="flex flex-col items-start gap-0.5">
+              <span className="text-[16px] font-semibold tracking-[-0.2px]">Rate a milk</span>
+              <span className="text-[13px] font-normal opacity-80">Log what you just tried</span>
             </div>
-            <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-              <path d="M4 9H14M14 9L10 5M14 9L10 13" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
+            <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center flex-shrink-0">
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                <path d="M9 4V14M4 9H14" stroke="white" strokeWidth="2" strokeLinecap="round" />
+              </svg>
+            </div>
           </button>
+        </div>
 
-          <Link
-            to="/results"
-            className="w-full text-center text-foreground rounded-lg px-5 py-4 text-[15px] font-medium border border-border transition-colors hover:bg-muted font-sans block">
-            
-            Explore Results
-          </Link>
+        {/* Browse by type */}
+        <div
+          className="px-6 pt-6 relative z-10"
+          style={{ animation: "heroFadeUp 0.55s ease 0.56s both" }}>
+          <div className="flex items-center justify-between mb-3">
+            <span className="text-xs font-semibold tracking-[0.08em] text-muted-foreground uppercase">Browse by type</span>
+            <Link to="/results" className="text-sm font-medium text-primary no-underline flex items-center gap-1">
+              All <ArrowRight className="h-3.5 w-3.5" />
+            </Link>
+          </div>
+          <div className="grid grid-cols-4 gap-3">
+            {[
+              { label: "Oat", search: "Oat", color: "hsl(var(--primary))", icon: "🌾" },
+              { label: "Almond", search: "Almond", color: "hsl(var(--brand-secondary))", icon: "🥜" },
+              { label: "Soy", search: "Soy", color: "hsl(var(--muted-foreground))", icon: "🫘" },
+              { label: "Oatly", search: "Oatly", color: "hsl(var(--secondary))", icon: "💧" },
+            ].map((item) => (
+              <Link
+                key={item.label}
+                to={`/results?search=${item.search}`}
+                className="flex flex-col items-center gap-1.5 no-underline group">
+                <div className="w-[72px] h-[72px] rounded-2xl bg-muted/50 border border-border/50 flex items-center justify-center text-2xl transition-colors group-hover:bg-muted">
+                  {item.icon}
+                </div>
+                <span className="text-xs font-medium text-foreground">{item.label}</span>
+              </Link>
+            ))}
+          </div>
         </div>
 
         <style>{`
