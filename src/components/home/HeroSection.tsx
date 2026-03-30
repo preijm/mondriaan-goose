@@ -30,12 +30,12 @@ interface CategoryCard {
 }
 
 const categories: CategoryCard[] = [
-  { label: "Oat", to: "/results?search=Oat", icon: <GiWheat className="w-5 h-5" /> },
-  { label: "Almond", to: "/results?search=Almond", icon: <GiAlmond className="w-5 h-5" /> },
-  { label: "Soy", to: "/results?search=Soy", icon: <LuBean className="w-5 h-5" /> },
-  { label: "Coconut", to: "/results?search=Coconut", icon: <GiCoconuts className="w-5 h-5" /> },
-  { label: "Barista", to: "/results?barista=true", icon: <LuMilk className="w-5 h-5" /> },
-  { label: "Oatly", to: "/results?search=Oatly", icon: <TbMilk className="w-5 h-5" /> },
+  { label: "Oat", to: "/results?search=Oat", icon: <Wheat className="w-5 h-5" /> },
+  { label: "Almond", to: "/results?search=Almond", icon: <Leaf className="w-5 h-5" /> },
+  { label: "Soy", to: "/results?search=Soy", icon: <Bean className="w-5 h-5" /> },
+  { label: "Coconut", to: "/results?search=Coconut", icon: <TreePalm className="w-5 h-5" /> },
+  { label: "Barista", to: "/results?barista=true", icon: <Coffee className="w-5 h-5" /> },
+  { label: "Oatly", to: "/results?search=Oatly", icon: <Milk className="w-5 h-5" /> },
   { label: "Alpro", to: "/results?search=Alpro", icon: <Droplets className="w-5 h-5" /> },
 ];
 
