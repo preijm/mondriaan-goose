@@ -112,31 +112,27 @@ export const HeroSection = ({ onStartJourney, recentReviews = 0 }: HeroSectionPr
           {/* Find the best milk — secondary (blue) */}
           <Link
             to="/results"
-            className="w-full bg-secondary text-secondary-foreground rounded-xl px-5 py-4 no-underline flex items-center gap-4 transition-[filter,transform] hover:brightness-110 active:scale-[0.98]"
+            className="w-full bg-secondary text-secondary-foreground rounded-xl px-5 py-3.5 no-underline flex items-center gap-3 transition-[filter,transform] hover:brightness-110 active:scale-[0.98]"
           >
-            <div className="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center flex-shrink-0">
-              <Search className="w-5 h-5 text-secondary-foreground" />
-            </div>
+            <Search className="w-[18px] h-[18px] text-secondary-foreground/80 flex-shrink-0" />
             <div className="flex-1 min-w-0">
-              <span className="text-[15px] font-semibold block">Find the best milk</span>
-              <span className="text-xs text-secondary-foreground/70">Browse ratings & reviews</span>
+              <span className="text-[14px] font-semibold block">Find the best milk</span>
+              <span className="text-[11px] text-secondary-foreground/60">Browse ratings & reviews</span>
             </div>
-            <ArrowRight className="w-4 h-4 text-secondary-foreground/70 flex-shrink-0" />
+            <ArrowRight className="w-4 h-4 text-secondary-foreground/50 flex-shrink-0" />
           </Link>
 
           {/* Rate a milk — primary (green) */}
           <button
             onClick={onStartJourney}
-            className="w-full bg-primary text-primary-foreground rounded-xl px-5 py-4 flex items-center gap-4 transition-[filter,transform] hover:brightness-110 active:scale-[0.98] font-sans text-left"
+            className="w-full bg-primary text-primary-foreground rounded-xl px-5 py-3.5 flex items-center gap-3 transition-[filter,transform] hover:brightness-110 active:scale-[0.98] font-sans text-left"
           >
-            <div className="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center flex-shrink-0">
-              <Plus className="w-5 h-5 text-primary-foreground" />
-            </div>
+            <Plus className="w-[18px] h-[18px] text-primary-foreground/80 flex-shrink-0" />
             <div className="flex-1 min-w-0">
-              <span className="text-[15px] font-semibold block">Rate a milk</span>
-              <span className="text-xs text-primary-foreground/70">Log what you just tried</span>
+              <span className="text-[14px] font-semibold block">Rate a milk</span>
+              <span className="text-[11px] text-primary-foreground/60">Log what you just tried</span>
             </div>
-            <ArrowRight className="w-4 h-4 text-primary-foreground/70 flex-shrink-0" />
+            <ArrowRight className="w-4 h-4 text-primary-foreground/50 flex-shrink-0" />
           </button>
         </div>
 
