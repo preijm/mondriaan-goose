@@ -10,30 +10,23 @@ const MilkDrop = () => (
   <svg viewBox="0 0 140 180" width="140" height="180" fill="none" aria-hidden="true">
     <defs>
       <linearGradient id="dropGrad" x1="70" y1="0" x2="70" y2="180" gradientUnits="userSpaceOnUse">
-        <stop offset="0%" stopColor="hsl(var(--secondary))" stopOpacity="0.12" />
-        <stop offset="50%" stopColor="hsl(var(--primary))" stopOpacity="0.22" />
-        <stop offset="100%" stopColor="hsl(var(--tertiary-fixed))" stopOpacity="0.18" />
+        <stop offset="0%" stopColor="hsl(var(--primary))" stopOpacity="0.08" />
+        <stop offset="100%" stopColor="hsl(var(--primary))" stopOpacity="0.22" />
       </linearGradient>
     </defs>
-    {/* Main drop */}
     <path
       d="M70 10 C102 56 116 92 116 120 C116 150 96 168 70 168 C44 168 24 150 24 120 C24 92 38 56 70 10Z"
       fill="url(#dropGrad)"
     />
-    {/* Inner highlight ring */}
     <path
       d="M70 28 C96 64 108 94 108 118 C108 144 92 158 70 158 C48 158 32 144 32 118 C32 94 44 64 70 28Z"
       fill="none"
       stroke="hsl(var(--primary))"
-      strokeOpacity="0.1"
+      strokeOpacity="0.08"
       strokeWidth="1"
     />
-    {/* Shine highlights */}
     <ellipse cx="54" cy="88" rx="6" ry="16" fill="white" opacity="0.45" transform="rotate(-14 54 88)" />
     <ellipse cx="58" cy="68" rx="3" ry="6" fill="white" opacity="0.3" transform="rotate(-14 58 68)" />
-    {/* Small satellite drops */}
-    <circle cx="118" cy="140" r="6" fill="hsl(var(--secondary))" opacity="0.15" />
-    <circle cx="126" cy="126" r="3.5" fill="hsl(var(--tertiary-fixed))" opacity="0.25" />
   </svg>
 );
 
