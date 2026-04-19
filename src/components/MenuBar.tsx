@@ -46,7 +46,7 @@ const MenuBar = () => {
   };
 
   return (
-    <nav className="bg-white lg:bg-white/5 lg:backdrop-blur-[2px] fixed w-full z-50 border-b lg:border-white/10 border-gray-200/60 shadow-sm lg:shadow-none" role="navigation" aria-label="Main navigation">
+    <nav className="bg-background/95 backdrop-blur-md fixed w-full z-50 border-b border-border shadow-sm" role="navigation" aria-label="Main navigation">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16 my-[5px]">
           {/* Mobile/Tablet: Show logo only on home/auth, page title on other pages */}
@@ -87,7 +87,7 @@ const MenuBar = () => {
       <Dialog open={showAddTestDialog} onOpenChange={setShowAddTestDialog}>
         <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
           <DialogHeader>
-            <DialogTitle className="text-2xl font-bold text-brand-primary">Add New Test</DialogTitle>
+            <DialogTitle className="text-2xl font-bold text-primary">Add New Test</DialogTitle>
           </DialogHeader>
           <Suspense fallback={<div className="flex items-center justify-center p-8"><div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" /></div>}>
             <AddMilkTest />

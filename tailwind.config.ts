@@ -101,53 +101,10 @@ export default {
 				'container-lowest': 'hsl(var(--surface-container-lowest))',
 				'container-low': 'hsl(var(--surface-container-low))',
 				'container': 'hsl(var(--surface-container))',
-				'container-high': 'hsl(var(--surface-container-high))',
-				'container-highest': 'hsl(var(--surface-container-highest))',
-				'bright': 'hsl(var(--surface-bright))',
-				// Legacy
-				warm: 'hsl(var(--surface-warm))',
-				cream: 'hsl(var(--surface-cream))'
 			},
-			'stats-card': 'hsl(var(--stats-card))',
 			'on-surface': 'hsl(var(--on-surface))',
 			'outline-variant': 'hsl(var(--outline-variant))',
 			'primary-container': 'hsl(var(--primary-container))',
-			'tertiary': {
-				DEFAULT: 'hsl(var(--tertiary) / <alpha-value>)',
-				foreground: 'hsl(var(--tertiary-foreground))',
-				fixed: 'hsl(var(--tertiary-fixed))'
-			},
-			// Legacy milk colors (keeping for backwards compatibility)
-			milk: {
-				'50': '#fdfcfb',
-				'100': '#f7f4f2',
-				'200': '#e8e4e1',
-				'300': '#d1ccc8',
-				'400': '#b3aba5',
-				'500': '#8c8580'
-			},
-			cream: {
-				'100': '#fff9f0',
-				'200': '#fff3e0',
-				'300': '#ffe0b2'
-			},
-			'soft-blue': '#D3E4FD',
-			'soft-peach': '#FDE1D3',
-			'soft-brown': '#F5E6D3',
-			'soft-gray': '#E5E7EB',
-			notification: {
-				like: 'hsl(var(--notification-like))',
-				comment: 'hsl(var(--notification-comment))',
-				newsletter: 'hsl(var(--notification-newsletter))'
-			},
-			badge: {
-				barista: 'hsl(var(--badge-barista))',
-				'barista-foreground': 'hsl(var(--badge-barista-foreground))',
-				property: 'hsl(var(--badge-property))',
-				'property-foreground': 'hsl(var(--badge-property-foreground))',
-				flavor: 'hsl(var(--badge-flavor))',
-				'flavor-foreground': 'hsl(var(--badge-flavor-foreground))'
-			}
 		},
 		// Typography scale
 		fontSize: {
@@ -164,8 +121,8 @@ export default {
 			'body-xs': ['var(--font-size-xs)', { lineHeight: 'var(--line-height-normal)' }]
 		},
   		borderRadius: {
-  			'2xl': '3rem',
-  			xl: '1.5rem',
+  			'2xl': '2rem',
+  			xl: '1rem',
   			lg: 'var(--radius)',
   			md: 'calc(var(--radius) - 2px)',
   			sm: 'calc(var(--radius) - 4px)'
@@ -250,13 +207,13 @@ export default {
   		},
   		fontFamily: {
   			display: [
-  				'Epilogue',
+  				'Plus Jakarta Sans',
   				'ui-sans-serif',
   				'system-ui',
   				'sans-serif'
   			],
   			sans: [
-  				'Manrope',
+  				'DM Sans',
   				'ui-sans-serif',
   				'system-ui',
   				'sans-serif',

@@ -35,19 +35,19 @@ const Notifications = () => {
       <BackgroundPattern>
         <div className="flex items-center justify-center min-h-screen pt-16 pb-20 sm:pb-8">
           <div className="container max-w-4xl mx-auto px-4 py-4 sm:py-8 relative z-10">
-            <div className="bg-white rounded-lg shadow-md overflow-hidden">
+            <div className="bg-card rounded-lg shadow-md overflow-hidden">
               {/* Header */}
-              <div className="flex items-center justify-between p-6 border-b">
+              <div className="flex items-center justify-between p-6 border-b border-border">
                 <div className="flex items-center gap-3">
-                  <div className="h-12 w-12 rounded-full flex items-center justify-center bg-brand-primary">
+                  <div className="h-12 w-12 rounded-full flex items-center justify-center bg-primary">
                     <Bell className="w-6 h-6 text-white" />
                   </div>
                   <div>
-                    <h1 className="text-2xl font-semibold text-gray-800">Notifications</h1>
-                    {unreadCount > 0 && <p className="text-sm text-gray-500">{unreadCount} unread</p>}
+                    <h1 className="text-2xl font-semibold text-foreground">Notifications</h1>
+                    {unreadCount > 0 && <p className="text-sm text-muted-foreground">{unreadCount} unread</p>}
                   </div>
                 </div>
-                {notifications.length > 0 && unreadCount > 0 && <button onClick={markAllAsRead} className="text-sm font-medium md:hover:opacity-80 transition-opacity text-brand-primary">
+                {notifications.length > 0 && unreadCount > 0 && <button onClick={markAllAsRead} className="text-sm font-medium md:hover:opacity-80 transition-opacity text-primary">
                     Mark all read
                   </button>}
               </div>

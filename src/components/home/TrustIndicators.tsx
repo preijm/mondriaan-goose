@@ -15,11 +15,11 @@ export const TrustIndicators = ({ items, formatNumber }: TrustIndicatorsProps) =
     <>
       {/* Mobile: stats card with colored accent bars */}
       <div
-        className="md:hidden mx-6 mt-5 mb-6 rounded-[17px] py-5 px-2 grid grid-cols-3 bg-stats-card"
+        className="md:hidden mx-6 mt-5 mb-6 rounded-[17px] py-5 px-2 grid grid-cols-3 bg-surface-container-lowest"
         style={{ animation: "heroFadeUp 0.55s ease 0.70s both" }}
       >
         {items.map((item, index) => {
-          const accentColors = ['bg-primary', 'bg-secondary', 'bg-tertiary-fixed'];
+          const accentColors = ['bg-primary', 'bg-secondary', 'bg-muted-foreground/40'];
           return (
             <div
               key={index}
@@ -38,9 +38,9 @@ export const TrustIndicators = ({ items, formatNumber }: TrustIndicatorsProps) =
       </div>
 
       {/* Desktop: stats card matching mobile style */}
-      <div className="hidden md:grid grid-cols-3 rounded-lg py-6 px-8 bg-stats-card animate-fade-in max-w-md mx-auto w-full">
+      <div className="hidden md:grid grid-cols-3 rounded-lg py-6 px-8 bg-surface-container-lowest animate-fade-in max-w-md mx-auto w-full">
         {items.map((item, index) => {
-          const accentColors = ['bg-primary', 'bg-secondary', 'bg-tertiary-fixed'];
+          const accentColors = ['bg-primary', 'bg-secondary', 'bg-muted-foreground/40'];
           return (
             <div
               key={index}

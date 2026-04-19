@@ -16,8 +16,6 @@ const MobileFooter = () => {
     }
   }, [location.pathname]);
   
-  const isHomePage = location.pathname === '/';
-
   const isActive = (path: string) => {
     if (path === "/" && location.pathname === "/") return true;
     if (path !== "/" && location.pathname.startsWith(path)) return true;
@@ -26,13 +24,13 @@ const MobileFooter = () => {
 
   const getLinkClass = (path: string) => {
     return isActive(path) 
-      ? "font-medium transition-colors text-brand-primary" 
-      : "text-[#c4c9d4] md:hover:text-gray-900 transition-colors font-medium";
+      ? "font-medium transition-colors text-primary"
+      : "text-muted-foreground hover:text-foreground transition-colors font-medium";
   };
 
   return (
     <div className="lg:hidden fixed bottom-0 left-0 right-0 z-50">
-      <div className={isHomePage ? "bg-transparent border-t border-gray-200/40" : "bg-white border-t border-gray-200 shadow-lg"}>
+      <div className="bg-background/95 backdrop-blur-sm border-t border-border shadow-sm">
         <div className="px-2 py-2">
           <div className="grid grid-cols-5 gap-1">
             <Link 
