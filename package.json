@@ -91,7 +91,7 @@
   "devDependencies": {
     "@eslint/js": "^9.39.2",
     "@tailwindcss/typography": "^0.5.19",
-    "@types/node": "^25.3.3",
+    "@types/node": "^25.5.0",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react-swc": "^3.5.0",
@@ -103,7 +103,7 @@
     "lovable-tagger": "^1.1.13",
     "postcss": "^8.5.8",
     "tailwindcss": "^3.4.11",
-    "typescript": "^5.9.3",
+    "typescript": "^6.0.2",
     "typescript-eslint": "^8.57.1",
     "vite": "^7.3.1"
   }
