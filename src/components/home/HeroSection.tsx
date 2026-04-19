@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
-import { Button } from "@/components/ui/button";
 
 interface HeroSectionProps {
   onStartJourney: () => void;
@@ -15,10 +14,10 @@ const MilkDrop = () =>
     <ellipse cx="64" cy="102" rx="7" ry="14" fill="white" opacity="0.55" transform="rotate(-14 64 102)" />
     <ellipse cx="68" cy="82" rx="3" ry="5" fill="white" opacity="0.35" transform="rotate(-14 68 82)" />
     <circle cx="136" cy="162" r="9" fill="currentColor" className="text-primary" opacity="0.14" />
-    <circle cx="148" cy="147" r="6" fill="currentColor" className="text-tertiary-fixed" opacity="0.55" />
+    <circle cx="148" cy="147" r="6" fill="currentColor" className="text-primary/40" opacity="0.55" />
     <circle cx="20" cy="168" r="7" fill="currentColor" className="text-primary" opacity="0.12" />
     <circle cx="140" cy="178" r="3.5" fill="currentColor" className="text-primary" opacity="0.26" />
-    <circle cx="148" cy="168" r="2.5" fill="currentColor" className="text-tertiary-fixed" opacity="0.4" />
+    <circle cx="148" cy="168" r="2.5" fill="currentColor" className="text-primary/40" opacity="0.4" />
   </svg>;
 
 
@@ -65,13 +64,13 @@ export const HeroSection = ({ onStartJourney, recentReviews = 0 }: HeroSectionPr
             style={{ animation: "heroFadeUp 0.55s ease 0.28s both" }}>
             
             <h1
-              className="font-display font-extrabold leading-[1.05] tracking-[-0.045em] text-foreground mb-0.5 max-w-[220px]"
+              className="font-display font-extrabold leading-[1.05] tracking-[-0.03em] text-foreground mb-0.5 max-w-[220px]"
               style={{ fontSize: "52px" }}>
               
               Ditch the Moo.
             </h1>
             <h1
-              className="font-display font-extrabold leading-[1.05] tracking-[-0.045em] text-primary max-w-[280px]"
+              className="font-display font-extrabold leading-[1.05] tracking-[-0.03em] text-primary max-w-[280px]"
               style={{ fontSize: "52px" }}>
               
               Find Your New!
@@ -170,10 +169,10 @@ export const HeroSection = ({ onStartJourney, recentReviews = 0 }: HeroSectionPr
 
         {/* Headline */}
         <div className="mb-4 md:mb-6 animate-fade-in">
-          <h1 className="font-display text-5xl lg:text-6xl font-extrabold leading-[1.05] tracking-[-0.045em] text-foreground mb-1">
+          <h1 className="font-display text-5xl lg:text-6xl font-extrabold leading-[1.05] tracking-[-0.03em] text-foreground mb-1">
             Ditch the Moo.
           </h1>
-          <h1 className="font-display text-5xl lg:text-6xl font-extrabold leading-[1.05] tracking-[-0.045em] text-primary">
+          <h1 className="font-display text-5xl lg:text-6xl font-extrabold leading-[1.05] tracking-[-0.03em] text-primary">
             Find Your New!
           </h1>
         </div>

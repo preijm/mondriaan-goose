@@ -20,9 +20,9 @@ export const DesktopNav = ({ pathname }: DesktopNavProps) => {
           key={path}
           to={path}
           className={`transition-colors ${
-            pathname === path 
-              ? 'text-brand-primary font-medium' 
-              : 'text-gray-700 md:hover:text-gray-900'
+            pathname === path
+              ? 'text-primary font-medium'
+              : 'text-foreground/70 hover:text-foreground'
           }`}
         >
           {label}

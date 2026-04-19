@@ -77,14 +77,14 @@ export const ProfileContent = ({
             </div>
             <div className="bg-card rounded-2xl p-4 shadow-sm border border-border">
               <div className="flex items-center gap-2 mb-1">
-                <Star className="w-4 h-4 text-amber-500" />
+                <Star className="w-4 h-4 text-score-fair" />
                 <span className="text-xs text-muted-foreground">Avg Rating</span>
               </div>
               <p className="text-2xl font-semibold text-foreground">{avgRating}</p>
             </div>
             <div className="bg-card rounded-2xl p-4 shadow-sm border border-border">
               <div className="flex items-center gap-2 mb-1">
-                <TrendingUp className="w-4 h-4 text-emerald-500" />
+                <TrendingUp className="w-4 h-4 text-primary" />
                 <span className="text-xs text-muted-foreground">Best Score</span>
               </div>
               <p className="text-2xl font-semibold text-foreground">{bestScore > 0 ? bestScore : "—"}</p>

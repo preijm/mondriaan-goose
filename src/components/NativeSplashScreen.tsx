@@ -51,7 +51,7 @@ const NativeSplashScreen = ({ onComplete }: NativeSplashScreenProps) => {
             className="mb-8"
           >
             <div className="w-24 h-24 bg-white rounded-3xl shadow-2xl flex items-center justify-center">
-              <Milk className="w-14 h-14 text-brand-primary" />
+              <Milk className="w-14 h-14 text-primary" />
             </div>
           </motion.div>
 

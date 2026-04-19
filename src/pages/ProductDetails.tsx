@@ -164,14 +164,14 @@ const ProductDetails = () => {
           </div>
 
           {/* Combined comprehensive card */}
-          <Card className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg border-2 border-gray-300 overflow-hidden animate-fade-in">
+          <Card className="bg-card/80 backdrop-blur-sm rounded-2xl shadow-lg border border-border overflow-hidden animate-fade-in">
             {/* Product header section */}
-            <CardHeader className="bg-white/50 backdrop-blur-sm pt-6 px-6 pb-4 border-b border-gray-200">
+            <CardHeader className="bg-card/50 backdrop-blur-sm pt-6 px-6 pb-4 border-b border-border">
               <div className="space-y-2">
                 {/* Top row: Product name and Score badge */}
                 <div className="flex items-start justify-between gap-3">
                   <div className="flex-1">
-                    <CardTitle className="text-xl font-semibold text-gray-900 m-0">
+                    <CardTitle className="text-xl font-semibold text-foreground m-0">
                       <span translate="no">{product.brand_name}</span> - {product.product_name}
                     </CardTitle>
                     {/* Property badges directly below name */}
@@ -199,7 +199,7 @@ const ProductDetails = () => {
             {/* Individual tests section */}
             <CardContent className="p-0">
               <div className="px-6 pt-4 pb-2 hidden lg:block">
-                <h3 className="text-lg font-semibold text-gray-900">Individual Tests</h3>
+                <h3 className="text-lg font-semibold text-foreground">Individual Tests</h3>
               </div>
               {isLoadingTests ? (
                 <div className="text-center py-8">Loading test results...</div>
