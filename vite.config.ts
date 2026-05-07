@@ -23,17 +23,18 @@ export default defineConfig(({ mode }) => ({
     sourcemap: true,
     rolldownOptions: {
       output: {
-        manualChunks: {
-          'vendor-react': ['react', 'react-dom', 'react-router-dom'],
-          'vendor-supabase': ['@supabase/supabase-js'],
-          'vendor-query': ['@tanstack/react-query'],
-          'vendor-ui': ['@radix-ui/react-dialog', '@radix-ui/react-dropdown-menu', '@radix-ui/react-popover', '@radix-ui/react-tooltip', '@radix-ui/react-tabs'],
-          'vendor-motion': ['framer-motion'],
-          'vendor-mapbox': ['mapbox-gl'],
-          'vendor-charts': ['recharts'],
-          'vendor-date': ['date-fns'],
-          'vendor-carousel': ['embla-carousel-react', 'embla-carousel-autoplay'],
-          'vendor-icons': ['react-icons'],
+        manualChunks(id) {
+          if (!id.includes('node_modules')) return;
+          if (id.includes('react') || id.includes('react-dom') || id.includes('react-router-dom')) return 'vendor-react';
+          if (id.includes('@supabase/supabase-js')) return 'vendor-supabase';
+          if (id.includes('@tanstack/react-query')) return 'vendor-query';
+          if (id.includes('@radix-ui/react-dialog') || id.includes('@radix-ui/react-dropdown-menu') || id.includes('@radix-ui/react-popover') || id.includes('@radix-ui/react-tooltip') || id.includes('@radix-ui/react-tabs')) return 'vendor-ui';
+          if (id.includes('framer-motion')) return 'vendor-motion';
+          if (id.includes('mapbox-gl')) return 'vendor-mapbox';
+          if (id.includes('recharts')) return 'vendor-charts';
+          if (id.includes('date-fns')) return 'vendor-date';
+          if (id.includes('embla-carousel')) return 'vendor-carousel';
+          if (id.includes('react-icons')) return 'vendor-icons';
         },
       },
     },
