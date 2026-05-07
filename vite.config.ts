@@ -9,8 +9,10 @@ export default defineConfig(({ mode }) => ({
     host: "::",
     port: 8080,
   },
-  esbuild: {
-    drop: mode === 'production' ? ['console', 'debugger'] : [],
+  oxc: {
+    transform: {
+      drop: mode === 'production' ? ['console', 'debugger'] : [],
+    },
   },
   plugins: [
     react(),
@@ -19,7 +21,7 @@ export default defineConfig(({ mode }) => ({
   ].filter(Boolean),
   build: {
     sourcemap: true,
-    rollupOptions: {
+    rolldownOptions: {
       output: {
         manualChunks: {
           'vendor-react': ['react', 'react-dom', 'react-router-dom'],
