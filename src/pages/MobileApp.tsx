@@ -17,7 +17,7 @@ const MobileApp = () => {
           <div className="container max-w-3xl mx-auto px-4 py-8 relative z-10">
             {/* Header */}
             <div className="text-center mb-12 hidden lg:block">
-              <h1 className="text-4xl md:text-5xl font-bold text-brand-primary mb-4">
+              <h1 className="text-4xl md:text-5xl font-bold text-primary mb-4">
                 Get the Mobile App
               </h1>
               <p className="text-lg text-muted-foreground">
@@ -29,7 +29,7 @@ const MobileApp = () => {
             <div className="max-w-md mx-auto">
               <div className="bg-card rounded-lg shadow-md p-8 hover:shadow-lg transition-shadow border border-border">
                 <div className="flex flex-col items-center text-center gap-4">
-                  <div className="h-20 w-20 rounded-full flex items-center justify-center bg-brand-primary">
+                  <div className="h-20 w-20 rounded-full flex items-center justify-center bg-primary">
                     <FaAndroid className="w-12 h-12 text-white" />
                   </div>
                   <h2 className="text-2xl font-semibold text-foreground">Android</h2>
@@ -53,7 +53,7 @@ const MobileApp = () => {
                   <div className="w-full space-y-3">
                     <Button 
                       asChild 
-                      className="w-full bg-brand-primary hover:bg-brand-primary/90 text-white" 
+                      className="w-full bg-primary hover:bg-primary/90 text-white" 
                       size="lg"
                     >
                       <a href={androidDownloadUrl} download>

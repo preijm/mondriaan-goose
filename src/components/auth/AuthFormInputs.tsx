@@ -41,12 +41,12 @@ const AuthFormInputs = ({
             maxLength={30}
             pattern="^[a-zA-Z0-9_-]+$"
             title="Username can only contain letters, numbers, underscores, and hyphens"
-            className={`bg-white/80 border-black/20 backdrop-blur-sm rounded-sm ${
-              usernameError ? 'border-red-500 focus:border-red-500' : ''
+            className={`bg-card/80 border-border backdrop-blur-sm rounded-sm ${
+              usernameError ? 'border-destructive focus:border-destructive' : ''
             }`}
           />
           {usernameError && (
-            <p className="text-sm text-red-600 px-1">{usernameError}</p>
+            <p className="text-sm text-destructive px-1">{usernameError}</p>
           )}
         </div>
       )}
@@ -58,12 +58,12 @@ const AuthFormInputs = ({
           value={email}
           onChange={e => setEmail(e.target.value)}
           required
-          className={`bg-white/80 border-black/20 backdrop-blur-sm rounded-sm ${
-            emailError ? 'border-red-500 focus:border-red-500' : ''
+          className={`bg-card/80 border-border backdrop-blur-sm rounded-sm ${
+            emailError ? 'border-destructive focus:border-destructive' : ''
           }`}
         />
         {emailError && (
-          <p className="text-sm text-red-600 px-1">{emailError}</p>
+          <p className="text-sm text-destructive px-1">{emailError}</p>
         )}
       </div>
 
@@ -76,12 +76,12 @@ const AuthFormInputs = ({
           required
           minLength={6}
           showPasswordToggle
-          className={`bg-white/80 border-black/20 backdrop-blur-sm rounded-sm ${
-            passwordError ? 'border-red-500 focus:border-red-500' : ''
+          className={`bg-card/80 border-border backdrop-blur-sm rounded-sm ${
+            passwordError ? 'border-destructive focus:border-destructive' : ''
           }`}
         />
         {passwordError && (
-          <p className="text-sm text-red-600 px-1">{passwordError}</p>
+          <p className="text-sm text-destructive px-1">{passwordError}</p>
         )}
       </div>
     </>

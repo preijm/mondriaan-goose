@@ -66,7 +66,7 @@ const Contact = () => {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6 mb-12 lg:mb-12 mt-0 lg:mt-0">
               <ContactCard
                 icon={Phone}
-                iconColorClass="bg-brand-primary/10 text-brand-primary"
+                iconColorClass="bg-primary/10 text-primary"
                 title="Phone"
                 badgeText="On Vacation"
                 badgeVariant="unavailable"
@@ -77,7 +77,7 @@ const Contact = () => {
 
               <ContactCard
                 icon={Mail}
-                iconColorClass="bg-brand-secondary/10 text-brand-secondary"
+                iconColorClass="bg-secondary/10 text-secondary"
                 title="Email"
                 badgeText="Available"
                 badgeVariant="available"
@@ -88,7 +88,7 @@ const Contact = () => {
 
               <ContactCard
                 icon={MessageSquare}
-                iconColorClass="bg-purple-500/10 text-purple-600"
+                iconColorClass="bg-muted text-muted-foreground"
                 title="Chat"
                 badgeText="Pursuing Dreams"
                 badgeVariant="neutral"

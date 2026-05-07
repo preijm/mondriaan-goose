@@ -5,6 +5,7 @@ interface Stats {
   totalTests: number;
   brandsCovered: number;
   uniqueProducts: number;
+  recentReviews: number;
 }
 
 export const useHomeStats = () => {
@@ -12,20 +13,30 @@ export const useHomeStats = () => {
     totalTests: 0,
     brandsCovered: 0,
     uniqueProducts: 0,
+    recentReviews: 0,
   });
 
   useEffect(() => {
     const fetchTrustIndicators = async () => {
       try {
-        const { data: statsData } = await supabase.rpc("get_public_stats");
-        if (statsData && statsData.length > 0) {
-          const stat = statsData[0];
-          setStats({
-            totalTests: Number(stat.total_tests) || 0,
-            brandsCovered: Number(stat.total_brands) || 0,
-            uniqueProducts: Number(stat.total_products) || 0,
-          });
-        }
+        const sevenDaysAgo = new Date();
+        sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+
+        const [statsResult, recentResult] = await Promise.all([
+          supabase.rpc("get_public_stats"),
+          supabase
+            .from("milk_tests")
+            .select("id", { count: "exact", head: true })
+            .gte("created_at", sevenDaysAgo.toISOString()),
+        ]);
+
+        const stat = statsResult.data?.[0];
+        setStats({
+          totalTests: Number(stat?.total_tests) || 0,
+          brandsCovered: Number(stat?.total_brands) || 0,
+          uniqueProducts: Number(stat?.total_products) || 0,
+          recentReviews: recentResult.count ?? 0,
+        });
       } catch (error) {
         console.error("Error fetching trust indicators:", error);
       }

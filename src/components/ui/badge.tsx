@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import * as React from "react"
 import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@/lib/utils"
@@ -25,10 +26,10 @@ const badgeVariants = cva(
         
         // Property badges with distinct colors for each type
         // Note: hover styles removed to prevent conflicts when selected state is applied via className
-        property: "bg-slate-100 text-slate-700 border border-slate-200 rounded-md !px-1.5 !py-0.5 text-xs font-medium whitespace-nowrap",
-        barista: "bg-amber-100 text-amber-800 border border-amber-200 rounded-md !px-1.5 !py-0.5 text-xs font-medium whitespace-nowrap",
-        category: "bg-slate-100 text-slate-700 border border-slate-200 rounded-md !px-1.5 !py-0.5 text-xs font-medium whitespace-nowrap",
-        flavor: "bg-purple-100 text-purple-700 border border-purple-200 rounded-md !px-1.5 !py-0.5 text-xs font-medium whitespace-nowrap",
+        property: "bg-surface-container text-foreground border border-border rounded-md !px-1.5 !py-0.5 text-xs font-medium whitespace-nowrap",
+        barista: "bg-primary/10 text-primary border border-primary/20 rounded-md !px-1.5 !py-0.5 text-xs font-medium whitespace-nowrap",
+        category: "bg-surface-container text-foreground border border-border rounded-md !px-1.5 !py-0.5 text-xs font-medium whitespace-nowrap",
+        flavor: "bg-muted text-muted-foreground border border-border rounded-md !px-1.5 !py-0.5 text-xs font-medium whitespace-nowrap",
         
         // Score outline variants (for tables/lists) - using design tokens
         score: "bg-transparent rounded px-2 py-1 text-[11px] font-medium",

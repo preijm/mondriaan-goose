@@ -18,7 +18,7 @@ export const Logo = ({ className = "" }: LogoProps) => {
         fetchPriority="high"
       />
       <span 
-        className="text-gray-800 text-2xl md:text-4xl font-bold whitespace-nowrap flex items-center" 
+        className="text-foreground text-2xl md:text-4xl font-bold whitespace-nowrap flex items-center" 
         translate="no"
       >
         Milk Me Not

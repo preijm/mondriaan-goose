@@ -15,6 +15,7 @@ interface ShopSuggestionsProps {
   onSelect: (shop: { name: string; country_code: string | null }) => void;
   onAddNew: () => void;
   isVisible: boolean;
+  onEditingChange?: (editing: boolean) => void;
 }
 
 export const ShopSuggestions = ({
@@ -24,6 +25,7 @@ export const ShopSuggestions = ({
   onSelect,
   onAddNew,
   isVisible,
+  onEditingChange,
 }: ShopSuggestionsProps) => {
   const { data: isAdmin } = useAdminCheck();
   const [editingShopName, setEditingShopName] = useState<string | null>(null);
@@ -46,9 +48,17 @@ export const ShopSuggestions = ({
   const deleteDialog = (
     <DeleteShopDialog
       open={!!deletingShopName}
-      onOpenChange={(open) => !open && setDeletingShopName(null)}
+      onOpenChange={(open) => {
+        if (!open) {
+          setDeletingShopName(null);
+          onEditingChange?.(false);
+        }
+      }}
       shopName={deletingShopName}
-      onSuccess={() => setDeletingShopName(null)}
+      onSuccess={() => {
+        setDeletingShopName(null);
+        onEditingChange?.(false);
+      }}
     />
   );
 
@@ -64,6 +74,7 @@ export const ShopSuggestions = ({
     e.stopPropagation();
     setEditingShopName(shop.name);
     setEditValue(shop.name);
+    onEditingChange?.(true);
   };
 
   const handleCancelEdit = (e: React.MouseEvent) => {
@@ -71,6 +82,7 @@ export const ShopSuggestions = ({
     e.stopPropagation();
     setEditingShopName(null);
     setEditValue("");
+    onEditingChange?.(false);
   };
 
   const handleSaveEdit = async (e: React.MouseEvent, originalName: string) => {
@@ -99,6 +111,7 @@ export const ShopSuggestions = ({
       queryClient.invalidateQueries({ queryKey: ["shops"] });
       setEditingShopName(null);
       setEditValue("");
+      onEditingChange?.(false);
     } catch (error) {
       console.error("Error updating shop:", error);
       toast({
@@ -114,6 +127,7 @@ export const ShopSuggestions = ({
   const handleDeleteClick = (e: React.MouseEvent, shopName: string) => {
     e.preventDefault();
     e.stopPropagation();
+    onEditingChange?.(true);
     setDeletingShopName(shopName);
   };
 
@@ -124,6 +138,7 @@ export const ShopSuggestions = ({
     } else if (e.key === "Escape") {
       setEditingShopName(null);
       setEditValue("");
+      onEditingChange?.(false);
     }
   };
 
@@ -142,41 +157,45 @@ export const ShopSuggestions = ({
             }}
           >
             {editingShopName === suggestion.name ? (
-              <div className="flex items-center gap-2 w-full" onMouseDown={(e) => e.stopPropagation()}>
-                <Input
-                  ref={editInputRef}
-                  value={editValue}
-                  onChange={(e) => setEditValue(e.target.value)}
-                  onKeyDown={(e) => handleKeyDown(e, suggestion.name)}
-                  className="h-7 text-sm"
-                  disabled={isUpdating}
-                />
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="h-6 w-6 shrink-0"
-                  onMouseDown={(e) => handleCancelEdit(e)}
-                  disabled={isUpdating}
-                  title="Cancel"
-                >
-                  <X className="h-3 w-3" />
-                </Button>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="h-6 w-6 shrink-0 text-primary hover:text-primary"
-                  onMouseDown={(e) => handleSaveEdit(e, suggestion.name)}
-                  disabled={isUpdating || !editValue.trim()}
-                  title="Save"
-                >
-                  <Check className="h-3 w-3" />
-                </Button>
-              </div>
+              <>
+                <div className="flex-1 min-w-0" onMouseDown={(e) => e.stopPropagation()}>
+                  <Input
+                    ref={editInputRef}
+                    value={editValue}
+                    onChange={(e) => setEditValue(e.target.value)}
+                    onKeyDown={(e) => handleKeyDown(e, suggestion.name)}
+                    className="h-7 text-sm"
+                    disabled={isUpdating}
+                  />
+                </div>
+                <div className="flex gap-1 shrink-0" onMouseDown={(e) => e.stopPropagation()}>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="h-6 w-6"
+                    onMouseDown={(e) => handleCancelEdit(e)}
+                    disabled={isUpdating}
+                    title="Cancel"
+                  >
+                    <X className="h-3 w-3" />
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="h-6 w-6 text-primary hover:text-primary"
+                    onMouseDown={(e) => handleSaveEdit(e, suggestion.name)}
+                    disabled={isUpdating || !editValue.trim()}
+                    title="Save"
+                  >
+                    <Check className="h-3 w-3" />
+                  </Button>
+                </div>
+              </>
             ) : (
               <>
                 <span>{suggestion.name}</span>
                 {isAdmin && (
-                  <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <div className="flex gap-1 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity">
                     <Button
                       variant="ghost"
                       size="icon"
@@ -201,7 +220,7 @@ export const ShopSuggestions = ({
             )}
           </div>
         ))}
-        {showAddNew && (
+        {showAddNew && !editingShopName && (
           <div
             className="px-4 py-2 cursor-pointer hover:bg-muted flex items-center text-muted-foreground"
             onMouseDown={(e) => {
