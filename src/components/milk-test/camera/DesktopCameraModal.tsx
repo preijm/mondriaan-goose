@@ -102,6 +102,8 @@ export const DesktopCameraModal: React.FC<DesktopCameraModalProps> = ({
     return () => {
       stopCamera();
     };
+  // startCamera is stable — omitting prevents restarting camera on unrelated renders
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open]);
 
   return (

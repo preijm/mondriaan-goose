@@ -396,12 +396,16 @@ const MapboxWorldMap = () => {
     return () => {
       cancelled = true;
     };
+  // initializeMap is stable — omitting avoids re-creating map on every render
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isLoading]);
 
   useEffect(() => {
     if (isMapInitialized && countryData.length > 0) {
       addCountryData();
     }
+  // addCountryData is stable — omitting avoids redundant map redraws
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isMapInitialized, countryData]);
 
   const totalTests = countryData.reduce((sum, country) => sum + country.test_count, 0);

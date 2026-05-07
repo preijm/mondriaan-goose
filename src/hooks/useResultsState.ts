@@ -65,6 +65,8 @@ export function useResultsUrlState() {
     setFilters(urlFilters);
     setSortConfig(urlSortConfig);
     setSearchTerm(urlSearchTerm);
+  // parseFiltersFromUrl and parseSortConfigFromUrl are stable — omitting avoids infinite loop
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchParams]);
 
   // Update URL when search term, filters, or sort changes

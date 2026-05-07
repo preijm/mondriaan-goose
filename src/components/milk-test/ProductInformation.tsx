@@ -31,6 +31,8 @@ export const ProductInformation = ({
         state: {}
       });
     }
+  // handleSelectProduct, location.pathname, navigate are stable — omitting avoids re-runs on every render
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location.state]);
   const handleSelectProduct = (productId: string, brandId: string) => {
     console.log("ProductInformation: handleSelectProduct called with", {

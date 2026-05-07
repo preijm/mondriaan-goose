@@ -44,6 +44,8 @@ export const BrandSelect = forwardRef<HTMLInputElement, BrandSelectProps>(({
     } else if (brandId === '' && inputValue !== '') {
       setInputValue("");
     }
+  // inputValue intentionally omitted — including it causes an infinite set loop
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [brandId, brands]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
