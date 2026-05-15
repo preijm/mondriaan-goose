@@ -1,0 +1,21 @@
+# Milk Me Not
+
+> A community-driven platform for discovering and rating plant-based milk alternatives — oat, almond, soy, coconut and more — with real reviews tailored to coffee, cereal and cooking.
+
+Milk Me Not aggregates user-submitted taste tests of plant milks across brands and products. Visitors can browse aggregated ratings, filter by base type or barista performance, read social reviews, and see where products were purchased.
+
+## Pages
+
+- [Home](/): Overview, featured categories and recent reviews.
+- [Results](/results): Aggregated ratings of every rated plant milk product, with filters and search.
+- [Feed](/feed): Social feed of the latest community taste tests with photos, notes and likes.
+- [Product details](/product/:productId): Per-product page with aggregate rating, properties and individual reviews.
+- [About](/about): Story, mission and how the community grew.
+- [Contact](/contact): Get in touch with the team.
+- [FAQ](/faq): Common questions about ratings, accounts and contributing reviews.
+- [Mobile app](/mobile-app): Information about the native Android app.
+- [Install guide](/install-guide): How to install the mobile app.
+
+## Optional
+
+- [Sign in](/auth): Account login and signup.

@@ -3,11 +3,45 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Milk Me Not</title>
-    <meta name="description" content="Discover and rate your perfect plant-based milk.">
-    <meta name="author" content="Lovable" />
+    <title>Milk Me Not — Plant-based milk ratings & reviews</title>
+    <meta name="description" content="Discover and rate plant-based milks. Read real reviews from a community obsessed with taste — find the perfect oat, almond, soy or coconut milk for coffee, cereal and cooking." />
+    <meta name="author" content="Milk Me Not" />
     <link rel="icon" href="/lovable-uploads/9f030b65-074a-4e64-82d9-f0eba7246e1a.png" type="image/png" />
-    <meta property="og:image" content="/og-image.png" />
+
+    <!-- Open Graph / social -->
+    <meta property="og:title" content="Milk Me Not — Plant-based milk ratings & reviews" />
+    <meta property="og:description" content="Discover and rate plant-based milks. Real reviews from a community obsessed with taste." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://milkmenot.com/" />
+    <meta property="og:image" content="https://milkmenot.com/og-image.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Milk Me Not — Plant-based milk ratings & reviews" />
+    <meta name="twitter:description" content="Discover and rate plant-based milks. Real reviews from a community obsessed with taste." />
+    <meta name="twitter:image" content="https://milkmenot.com/og-image.png" />
+
+    <!-- Sitewide structured data -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "Milk Me Not",
+        "url": "https://milkmenot.com",
+        "logo": "https://milkmenot.com/lovable-uploads/9f030b65-074a-4e64-82d9-f0eba7246e1a.png"
+      }
+    </script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "Milk Me Not",
+        "url": "https://milkmenot.com",
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": "https://milkmenot.com/results?search={search_term_string}",
+          "query-input": "required name=search_term_string"
+        }
+      }
+    </script>
 
     <!-- Minimal FOUC prevention - fade in instead of blocking LCP -->
     <style>
@@ -28,12 +62,6 @@
     <meta name="referrer" content="strict-origin-when-cross-origin">
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
     <meta http-equiv="X-XSS-Protection" content="1; mode=block">
-    <meta property="og:title" content="Milk Me Not">
-    <meta name="twitter:title" content="Milk Me Not">
-    <meta property="og:description" content="Discover and rate your perfect plant-based milk.">
-    <meta name="twitter:description" content="Discover and rate your perfect plant-based milk.">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta property="og:type" content="website">
   </head>
   <body>
     <!-- Native app splash screen - shows immediately before React loads -->
@@ -97,9 +125,9 @@
     <script>
       // Show native splash immediately if running in Capacitor
       (function() {
-        var isNative = typeof window !== 'undefined' && 
-          window.Capacitor && 
-          window.Capacitor.isNativePlatform && 
+        var isNative = typeof window !== 'undefined' &&
+          window.Capacitor &&
+          window.Capacitor.isNativePlatform &&
           window.Capacitor.isNativePlatform();
         if (isNative) {
           document.getElementById('native-splash').style.display = 'flex';

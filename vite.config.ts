@@ -4,7 +4,8 @@ import path from "path";
 import { componentTagger } from "lovable-tagger";
 
 // https://vitejs.dev/config/
-export default defineConfig(({ mode }) => ({
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export default (defineConfig as any)(({ mode }: { mode: string }) => ({
   server: {
     host: "::",
     port: 8080,
@@ -23,7 +24,7 @@ export default defineConfig(({ mode }) => ({
     sourcemap: true,
     rolldownOptions: {
       output: {
-        manualChunks(id) {
+        manualChunks(id: string) {
           if (!id.includes('node_modules')) return;
           if (id.includes('react') || id.includes('react-dom') || id.includes('react-router-dom')) return 'vendor-react';
           if (id.includes('@supabase/supabase-js')) return 'vendor-supabase';

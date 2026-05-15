@@ -1,3 +1,4 @@
+import { Seo } from "@/components/Seo";
 import MenuBar from "@/components/MenuBar";
 import MobileFooter from "@/components/MobileFooter";
 import BackgroundPattern from "@/components/BackgroundPattern";
@@ -11,6 +12,11 @@ const MobileApp = () => {
 
   return (
     <div className="min-h-screen">
+      <Seo
+        title="Mobile app — Milk Me Not"
+        description="Download the Milk Me Not Android app to log plant-milk taste tests, scan barcodes and follow the community on the go."
+        path="/mobile-app"
+      />
       <MenuBar />
       <BackgroundPattern>
         <div className="flex items-center justify-center min-h-screen pt-16 pb-20 sm:pb-8">

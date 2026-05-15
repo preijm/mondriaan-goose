@@ -1,3 +1,4 @@
+import { Seo } from "@/components/Seo";
 import { useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
@@ -85,6 +86,11 @@ const Feed = () => {
   // Desktop layout with BackgroundPattern
   return (
     <div className="min-h-screen relative">
+      <Seo
+        title="Feed — Latest plant-milk reviews | Milk Me Not"
+        description="The latest community taste tests of plant-based milks — photos, ratings and notes from real reviewers."
+        path="/feed"
+      />
       <MenuBar />
       <BackgroundPattern>
         <div className="container max-w-7xl mx-auto px-4 py-6 md:py-8 pt-24 md:pt-32 pb-20 sm:pb-6 md:pb-8 relative z-10 transition-all duration-300">

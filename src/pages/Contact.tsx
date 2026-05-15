@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Seo } from "@/components/Seo";
 import MenuBar from "@/components/MenuBar";
 import MobileFooter from "@/components/MobileFooter";
 import { Phone, Mail, MessageSquare, Bird } from "lucide-react";
@@ -56,6 +57,11 @@ const Contact = () => {
 
   return (
     <div className="min-h-screen">
+      <Seo
+        title="Contact — Milk Me Not"
+        description="Get in touch with the Milk Me Not team. Suggestions, partnerships and feedback from the plant-milk community welcome."
+        path="/contact"
+      />
       <MenuBar />
       <BackgroundPattern>
         <div className="lg:flex lg:items-center lg:justify-center min-h-screen pt-16 pb-20 sm:pb-8">

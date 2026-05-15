@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import { Seo } from "@/components/Seo";
 import MenuBar from "@/components/MenuBar";
 import BackgroundPattern from "@/components/BackgroundPattern";
 import MobileFooter from "@/components/MobileFooter";
@@ -49,6 +50,11 @@ const Home = () => {
 
   return (
     <div className="min-h-dvh overflow-hidden flex flex-col">
+      <Seo
+        title="Milk Me Not — Plant-based milk ratings & reviews"
+        description="Discover and rate plant-based milks. Real reviews from a community obsessed with taste — find the perfect oat, almond, soy or coconut milk for coffee, cereal and cooking."
+        path="/"
+      />
       <div className="hidden lg:block">
         <MenuBar />
       </div>

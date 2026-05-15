@@ -1,4 +1,5 @@
 import React, { useState, lazy, Suspense } from "react";
+import { Seo } from "@/components/Seo";
 import { useNavigate } from "react-router-dom";
 import { useAggregatedResults } from "@/hooks/useAggregatedResults";
 import { useResultsUrlState, useResultsFiltering } from "@/hooks/useResultsState";
@@ -82,6 +83,17 @@ const Results = () => {
 
   return (
     <div className="min-h-screen">
+      <Seo
+        title="Results — Plant-milk ratings | Milk Me Not"
+        description="Browse aggregated ratings of plant-based milks from the Milk Me Not community. Filter by brand, base type and barista performance."
+        path="/results"
+        jsonLd={{
+          "@context": "https://schema.org",
+          "@type": "CollectionPage",
+          name: "Plant-milk ratings",
+          url: "https://milkmenot.com/results",
+        }}
+      />
       <MenuBar />
       <BackgroundPattern>
         <div className="container max-w-7xl mx-auto px-4 sm:px-6 py-8 pt-24 pb-20 sm:pb-8 relative z-10">
