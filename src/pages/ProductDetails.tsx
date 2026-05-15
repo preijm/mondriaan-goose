@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Seo } from "@/components/Seo";
 import { useParams, useNavigate } from "react-router-dom";
 import MenuBar from "@/components/MenuBar";
 import MobileFooter from "@/components/MobileFooter";
