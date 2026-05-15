@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Seo } from "@/components/Seo";
 import MenuBar from "@/components/MenuBar";
 import { ImageModal } from "@/components/milk-test/ImageModal";
 import MobileFooter from "@/components/MobileFooter";
@@ -69,6 +70,11 @@ const About = () => {
 
   return (
     <div className="min-h-screen">
+      <Seo
+        title="About — Milk Me Not"
+        description="The story behind Milk Me Not — how a community of plant-milk taste testers grew into a platform for finding the best dairy alternatives."
+        path="/about"
+      />
       <MenuBar />
       <BackgroundPattern>
         <div className="flex items-center justify-center min-h-screen pt-16 pb-20 sm:pb-8">

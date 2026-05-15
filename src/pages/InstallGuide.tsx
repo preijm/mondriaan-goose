@@ -1,3 +1,4 @@
+import { Seo } from "@/components/Seo";
 import MenuBar from "@/components/MenuBar";
 import MobileFooter from "@/components/MobileFooter";
 import BackgroundPattern from "@/components/BackgroundPattern";
@@ -67,6 +68,11 @@ const InstallGuide = () => {
 
   return (
     <div className="min-h-screen">
+      <Seo
+        title="Install guide — Milk Me Not"
+        description="Step-by-step guide to installing the Milk Me Not Android app on your phone."
+        path="/install-guide"
+      />
       <MenuBar />
       <BackgroundPattern>
         <div className="pt-16 pb-20 sm:pb-8">
