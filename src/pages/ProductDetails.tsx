@@ -147,8 +147,37 @@ const ProductDetails = () => {
     );
   }
 
+  const productTitle = product
+    ? `${product.brand_name} ${product.product_name} — Reviews | Milk Me Not`
+    : "Plant-milk product — Milk Me Not";
+  const productDescription = product
+    ? `See ${product.count} community review${product.count === 1 ? "" : "s"} of ${product.brand_name} ${product.product_name} on Milk Me Not — average rating ${product.avg_rating.toFixed(1)}/10.`
+    : "Community reviews and ratings of plant-based milk products.";
+  const productJsonLd = product
+    ? {
+        "@context": "https://schema.org",
+        "@type": "Product",
+        name: `${product.brand_name} ${product.product_name}`,
+        brand: { "@type": "Brand", name: product.brand_name },
+        aggregateRating: {
+          "@type": "AggregateRating",
+          ratingValue: product.avg_rating.toFixed(2),
+          reviewCount: product.count,
+          bestRating: "10",
+          worstRating: "1",
+        },
+      }
+    : undefined;
+
   return (
     <div className="min-h-screen">
+      <Seo
+        title={productTitle}
+        description={productDescription}
+        path={`/product/${productId ?? ""}`}
+        type="product"
+        jsonLd={productJsonLd}
+      />
       <MenuBar />
       <LoginPrompt 
         isOpen={showLoginPrompt}
