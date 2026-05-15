@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import { Seo } from "@/components/Seo";
 import MenuBar from "@/components/MenuBar";
 import BackgroundPattern from "@/components/BackgroundPattern";
 import MobileFooter from "@/components/MobileFooter";
