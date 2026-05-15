@@ -1,0 +1,13 @@
+User-agent: *
+Allow: /
+
+Disallow: /auth
+Disallow: /reset-password
+Disallow: /account
+Disallow: /account/
+Disallow: /notifications
+Disallow: /add
+Disallow: /add-product
+Disallow: /design-system
+
+Sitemap: https://milkmenot.com/sitemap.xml
