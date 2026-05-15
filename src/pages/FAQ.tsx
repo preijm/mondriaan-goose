@@ -40,8 +40,23 @@ const faqItems = [
 ];
 
 const FAQ = () => {
+  const faqJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqItems.map((f) => ({
+      "@type": "Question",
+      name: f.question,
+      acceptedAnswer: { "@type": "Answer", text: f.answer },
+    })),
+  };
   return (
     <div className="min-h-screen">
+      <Seo
+        title="FAQ — Milk Me Not"
+        description="Answers to common questions about Milk Me Not: how ratings work, adding tests, suggesting brands and managing your reviews."
+        path="/faq"
+        jsonLd={faqJsonLd}
+      />
       <MenuBar />
       <BackgroundPattern>
         <div className="lg:flex lg:items-center lg:justify-center min-h-screen pt-16 pb-20 sm:pb-8">
