@@ -4,6 +4,7 @@ import MobileFooter from "@/components/MobileFooter";
 import BackgroundPattern from "@/components/BackgroundPattern";
 import { FAQSection } from "@/components/contact/FAQSection";
 import { Heading } from "@/components/ui/typography";
+import { Seo } from "@/components/Seo";
 
 const faqItems = [
   {
