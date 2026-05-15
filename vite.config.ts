@@ -24,7 +24,7 @@ export default (defineConfig as any)(({ mode }: { mode: string }) => ({
     sourcemap: true,
     rolldownOptions: {
       output: {
-        manualChunks(id) {
+        manualChunks(id: string) {
           if (!id.includes('node_modules')) return;
           if (id.includes('react') || id.includes('react-dom') || id.includes('react-router-dom')) return 'vendor-react';
           if (id.includes('@supabase/supabase-js')) return 'vendor-supabase';
